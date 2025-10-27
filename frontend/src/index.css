@@ -1,0 +1,141 @@
+/* Import better fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Import onboarding styles */
+@import './components/onboarding/onboarding.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset any default margins/padding that might affect full width */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  @apply bg-neutral-light dark:bg-neutral-dark text-neutral-dark dark:text-neutral-light font-sans;
+}
+
+.card-glass {
+  @apply bg-white/10 backdrop-blur-lg rounded-2xl shadow-md border border-white/20;
+}
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+}
+
+.brand-gradient {
+  @apply bg-primary-dark;
+}
+
+/* Custom utility classes */
+.btn-primary {
+  @apply bg-primary-dark hover:bg-primary text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+}
+
+.btn-secondary {
+  @apply bg-secondary hover:bg-secondary-dark text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+}
+
+.btn-accent {
+  @apply bg-accent-teal hover:bg-accent-teal/90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+}
+
+.btn-outline {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg;
+}
+
+.btn-ghost {
+  @apply text-primary hover:bg-primary-light/10 hover:text-primary-dark font-medium py-2 px-4 rounded-lg transition-all duration-200;
+}
+
+.card-modern {
+  @apply bg-neutral-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 backdrop-blur-sm hover:shadow-2xl transition-all duration-300;
+}
+
+.input-modern {
+  @apply w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-300 bg-neutral-white dark:bg-gray-700 text-neutral-dark dark:text-neutral-light placeholder-gray-400 dark:placeholder-gray-500;
+}
+
+.progress-bar {
+  @apply w-full bg-neutral-light rounded-full h-3 shadow-inner;
+}
+
+.progress-fill {
+  @apply bg-primary-dark h-3 rounded-full transition-all duration-500 shadow-sm;
+}
+
+.text-muted { @apply text-gray-600 dark:text-gray-400; }
+
+/* Status colors */
+.status-success { @apply bg-secondary text-white; }
+.status-info { @apply bg-primary-light text-white; }
+.status-warning { @apply bg-orange-400 text-white; }
+.status-error { @apply bg-red-500 text-white; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slideUp 0.6s ease-out forwards; }
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.05); }
+}
+.animate-pulse-subtle { animation: pulse-subtle 3s ease-in-out infinite; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+.animate-bounce-soft { animation: bounce-soft 2s ease-in-out infinite; }
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(61, 174, 219, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(61, 174, 219, 0.6), 0 0 60px rgba(44, 133, 122, 0.3); }
+}
+.animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
+
+/* Modern glass effect */
+.glass-effect {
+  @apply backdrop-blur-md bg-white/80 border border-white/20 shadow-2xl;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { @apply bg-neutral-light; border-radius: 4px; }
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-dark;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary;
+}
+
+/* Focus styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 focus:ring-offset-white;
+}
+
+/* Typography enhancements */

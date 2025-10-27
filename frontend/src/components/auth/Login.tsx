@@ -1,0 +1,323 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Eye, EyeOff, Mail, Lock, LogIn, AlertCircle, CheckCircle, Loader } from 'lucide-react';
+
+const Login: React.FC = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error' | 'info';
+    message: string;
+  } | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      setNotification({
+        type: 'error',
+        message: 'Please correct the errors below'
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    setNotification(null);
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Mock successful authentication - set tokens and user data
+      const mockUser = {
+        id: '1',
+        name: 'Amara Wanjiku',
+        email: formData.email,
+        role: 'student'
+      };
+
+      const mockTokens = {
+        accessToken: 'mock-access-token-' + Date.now(),
+        refreshToken: 'mock-refresh-token-' + Date.now()
+      };
+
+      // Store authentication data
+      localStorage.setItem('accessToken', mockTokens.accessToken);
+      localStorage.setItem('refreshToken', mockTokens.refreshToken);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+
+      setNotification({
+        type: 'success',
+        message: 'Login successful! Redirecting to dashboard...'
+      });
+
+      // Redirect after success
+      setTimeout(() => {
+        window.location.href = '/student/dashboard';
+      }, 1500);
+
+    } catch {
+      setNotification({
+        type: 'error',
+        message: 'Login failed. Please check your credentials and try again.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialLogin = (provider: string) => {
+    setNotification({
+      type: 'info',
+      message: `${provider} login integration coming soon!`
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] flex items-center justify-center py-12 px-4">
+      <div className="max-w-md w-full">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#1C3D6E] rounded-full mb-4">
+            <LogIn className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-[#1C3D6E] mb-2">Welcome Back</h1>
+          <p className="text-gray-600">Sign in to continue your learning journey</p>
+        </div>
+
+        {/* Notification */}
+        {notification && (
+          <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
+            notification.type === 'success' ? 'bg-green-50 border border-green-200 text-green-800' :
+            notification.type === 'error' ? 'bg-red-50 border border-red-200 text-red-800' :
+            'bg-blue-50 border border-blue-200 text-blue-800'
+          }`}>
+            {notification.type === 'success' && <CheckCircle className="w-5 h-5" />}
+            {notification.type === 'error' && <AlertCircle className="w-5 h-5" />}
+            {notification.type === 'info' && <AlertCircle className="w-5 h-5" />}
+            <span className="text-sm">{notification.message}</span>
+          </div>
+        )}
+
+        {/* Login Form */}
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter your email"
+                />
+              </div>
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <AlertCircle className="w-4 h-4" />
+                  {errors.email}
+                </p>
+              )}
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                  <AlertCircle className="w-4 h-4" />
+                  {errors.password}
+                </p>
+              )}
+            </div>
+
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                />
+                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-sm text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 px-4 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isLoading ? (
+                <>
+                  <Loader className="w-5 h-5 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-5 h-5" />
+                  Sign In
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Divider */}
+          <div className="mt-6 mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Login */}
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => handleSocialLogin('Google')}
+              className="flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">G</span>
+              </div>
+              <span className="text-sm text-gray-700">Google</span>
+            </button>
+            <button
+              onClick={() => handleSocialLogin('GitHub')}
+              className="flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">G</span>
+              </div>
+              <span className="text-sm text-gray-700">GitHub</span>
+            </button>
+          </div>
+
+          {/* Register Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Don&apos;t have an account?{' '}
+              <Link
+                to="/register"
+                className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium transition-colors"
+              >
+                Create account
+              </Link>
+            </p>
+          </div>
+
+          {/* Trainer Login Link */}
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-500">
+              Are you a trainer?{' '}
+              <Link
+                to="/trainer/login"
+                className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+              >
+                Trainer Login
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-8 text-center">
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+            <Link to="/privacy" className="hover:text-gray-700 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-gray-700 transition-colors">
+              Terms of Service
+            </Link>
+            <Link to="/contact" className="hover:text-gray-700 transition-colors">
+              Support
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

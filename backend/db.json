@@ -1,0 +1,534 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "john.doe@example.com",
+      "name": "John Doe",
+      "role": "student",
+      "profile": {
+        "avatar": "https://via.placeholder.com/150",
+        "bio": "Aspiring software developer",
+        "location": "New York, NY",
+        "phone": "+1-555-0123",
+        "dateOfBirth": "1995-06-15",
+        "education": "Bachelor's in Computer Science"
+      },
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "theme": "light"
+      },
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-20T14:45:00Z"
+    },
+    {
+      "id": "2",
+      "email": "jane.smith@example.com",
+      "name": "Jane Smith",
+      "role": "trainer",
+      "profile": {
+        "avatar": "https://via.placeholder.com/150",
+        "bio": "Senior Software Engineer and Mentor",
+        "location": "San Francisco, CA",
+        "phone": "+1-555-0456",
+        "specializations": [
+          "React",
+          "Node.js",
+          "System Design"
+        ],
+        "experience": "8 years"
+      },
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": false,
+        "theme": "dark"
+      },
+      "createdAt": "2024-01-10T08:15:00Z",
+      "updatedAt": "2024-01-22T16:20:00Z"
+    },
+    {
+      "id": "dd16",
+      "email": "john1.doe@example.com",
+      "name": "John TuDoe",
+      "role": "student",
+      "profile": {
+        "avatar": "https://via.placeholder.com/150",
+        "bio": "Aspiring software developer",
+        "location": "New York, NY",
+        "phone": "+1-555-23",
+        "dateOfBirth": "1995-06-15",
+        "education": "Bachelor's in Computer Science"
+      },
+      "preferences": {
+        "notifications": true,
+        "emailUpdates": true,
+        "theme": "light"
+      }
+    }
+  ],
+  "careerPaths": [
+    {
+      "id": "1",
+      "title": "Frontend Developer",
+      "description": "Build user interfaces and web applications",
+      "category": "Web Development",
+      "difficulty": "Beginner",
+      "duration": "6-12 months",
+      "skills": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "React",
+        "TypeScript"
+      ],
+      "averageSalary": "$75,000 - $120,000",
+      "jobGrowth": "13%",
+      "prerequisites": [
+        "Basic programming knowledge"
+      ],
+      "learningPath": [
+        "HTML & CSS Fundamentals",
+        "JavaScript Essentials",
+        "React Development",
+        "State Management",
+        "Testing & Deployment"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Backend Developer",
+      "description": "Build server-side applications and APIs",
+      "category": "Web Development",
+      "difficulty": "Intermediate",
+      "duration": "8-15 months",
+      "skills": [
+        "Node.js",
+        "Python",
+        "Databases",
+        "APIs",
+        "Cloud Services"
+      ],
+      "averageSalary": "$80,000 - $130,000",
+      "jobGrowth": "15%",
+      "prerequisites": [
+        "Programming fundamentals",
+        "Database basics"
+      ],
+      "learningPath": [
+        "Server-side Programming",
+        "Database Design",
+        "API Development",
+        "Security & Authentication",
+        "Cloud Deployment"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Data Scientist",
+      "description": "Analyze data to extract insights and build predictive models",
+      "category": "Data Science",
+      "difficulty": "Advanced",
+      "duration": "12-24 months",
+      "skills": [
+        "Python",
+        "R",
+        "Machine Learning",
+        "Statistics",
+        "SQL"
+      ],
+      "averageSalary": "$95,000 - $150,000",
+      "jobGrowth": "22%",
+      "prerequisites": [
+        "Mathematics",
+        "Statistics",
+        "Programming"
+      ],
+      "learningPath": [
+        "Statistics & Probability",
+        "Python for Data Science",
+        "Machine Learning Algorithms",
+        "Data Visualization",
+        "Deep Learning"
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "1",
+      "userId": 1,
+      "type": "career",
+      "title": "Career Interest Assessment",
+      "status": "completed",
+      "score": 85,
+      "results": {
+        "primaryInterest": "Technology",
+        "secondaryInterest": "Problem Solving",
+        "recommendedPaths": [
+          1,
+          2
+        ],
+        "strengths": [
+          "Analytical thinking",
+          "Attention to detail"
+        ],
+        "areasForImprovement": [
+          "Communication",
+          "Leadership"
+        ]
+      },
+      "completedAt": "2024-01-18T14:30:00Z"
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "type": "skill",
+      "title": "JavaScript Fundamentals",
+      "status": "in-progress",
+      "score": null,
+      "questions": [
+        {
+          "id": 1,
+          "question": "What is the difference between let and var?",
+          "type": "multiple-choice",
+          "options": [
+            "No difference",
+            "let has block scope, var has function scope",
+            "var is newer than let",
+            "let is faster than var"
+          ],
+          "correctAnswer": 1
+        }
+      ],
+      "startedAt": "2024-01-20T10:00:00Z"
+    }
+  ],
+  "skillsGap": [
+    {
+      "id": "1",
+      "userId": 1,
+      "careerPathId": 1,
+      "currentSkills": [
+        {
+          "name": "HTML",
+          "level": 80
+        },
+        {
+          "name": "CSS",
+          "level": 70
+        },
+        {
+          "name": "JavaScript",
+          "level": 60
+        }
+      ],
+      "requiredSkills": [
+        {
+          "name": "HTML",
+          "level": 90
+        },
+        {
+          "name": "CSS",
+          "level": 85
+        },
+        {
+          "name": "JavaScript",
+          "level": 90
+        },
+        {
+          "name": "React",
+          "level": 80
+        },
+        {
+          "name": "TypeScript",
+          "level": 70
+        }
+      ],
+      "gaps": [
+        {
+          "skill": "JavaScript",
+          "currentLevel": 60,
+          "requiredLevel": 90,
+          "gap": 30
+        },
+        {
+          "skill": "React",
+          "currentLevel": 0,
+          "requiredLevel": 80,
+          "gap": 80
+        },
+        {
+          "skill": "TypeScript",
+          "currentLevel": 0,
+          "requiredLevel": 70,
+          "gap": 70
+        }
+      ],
+      "recommendations": [
+        {
+          "skill": "JavaScript",
+          "courses": [
+            "Advanced JavaScript Concepts",
+            "ES6+ Features"
+          ],
+          "estimatedTime": "4 weeks"
+        },
+        {
+          "skill": "React",
+          "courses": [
+            "React Fundamentals",
+            "React Hooks & State Management"
+          ],
+          "estimatedTime": "6 weeks"
+        }
+      ],
+      "updatedAt": "2024-01-20T12:00:00Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "React Fundamentals",
+      "description": "Learn the basics of React development",
+      "category": "Frontend Development",
+      "difficulty": "Beginner",
+      "duration": "4 weeks",
+      "instructor": "Jane Smith",
+      "rating": 4.8,
+      "enrolledStudents": 1250,
+      "price": 99.99,
+      "modules": [
+        {
+          "id": 1,
+          "title": "Introduction to React",
+          "duration": "2 hours",
+          "lessons": 8,
+          "completed": false
+        },
+        {
+          "id": 2,
+          "title": "Components and Props",
+          "duration": "3 hours",
+          "lessons": 12,
+          "completed": false
+        }
+      ],
+      "skills": [
+        "React",
+        "JavaScript",
+        "JSX"
+      ],
+      "prerequisites": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "title": "Advanced JavaScript Concepts",
+      "description": "Master advanced JavaScript programming concepts",
+      "category": "Programming",
+      "difficulty": "Intermediate",
+      "duration": "6 weeks",
+      "instructor": "John Developer",
+      "rating": 4.9,
+      "enrolledStudents": 890,
+      "price": 149.99,
+      "modules": [
+        {
+          "id": 1,
+          "title": "Closures and Scope",
+          "duration": "2.5 hours",
+          "lessons": 10,
+          "completed": false
+        },
+        {
+          "id": 2,
+          "title": "Async Programming",
+          "duration": "3 hours",
+          "lessons": 15,
+          "completed": false
+        }
+      ],
+      "skills": [
+        "JavaScript",
+        "Async Programming",
+        "ES6+"
+      ],
+      "prerequisites": [
+        "JavaScript Basics"
+      ],
+      "createdAt": "2024-01-05T00:00:00Z"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "1",
+      "title": "Frontend Developer",
+      "company": "TechCorp Inc.",
+      "location": "Remote",
+      "type": "Full-time",
+      "salary": "$80,000 - $100,000",
+      "description": "We're looking for a passionate Frontend Developer to join our team...",
+      "requirements": [
+        "3+ years of React experience",
+        "Strong JavaScript skills",
+        "Experience with TypeScript",
+        "Knowledge of modern CSS frameworks"
+      ],
+      "benefits": [
+        "Health insurance",
+        "401k matching",
+        "Flexible work hours",
+        "Professional development budget"
+      ],
+      "postedAt": "2024-01-15T09:00:00Z",
+      "applicationDeadline": "2024-02-15T23:59:59Z",
+      "matchScore": 85,
+      "status": "active"
+    },
+    {
+      "id": "2",
+      "title": "Junior React Developer",
+      "company": "StartupXYZ",
+      "location": "San Francisco, CA",
+      "type": "Full-time",
+      "salary": "$65,000 - $85,000",
+      "description": "Join our growing startup as a Junior React Developer...",
+      "requirements": [
+        "1+ years of React experience",
+        "Basic JavaScript knowledge",
+        "Understanding of Git",
+        "Eagerness to learn"
+      ],
+      "benefits": [
+        "Equity package",
+        "Health insurance",
+        "Catered lunches",
+        "Learning stipend"
+      ],
+      "postedAt": "2024-01-18T14:30:00Z",
+      "applicationDeadline": "2024-02-18T23:59:59Z",
+      "matchScore": 92,
+      "status": "active"
+    }
+  ],
+  "applications": [
+    {
+      "id": "1",
+      "userId": 1,
+      "jobId": 2,
+      "status": "pending",
+      "appliedAt": "2024-01-19T10:15:00Z",
+      "coverLetter": "I am excited to apply for the Junior React Developer position...",
+      "resume": "resume_john_doe.pdf"
+    }
+  ],
+  "achievements": [
+    {
+      "id": "1",
+      "userId": 1,
+      "title": "First Course Completed",
+      "description": "Completed your first course",
+      "icon": "🎓",
+      "points": 100,
+      "unlockedAt": "2024-01-16T15:30:00Z",
+      "category": "learning"
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "title": "Assessment Master",
+      "description": "Scored 80% or higher on an assessment",
+      "icon": "🏆",
+      "points": 150,
+      "unlockedAt": "2024-01-18T14:30:00Z",
+      "category": "assessment"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "userId": 1,
+      "title": "New Job Match Found",
+      "message": "We found a new job that matches your profile: Junior React Developer at StartupXYZ",
+      "type": "job_match",
+      "read": false,
+      "createdAt": "2024-01-18T14:30:00Z",
+      "actionUrl": "/jobs/2"
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "title": "Course Recommendation",
+      "message": "Based on your career goals, we recommend the React Fundamentals course",
+      "type": "course_recommendation",
+      "read": true,
+      "createdAt": "2024-01-17T09:00:00Z",
+      "actionUrl": "/courses/1"
+    }
+  ],
+  "progress": [
+    {
+      "id": "1",
+      "userId": 1,
+      "type": "course",
+      "itemId": 1,
+      "progress": 25,
+      "completedModules": [
+        1
+      ],
+      "totalModules": 4,
+      "lastAccessed": "2024-01-19T16:45:00Z",
+      "timeSpent": 7200
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "type": "career_path",
+      "itemId": 1,
+      "progress": 15,
+      "completedMilestones": [
+        "HTML Basics",
+        "CSS Fundamentals"
+      ],
+      "totalMilestones": 12,
+      "lastAccessed": "2024-01-20T10:30:00Z",
+      "timeSpent": 14400
+    }
+  ],
+  "certifications": [
+    {
+      "id": "1",
+      "title": "React Developer Certification",
+      "issuer": "TechAcademy",
+      "description": "Validates proficiency in React development",
+      "requirements": [
+        "Complete React Fundamentals course",
+        "Pass certification exam with 80% score",
+        "Build a portfolio project"
+      ],
+      "validityPeriod": "2 years",
+      "cost": 199.99,
+      "estimatedTime": "8-12 weeks"
+    }
+  ],
+  "userCertifications": [
+    {
+      "id": "1",
+      "userId": 1,
+      "certificationId": 1,
+      "status": "in-progress",
+      "progress": 60,
+      "startedAt": "2024-01-15T00:00:00Z",
+      "completedRequirements": [
+        "Complete React Fundamentals course"
+      ],
+      "remainingRequirements": [
+        "Pass certification exam with 80% score",
+        "Build a portfolio project"
+      ]
+    }
+  ]
+}

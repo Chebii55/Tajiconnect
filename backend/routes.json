@@ -1,0 +1,18 @@
+{
+  "/api/*": "/$1",
+  "/auth/login": "/users?email=:email",
+  "/auth/register": "/users",
+  "/users/:id/profile": "/users/:id",
+  "/users/:id/assessments": "/assessments?userId=:id",
+  "/users/:id/progress": "/progress?userId=:id",
+  "/users/:id/achievements": "/achievements?userId=:id",
+  "/users/:id/notifications": "/notifications?userId=:id",
+  "/users/:id/applications": "/applications?userId=:id",
+  "/users/:id/certifications": "/userCertifications?userId=:id",
+  "/users/:id/skills-gap": "/skillsGap?userId=:id",
+  "/career-paths/:id/skills-gap": "/skillsGap?careerPathId=:id",
+  "/jobs/search": "/jobs",
+  "/jobs/recommended": "/jobs?matchScore_gte=80",
+  "/courses/search": "/courses",
+  "/courses/recommended": "/courses?rating_gte=4.5"
+}
