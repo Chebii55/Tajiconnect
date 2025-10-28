@@ -15,8 +15,29 @@ interface OnboardingData {
   gender: string;
   interests: string[];
 
-  // Assessment data
+  // PWD Information
+  isPWD: boolean;
+  impairmentType: string;
+
+  // Parent/Guardian Information (conditional)
+  requiresParentInfo: boolean;
+  parentGuardian: {
+    name: string;
+    email: string;
+    phone: string;
+    relationship: string;
+  };
+
+  // Photo and Documents
+  profilePhoto: string | null;
   educationLevel: string;
+  educationDocuments: File[];
+
+  // Hobbies and Talents
+  hobbies: string[];
+  talents: string[];
+
+  // Assessment data
   primaryInterest: string;
   learningStyle: string;
   goals: string;
@@ -25,6 +46,13 @@ interface OnboardingData {
   // Psychometric data
   personalityType?: string;
   strengths?: string[];
+
+  // Consents
+  termsAccepted: boolean;
+  privacyAccepted: boolean;
+  dataConsentAccepted: boolean;
+  mediaConsentAccepted: boolean;
+  newsletterOptIn: boolean;
 
   // Progress tracking
   currentStep: number;
@@ -50,11 +78,36 @@ const initialData: OnboardingData = {
   phone: '',
   gender: '',
   interests: [],
+
+  isPWD: false,
+  impairmentType: '',
+
+  requiresParentInfo: false,
+  parentGuardian: {
+    name: '',
+    email: '',
+    phone: '',
+    relationship: ''
+  },
+
+  profilePhoto: null,
   educationLevel: '',
+  educationDocuments: [],
+
+  hobbies: [],
+  talents: [],
+
   primaryInterest: '',
   learningStyle: '',
   goals: '',
   timeCommitment: '',
+
+  termsAccepted: false,
+  privacyAccepted: false,
+  dataConsentAccepted: false,
+  mediaConsentAccepted: false,
+  newsletterOptIn: false,
+
   currentStep: 0,
   completedSteps: [],
   isComplete: false,

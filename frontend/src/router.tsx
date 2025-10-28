@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
 // Onboarding - All exist
 import AgeVerification from './components/onboarding/AgeVerification';
-import ProfileSetup from './components/onboarding/ProfileSetup';
+import EnhancedProfileSetup from './components/onboarding/EnhancedProfileSetup';
 import ParentalConsent from './components/onboarding/ParentalConsent';
 import InitialAssessment from './components/onboarding/InitialAssessment';
 import PsychometricTest from './components/onboarding/PsychometricTest';
@@ -42,6 +42,7 @@ import CareerDashboard from './components/career/CareerDashboard';
 import CareerAssessment from './components/career/CareerAssessment';
 import CareerPathways from './components/career/CareerPathways';
 import SkillsGapAnalysis from './components/career/SkillsGapAnalysis';
+import PersonalizedRoadmap from './components/career/PersonalizedRoadmap';
 
 // Jobs - All exist
 import JobsDashboard from './components/jobs/JobsDashboard';
@@ -68,9 +69,6 @@ import Register from './components/auth/Register';
 import TrainerLogin from './components/auth/TrainerLogin';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
-// Landing Page
-import Landing from './components/Landing';
-
 // Trainer Components
 import TrainerLayout from './components/trainer/TrainerLayout';
 import TrainerDashboard from './components/trainer/TrainerDashboard';
@@ -90,7 +88,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Landing /> },
+      { index: true, element: <Navigate to="/login" replace /> },
 
       // Authentication routes (public)
       { path: '/login', element: <Login /> },
@@ -100,7 +98,7 @@ export const router = createBrowserRouter([
       // Onboarding
       { path: '/onboarding/welcome', element: <WelcomePage /> },
       { path: '/onboarding/age-verification', element: <AgeVerification /> },
-      { path: '/onboarding/profile-setup', element: <ProfileSetup /> },
+      { path: '/onboarding/profile-setup', element: <EnhancedProfileSetup /> },
       { path: '/onboarding/parental-consent', element: <ParentalConsent /> },
       { path: '/onboarding/initial-assessment', element: <InitialAssessment /> },
       { path: '/onboarding/psychometric-test', element: <PsychometricTest /> },
@@ -296,6 +294,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute requiredRole="student">
             <SkillsGapAnalysis />
+          </ProtectedRoute>
+        ) 
+      },
+      { 
+        path: '/student/roadmap/:careerPath', 
+        element: (
+          <ProtectedRoute requiredRole="student">
+            <PersonalizedRoadmap />
           </ProtectedRoute>
         ) 
       },

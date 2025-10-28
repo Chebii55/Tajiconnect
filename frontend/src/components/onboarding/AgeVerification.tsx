@@ -56,6 +56,9 @@ const AgeVerification = () => {
       sessionStorage.setItem('onboardingData', JSON.stringify(updatedData))
 
       // Redirect based on age
+      // Users under 13 require parental consent before proceeding
+      // Users 13-17 will provide parent/guardian info in profile setup
+      // Users 18+ proceed directly to profile setup
       if (age < 13) {
         navigate('/onboarding/parental-consent')
       } else {

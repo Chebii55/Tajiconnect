@@ -1,17 +1,52 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const ParentalConsent = () => {
   const navigate = useNavigate()
   const [parentEmail, setParentEmail] = useState('')
   const [parentName, setParentName] = useState('')
+  const [parentPhone, setParentPhone] = useState('')
   const [relationship, setRelationship] = useState('')
   const [consentGiven, setConsentGiven] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
 
+  useEffect(() => {
+    // Get user age from session storage and redirect to profile setup if user is 13 or older
+    const storedData = sessionStorage.getItem('onboardingData')
+    if (storedData) {
+      const data = JSON.parse(storedData)
+
+      if (data.age >= 13) {
+        navigate('/onboarding/profile-setup')
+      }
+    }
+  }, [navigate])
+
   const handleSendConsent = (e: React.FormEvent) => {
-    e.preventDefault()
-    setEmailSent(true)
+    e.preventDefault();
+
+    // Validate phone number is provided
+    if (!parentPhone || !parentName || !parentEmail || !relationship) {
+      alert('Please fill in all required fields including phone number');
+      return;
+    }
+
+    // Save parent/guardian info to session storage
+    const storedData = sessionStorage.getItem('onboardingData')
+    const data = storedData ? JSON.parse(storedData) : {}
+    const updatedData = {
+      ...data,
+      requiresParentInfo: true,
+      parentGuardian: {
+        name: parentName,
+        email: parentEmail,
+        phone: parentPhone,
+        relationship: relationship
+      }
+    }
+    sessionStorage.setItem('onboardingData', JSON.stringify(updatedData))
+
+    setEmailSent(true);
   }
 
   const handleContinue = () => {
@@ -87,6 +122,22 @@ const ParentalConsent = () => {
                   onChange={(e) => setParentEmail(e.target.value)}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-200"
                   placeholder="parent@example.com"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="parentPhone" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                  Parent/Guardian Phone Number
+                </label>
+                <input
+                  id="parentPhone"
+                  name="parentPhone"
+                  type="tel"
+                  required
+                  value={parentPhone}
+                  onChange={(e) => setParentPhone(e.target.value)}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-200"
+                  placeholder="+254..."
                 />
               </div>
 

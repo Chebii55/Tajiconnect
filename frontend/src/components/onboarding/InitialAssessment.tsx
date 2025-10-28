@@ -16,35 +16,21 @@ const InitialAssessment = () => {
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [showResults, setShowResults] = useState(false)
 
+  // Load pre-filled data from profile setup
+  const storedData = sessionStorage.getItem('onboardingData')
+  const profileData = storedData ? JSON.parse(storedData) : {}
+
+  // Pre-fill education and interests from profile setup
+  const preFilledAnswers: Record<number, string> = {}
+  if (profileData.educationLevel) {
+    preFilledAnswers[1] = profileData.educationLevel
+  }
+  if (profileData.interests && profileData.interests.length > 0) {
+    preFilledAnswers[2] = profileData.interests[0] // Use first interest
+  }
+
   const questions: Question[] = [
-    {
-      id: 1,
-      question: "What is your current level of education?",
-      options: ["Elementary School", "Middle School", "High School", "College/University", "Graduate School"],
-      category: "education"
-    },
-    {
-      id: 2,
-      question: "Which field interests you the most?",
-      options: [
-        "Accounts and Finance",
-        "Agriculture, Food and Nutrition",
-        "Artificial Intelligence",
-        "Education",
-        "Energy",
-        "Environment and Climate Change",
-        "Healthcare",
-        "Innovation",
-        "Manufacturing",
-        "Media",
-        "Research Activities",
-        "Startups and Early-Stage",
-        "Sustainable Development",
-        "Technology",
-        "Travel and Tourism"
-      ],
-      category: "interests"
-    },
+    // Education and interests are now collected in profile setup, skip them here
     {
       id: 3,
       question: "How do you prefer to learn?",
@@ -103,8 +89,10 @@ const InitialAssessment = () => {
 
   const getResults = () => {
     const categories = {
-      education: answers[1] || "Not specified",
-      interests: answers[2] || "Not specified",
+      education: profileData.educationLevel || "Not specified",
+      interests: profileData.interests && profileData.interests.length > 0
+        ? profileData.interests.join(", ")
+        : "Not specified",
       learning_style: answers[3] || "Not specified",
       goals: answers[4] || "Not specified",
       time_commitment: answers[5] || "Not specified"
@@ -235,6 +223,9 @@ const InitialAssessment = () => {
               </div>
               <p className="text-center text-sm font-medium text-[#2C857A] mt-3">
                 Question {currentQuestion + 1} of {questions.length}
+              </p>
+              <p className="text-center text-xs text-gray-500 mt-1">
+                Education level and interests already collected from your profile
               </p>
             </div>
           </div>

@@ -1,7 +1,16 @@
+// Load environment variables
+require('dotenv').config();
+
 const jsonServer = require('json-server');
+const CareerGenerationService = require('./services/careerGenerationService');
+const OnboardingIntegrationService = require('./services/onboardingIntegrationService');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
+
+// Initialize services
+const careerService = new CareerGenerationService();
+const onboardingService = new OnboardingIntegrationService();
 
 // Custom middleware for CORS
 server.use((req, res, next) => {
@@ -99,6 +108,345 @@ server.use('/api/auth/register', (req, res, next) => {
   }
 });
 
+// AI Career Assessment endpoint
+server.use('/api/career/assess', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const { userId, answers, userProfile } = req.body;
+      
+      if (!userId || !answers) {
+        return res.status(400).json({
+          success: false,
+          message: 'Missing required fields: userId and answers'
+        });
+      }
+
+      // Generate AI career recommendations
+      const recommendations = careerService.generateCareerRecommendations(
+        { answers, userId },
+        userProfile
+      );
+
+      // Save assessment and roadmaps
+      careerService.saveCareerAssessment(userId, { answers }, recommendations)
+        .then(result => {
+          res.json({
+            success: true,
+            data: {
+              recommendations: recommendations.recommendations,
+              analysis: recommendations.analysis,
+              savedAssessment: result.assessment,
+              generatedRoadmaps: result.roadmaps
+            },
+            message: 'Career assessment completed and roadmaps generated'
+          });
+        })
+        .catch(error => {
+          console.error('Error saving assessment:', error);
+          res.status(500).json({
+            success: false,
+            message: 'Error saving assessment results'
+          });
+        });
+
+    } catch (error) {
+      console.error('Career assessment error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error processing career assessment'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Get user roadmaps endpoint
+server.use('/api/users/:userId/roadmaps', (req, res, next) => {
+  if (req.method === 'GET') {
+    try {
+      const { userId } = req.params;
+      const roadmaps = careerService.getUserRoadmaps(userId);
+      
+      res.json({
+        success: true,
+        data: roadmaps,
+        message: 'Roadmaps retrieved successfully'
+      });
+    } catch (error) {
+      console.error('Error fetching roadmaps:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error fetching user roadmaps'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Update roadmap progress endpoint
+server.use('/api/roadmaps/:roadmapId/progress', (req, res, next) => {
+  if (req.method === 'PUT') {
+    try {
+      const { roadmapId } = req.params;
+      const { phaseIndex, progress } = req.body;
+      
+      const updatedRoadmap = careerService.updateRoadmapProgress(roadmapId, phaseIndex, progress);
+      
+      if (updatedRoadmap) {
+        res.json({
+          success: true,
+          data: updatedRoadmap,
+          message: 'Roadmap progress updated successfully'
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: 'Roadmap not found'
+        });
+      }
+    } catch (error) {
+      console.error('Error updating roadmap progress:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error updating roadmap progress'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Onboarding integration endpoints
+server.use('/api/onboarding/:userId/process', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const { userId } = req.params;
+      const onboardingData = req.body;
+      
+      onboardingService.processOnboardingData(userId, onboardingData)
+        .then(result => {
+          res.json({
+            success: true,
+            data: result,
+            message: 'Onboarding processed and career path generated successfully'
+          });
+        })
+        .catch(error => {
+          console.error('Error processing onboarding:', error);
+          res.status(500).json({
+            success: false,
+            message: 'Error processing onboarding data'
+          });
+        });
+    } catch (error) {
+      console.error('Onboarding processing error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error processing onboarding'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Get onboarding status
+server.use('/api/onboarding/:userId/status', (req, res, next) => {
+  if (req.method === 'GET') {
+    try {
+      const { userId } = req.params;
+      const status = onboardingService.getOnboardingStatus(userId);
+      
+      res.json({
+        success: true,
+        data: status,
+        message: 'Onboarding status retrieved successfully'
+      });
+    } catch (error) {
+      console.error('Error getting onboarding status:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error retrieving onboarding status'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Complete onboarding
+server.use('/api/onboarding/:userId/complete', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const { userId } = req.params;
+
+      onboardingService.completeOnboarding(userId)
+        .then(result => {
+          res.json({
+            success: true,
+            data: result,
+            message: 'Onboarding completed and career roadmaps generated successfully'
+          });
+        })
+        .catch(error => {
+          console.error('Error completing onboarding:', error);
+          res.status(500).json({
+            success: false,
+            message: 'Error completing onboarding'
+          });
+        });
+    } catch (error) {
+      console.error('Onboarding completion error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error completing onboarding'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Save comprehensive onboarding profile data
+server.use('/api/onboarding/profile', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const onboardingData = req.body;
+      const { userId } = onboardingData;
+
+      if (!userId) {
+        return res.status(400).json({
+          success: false,
+          message: 'User ID is required'
+        });
+      }
+
+      // Validate required fields based on TFDN requirements
+      const requiredFields = ['firstName', 'lastName', 'email', 'termsAccepted', 'privacyAccepted', 'dataConsentAccepted'];
+      const missingFields = requiredFields.filter(field => !onboardingData[field]);
+
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          success: false,
+          message: `Missing required fields: ${missingFields.join(', ')}`
+        });
+      }
+
+      // Check if PWD and require impairment type
+      if (onboardingData.isPWD && !onboardingData.impairmentType) {
+        return res.status(400).json({
+          success: false,
+          message: 'Impairment type is required for PWD users'
+        });
+      }
+
+      // Check if parent/guardian info required (age < 18 or PWD)
+      if (onboardingData.requiresParentInfo) {
+        const parentFields = ['parentGuardian.name', 'parentGuardian.email', 'parentGuardian.phone'];
+        const missingParentFields = parentFields.filter(field => {
+          const keys = field.split('.');
+          return !onboardingData[keys[0]] || !onboardingData[keys[0]][keys[1]];
+        });
+
+        if (missingParentFields.length > 0) {
+          return res.status(400).json({
+            success: false,
+            message: 'Parent/Guardian information is required for users under 18 or PWD users'
+          });
+        }
+      }
+
+      // Check if onboarding record already exists
+      const existingOnboarding = router.db.get('onboarding')
+        .find({ userId: parseInt(userId) })
+        .value();
+
+      const timestamp = new Date().toISOString();
+
+      if (existingOnboarding) {
+        // Update existing record
+        router.db.get('onboarding')
+          .find({ userId: parseInt(userId) })
+          .assign({
+            ...onboardingData,
+            userId: parseInt(userId),
+            updatedAt: timestamp
+          })
+          .write();
+
+        res.json({
+          success: true,
+          data: onboardingData,
+          message: 'Onboarding profile updated successfully'
+        });
+      } else {
+        // Create new record
+        const newOnboarding = {
+          id: Date.now().toString(),
+          ...onboardingData,
+          userId: parseInt(userId),
+          createdAt: timestamp,
+          updatedAt: timestamp
+        };
+
+        router.db.get('onboarding')
+          .push(newOnboarding)
+          .write();
+
+        res.json({
+          success: true,
+          data: newOnboarding,
+          message: 'Onboarding profile created successfully'
+        });
+      }
+    } catch (error) {
+      console.error('Error saving onboarding profile:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error saving onboarding profile'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Get onboarding profile data
+server.use('/api/onboarding/profile/:userId', (req, res, next) => {
+  if (req.method === 'GET') {
+    try {
+      const { userId } = req.params;
+
+      const onboarding = router.db.get('onboarding')
+        .find({ userId: parseInt(userId) })
+        .value();
+
+      if (onboarding) {
+        res.json({
+          success: true,
+          data: onboarding,
+          message: 'Onboarding profile retrieved successfully'
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: 'Onboarding profile not found'
+        });
+      }
+    } catch (error) {
+      console.error('Error retrieving onboarding profile:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error retrieving onboarding profile'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
 // Custom skills gap analysis endpoint
 server.use('/api/users/:userId/skills-gap/:careerPathId', (req, res, next) => {
   if (req.method === 'GET') {
@@ -166,5 +514,13 @@ server.listen(PORT, () => {
   console.log(`   - GET /api/jobs`);
   console.log(`   - POST /api/auth/login`);
   console.log(`   - POST /api/auth/register`);
+  console.log(`   - POST /api/career/assess (AI Career Assessment)`);
+  console.log(`   - GET /api/users/:id/roadmaps`);
+  console.log(`   - PUT /api/roadmaps/:id/progress`);
+  console.log(`   - POST /api/onboarding/:id/process (Process Onboarding)`);
+  console.log(`   - GET /api/onboarding/:id/status (Onboarding Status)`);
+  console.log(`   - POST /api/onboarding/:id/complete (Complete Onboarding)`);
+  console.log(`   - POST /api/onboarding/profile (Save Onboarding Profile)`);
+  console.log(`   - GET /api/onboarding/profile/:userId (Get Onboarding Profile)`);
   console.log(`   - GET /api/users/:id/skills-gap/:careerPathId`);
 });

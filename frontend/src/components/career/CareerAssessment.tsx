@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Target } from 'lucide-react'
+import { Target, Brain, Loader2 } from 'lucide-react'
 import CareerSidebar from '../CareerSidebar'
+import { useCareerAssessment, type AssessmentAnswers, type CareerRecommendation } from '../../hooks/useCareerAssessment'
+import { useCareerPaths } from '../../hooks/useCareerPaths'
 
 interface AssessmentQuestion {
   id: number
@@ -15,8 +17,21 @@ interface AssessmentQuestion {
 const CareerAssessment = () => {
   const navigate = useNavigate()
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, string | number | string[]>>({})
+  const [answers, setAnswers] = useState<AssessmentAnswers>({})
   const [showResults, setShowResults] = useState(false)
+  const [aiRecommendations, setAiRecommendations] = useState<CareerRecommendation[]>([])
+  const [fallbackRecommendations, setFallbackRecommendations] = useState<CareerRecommendation[]>([])
+  
+  const { loading, submitAssessment } = useCareerAssessment()
+  const { careerPaths } = useCareerPaths()
+  
+  // Mock user profile - in real app, this would come from auth context
+  const userProfile = {
+    id: '1',
+    age: 20,
+    education: { level: 'High school' },
+    isPWD: false
+  }
 
   const questions: AssessmentQuestion[] = [
     // Interests
@@ -98,14 +113,25 @@ const CareerAssessment = () => {
     }
   ]
 
-  const handleAnswer = (answer: string | number | string[]) => {
+  const handleAnswer = async (answer: string | number | string[]) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: answer }
     setAnswers(newAnswers)
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      setShowResults(true)
+      // Submit to AI assessment
+      try {
+        const result = await submitAssessment(userProfile.id, newAnswers, userProfile)
+        setAiRecommendations(result.recommendations)
+        setShowResults(true)
+      } catch (err) {
+        console.error('Assessment submission failed:', err)
+        // Fallback to server recommendations
+        const serverRecommendations = getCareerRecommendations()
+        setFallbackRecommendations(serverRecommendations)
+        setShowResults(true)
+      }
     }
   }
 
@@ -115,48 +141,46 @@ const CareerAssessment = () => {
     }
   }
 
-  const getCareerRecommendations = () => {
-    // Simple recommendation logic based on answers
-    const recommendations = [
+  const getCareerRecommendations = (): CareerRecommendation[] => {
+    // Use career paths from the hook
+    if (careerPaths.length > 0) {
+      return careerPaths.slice(0, 3).map((career, index) => ({
+        title: career.title,
+        match: `${90 - index * 5}%`, // Mock match scores
+        description: career.description,
+        requiredSkills: Array.isArray(career.skills) ? career.skills : [],
+        salaryRange: career.averageSalary || "KSh 80,000 - 150,000",
+        growth: career.jobGrowth ? `${career.jobGrowth} growth` : "Growing field",
+        color: ['bg-blue-600', 'bg-green-600', 'bg-purple-600'][index] || 'bg-gray-600',
+        personalizedRoadmap: []
+      }))
+    }
+
+    // Ultimate fallback if no career paths available
+    return [
       {
         title: "Software Developer",
         match: "92%",
         description: "Design and develop software applications",
-        skills: ["Programming", "Problem solving", "Technical analysis"],
-        salary: "KSh 100,000 - 200,000",
+        requiredSkills: ["Programming", "Problem solving", "Technical analysis"],
+        salaryRange: "KSh 100,000 - 200,000",
         growth: "High demand",
-        color: "bg-blue-600"
-      },
-      {
-        title: "Data Scientist",
-        match: "87%",
-        description: "Analyze complex data to help businesses make decisions",
-        skills: ["Data analysis", "Statistics", "Programming"],
-        salary: "KSh 120,000 - 250,000",
-        growth: "Very high demand",
-        color: "bg-green-600"
-      },
-      {
-        title: "Digital Marketing Manager",
-        match: "81%",
-        description: "Plan and execute digital marketing campaigns",
-        skills: ["Marketing", "Communication", "Creative thinking"],
-        salary: "KSh 80,000 - 150,000",
-        growth: "Growing field",
-        color: "bg-purple-600"
+        color: "bg-blue-600",
+        personalizedRoadmap: []
       }
     ]
-    return recommendations
   }
 
   const resetAssessment = () => {
     setCurrentQuestion(0)
     setAnswers({})
     setShowResults(false)
+    setAiRecommendations([])
+    setFallbackRecommendations([])
   }
 
   if (showResults) {
-    const recommendations = getCareerRecommendations()
+    const recommendations = aiRecommendations.length > 0 ? aiRecommendations : fallbackRecommendations
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -166,18 +190,57 @@ const CareerAssessment = () => {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="text-center mb-8">
                 <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                  <Target className="w-10 h-10 text-white" />
+                  <Brain className="w-10 h-10 text-white" />
                 </div>
                 <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
-                  Career Assessment Complete!
+                  AI Career Assessment Complete!
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
-                  Based on your responses, here are your top career matches
+                  {aiRecommendations.length > 0 
+                    ? "Our AI analyzed your responses and generated personalized career paths with custom roadmaps"
+                    : "Based on your responses, here are career recommendations from our database"
+                  }
                 </p>
+                <div className="mt-4 inline-flex items-center px-4 py-2 rounded-full">
+                  {aiRecommendations.length > 0 ? (
+                    <div className="bg-green-100 dark:bg-green-900 px-4 py-2 rounded-full">
+                      <Brain className="w-4 h-4 text-green-600 dark:text-green-400 mr-2 inline" />
+                      <span className="text-green-800 dark:text-green-200 text-sm font-medium">
+                        Powered by AI • Personalized roadmaps generated
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="bg-blue-100 dark:bg-blue-900 px-4 py-2 rounded-full">
+                      <Target className="w-4 h-4 text-blue-600 dark:text-blue-400 mr-2 inline" />
+                      <span className="text-blue-800 dark:text-blue-200 text-sm font-medium">
+                        Server recommendations • Take assessment again for AI analysis
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-6 mb-8">
-                {recommendations.map((career, index) => (
+                {recommendations.length === 0 ? (
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 text-center">
+                    <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Target className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-600 dark:text-gray-400 mb-2">
+                      No Recommendations Available
+                    </h3>
+                    <p className="text-gray-500 dark:text-gray-500 mb-4">
+                      We're having trouble generating career recommendations right now.
+                    </p>
+                    <button
+                      onClick={resetAssessment}
+                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                ) : (
+                  recommendations.map((career, index) => (
                   <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-6 hover:shadow-2xl transition-all duration-300">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex-1">
@@ -191,44 +254,116 @@ const CareerAssessment = () => {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                           <div>
                             <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">Key Skills:</span>
-                            <p className="text-gray-600 dark:text-gray-300">{career.skills.join(", ")}</p>
+                            <p className="text-gray-600 dark:text-gray-300">{career.requiredSkills?.join(", ") || "N/A"}</p>
                           </div>
                           <div>
                             <span className="font-semibold text-[#4A9E3D]">Salary Range:</span>
-                            <p className="text-gray-600 dark:text-gray-300">{career.salary}</p>
+                            <p className="text-gray-600 dark:text-gray-300">{career.salaryRange || "N/A"}</p>
                           </div>
                           <div>
                             <span className="font-semibold text-[#2C857A]">Market Outlook:</span>
-                            <p className="text-gray-600 dark:text-gray-300">{career.growth}</p>
+                            <p className="text-gray-600 dark:text-gray-300">{career.growth || "N/A"}</p>
                           </div>
                         </div>
+                        {career.personalizedRoadmap && career.personalizedRoadmap.length > 0 && (
+                          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                            <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">
+                              🗺️ Personalized Learning Roadmap ({career.personalizedRoadmap.length} phases)
+                            </h4>
+                            <div className="flex flex-wrap gap-2">
+                              {career.personalizedRoadmap.slice(0, 3).map((phase, idx) => (
+                                <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-blue-800 text-blue-800 dark:text-blue-200 rounded-full text-xs">
+                                  {phase.phase} ({phase.duration})
+                                </span>
+                              ))}
+                              {career.personalizedRoadmap.length > 3 && (
+                                <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full text-xs">
+                                  +{career.personalizedRoadmap.length - 3} more
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="mt-4 lg:mt-0 lg:ml-6">
+                      <div className="mt-4 lg:mt-0 lg:ml-6 flex flex-col gap-2">
                         <button
                           onClick={() => navigate(`/student/career/pathways?career=${encodeURIComponent(career.title)}`)}
                           className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold w-full lg:w-auto"
                         >
                           Explore Career Path
                         </button>
+                        {career.personalizedRoadmap && career.personalizedRoadmap.length > 0 && (
+                          <button
+                            onClick={() => navigate(`/student/roadmap/${career.title.replace(/\s+/g, '-').toLowerCase()}`)}
+                            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium w-full lg:w-auto text-sm"
+                          >
+                            View Roadmap
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={resetAssessment}
-                  className="py-3 px-6 border-2 border-[#1C3D6E] text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
-                >
-                  Retake Assessment
-                </button>
-                <button
-                  onClick={() => navigate('/student/jobs/personalized')}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
-                >
-                  View Matching Jobs
-                </button>
+              {recommendations.length > 0 && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <button
+                    onClick={resetAssessment}
+                    className="py-3 px-6 border-2 border-[#1C3D6E] text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
+                  >
+                    Retake Assessment
+                  </button>
+                  <button
+                    onClick={() => navigate('/student/jobs/personalized')}
+                    className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  >
+                    View Matching Jobs
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Show loading state during AI processing
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        <div className="flex">
+          <CareerSidebar />
+          <div className="flex-1 ml-6">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                  <Loader2 className="w-10 h-10 text-white animate-spin" />
+                </div>
+                <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                  AI is Analyzing Your Responses...
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto mb-8">
+                  Our AI is generating personalized career recommendations and custom learning roadmaps just for you
+                </p>
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-blue-600 rounded-full animate-pulse mr-3"></div>
+                      <span className="text-gray-700 dark:text-gray-300">Analyzing your interests and skills...</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-green-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '0.5s' }}></div>
+                      <span className="text-gray-700 dark:text-gray-300">Matching with career opportunities...</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-4 h-4 bg-purple-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '1s' }}></div>
+                      <span className="text-gray-700 dark:text-gray-300">Creating personalized roadmaps...</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

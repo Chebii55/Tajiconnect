@@ -2,9 +2,57 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Calendar, UserPlus, AlertCircle, CheckCircle, Loader, Shield } from 'lucide-react';
 
+const useForm = (initialState) => {
+  const [formData, setFormData] = useState(initialState);
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
+  const validate = (rules) => {
+    const newErrors = {};
+
+    for (const [field, rule] of Object.entries(rules)) {
+      if (!formData[field]) {
+        newErrors[field] = rule.message || 'Field is required';
+      } else if (rule.pattern && !rule.pattern.test(formData[field])) {
+        newErrors[field] = rule.error || 'Invalid format';
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  return {
+    formData,
+    errors,
+    handleChange,
+    validate
+  };
+};
+
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const {
+    formData,
+    errors,
+    handleChange,
+    validate
+  } = useForm({
     firstName: '',
     lastName: '',
     email: '',
@@ -16,28 +64,11 @@ const Register: React.FC = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState<{
     type: 'success' | 'error' | 'info';
     message: string;
   } | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
-    }
-  };
 
   const calculateAge = (dateOfBirth: string) => {
     const today = new Date();
@@ -50,65 +81,29 @@ const Register: React.FC = () => {
     return age;
   };
 
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.firstName) {
-      newErrors.firstName = 'First name is required';
-    } else if (formData.firstName.length < 2) {
-      newErrors.firstName = 'First name must be at least 2 characters';
-    }
-
-    if (!formData.lastName) {
-      newErrors.lastName = 'Last name is required';
-    } else if (formData.lastName.length < 2) {
-      newErrors.lastName = 'Last name must be at least 2 characters';
-    }
-
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one uppercase letter, one lowercase letter, and one number';
-    }
-
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Date of birth is required';
-    } else {
-      const age = calculateAge(formData.dateOfBirth);
-      if (age < 13) {
-        newErrors.dateOfBirth = 'You must be at least 13 years old to register';
-      }
-    }
-
-    if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = 'You must agree to the Terms of Service and Privacy Policy';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    const isValid = validate({
+      firstName: { message: 'First name is required' },
+      lastName: { message: 'Last name is required' },
+      email: { pattern: /\S+@\S+\.\S+/, message: 'Email is required' },
+      password: { pattern: /.{6,}/, message: 'Password must be at least 6 characters' },
+      dateOfBirth: { message: 'Date of birth is required' }
+    });
+
+    if (!isValid) {
       setNotification({
         type: 'error',
         message: 'Please correct the errors below'
+      });
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      setNotification({
+        type: 'error',
+        message: 'You must agree to the Terms of Service and Privacy Policy to continue'
       });
       return;
     }
@@ -117,39 +112,33 @@ const Register: React.FC = () => {
     setNotification(null);
 
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2500));
 
-      // Mock registration success
       setNotification({
         type: 'success',
         message: 'Account created successfully! Starting your personalized onboarding...'
       });
 
-      // In a real app, you would handle registration here
-      console.log('Registration attempt:', {
-        ...formData,
-        password: '[HIDDEN]',
-        confirmPassword: '[HIDDEN]'
-      });
-
-      // Store registration data for onboarding
       const registrationData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         dateOfBirth: formData.dateOfBirth,
-        age: calculateAge(formData.dateOfBirth)
+        age: calculateAge(formData.dateOfBirth),
+        termsAcceptedAtRegistration: formData.agreeToTerms,
+        newsletterOptIn: formData.agreeToMarketing
       };
-      
-      // Store in sessionStorage for onboarding flow
-      sessionStorage.setItem('onboardingData', JSON.stringify(registrationData));
 
-      // Smooth redirect to onboarding
+      sessionStorage.setItem('onboardingData', JSON.stringify(registrationData));
+      // Store that terms were already accepted during registration
+      if (formData.agreeToTerms) {
+        sessionStorage.setItem('termsAccepted', 'true');
+        sessionStorage.setItem('privacyAccepted', 'true');
+      }
+
       setTimeout(() => {
         navigate('/onboarding/welcome', { replace: true });
       }, 1500);
-
     } catch {
       setNotification({
         type: 'error',

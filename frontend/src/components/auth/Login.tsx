@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, LogIn, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -14,6 +15,35 @@ const Login: React.FC = () => {
     type: 'success' | 'error' | 'info';
     message: string;
   } | null>(null);
+
+  // Secret keyboard shortcut to access trainer portal (Ctrl+Shift+T pressed 3 times)
+  useEffect(() => {
+    let keyPressCount = 0;
+    let resetTimer: NodeJS.Timeout;
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'T') {
+        keyPressCount++;
+
+        if (keyPressCount >= 3) {
+          navigate('/trainer/login');
+          keyPressCount = 0;
+        } else {
+          // Reset count after 2 seconds if not pressed 3 times
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(() => {
+            keyPressCount = 0;
+          }, 2000);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      clearTimeout(resetTimer);
+    };
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -73,7 +103,8 @@ const Login: React.FC = () => {
         id: '1',
         name: 'Amara Wanjiku',
         email: formData.email,
-        role: 'student'
+        role: 'student',
+        onboardingComplete: false // Include onboarding status
       };
 
       const mockTokens = {
@@ -88,14 +119,19 @@ const Login: React.FC = () => {
 
       setNotification({
         type: 'success',
-        message: 'Login successful! Redirecting to dashboard...'
+        message: 'Login successful! Redirecting...'
       });
 
-      // Redirect after success
-      setTimeout(() => {
-        window.location.href = '/student/dashboard';
-      }, 1500);
-
+      // Check if onboarding is complete and redirect accordingly
+      if (mockUser.onboardingComplete) {
+        setTimeout(() => {
+          window.location.href = '/student/dashboard';
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          window.location.href = '/onboarding/welcome';
+        }, 1500);
+      }
     } catch {
       setNotification({
         type: 'error',
@@ -287,18 +323,7 @@ const Login: React.FC = () => {
             </p>
           </div>
 
-          {/* Trainer Login Link */}
-          <div className="mt-4 text-center">
-            <p className="text-sm text-gray-500">
-              Are you a trainer?{' '}
-              <Link
-                to="/trainer/login"
-                className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
-              >
-                Trainer Login
-              </Link>
-            </p>
-          </div>
+          {/* Trainer Login Link - Hidden (Secret: Press Ctrl+Shift+T three times) */}
         </div>
 
         {/* Footer */}

@@ -4,12 +4,15 @@
   "description": "Mock backend server for career platform",
   "main": "server.js",
   "scripts": {
-    "start": "json-server --watch db.json --port 3001 --host 0.0.0.0",
+    "start": "node server.js",
     "dev": "json-server --watch db.json --port 3001 --host 0.0.0.0 --delay 500",
+    "setup": "node setup.js",
+    "test": "node test-ai-algorithm.js",
     "install-deps": "npm install -g json-server"
   },
   "dependencies": {
-    "json-server": "^0.17.4"
+    "json-server": "^0.17.4",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {},
   "keywords": ["json-server", "mock-api", "career-platform"],

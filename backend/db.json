@@ -372,7 +372,7 @@
       "salary": "$80,000 - $100,000",
       "description": "We're looking for a passionate Frontend Developer to join our team...",
       "requirements": [
-        "3+ years of React experience",
+        "3+ experience",
         "Strong JavaScript skills",
         "Experience with TypeScript",
         "Knowledge of modern CSS frameworks"
@@ -529,6 +529,129 @@
         "Pass certification exam with 80% score",
         "Build a portfolio project"
       ]
+    }
+  ],
+  "milestones": [
+    {
+      "id": "1",
+      "goalId": "1",
+      "title": "Complete JavaScript Basics",
+      "targetValue": 100,
+      "currentValue": 50,
+      "unit": "%",
+      "description": "Achieve 100% completion in the JavaScript Basics course",
+      "dueDate": "2024-02-15T00:00:00Z",
+      "isCompleted": false
+    }
+  ],
+
+  "goals": [
+    {
+      "id": "1",
+      "userId": 1,
+      "title": "Learn JavaScript",
+      "description": "Complete the JavaScript Basics course and associated projects",
+      "category": "learning",
+      "type": "hours",
+      "status": "active",
+      "priority": "high",
+      "targetValue": 40,
+      "currentValue": 10,
+      "unit": "hours",
+      "startDate": "2024-01-10T00:00:00Z",
+      "targetDate": "2024-03-10T00:00:00Z",
+      "completedDate": null,
+      "milestones": [1],
+      "tags": ["JavaScript", "programming"],
+      "isPublic": false,
+      "reward": "JavaScript Completion Badge"
+    }
+  ],
+
+  "TFDNProfiles": [
+    {
+      "userId": 1,
+      "globalCitizenshipLevel": "Emerging",
+      "socialEmotionalLearningCompetency": "Developing",
+      "leadershipSkills": "Proficient",
+      "culturalCompetence": "Advanced",
+      "developmentAreas": ["Communication", "Team Collaboration"],
+      "communityImpactPotential": ["Local Education Initiatives", "Youth Leadership Programs"],
+      "strengths": ["Analytical Thinking", "Problem Solving"],
+      "lastUpdated": "2024-02-01T00:00:00Z"
+    }
+  ],
+  "onboarding": [
+    {
+      "id": "1",
+      "userId": 1,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "+254-123-456-789",
+      "dateOfBirth": "2007-06-15",
+      "age": 17,
+      "gender": "male",
+      "interests": ["Technology", "Innovation", "Sustainable Development"],
+
+      "isPWD": true,
+      "impairmentType": "Visual Impairment",
+      "requiresParentInfo": true,
+
+      "parentGuardianDetails": {
+        "name": "Jane Doe",
+        "email": "jane.doe@example.com",
+        "phone": "+254-123-456-788",
+        "relationship": "parent"
+      },
+
+      "profilePicture": "path/to/passport/photo.jpg",
+
+      "education": {
+        "level": "Senior Secondary School",
+        "documents": ["diploma.pdf", "transcript.pdf"]
+      },
+
+      "hobbies": ["Reading", "Sports", "Music"],
+      "talents": ["Public Speaking", "Leadership"],
+
+      "consent": {
+        "termsAccepted": true,
+        "privacyAccepted": true,
+        "dataConsent": true,
+        "mediaConsent": true
+      },
+
+      "newsletterOptIn": true,
+      "profileComplete": true,
+      "createdAt": "2025-10-27T00:00:00Z",
+      "updatedAt": "2025-10-28T00:00:00Z"
+    }
+  ],
+  "roadmaps": [
+    {
+      "id": "1",
+      "userId": 1,
+      "title": "Frontend Mastery",
+      "description": "A comprehensive path to becoming a frontend developer.",
+      "steps": [
+        {
+          "title": "Complete HTML & CSS Fundamentals",
+          "status": "not_started",
+          "dueDate": "2024-03-01"
+        },
+        {
+          "title": "Master JavaScript Essentials",
+          "status": "in_progress",
+          "dueDate": "2024-04-01"
+        },
+        {
+          "title": "React Development",
+          "status": "not_started",
+          "dueDate": "2024-05-01"
+        }
+      ],
+      "createdAt": "2024-01-01T00:00:00Z"
     }
   ]
 }
