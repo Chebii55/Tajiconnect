@@ -18,13 +18,13 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({
     <div className="w-full max-w-4xl mx-auto mb-8">
       {/* Progress Bar */}
       <div className="relative mb-6">
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-2">
           <div
-            className="bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] h-2 rounded-full transition-all duration-700 ease-out"
+            className="bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success h-2 rounded-full transition-all duration-700 ease-out"
             style={{ width: `${progressPercentage}%` }}
           />
         </div>
-        <div className="absolute top-0 right-0 text-sm font-medium text-[#2C857A] mt-3">
+        <div className="absolute top-0 right-0 text-sm font-medium text-forest-sage dark:text-darkMode-accent mt-3">
           {currentStep + 1} of {totalSteps}
         </div>
       </div>
@@ -46,10 +46,10 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
                   isCompleted
-                    ? 'bg-[#4A9E3D] text-white shadow-lg'
+                    ? 'bg-secondary dark:bg-darkMode-success text-white shadow-lg dark:shadow-dark'
                     : isCurrent
-                    ? 'bg-[#3DAEDB] text-white shadow-lg animate-pulse'
-                    : 'bg-gray-200 text-gray-400'
+                    ? 'bg-primary-light dark:bg-darkMode-progress text-white shadow-lg dark:shadow-dark animate-pulse'
+                    : 'bg-neutral-gray dark:bg-darkMode-border text-neutral-dark/40 dark:text-darkMode-textMuted'
                 }`}
               >
                 {isCompleted ? (
@@ -63,8 +63,8 @@ const OnboardingProgress: React.FC<OnboardingProgressProps> = ({
               <span
                 className={`text-xs font-medium mt-2 text-center transition-colors duration-300 ${
                   isCompleted || isCurrent
-                    ? 'text-[#1C3D6E]'
-                    : 'text-gray-400'
+                    ? 'text-primary-dark dark:text-darkMode-text'
+                    : 'text-neutral-dark/40 dark:text-darkMode-textMuted'
                 }`}
               >
                 {label}

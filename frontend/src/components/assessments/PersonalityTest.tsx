@@ -231,7 +231,7 @@ export default function PersonalityTest() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -240,7 +240,7 @@ export default function PersonalityTest() {
               <span className="text-2xl">🎭</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Personality Assessment</h1>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Personality Assessment</h1>
               <p className="text-gray-600 dark:text-gray-300">Understand your personality traits and behavioral preferences</p>
             </div>
           </div>
@@ -265,7 +265,7 @@ export default function PersonalityTest() {
         {activeTab === 'tests' && (
           <div>
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Choose Your Personality Assessment</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Choose Your Personality Assessment</h2>
               <p className="text-gray-600 dark:text-gray-300">
                 Each assessment offers unique insights into different aspects of your personality.
                 We recommend starting with the Big Five for the most comprehensive scientific analysis.
@@ -281,7 +281,7 @@ export default function PersonalityTest() {
                         <span className="text-white text-xl">🧠</span>
                       </div>
                       <div>
-                        <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg">{test.name}</h3>
+                        <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">{test.name}</h3>
                         {test.popular && (
                           <span className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded-full text-xs font-medium">
                             Most Popular
@@ -312,7 +312,7 @@ export default function PersonalityTest() {
                     <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Measures:</p>
                     <div className="flex flex-wrap gap-1">
                       {test.focus.map((focus, index) => (
-                        <span key={index} className="text-xs bg-[#3DAEDB]/10 dark:bg-blue-900/30 text-[#1C3D6E] dark:text-[#3DAEDB] px-2 py-1 rounded-full">
+                        <span key={index} className="text-xs bg-primary/10 dark:bg-blue-900/30 text-primary-dark dark:text-darkMode-link px-2 py-1 rounded-full">
                           {focus}
                         </span>
                       ))}
@@ -331,25 +331,25 @@ export default function PersonalityTest() {
 
             {/* Assessment Info */}
             <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">About Personality Assessments</h3>
+              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">About Personality Assessments</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="text-3xl mb-2">🔬</div>
-                  <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Science-Based</h4>
+                  <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">Science-Based</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     Our assessments are based on peer-reviewed psychological research and validated models.
                   </p>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl mb-2">🎯</div>
-                  <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Career Focused</h4>
+                  <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">Career Focused</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     Results include career suggestions and workplace insights tailored to your personality.
                   </p>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl mb-2">🔒</div>
-                  <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Private & Secure</h4>
+                  <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">Private & Secure</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     Your personality data is encrypted and only shared with your explicit permission.
                   </p>
@@ -370,7 +370,7 @@ export default function PersonalityTest() {
                     <span className="text-white font-bold">{currentQuestion + 1}</span>
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{selectedTest.name}</h1>
+                    <h1 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{selectedTest.name}</h1>
                     <p className="text-gray-600 dark:text-gray-300">Question {currentQuestion + 1} of {selectedTest.questions}</p>
                   </div>
                 </div>
@@ -402,7 +402,7 @@ export default function PersonalityTest() {
                     {currentQuestionData.trait}
                   </span>
                 </div>
-                <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">{currentQuestionData.text}</h2>
+                <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">{currentQuestionData.text}</h2>
               </div>
 
               {currentQuestionData.type === 'likert' && currentQuestionData.scale && (
@@ -507,21 +507,21 @@ export default function PersonalityTest() {
                 <div className="w-20 h-20 bg-primary-dark rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-3xl">🎭</span>
                 </div>
-                <h2 className="text-3xl font-bold text-[#1C3D6E] mb-2">{mockResult.personalityType}</h2>
+                <h2 className="text-3xl font-bold text-primary-dark mb-2">{mockResult.personalityType}</h2>
                 <p className="text-gray-600">{mockResult.testType} Results</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="font-bold text-[#1C3D6E] mb-3">Work Style</h3>
+                  <h3 className="font-bold text-primary-dark mb-3">Work Style</h3>
                   <p className="text-gray-700 text-sm mb-4">{mockResult.workStyle}</p>
 
-                  <h3 className="font-bold text-[#1C3D6E] mb-3">Communication Style</h3>
+                  <h3 className="font-bold text-primary-dark mb-3">Communication Style</h3>
                   <p className="text-gray-700 text-sm">{mockResult.communicationStyle}</p>
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[#1C3D6E] mb-3">Learning Preferences</h3>
+                  <h3 className="font-bold text-primary-dark mb-3">Learning Preferences</h3>
                   <ul className="space-y-1">
                     {mockResult.learningPreferences.map((pref, index) => (
                       <li key={index} className="text-sm text-gray-700 flex items-center gap-2">
@@ -536,12 +536,12 @@ export default function PersonalityTest() {
 
             {/* Trait Scores */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Personality Trait Scores</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Personality Trait Scores</h2>
               <div className="space-y-6">
                 {Object.entries(mockResult.traits).map(([trait, data]) => (
                   <div key={trait} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-3">
-                      <h3 className="font-semibold text-[#1C3D6E] capitalize">{trait}</h3>
+                      <h3 className="font-semibold text-primary-dark capitalize">{trait}</h3>
                       <div className="text-right">
                         <span className="text-2xl font-bold text-purple-600">{data.score}/100</span>
                         <div className="text-xs text-gray-500">{data.percentile}th percentile</div>
@@ -562,7 +562,7 @@ export default function PersonalityTest() {
             {/* Strengths and Challenges */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-[#1C3D6E] mb-4">Your Strengths</h2>
+                <h2 className="text-xl font-bold text-primary-dark mb-4">Your Strengths</h2>
                 <div className="space-y-3">
                   {mockResult.strengths.map((strength, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
@@ -574,7 +574,7 @@ export default function PersonalityTest() {
               </div>
 
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h2 className="text-xl font-bold text-[#1C3D6E] mb-4">Growth Areas</h2>
+                <h2 className="text-xl font-bold text-primary-dark mb-4">Growth Areas</h2>
                 <div className="space-y-3">
                   {mockResult.challenges.map((challenge, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
@@ -588,12 +588,12 @@ export default function PersonalityTest() {
 
             {/* Career Suggestions */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-4">Recommended Career Paths</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-4">Recommended Career Paths</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {mockResult.careerSuggestions.map((career, index) => (
                   <div key={index} className="text-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer">
                     <div className="text-2xl mb-2">💼</div>
-                    <h3 className="font-semibold text-[#1C3D6E] text-sm">{career}</h3>
+                    <h3 className="font-semibold text-primary-dark text-sm">{career}</h3>
                   </div>
                 ))}
               </div>
@@ -604,7 +604,7 @@ export default function PersonalityTest() {
               <button className="btn-primary flex-1">
                 Download Results
               </button>
-              <button className="flex-1 border border-[#1C3D6E] text-[#1C3D6E] py-3 px-6 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
+              <button className="flex-1 border border-[#1C3D6E] text-primary-dark py-3 px-6 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
                 Share Results
               </button>
               <button

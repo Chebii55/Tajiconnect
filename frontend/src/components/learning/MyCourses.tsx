@@ -108,31 +108,31 @@ const MyCourses: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in-progress': return 'text-blue-600 bg-blue-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      case 'in-progress': return 'text-info dark:text-darkMode-link bg-info/10 dark:bg-darkMode-link/20';
+      default: return 'text-neutral-dark dark:text-darkMode-textSecondary bg-neutral-gray dark:bg-darkMode-surface';
     }
   };
 
   const getProgressColor = (progress: number) => {
-    if (progress >= 80) return 'bg-green-500';
-    if (progress >= 50) return 'bg-blue-500';
-    return 'bg-yellow-500';
+    if (progress >= 80) return 'bg-success dark:bg-darkMode-success';
+    if (progress >= 50) return 'bg-info dark:bg-darkMode-link';
+    return 'bg-warning dark:bg-warning';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-[#1C3D6E] rounded-lg">
+            <div className="p-3 bg-primary-dark dark:bg-darkMode-navbar rounded-lg">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-[#1C3D6E] font-heading">My GCED Journey</h1>
-              <p className="text-gray-600">Track your progress through TFDN's transformative learning pathways</p>
-              <p className="text-sm text-[#4A9E3D] font-medium mt-1">
+              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text font-heading">My GCED Journey</h1>
+              <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">Track your progress through TFDN's transformative learning pathways</p>
+              <p className="text-sm text-secondary dark:text-darkMode-success font-medium mt-1">
                 🌍 Building empowered global citizens for positive change
               </p>
             </div>
@@ -141,62 +141,62 @@ const MyCourses: React.FC = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#4A9E3D] rounded-lg">
+              <div className="p-3 bg-secondary dark:bg-darkMode-success rounded-lg">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-[#4A9E3D]">60%</p>
+                <p className="text-2xl font-bold text-secondary dark:text-darkMode-success">60%</p>
               </div>
             </div>
-            <p className="text-sm font-semibold text-gray-600">Average Progress</p>
-            <p className="text-xs text-[#4A9E3D] font-medium">+15% this month</p>
+            <p className="text-sm font-semibold text-neutral-dark/80 dark:text-darkMode-textSecondary">Average Progress</p>
+            <p className="text-xs text-secondary dark:text-darkMode-success font-medium">+15% this month</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#3DAEDB] rounded-lg">
+              <div className="p-3 bg-primary-light dark:bg-darkMode-progress rounded-lg">
                 <Clock className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-[#3DAEDB]">55h</p>
+                <p className="text-2xl font-bold text-primary-light dark:text-darkMode-accent">55h</p>
               </div>
             </div>
-            <p className="text-sm font-semibold text-gray-600">Learning Hours</p>
-            <p className="text-xs text-[#4A9E3D] font-medium">94h total available</p>
+            <p className="text-sm font-semibold text-neutral-dark/80 dark:text-darkMode-textSecondary">Learning Hours</p>
+            <p className="text-xs text-secondary dark:text-darkMode-success font-medium">94h total available</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-[#2C857A] rounded-lg">
+              <div className="p-3 bg-forest-sage dark:bg-darkMode-success rounded-lg">
                 <Award className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-[#2C857A]">1</p>
+                <p className="text-2xl font-bold text-forest-sage dark:text-darkMode-success">1</p>
               </div>
             </div>
-            <p className="text-sm font-semibold text-gray-600">Certificates</p>
-            <p className="text-xs text-[#4A9E3D] font-medium">3 in progress</p>
+            <p className="text-sm font-semibold text-neutral-dark/80 dark:text-darkMode-textSecondary">Certificates</p>
+            <p className="text-xs text-secondary dark:text-darkMode-success font-medium">3 in progress</p>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
             <div className="flex items-center justify-between mb-4">
-              <div className="p-3 bg-purple-600 rounded-lg">
+              <div className="p-3 bg-purple-600 dark:bg-purple-500 rounded-lg">
                 <BarChart3 className="w-6 h-6 text-white" />
               </div>
               <div className="text-right">
-                <p className="text-2xl font-bold text-purple-600">80%</p>
+                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">80%</p>
               </div>
             </div>
-            <p className="text-sm font-semibold text-gray-600">HRBA Impact</p>
-            <p className="text-xs text-[#4A9E3D] font-medium">Community engagement</p>
+            <p className="text-sm font-semibold text-neutral-dark/80 dark:text-darkMode-textSecondary">HRBA Impact</p>
+            <p className="text-xs text-secondary dark:text-darkMode-success font-medium">Community engagement</p>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-white rounded-xl shadow-lg mb-8">
-          <div className="flex border-b border-gray-200">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark mb-8">
+          <div className="flex border-b border-gray-200 dark:border-darkMode-border">
             {[
               { key: 'all', label: 'All Courses', count: mockCourses.length },
               { key: 'in-progress', label: 'In Progress', count: mockCourses.filter(c => c.status === 'in-progress').length },
@@ -207,12 +207,12 @@ const MyCourses: React.FC = () => {
                 onClick={() => setActiveTab(key as 'all' | 'in-progress' | 'completed')}
                 className={`flex items-center gap-2 px-6 py-4 font-medium border-b-2 transition-colors ${
                   activeTab === key
-                    ? 'border-[#3DAEDB] text-[#1C3D6E] bg-blue-50'
-                    : 'border-transparent text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-50'
+                    ? 'border-primary-light dark:border-darkMode-accent text-primary-dark dark:text-darkMode-text bg-primary/5 dark:bg-darkMode-accent/10'
+                    : 'border-transparent text-neutral-dark/80 dark:text-darkMode-textSecondary hover:text-primary-dark dark:hover:text-darkMode-text hover:bg-neutral-light dark:hover:bg-darkMode-surfaceHover'
                 }`}
               >
                 {label}
-                <span className="px-2 py-1 bg-gray-200 text-gray-700 text-xs rounded-full">{count}</span>
+                <span className="px-2 py-1 bg-neutral-gray dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-textSecondary text-xs rounded-full">{count}</span>
               </button>
             ))}
           </div>
@@ -221,15 +221,15 @@ const MyCourses: React.FC = () => {
           <div className="p-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredCourses.map((course) => (
-                <div key={course.id} className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group">
+                <div key={course.id} className="border border-gray-200 dark:border-darkMode-border rounded-xl p-6 hover:shadow-lg dark:hover:shadow-dark transition-all duration-300 group">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-3xl">{course.thumbnail}</span>
                       <div>
-                        <h3 className="font-bold text-[#1C3D6E] text-lg group-hover:text-[#3DAEDB] transition-colors">
+                        <h3 className="font-bold text-primary-dark dark:text-darkMode-text text-lg group-hover:text-primary-light dark:group-hover:text-darkMode-accent transition-colors">
                           {course.title}
                         </h3>
-                        <p className="text-sm text-gray-600">{course.category}</p>
+                        <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">{course.category}</p>
                       </div>
                     </div>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(course.status)}`}>
@@ -237,14 +237,14 @@ const MyCourses: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-gray-700 text-sm mb-4">{course.description}</p>
+                  <p className="text-neutral-dark dark:text-darkMode-textSecondary text-sm mb-4">{course.description}</p>
 
                   <div className="mb-4">
                     <div className="flex justify-between text-sm font-medium mb-2">
-                      <span className="text-[#1C3D6E]">{course.progress}% complete</span>
-                      <span className="text-gray-600">{course.completedHours}h / {course.totalHours}h</span>
+                      <span className="text-primary-dark dark:text-darkMode-text">{course.progress}% complete</span>
+                      <span className="text-neutral-dark/80 dark:text-darkMode-textSecondary">{course.completedHours}h / {course.totalHours}h</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
                       <div
                         className={`h-2 rounded-full transition-all duration-500 ${getProgressColor(course.progress)}`}
                         style={{ width: `${course.progress}%` }}
@@ -253,27 +253,27 @@ const MyCourses: React.FC = () => {
                   </div>
 
                   {course.hrbaScore && (
-                    <div className="mb-4 p-3 bg-blue-50 rounded-lg">
+                    <div className="mb-4 p-3 bg-info/10 dark:bg-darkMode-link/10 rounded-lg">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-[#1C3D6E]">HRBA Impact Score</span>
-                        <span className="text-lg font-bold text-[#3DAEDB]">{course.hrbaScore}%</span>
+                        <span className="text-sm font-medium text-primary-dark dark:text-darkMode-text">HRBA Impact Score</span>
+                        <span className="text-lg font-bold text-primary-light dark:text-darkMode-accent">{course.hrbaScore}%</span>
                       </div>
                     </div>
                   )}
 
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-gray-500">Last accessed: {course.lastAccessed}</p>
+                      <p className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted">Last accessed: {course.lastAccessed}</p>
                       {course.nextLesson && (
-                        <p className="text-xs text-[#4A9E3D] font-medium">Next: {course.nextLesson}</p>
+                        <p className="text-xs text-secondary dark:text-darkMode-success font-medium">Next: {course.nextLesson}</p>
                       )}
                     </div>
                     <Link
                       to={`/student/courses/${course.id}`}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
                         course.status === 'completed'
-                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                          : 'bg-[#1C3D6E] text-white hover:bg-[#2A4F7C]'
+                          ? 'bg-success/10 dark:bg-darkMode-success/20 text-success dark:text-darkMode-success hover:bg-success/20 dark:hover:bg-darkMode-success/30'
+                          : 'bg-primary-dark dark:bg-darkMode-navbar text-white hover:bg-primary dark:hover:bg-darkMode-surface'
                       }`}
                     >
                       {course.status === 'completed' ? (
@@ -295,9 +295,9 @@ const MyCourses: React.FC = () => {
 
             {filteredCourses.length === 0 && (
               <div className="text-center py-12">
-                <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-gray-900 mb-2">No courses found</h3>
-                <p className="text-gray-600 mb-6">
+                <BookOpen className="w-16 h-16 text-gray-400 dark:text-darkMode-textMuted mx-auto mb-4" />
+                <h3 className="text-xl font-medium text-neutral-dark dark:text-darkMode-text mb-2">No courses found</h3>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-6">
                   {activeTab === 'completed' ? 'Complete some courses to see them here!' :
                    activeTab === 'in-progress' ? 'Start learning to see courses in progress!' :
                    'Enroll in GCED courses to begin your journey.'}

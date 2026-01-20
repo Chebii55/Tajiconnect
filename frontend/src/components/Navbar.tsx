@@ -161,7 +161,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-lg sticky top-0 z-[100] border-b border-gray-100 dark:border-gray-800 w-full">
+    <nav className="bg-neutral-white dark:bg-darkMode-navbar shadow-forest dark:shadow-dark sticky top-0 z-[100] border-b border-border-light dark:border-darkMode-border w-full">
       <div className="w-full px-6 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -172,7 +172,7 @@ const Navbar = () => {
                 alt="TajiConnect"
                 className="h-10 w-auto group-hover:scale-105 transition-transform duration-200"
               />
-              <span className="text-2xl font-extrabold bg-gradient-to-r from-[#1C3D6E] to-[#3DAEDB] dark:from-[#3DAEDB] dark:to-[#4A9E3D] bg-clip-text text-transparent hidden sm:block tracking-tight" style={{fontFamily: 'Poppins, sans-serif'}}>
+              <span className="text-2xl font-extrabold bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-accent bg-clip-text text-transparent hidden sm:block tracking-tight" style={{fontFamily: 'Poppins, sans-serif'}}>
                 TajiConnect
               </span>
             </Link>
@@ -192,8 +192,8 @@ const Navbar = () => {
                     to={item.path}
                     className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isActivePath(item.path)
-                        ? 'bg-gradient-primary text-white shadow-lg'
-                        : 'text-[#333333] dark:text-gray-300 hover:bg-[#3DAEDB]/10 dark:hover:bg-[#3DAEDB]/20 hover:text-primary dark:hover:text-[#3DAEDB]'
+                        ? 'bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success text-white shadow-forest dark:shadow-dark'
+                        : 'text-neutral-dark dark:text-darkMode-textSecondary hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover hover:text-primary dark:hover:text-darkMode-accent'
                     }`}
                   >
                     {item.icon}
@@ -203,8 +203,8 @@ const Navbar = () => {
                   <button
                     className={`flex items-center space-x-1 px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                       activeDropdown === item.label
-                        ? 'bg-[#3DAEDB]/10 text-primary'
-                        : 'text-[#333333] dark:text-gray-300 hover:bg-[#3DAEDB]/10 dark:hover:bg-[#3DAEDB]/20 hover:text-primary dark:hover:text-[#3DAEDB]'
+                        ? 'bg-primary/10 dark:bg-darkMode-surfaceHover text-primary dark:text-darkMode-accent'
+                        : 'text-neutral-dark dark:text-darkMode-textSecondary hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover hover:text-primary dark:hover:text-darkMode-accent'
                     }`}
                   >
                     {item.icon}
@@ -224,9 +224,9 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {item.dropdown && activeDropdown === item.label && (
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 py-4 animate-fade-in z-[110]">
-                    <div className="px-4 pb-3 border-b border-gray-100 dark:border-gray-700">
-                      <h3 className="text-lg font-bold text-primary dark:text-[#3DAEDB] flex items-center">
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-neutral-white dark:bg-darkMode-surface rounded-2xl shadow-forest-lg dark:shadow-dark-lg border border-border-light dark:border-darkMode-border py-4 animate-fade-in z-[110]">
+                    <div className="px-4 pb-3 border-b border-border-light dark:border-darkMode-border">
+                      <h3 className="text-lg font-bold text-primary dark:text-darkMode-accent flex items-center">
                         <span className="mr-2">{item.icon}</span>
                         {item.label}
                       </h3>
@@ -235,20 +235,20 @@ const Navbar = () => {
                       <Link
                         key={dropdownItem.path}
                         to={dropdownItem.path}
-                        className={`flex items-start space-x-3 px-4 py-3 hover:bg-[#3DAEDB]/5 dark:hover:bg-[#3DAEDB]/10 transition-colors duration-200 group ${
-                          isActivePath(dropdownItem.path) ? 'bg-[#4A9E3D]/5 dark:bg-[#4A9E3D]/10 border-r-4 border-secondary' : ''
+                        className={`flex items-start space-x-3 px-4 py-3 hover:bg-primary/5 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200 group ${
+                          isActivePath(dropdownItem.path) ? 'bg-success/5 dark:bg-darkMode-success/10 border-r-4 border-success dark:border-darkMode-success' : ''
                         }`}
                         onClick={() => setActiveDropdown(null)}
                       >
-                        <span className="group-hover:scale-110 transition-transform duration-200 mt-1">
+                        <span className="group-hover:scale-110 transition-transform duration-200 mt-1 text-forest-medium dark:text-darkMode-textSecondary group-hover:text-primary dark:group-hover:text-darkMode-accent">
                           {dropdownItem.icon}
                         </span>
                         <div>
-                          <div className="font-semibold text-primary dark:text-[#3DAEDB] group-hover:text-[#0f2844] dark:group-hover:text-[#5BC0EB]">
+                          <div className="font-semibold text-primary dark:text-darkMode-text group-hover:text-primary-dark dark:group-hover:text-darkMode-accent">
                             {dropdownItem.label}
                           </div>
                           {dropdownItem.description && (
-                            <div className="text-sm text-muted dark:text-gray-400 mt-1">
+                            <div className="text-sm text-forest-sage dark:text-darkMode-textMuted mt-1">
                               {dropdownItem.description}
                             </div>
                           )}
@@ -265,7 +265,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={toggleTheme}
-              className="p-2 text-[#333333] dark:text-gray-300 hover:text-[#1C3D6E] dark:hover:text-[#3DAEDB] transition-colors duration-200"
+              className="p-2 text-neutral-dark dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-accent transition-colors duration-200"
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             >
               {theme === 'light' ? (
@@ -276,16 +276,16 @@ const Navbar = () => {
             </button>
             <Link
               to="/settings"
-              className="p-2 text-[#333333] dark:text-gray-300 hover:text-[#1C3D6E] dark:hover:text-[#3DAEDB] transition-colors duration-200"
+              className="p-2 text-neutral-dark dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-accent transition-colors duration-200"
               title="Settings"
             >
               <Settings className="w-5 h-5" />
             </Link>
             <Link
               to="/student/profile"
-              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-[#3DAEDB]/10 transition-colors duration-200"
+              className="flex items-center space-x-2 p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
             >
-              <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-semibold">
                 S
               </div>
             </Link>
@@ -295,7 +295,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-muted hover:text-primary hover:bg-[#3DAEDB]/10 transition-colors duration-200"
+              className="p-2 rounded-lg text-forest-sage dark:text-darkMode-textMuted hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -309,7 +309,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 shadow-lg w-full z-[105]">
+        <div className="md:hidden bg-neutral-white dark:bg-darkMode-surface border-t border-border-light dark:border-darkMode-border shadow-forest-lg dark:shadow-dark-lg w-full z-[105]">
           <div className="px-6 sm:px-8 lg:px-12 py-6 space-y-3">
             {navigationItems.map((item) => (
               <div key={item.label}>
@@ -318,8 +318,8 @@ const Navbar = () => {
                     to={item.path}
                     className={`flex items-center space-x-3 p-3 rounded-lg font-medium transition-colors duration-200 ${
                       isActivePath(item.path)
-                        ? 'bg-gradient-primary text-white'
-                        : 'text-[#333333] hover:bg-[#3DAEDB]/10'
+                        ? 'bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success text-white'
+                        : 'text-neutral-dark dark:text-darkMode-textSecondary hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover'
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -328,7 +328,7 @@ const Navbar = () => {
                   </Link>
                 ) : (
                   <>
-                    <div className="flex items-center space-x-3 p-3 text-primary font-semibold">
+                    <div className="flex items-center space-x-3 p-3 text-primary dark:text-darkMode-accent font-semibold">
                       {item.icon}
                       <span>{item.label}</span>
                     </div>
@@ -340,8 +340,8 @@ const Navbar = () => {
                             to={dropdownItem.path}
                             className={`flex items-center space-x-3 p-2 rounded-lg text-sm transition-colors duration-200 ${
                               isActivePath(dropdownItem.path)
-                                ? 'bg-secondary text-white'
-                                : 'text-muted hover:bg-[#4A9E3D]/10 hover:text-secondary'
+                                ? 'bg-success dark:bg-darkMode-success text-white'
+                                : 'text-forest-sage dark:text-darkMode-textMuted hover:bg-success/10 dark:hover:bg-darkMode-success/10 hover:text-success dark:hover:text-darkMode-success'
                             }`}
                             onClick={() => setIsMobileMenuOpen(false)}
                           >

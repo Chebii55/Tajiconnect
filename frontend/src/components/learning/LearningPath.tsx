@@ -232,54 +232,54 @@ const LearningPath: React.FC = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle className="w-5 h-5 text-green-600" />;
-      case 'in-progress': return <Clock className="w-5 h-5 text-blue-600" />;
-      case 'locked': return <Circle className="w-5 h-5 text-gray-400" />;
-      default: return <Circle className="w-5 h-5 text-gray-400" />;
+      case 'completed': return <CheckCircle className="w-5 h-5 text-success dark:text-darkMode-success" />;
+      case 'in-progress': return <Clock className="w-5 h-5 text-info dark:text-darkMode-link" />;
+      case 'locked': return <Circle className="w-5 h-5 text-gray-400 dark:text-darkMode-textMuted" />;
+      default: return <Circle className="w-5 h-5 text-gray-400 dark:text-darkMode-textMuted" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in-progress': return 'text-blue-600 bg-blue-100';
-      case 'locked': return 'text-gray-600 bg-gray-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      case 'in-progress': return 'text-info dark:text-darkMode-link bg-info/10 dark:bg-darkMode-link/20';
+      case 'locked': return 'text-neutral-dark/60 dark:text-darkMode-textMuted bg-neutral-gray dark:bg-darkMode-surfaceHover';
+      default: return 'text-neutral-dark/60 dark:text-darkMode-textMuted bg-neutral-gray dark:bg-darkMode-surfaceHover';
     }
   };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Beginner': return 'text-green-600 bg-green-100';
-      case 'Intermediate': return 'text-yellow-600 bg-yellow-100';
-      case 'Advanced': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'Beginner': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      case 'Intermediate': return 'text-warning dark:text-warning-light bg-warning/10 dark:bg-warning/20';
+      case 'Advanced': return 'text-error dark:text-error-light bg-error/10 dark:bg-error/20';
+      default: return 'text-neutral-dark/60 dark:text-darkMode-textMuted bg-neutral-gray dark:bg-darkMode-surfaceHover';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter']">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter']">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-[#1C3D6E] rounded-lg">
+              <div className="p-3 bg-primary-dark dark:bg-darkMode-navbar rounded-lg">
                 <Map className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E] mb-2">{mockPath.title}</h1>
-                <p className="text-gray-600 mb-2">{mockPath.description}</p>
-                <p className="text-sm text-[#4A9E3D] font-medium mb-4">
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-2">{mockPath.title}</h1>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">{mockPath.description}</p>
+                <p className="text-sm text-secondary dark:text-darkMode-success font-medium mb-4">
                   🌍 TFDN Certified • CBC Aligned • HRBA Framework
                 </p>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-yellow-500" />
+                    <Star className="w-4 h-4 text-warning" />
                     {mockPath.rating} ({mockPath.enrolledStudents.toLocaleString()} students)
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4 text-gray-500" />
+                  <span className="flex items-center gap-1 text-neutral-dark/80 dark:text-darkMode-textSecondary">
+                    <Clock className="w-4 h-4" />
                     {mockPath.estimatedHours} hours
                   </span>
                   <span className={`px-2 py-1 rounded-full text-xs ${getDifficultyColor(mockPath.difficulty)}`}>
@@ -290,16 +290,16 @@ const LearningPath: React.FC = () => {
             </div>
             <div className="text-right">
               <div className="mb-4">
-                <div className="text-sm text-gray-600 mb-1">Your Progress</div>
-                <div className="text-2xl font-bold text-[#1C3D6E]">{mockPath.progress}%</div>
-                <div className="w-32 bg-gray-200 rounded-full h-2 mt-2">
+                <div className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary mb-1">Your Progress</div>
+                <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockPath.progress}%</div>
+                <div className="w-32 bg-gray-200 dark:bg-darkMode-border rounded-full h-2 mt-2">
                   <div
-                    className="bg-[#4A9E3D] h-2 rounded-full"
+                    className="bg-secondary dark:bg-darkMode-success h-2 rounded-full"
                     style={{ width: `${mockPath.progress}%` }}
                   ></div>
                 </div>
               </div>
-              <button className="px-6 py-3 bg-[#4A9E3D] text-white rounded-lg hover:bg-[#3A7B30] transition-colors flex items-center gap-2">
+              <button className="px-6 py-3 bg-secondary dark:bg-darkMode-success text-white rounded-lg hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors flex items-center gap-2">
                 <Play className="w-5 h-5" />
                 Continue Learning
               </button>
@@ -308,8 +308,8 @@ const LearningPath: React.FC = () => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="bg-white rounded-xl shadow-lg mb-8">
-          <div className="flex border-b border-gray-200">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark mb-8">
+          <div className="flex border-b border-gray-200 dark:border-darkMode-border">
             {[
               { key: 'overview', label: 'Overview', icon: BarChart3 },
               { key: 'curriculum', label: 'Curriculum', icon: BookOpen },
@@ -321,8 +321,8 @@ const LearningPath: React.FC = () => {
                 onClick={() => setActiveTab(key as 'overview' | 'curriculum' | 'progress' | 'community')}
                 className={`flex items-center gap-2 px-6 py-4 font-medium border-b-2 transition-colors ${
                   activeTab === key
-                    ? 'border-[#3DAEDB] text-[#1C3D6E] bg-blue-50'
-                    : 'border-transparent text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-50'
+                    ? 'border-primary-light dark:border-darkMode-accent text-primary-dark dark:text-darkMode-text bg-primary/5 dark:bg-darkMode-accent/10'
+                    : 'border-transparent text-neutral-dark/80 dark:text-darkMode-textSecondary hover:text-primary-dark dark:hover:text-darkMode-text hover:bg-neutral-light dark:hover:bg-darkMode-surfaceHover'
                 }`}
               >
                 <Icon className="w-5 h-5" />
@@ -336,12 +336,12 @@ const LearningPath: React.FC = () => {
               <div className="space-y-8">
                 {/* What You'll Learn */}
                 <div>
-                  <h3 className="text-xl font-bold text-[#1C3D6E] mb-4">What You'll Learn</h3>
+                  <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-4">What You'll Learn</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {mockPath.learningOutcomes.map((outcome, index) => (
                       <div key={index} className="flex items-start gap-3">
-                        <CheckCircle className="w-5 h-5 text-[#4A9E3D] mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{outcome}</span>
+                        <CheckCircle className="w-5 h-5 text-secondary dark:text-darkMode-success mt-0.5 flex-shrink-0" />
+                        <span className="text-neutral-dark dark:text-darkMode-textSecondary">{outcome}</span>
                       </div>
                     ))}
                   </div>
@@ -349,10 +349,10 @@ const LearningPath: React.FC = () => {
 
                 {/* Skills You'll Gain */}
                 <div>
-                  <h3 className="text-xl font-bold text-[#1C3D6E] mb-4">Skills You'll Gain</h3>
+                  <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-4">Skills You'll Gain</h3>
                   <div className="flex flex-wrap gap-3">
                     {mockPath.skills.map((skill) => (
-                      <span key={skill} className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg font-medium">
+                      <span key={skill} className="px-3 py-2 bg-info/10 dark:bg-darkMode-link/20 text-info dark:text-darkMode-link rounded-lg font-medium">
                         {skill}
                       </span>
                     ))}
@@ -361,12 +361,12 @@ const LearningPath: React.FC = () => {
 
                 {/* Career Paths */}
                 <div>
-                  <h3 className="text-xl font-bold text-[#1C3D6E] mb-4">Career Opportunities</h3>
+                  <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-4">Career Opportunities</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {mockPath.careerPaths.map((career) => (
-                      <div key={career} className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                        <Award className="w-6 h-6 text-[#3DAEDB]" />
-                        <span className="font-medium text-gray-900">{career}</span>
+                      <div key={career} className="flex items-center gap-3 p-4 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <Award className="w-6 h-6 text-primary-light dark:text-darkMode-accent" />
+                        <span className="font-medium text-neutral-dark dark:text-darkMode-text">{career}</span>
                       </div>
                     ))}
                   </div>
@@ -374,22 +374,22 @@ const LearningPath: React.FC = () => {
 
                 {/* Path Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-primary-dark rounded-xl p-6 text-white">
+                  <div className="bg-primary-dark dark:bg-darkMode-navbar rounded-xl p-6 text-white">
                     <h4 className="font-bold mb-2">Completion Rate</h4>
                     <div className="text-3xl font-bold">{mockPath.completionRate}%</div>
-                    <p className="text-green-100 text-sm">of students complete this path</p>
+                    <p className="text-green-100 dark:text-darkMode-textSecondary text-sm">of students complete this path</p>
                   </div>
 
-                  <div className="bg-primary rounded-xl p-6 text-white">
+                  <div className="bg-primary dark:bg-darkMode-progress rounded-xl p-6 text-white">
                     <h4 className="font-bold mb-2">Average Duration</h4>
                     <div className="text-3xl font-bold">{mockPath.duration}</div>
-                    <p className="text-blue-100 text-sm">to complete the full path</p>
+                    <p className="text-blue-100 dark:text-darkMode-textSecondary text-sm">to complete the full path</p>
                   </div>
 
-                  <div className="bg-accent-teal rounded-xl p-6 text-white">
+                  <div className="bg-forest-sage dark:bg-darkMode-success rounded-xl p-6 text-white">
                     <h4 className="font-bold mb-2">Student Rating</h4>
                     <div className="text-3xl font-bold">{mockPath.rating}/5</div>
-                    <p className="text-teal-100 text-sm">based on {mockPath.enrolledStudents.toLocaleString()} reviews</p>
+                    <p className="text-teal-100 dark:text-darkMode-textSecondary text-sm">based on {mockPath.enrolledStudents.toLocaleString()} reviews</p>
                   </div>
                 </div>
               </div>
@@ -397,20 +397,20 @@ const LearningPath: React.FC = () => {
 
             {activeTab === 'curriculum' && (
               <div className="space-y-6">
-                <h3 className="text-xl font-bold text-[#1C3D6E]">Learning Modules</h3>
+                <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Learning Modules</h3>
 
                 {mockPath.modules.map((module, moduleIndex) => (
-                  <div key={module.id} className="border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="bg-gray-50 p-6">
+                  <div key={module.id} className="border border-gray-200 dark:border-darkMode-border rounded-xl overflow-hidden">
+                    <div className="bg-neutral-light dark:bg-darkMode-surfaceHover p-6">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="flex items-center justify-center w-8 h-8 bg-[#1C3D6E] text-white rounded-full font-bold">
+                          <div className="flex items-center justify-center w-8 h-8 bg-primary-dark dark:bg-darkMode-navbar text-white rounded-full font-bold">
                             {moduleIndex + 1}
                           </div>
                           <div>
-                            <h4 className="text-lg font-bold text-[#1C3D6E]">{module.title}</h4>
-                            <p className="text-gray-600">{module.description}</p>
-                            <p className="text-sm text-gray-500 mt-1">{module.estimatedHours} hours</p>
+                            <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text">{module.title}</h4>
+                            <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">{module.description}</p>
+                            <p className="text-sm text-neutral-dark/60 dark:text-darkMode-textMuted mt-1">{module.estimatedHours} hours</p>
                           </div>
                         </div>
                         <div className="text-right">
@@ -418,10 +418,10 @@ const LearningPath: React.FC = () => {
                             {module.status.replace('-', ' ')}
                           </span>
                           <div className="mt-2">
-                            <div className="text-sm text-gray-600">Progress: {module.progress}%</div>
-                            <div className="w-24 bg-gray-200 rounded-full h-1.5 mt-1">
+                            <div className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Progress: {module.progress}%</div>
+                            <div className="w-24 bg-gray-200 dark:bg-darkMode-border rounded-full h-1.5 mt-1">
                               <div
-                                className="bg-[#4A9E3D] h-1.5 rounded-full"
+                                className="bg-secondary dark:bg-darkMode-success h-1.5 rounded-full"
                                 style={{ width: `${module.progress}%` }}
                               ></div>
                             </div>
@@ -433,25 +433,25 @@ const LearningPath: React.FC = () => {
                     <div className="p-6">
                       <div className="space-y-4">
                         {module.courses.map((course) => (
-                          <div key={course.id} className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                          <div key={course.id} className="flex items-center justify-between p-4 bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-lg hover:shadow-md dark:hover:shadow-dark transition-shadow">
                             <div className="flex items-center gap-4">
                               {getStatusIcon(course.status)}
                               <div className="flex-grow">
-                                <h5 className="font-semibold text-gray-900">{course.title}</h5>
-                                <p className="text-gray-600 text-sm">{course.description}</p>
-                                <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+                                <h5 className="font-semibold text-neutral-dark dark:text-darkMode-text">{course.title}</h5>
+                                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">{course.description}</p>
+                                <div className="flex items-center gap-4 text-xs text-neutral-dark/60 dark:text-darkMode-textMuted mt-1">
                                   <span>{course.duration}</span>
                                   <span className={`px-2 py-1 rounded-full ${getDifficultyColor(course.difficulty)}`}>
                                     {course.difficulty}
                                   </span>
                                   <span className="flex items-center gap-1">
-                                    <Star className="w-3 h-3 text-yellow-500" />
+                                    <Star className="w-3 h-3 text-warning" />
                                     {course.rating}
                                   </span>
                                 </div>
                                 {course.prerequisites && (
                                   <div className="mt-2">
-                                    <span className="text-xs text-gray-500">Prerequisites: {course.prerequisites.join(', ')}</span>
+                                    <span className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted">Prerequisites: {course.prerequisites.join(', ')}</span>
                                   </div>
                                 )}
                               </div>
@@ -460,10 +460,10 @@ const LearningPath: React.FC = () => {
                             <div className="flex items-center gap-4">
                               {course.status === 'in-progress' && (
                                 <div className="text-right">
-                                  <div className="text-sm font-medium text-gray-900">{course.progress}%</div>
-                                  <div className="w-16 bg-gray-200 rounded-full h-1.5">
+                                  <div className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">{course.progress}%</div>
+                                  <div className="w-16 bg-gray-200 dark:bg-darkMode-border rounded-full h-1.5">
                                     <div
-                                      className="bg-[#3DAEDB] h-1.5 rounded-full"
+                                      className="bg-primary-light dark:bg-darkMode-progress h-1.5 rounded-full"
                                       style={{ width: `${course.progress}%` }}
                                     ></div>
                                   </div>
@@ -475,10 +475,10 @@ const LearningPath: React.FC = () => {
                                   to={`/student/courses/${course.id}`}
                                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                                     course.status === 'completed'
-                                      ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                                      ? 'bg-success/10 dark:bg-darkMode-success/20 text-success dark:text-darkMode-success hover:bg-success/20 dark:hover:bg-darkMode-success/30'
                                       : course.status === 'in-progress'
-                                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                                      : 'bg-[#1C3D6E] text-white hover:bg-[#2A4F7C]'
+                                      ? 'bg-info dark:bg-darkMode-link text-white hover:bg-info-dark dark:hover:bg-darkMode-focus'
+                                      : 'bg-primary-dark dark:bg-darkMode-navbar text-white hover:bg-primary dark:hover:bg-darkMode-surface'
                                   }`}
                                 >
                                   {course.status === 'completed' ? 'Review' :
@@ -497,99 +497,99 @@ const LearningPath: React.FC = () => {
 
             {activeTab === 'progress' && (
               <div className="space-y-6">
-                <h3 className="text-xl font-bold text-[#1C3D6E]">Your GCED Development Journey</h3>
+                <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Your GCED Development Journey</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-white border border-gray-200 rounded-xl p-6">
-                    <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">Learning Progress</h4>
+                  <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+                    <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Learning Progress</h4>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-[#4A9E3D] mb-2">{mockPath.progress}%</div>
-                      <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="text-4xl font-bold text-secondary dark:text-darkMode-success mb-2">{mockPath.progress}%</div>
+                      <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-3">
                         <div
-                          className="bg-gradient-to-r from-[#4A9E3D] to-[#2C857A] h-3 rounded-full"
+                          className="bg-gradient-to-r from-secondary to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success h-3 rounded-full"
                           style={{ width: `${mockPath.progress}%` }}
                         ></div>
                       </div>
-                      <p className="text-gray-600 text-sm mt-2">2 of 3 modules completed</p>
+                      <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm mt-2">2 of 3 modules completed</p>
                     </div>
                   </div>
 
-                  <div className="bg-white border border-gray-200 rounded-xl p-6">
-                    <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">HRBA Impact Score</h4>
+                  <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+                    <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">HRBA Impact Score</h4>
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-[#3DAEDB] mb-2">85%</div>
-                      <p className="text-gray-600 text-sm">Community engagement & advocacy</p>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
+                      <div className="text-4xl font-bold text-primary-light dark:text-darkMode-accent mb-2">85%</div>
+                      <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Community engagement & advocacy</p>
+                      <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2 mt-3">
                         <div
-                          className="bg-[#3DAEDB] h-2 rounded-full"
+                          className="bg-primary-light dark:bg-darkMode-accent h-2 rounded-full"
                           style={{ width: '85%' }}
                         ></div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-white border border-gray-200 rounded-xl p-6">
-                    <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">SEL Development</h4>
+                  <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+                    <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">SEL Development</h4>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-[#2C857A] mb-2">Advanced</div>
-                      <p className="text-gray-600 text-sm">Emotional intelligence level</p>
+                      <div className="text-2xl font-bold text-forest-sage dark:text-darkMode-success mb-2">Advanced</div>
+                      <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Emotional intelligence level</p>
                       <div className="flex items-center justify-center gap-1 mt-3">
-                        <Heart className="w-4 h-4 text-[#2C857A]" />
-                        <span className="text-sm text-gray-600">Resilience: 92%</span>
+                        <Heart className="w-4 h-4 text-forest-sage dark:text-darkMode-success" />
+                        <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Resilience: 92%</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Psychometric Assessment Results */}
-                <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-xl p-6">
-                  <h4 className="text-lg font-bold text-[#1C3D6E] mb-6 flex items-center">
-                    <Brain className="w-6 h-6 mr-3 text-[#3DAEDB]" />
+                <div className="bg-gradient-to-r from-info/10 to-success/10 dark:from-darkMode-link/10 dark:to-darkMode-success/10 rounded-xl p-6">
+                  <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
+                    <Brain className="w-6 h-6 mr-3 text-primary-light dark:text-darkMode-accent" />
                     Psychometric Development Tracker
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-lg p-4 text-center">
-                      <div className="text-2xl font-bold text-[#4A9E3D] mb-1">92%</div>
-                      <p className="text-sm text-gray-600">Empathy Index</p>
+                    <div className="bg-white dark:bg-darkMode-surface rounded-lg p-4 text-center">
+                      <div className="text-2xl font-bold text-secondary dark:text-darkMode-success mb-1">92%</div>
+                      <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Empathy Index</p>
                     </div>
-                    <div className="bg-white rounded-lg p-4 text-center">
-                      <div className="text-2xl font-bold text-[#3DAEDB] mb-1">88%</div>
-                      <p className="text-sm text-gray-600">Critical Thinking</p>
+                    <div className="bg-white dark:bg-darkMode-surface rounded-lg p-4 text-center">
+                      <div className="text-2xl font-bold text-primary-light dark:text-darkMode-accent mb-1">88%</div>
+                      <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Critical Thinking</p>
                     </div>
-                    <div className="bg-white rounded-lg p-4 text-center">
-                      <div className="text-2xl font-bold text-[#2C857A] mb-1">85%</div>
-                      <p className="text-sm text-gray-600">Cultural Competence</p>
+                    <div className="bg-white dark:bg-darkMode-surface rounded-lg p-4 text-center">
+                      <div className="text-2xl font-bold text-forest-sage dark:text-darkMode-success mb-1">85%</div>
+                      <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Cultural Competence</p>
                     </div>
-                    <div className="bg-white rounded-lg p-4 text-center">
-                      <div className="text-2xl font-bold text-purple-600 mb-1">90%</div>
-                      <p className="text-sm text-gray-600">Leadership Potential</p>
+                    <div className="bg-white dark:bg-darkMode-surface rounded-lg p-4 text-center">
+                      <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">90%</div>
+                      <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Leadership Potential</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Module Progress */}
                 <div>
-                  <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">Module Progress</h4>
+                  <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Module Progress</h4>
                   <div className="space-y-4">
                     {mockPath.modules.map((module) => (
-                      <div key={module.id} className="bg-white border border-gray-200 rounded-xl p-6">
+                      <div key={module.id} className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
                         <div className="flex justify-between items-center mb-3">
-                          <h5 className="font-semibold text-gray-900">{module.title}</h5>
+                          <h5 className="font-semibold text-neutral-dark dark:text-darkMode-text">{module.title}</h5>
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(module.status)}`}>
                             {module.status.replace('-', ' ')}
                           </span>
                         </div>
                         <div className="flex justify-between text-sm mb-2">
-                          <span>Progress</span>
-                          <span>{module.progress}%</span>
+                          <span className="text-neutral-dark/80 dark:text-darkMode-textSecondary">Progress</span>
+                          <span className="text-neutral-dark dark:text-darkMode-text">{module.progress}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
                           <div
-                            className="bg-[#4A9E3D] h-2 rounded-full"
+                            className="bg-secondary dark:bg-darkMode-success h-2 rounded-full"
                             style={{ width: `${module.progress}%` }}
                           ></div>
                         </div>
-                        <p className="text-sm text-gray-600 mt-2">
+                        <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary mt-2">
                           {module.courses.filter(c => c.status === 'completed').length} of {module.courses.length} courses completed
                         </p>
                       </div>
@@ -601,67 +601,67 @@ const LearningPath: React.FC = () => {
 
             {activeTab === 'community' && (
               <div className="space-y-6">
-                <h3 className="text-xl font-bold text-[#1C3D6E]">Community Impact Hub</h3>
+                <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Community Impact Hub</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-white border border-gray-200 rounded-xl p-6">
-                    <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">Learning Circles</h4>
+                  <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+                    <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Learning Circles</h4>
                     <div className="space-y-3">
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                        <Globe className="w-8 h-8 text-[#4A9E3D]" />
+                      <div className="flex items-center gap-3 p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <Globe className="w-8 h-8 text-secondary dark:text-darkMode-success" />
                         <div>
-                          <h5 className="font-semibold">Global Citizens Unite</h5>
-                          <p className="text-sm text-gray-600">142 active members • Climate Action Focus</p>
+                          <h5 className="font-semibold text-neutral-dark dark:text-darkMode-text">Global Citizens Unite</h5>
+                          <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">142 active members • Climate Action Focus</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                        <Heart className="w-8 h-8 text-[#3DAEDB]" />
+                      <div className="flex items-center gap-3 p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <Heart className="w-8 h-8 text-primary-light dark:text-darkMode-accent" />
                         <div>
-                          <h5 className="font-semibold">Empathy Circle - Nairobi</h5>
-                          <p className="text-sm text-gray-600">68 active members • SEL Peer Support</p>
+                          <h5 className="font-semibold text-neutral-dark dark:text-darkMode-text">Empathy Circle - Nairobi</h5>
+                          <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">68 active members • SEL Peer Support</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                        <Lightbulb className="w-8 h-8 text-[#2C857A]" />
+                      <div className="flex items-center gap-3 p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <Lightbulb className="w-8 h-8 text-forest-sage dark:text-darkMode-success" />
                         <div>
-                          <h5 className="font-semibold">Young Innovators Kenya</h5>
-                          <p className="text-sm text-gray-600">95 active members • STEM for Change</p>
+                          <h5 className="font-semibold text-neutral-dark dark:text-darkMode-text">Young Innovators Kenya</h5>
+                          <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">95 active members • STEM for Change</p>
                         </div>
                       </div>
                     </div>
-                    <button className="w-full mt-4 px-4 py-2 bg-[#1C3D6E] text-white rounded-lg hover:bg-[#2A4F7C] transition-colors">
+                    <button className="w-full mt-4 px-4 py-2 bg-primary-dark dark:bg-darkMode-navbar text-white rounded-lg hover:bg-primary dark:hover:bg-darkMode-surface transition-colors">
                       Join Learning Circle
                     </button>
                   </div>
 
-                  <div className="bg-white border border-gray-200 rounded-xl p-6">
-                    <h4 className="text-lg font-bold text-[#1C3D6E] mb-4">Community Discussions</h4>
+                  <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+                    <h4 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Community Discussions</h4>
                     <div className="space-y-3">
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <h5 className="font-semibold text-sm">How can youth lead climate action in Kenya?</h5>
-                        <p className="text-xs text-gray-600">28 replies • 1 hour ago</p>
+                      <div className="p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <h5 className="font-semibold text-sm text-neutral-dark dark:text-darkMode-text">How can youth lead climate action in Kenya?</h5>
+                        <p className="text-xs text-neutral-dark/80 dark:text-darkMode-textSecondary">28 replies • 1 hour ago</p>
                       </div>
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <h5 className="font-semibold text-sm">Strategies for inclusive community organizing</h5>
-                        <p className="text-xs text-gray-600">15 replies • 3 hours ago</p>
+                      <div className="p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <h5 className="font-semibold text-sm text-neutral-dark dark:text-darkMode-text">Strategies for inclusive community organizing</h5>
+                        <p className="text-xs text-neutral-dark/80 dark:text-darkMode-textSecondary">15 replies • 3 hours ago</p>
                       </div>
-                      <div className="p-3 bg-gray-50 rounded-lg">
-                        <h5 className="font-semibold text-sm">GCED project ideas for local communities</h5>
-                        <p className="text-xs text-gray-600">42 replies • 6 hours ago</p>
+                      <div className="p-3 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-lg">
+                        <h5 className="font-semibold text-sm text-neutral-dark dark:text-darkMode-text">GCED project ideas for local communities</h5>
+                        <p className="text-xs text-neutral-dark/80 dark:text-darkMode-textSecondary">42 replies • 6 hours ago</p>
                       </div>
                     </div>
-                    <button className="w-full mt-4 px-4 py-2 border border-[#1C3D6E] text-[#1C3D6E] rounded-lg hover:bg-[#1C3D6E] hover:text-white transition-colors">
+                    <button className="w-full mt-4 px-4 py-2 border border-primary-dark dark:border-darkMode-border text-primary-dark dark:text-darkMode-text rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-navbar hover:text-white transition-colors">
                       Join Discussion
                     </button>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gradient-to-r from-[#4A9E3D] to-[#2C857A] rounded-xl p-6 text-white">
+                  <div className="bg-gradient-to-r from-secondary to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success rounded-xl p-6 text-white">
                     <h4 className="text-lg font-bold mb-4">Mentor Network</h4>
-                    <p className="mb-4">Connect with TFDN alumni and community leaders for guidance on your GCED journey.</p>
+                    <p className="mb-4 text-white/90">Connect with TFDN alumni and community leaders for guidance on your GCED journey.</p>
                     <div className="flex gap-4">
-                      <button className="px-6 py-2 bg-white text-[#4A9E3D] rounded-lg hover:bg-gray-100 transition-colors">
+                      <button className="px-6 py-2 bg-white text-secondary dark:text-darkMode-progress rounded-lg hover:bg-gray-100 transition-colors">
                         Find Mentor
                       </button>
                       <button className="px-6 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-colors">
@@ -670,11 +670,11 @@ const LearningPath: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="bg-gradient-to-r from-[#1C3D6E] to-[#3DAEDB] rounded-xl p-6 text-white">
+                  <div className="bg-gradient-to-r from-primary-dark to-primary-light dark:from-darkMode-navbar dark:to-darkMode-progress rounded-xl p-6 text-white">
                     <h4 className="text-lg font-bold mb-4">Community Projects</h4>
-                    <p className="mb-4">Join ongoing community impact projects and create positive change in your area.</p>
+                    <p className="mb-4 text-white/90">Join ongoing community impact projects and create positive change in your area.</p>
                     <div className="flex gap-4">
-                      <button className="px-6 py-2 bg-white text-[#1C3D6E] rounded-lg hover:bg-gray-100 transition-colors">
+                      <button className="px-6 py-2 bg-white text-primary-dark dark:text-darkMode-bg rounded-lg hover:bg-gray-100 transition-colors">
                         Browse Projects
                       </button>
                       <button className="px-6 py-2 bg-white bg-opacity-20 text-white rounded-lg hover:bg-opacity-30 transition-colors">

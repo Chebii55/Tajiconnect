@@ -291,21 +291,21 @@ const EnhancedProfileSetup = () => {
       let errorMessage = 'Please complete all required fields:\n'
 
       if (currentSection === 1) {
-        if (!formData.firstName) errorMessage += '• First Name\n'
-        if (!formData.lastName) errorMessage += '• Last Name\n'
-        if (!formData.email) errorMessage += '• Email Address\n'
-        if (!formData.termsAccepted || !formData.privacyAccepted) errorMessage += '• Terms of Service and Privacy Policy acceptance\n'
+        if (!formData.firstName) errorMessage += '- First Name\n'
+        if (!formData.lastName) errorMessage += '- Last Name\n'
+        if (!formData.email) errorMessage += '- Email Address\n'
+        if (!formData.termsAccepted || !formData.privacyAccepted) errorMessage += '- Terms of Service and Privacy Policy acceptance\n'
       } else if (currentSection === 2) {
-        if (formData.isPWD && !formData.impairmentType) errorMessage += '• Type of Impairment (required for PWD)\n'
+        if (formData.isPWD && !formData.impairmentType) errorMessage += '- Type of Impairment (required for PWD)\n'
         if (formData.requiresParentInfo) {
-          if (!formData.parentGuardian.name) errorMessage += '• Parent/Guardian Name\n'
-          if (!formData.parentGuardian.email) errorMessage += '• Parent/Guardian Email\n'
-          if (!formData.parentGuardian.phone) errorMessage += '• Parent/Guardian Phone\n'
+          if (!formData.parentGuardian.name) errorMessage += '- Parent/Guardian Name\n'
+          if (!formData.parentGuardian.email) errorMessage += '- Parent/Guardian Email\n'
+          if (!formData.parentGuardian.phone) errorMessage += '- Parent/Guardian Phone\n'
         }
       } else if (currentSection === 3) {
-        if (!formData.educationLevel) errorMessage += '• Current Education Level\n'
+        if (!formData.educationLevel) errorMessage += '- Current Education Level\n'
       } else if (currentSection === 4) {
-        if (!formData.dataConsentAccepted) errorMessage += '• Data Consent (required)\n'
+        if (!formData.dataConsentAccepted) errorMessage += '- Data Consent (required)\n'
       }
 
       alert(errorMessage)
@@ -317,7 +317,7 @@ const EnhancedProfileSetup = () => {
 
     if (!validateSection(4)) {
       let errorMessage = 'Please complete all required fields:\n'
-      if (!formData.dataConsentAccepted) errorMessage += '• Data Consent (required)\n'
+      if (!formData.dataConsentAccepted) errorMessage += '- Data Consent (required)\n'
       alert(errorMessage)
       return
     }
@@ -347,65 +347,65 @@ const EnhancedProfileSetup = () => {
   // Render Sections
   const renderSection1 = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-bold text-[#1C3D6E]">Basic Information</h3>
+      <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Basic Information</h3>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="firstName" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+          <label htmlFor="firstName" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
             First Name *
           </label>
           <input
             id="firstName" name="firstName" type="text" required
             value={formData.firstName} onChange={handleInputChange}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+            className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
             placeholder="Enter your first name"
           />
         </div>
 
         <div>
-          <label htmlFor="lastName" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+          <label htmlFor="lastName" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
             Last Name *
           </label>
           <input
             id="lastName" name="lastName" type="text" required
             value={formData.lastName} onChange={handleInputChange}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+            className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
             placeholder="Enter your last name"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+          <label htmlFor="email" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
             Email Address *
           </label>
           <input
             id="email" name="email" type="email" required
             value={formData.email} onChange={handleInputChange}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+            className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
             placeholder="your@email.com" disabled={!!formData.email}
           />
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+          <label htmlFor="phone" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
             Phone Number
           </label>
           <input
             id="phone" name="phone" type="tel"
             value={formData.phone} onChange={handleInputChange}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+            className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
             placeholder="+254..."
           />
         </div>
 
         <div>
-          <label htmlFor="gender" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+          <label htmlFor="gender" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
             Gender
           </label>
           <select
             id="gender" name="gender"
             value={formData.gender} onChange={handleInputChange}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+            className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
           >
             <option value="">Select Gender</option>
             <option value="male">Male</option>
@@ -417,19 +417,19 @@ const EnhancedProfileSetup = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-[#1C3D6E] mb-4">
+        <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-4">
           Interests (Select all that apply)
         </label>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {availableInterests.map((interest) => (
-            <label key={interest} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-[#3DAEDB] cursor-pointer">
+            <label key={interest} className="flex items-center p-3 rounded-lg border-2 border-neutral-gray dark:border-darkMode-border hover:border-primary-light dark:hover:border-darkMode-progress cursor-pointer transition-colors">
               <input
                 type="checkbox"
                 checked={formData.interests.includes(interest)}
                 onChange={() => handleToggle('interests', interest)}
-                className="h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+                className="h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
               />
-              <span className="ml-2 text-sm">{interest}</span>
+              <span className="ml-2 text-sm text-neutral-dark dark:text-darkMode-textSecondary">{interest}</span>
             </label>
           ))}
         </div>
@@ -438,32 +438,32 @@ const EnhancedProfileSetup = () => {
       {/* Terms and Privacy */}
       <div className={`border-2 rounded-xl p-4 ${
         formData.termsAccepted && formData.privacyAccepted
-          ? 'bg-green-50 border-green-200'
-          : 'bg-yellow-50 border-yellow-200'
+          ? 'bg-success/10 dark:bg-darkMode-success/10 border-success/20 dark:border-darkMode-success/20'
+          : 'bg-warning/10 dark:bg-warning/10 border-warning/20 dark:border-warning/20'
       }`}>
-        <h4 className="font-semibold text-[#1C3D6E] mb-3 flex items-center">
+        <h4 className="font-semibold text-primary-dark dark:text-darkMode-text mb-3 flex items-center">
           {formData.termsAccepted && formData.privacyAccepted ? (
             <>
-              <Shield className="w-5 h-5 mr-2 text-green-600" />
+              <Shield className="w-5 h-5 mr-2 text-success dark:text-darkMode-success" />
               Legal Agreement Accepted
             </>
           ) : (
             <>
-              <AlertCircle className="w-5 h-5 mr-2" />
+              <AlertCircle className="w-5 h-5 mr-2 text-warning" />
               Legal Agreement Required
             </>
           )}
         </h4>
 
         {formData.termsAccepted && formData.privacyAccepted ? (
-          <div className="text-sm text-green-700">
-            <p>✓ You have already accepted the Terms of Service and Privacy Policy during registration.</p>
-            <p className="mt-2 text-xs text-gray-600">
+          <div className="text-sm text-success-dark dark:text-darkMode-success">
+            <p>You have already accepted the Terms of Service and Privacy Policy during registration.</p>
+            <p className="mt-2 text-xs text-neutral-dark/60 dark:text-darkMode-textMuted">
               You can review them anytime:{' '}
               <button
                 type="button"
                 onClick={() => { setLegalDocument('terms'); setShowLegalModal(true); }}
-                className="text-[#3DAEDB] underline hover:text-[#2A9BC8]"
+                className="text-primary-light dark:text-darkMode-link underline hover:text-primary dark:hover:text-darkMode-accent"
               >
                 Terms of Service
               </button>
@@ -471,7 +471,7 @@ const EnhancedProfileSetup = () => {
               <button
                 type="button"
                 onClick={() => { setLegalDocument('privacy'); setShowLegalModal(true); }}
-                className="text-[#3DAEDB] underline hover:text-[#2A9BC8]"
+                className="text-primary-light dark:text-darkMode-link underline hover:text-primary dark:hover:text-darkMode-accent"
               >
                 Privacy Policy
               </button>
@@ -485,15 +485,15 @@ const EnhancedProfileSetup = () => {
                 name="termsAccepted"
                 checked={formData.termsAccepted}
                 onChange={handleInputChange}
-                className="mt-1 h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+                className="mt-1 h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
                 required
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                 I have read and accept the{' '}
                 <button
                   type="button"
                   onClick={() => { setLegalDocument('terms'); setShowLegalModal(true); }}
-                  className="text-[#3DAEDB] underline hover:text-[#2A9BC8]"
+                  className="text-primary-light dark:text-darkMode-link underline hover:text-primary dark:hover:text-darkMode-accent"
                 >
                   Terms of Service
                 </button>
@@ -506,15 +506,15 @@ const EnhancedProfileSetup = () => {
                 name="privacyAccepted"
                 checked={formData.privacyAccepted}
                 onChange={handleInputChange}
-                className="mt-1 h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+                className="mt-1 h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
                 required
               />
-              <span className="ml-2 text-sm text-gray-700">
+              <span className="ml-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                 I have read and accept the{' '}
                 <button
                   type="button"
                   onClick={() => { setLegalDocument('privacy'); setShowLegalModal(true); }}
-                  className="text-[#3DAEDB] underline hover:text-[#2A9BC8]"
+                  className="text-primary-light dark:text-darkMode-link underline hover:text-primary dark:hover:text-darkMode-accent"
                 >
                   Privacy Policy
                 </button>
@@ -528,32 +528,32 @@ const EnhancedProfileSetup = () => {
 
   const renderSection2 = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-bold text-[#1C3D6E]">Accessibility & Support</h3>
+      <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Accessibility & Support</h3>
 
       {/* PWD Status */}
-      <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+      <div className="bg-info/10 dark:bg-darkMode-link/10 border-2 border-info/20 dark:border-darkMode-link/20 rounded-xl p-6">
         <label className="flex items-center cursor-pointer">
           <input
             type="checkbox"
             name="isPWD"
             checked={formData.isPWD}
             onChange={handleInputChange}
-            className="h-5 w-5 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+            className="h-5 w-5 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
           />
-          <span className="ml-3 text-sm font-medium text-[#1C3D6E]">
+          <span className="ml-3 text-sm font-medium text-primary-dark dark:text-darkMode-text">
             I am a Person with Disability (PWD)
           </span>
         </label>
 
         {formData.isPWD && (
           <div className="mt-4">
-            <label htmlFor="impairmentType" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+            <label htmlFor="impairmentType" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
               Type of Impairment *
             </label>
             <select
               id="impairmentType" name="impairmentType" required
               value={formData.impairmentType} onChange={handleInputChange}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+              className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
             >
               <option value="">Select Impairment Type</option>
               {impairmentTypes.map(type => (
@@ -566,10 +566,10 @@ const EnhancedProfileSetup = () => {
 
       {/* Parent/Guardian Info */}
       {formData.requiresParentInfo && (
-        <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6">
-          <h4 className="font-semibold text-[#1C3D6E] mb-4">
+        <div className="bg-success/10 dark:bg-darkMode-success/10 border-2 border-success/20 dark:border-darkMode-success/20 rounded-xl p-6">
+          <h4 className="font-semibold text-primary-dark dark:text-darkMode-text mb-4">
             Parent/Guardian Information *
-            <p className="text-sm font-normal text-gray-600 mt-1">
+            <p className="text-sm font-normal text-neutral-dark/60 dark:text-darkMode-textMuted mt-1">
               {age < 18 && !formData.isPWD && 'Required for users under 18'}
               {age >= 18 && formData.isPWD && 'Required for all PWD users'}
               {age < 18 && formData.isPWD && 'Required for users under 18 and PWD users'}
@@ -578,25 +578,25 @@ const EnhancedProfileSetup = () => {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+              <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                 Full Name *
               </label>
               <input
                 name="parentGuardian.name" type="text" required
                 value={formData.parentGuardian.name} onChange={handleInputChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+                className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
                 placeholder="Parent/Guardian name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+              <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                 Relationship *
               </label>
               <select
                 name="parentGuardian.relationship" required
                 value={formData.parentGuardian.relationship} onChange={handleInputChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+                className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
               >
                 <option value="">Select Relationship</option>
                 <option value="parent">Parent</option>
@@ -607,25 +607,25 @@ const EnhancedProfileSetup = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+              <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                 Email *
               </label>
               <input
                 name="parentGuardian.email" type="email" required
                 value={formData.parentGuardian.email} onChange={handleInputChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+                className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
                 placeholder="parent@email.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+              <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                 Phone *
               </label>
               <input
                 name="parentGuardian.phone" type="tel" required
                 value={formData.parentGuardian.phone} onChange={handleInputChange}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+                className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
                 placeholder="+254..."
               />
             </div>
@@ -637,20 +637,20 @@ const EnhancedProfileSetup = () => {
 
   const renderSection3 = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-bold text-[#1C3D6E]">Education & Profile Photo</h3>
+      <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Education & Profile Photo</h3>
 
       {/* Profile Photo */}
       <div>
-        <label className="block text-sm font-semibold text-[#1C3D6E] mb-3">
+        <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-3">
           Profile Photo (Passport Size)
         </label>
 
         <div className="flex items-center gap-4">
-          <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center bg-gray-50">
+          <div className="w-32 h-32 border-2 border-dashed border-neutral-gray dark:border-darkMode-border rounded-xl flex items-center justify-center bg-neutral-gray/50 dark:bg-darkMode-surfaceHover">
             {photoPreview ? (
               <img src={photoPreview} alt="Preview" className="w-full h-full object-cover rounded-xl" />
             ) : (
-              <Image className="w-12 h-12 text-gray-400" />
+              <Image className="w-12 h-12 text-neutral-dark/40 dark:text-darkMode-textMuted" />
             )}
           </div>
 
@@ -664,25 +664,25 @@ const EnhancedProfileSetup = () => {
             />
             <label
               htmlFor="profilePhoto"
-              className="inline-flex items-center px-4 py-2 bg-[#3DAEDB] text-white rounded-lg cursor-pointer hover:bg-[#2A9BC8]"
+              className="inline-flex items-center px-4 py-2 bg-primary-light dark:bg-darkMode-progress text-white rounded-lg cursor-pointer hover:bg-primary dark:hover:bg-darkMode-success transition-colors"
             >
               <Upload className="w-4 h-4 mr-2" />
               Upload Photo
             </label>
-            <p className="text-xs text-gray-500 mt-2">Max 5MB, JPG/PNG</p>
+            <p className="text-xs text-neutral-dark/50 dark:text-darkMode-textMuted mt-2">Max 5MB, JPG/PNG</p>
           </div>
         </div>
       </div>
 
       {/* Education Level */}
       <div>
-        <label htmlFor="educationLevel" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+        <label htmlFor="educationLevel" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
           Current Education Level *
         </label>
         <select
           id="educationLevel" name="educationLevel" required
           value={formData.educationLevel} onChange={handleInputChange}
-          className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+          className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
         >
           <option value="">Select Education Level</option>
           {educationLevels.map(level => (
@@ -693,7 +693,7 @@ const EnhancedProfileSetup = () => {
 
       {/* Education Documents */}
       <div>
-        <label className="block text-sm font-semibold text-[#1C3D6E] mb-3">
+        <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-3">
           Education Documents (Certificates, Diplomas, Transcripts)
         </label>
 
@@ -707,21 +707,21 @@ const EnhancedProfileSetup = () => {
         />
         <label
           htmlFor="educationDocs"
-          className="inline-flex items-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#3DAEDB] hover:bg-blue-50"
+          className="inline-flex items-center px-4 py-3 border-2 border-dashed border-neutral-gray dark:border-darkMode-border rounded-xl cursor-pointer hover:border-primary-light dark:hover:border-darkMode-progress hover:bg-info/5 dark:hover:bg-darkMode-link/5 transition-colors"
         >
-          <Upload className="w-5 h-5 mr-2 text-gray-600" />
-          <span className="text-sm text-gray-700">Upload Documents (PDF, JPG, PNG - Max 10MB each)</span>
+          <Upload className="w-5 h-5 mr-2 text-neutral-dark/60 dark:text-darkMode-textMuted" />
+          <span className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">Upload Documents (PDF, JPG, PNG - Max 10MB each)</span>
         </label>
 
         {formData.educationDocuments.length > 0 && (
           <div className="mt-3 space-y-2">
             {formData.educationDocuments.map((doc, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-700 truncate flex-1">{doc.name}</span>
+              <div key={index} className="flex items-center justify-between p-3 bg-neutral-gray/50 dark:bg-darkMode-surfaceHover rounded-lg">
+                <span className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary truncate flex-1">{doc.name}</span>
                 <button
                   type="button"
                   onClick={() => removeDocument(index)}
-                  className="ml-2 text-red-500 hover:text-red-700"
+                  className="ml-2 text-error hover:text-error-dark dark:text-error-light dark:hover:text-error"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -735,23 +735,23 @@ const EnhancedProfileSetup = () => {
 
   const renderSection4 = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-bold text-[#1C3D6E]">Hobbies, Talents & Consent</h3>
+      <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Hobbies, Talents & Consent</h3>
 
       {/* Hobbies */}
       <div>
-        <label className="block text-sm font-semibold text-[#1C3D6E] mb-3">
+        <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-3">
           Hobbies (Select all that apply)
         </label>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {commonHobbies.map((hobby) => (
-            <label key={hobby} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-[#3DAEDB] cursor-pointer">
+            <label key={hobby} className="flex items-center p-3 rounded-lg border-2 border-neutral-gray dark:border-darkMode-border hover:border-primary-light dark:hover:border-darkMode-progress cursor-pointer transition-colors">
               <input
                 type="checkbox"
                 checked={formData.hobbies.includes(hobby)}
                 onChange={() => handleToggle('hobbies', hobby)}
-                className="h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+                className="h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
               />
-              <span className="ml-2 text-sm">{hobby}</span>
+              <span className="ml-2 text-sm text-neutral-dark dark:text-darkMode-textSecondary">{hobby}</span>
             </label>
           ))}
         </div>
@@ -762,25 +762,25 @@ const EnhancedProfileSetup = () => {
           value={formData.customHobby}
           onChange={handleInputChange}
           placeholder="Other hobby (optional)"
-          className="mt-3 w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+          className="mt-3 w-full px-4 py-2 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
         />
       </div>
 
       {/* Talents */}
       <div>
-        <label className="block text-sm font-semibold text-[#1C3D6E] mb-3">
+        <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-3">
           Talents (Select all that apply)
         </label>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {commonTalents.map((talent) => (
-            <label key={talent} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-[#3DAEDB] cursor-pointer">
+            <label key={talent} className="flex items-center p-3 rounded-lg border-2 border-neutral-gray dark:border-darkMode-border hover:border-primary-light dark:hover:border-darkMode-progress cursor-pointer transition-colors">
               <input
                 type="checkbox"
                 checked={formData.talents.includes(talent)}
                 onChange={() => handleToggle('talents', talent)}
-                className="h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+                className="h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
               />
-              <span className="ml-2 text-sm">{talent}</span>
+              <span className="ml-2 text-sm text-neutral-dark dark:text-darkMode-textSecondary">{talent}</span>
             </label>
           ))}
         </div>
@@ -791,13 +791,13 @@ const EnhancedProfileSetup = () => {
           value={formData.customTalent}
           onChange={handleInputChange}
           placeholder="Other talent (optional)"
-          className="mt-3 w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB]"
+          className="mt-3 w-full px-4 py-2 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus text-neutral-dark dark:text-darkMode-text"
         />
       </div>
 
       {/* Consents */}
-      <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-6 space-y-4">
-        <h4 className="font-semibold text-[#1C3D6E] mb-3">Data Usage & Consent</h4>
+      <div className="bg-accent-goldSoft/20 dark:bg-darkMode-accent/10 border-2 border-accent-goldMuted/30 dark:border-darkMode-accent/20 rounded-xl p-6 space-y-4">
+        <h4 className="font-semibold text-primary-dark dark:text-darkMode-text mb-3">Data Usage & Consent</h4>
 
         <label className="flex items-start cursor-pointer">
           <input
@@ -805,11 +805,11 @@ const EnhancedProfileSetup = () => {
             name="dataConsentAccepted"
             checked={formData.dataConsentAccepted}
             onChange={handleInputChange}
-            className="mt-1 h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+            className="mt-1 h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
             required
           />
-          <span className="ml-3 text-sm text-gray-700">
-            <strong className="text-[#1C3D6E]">Data Consent *</strong><br />
+          <span className="ml-3 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
+            <strong className="text-primary-dark dark:text-darkMode-text">Data Consent *</strong><br />
             I consent to TFDN collecting and processing my personal data for educational purposes, career guidance, and program improvement as described in the Privacy Policy.
           </span>
         </label>
@@ -820,10 +820,10 @@ const EnhancedProfileSetup = () => {
             name="mediaConsentAccepted"
             checked={formData.mediaConsentAccepted}
             onChange={handleInputChange}
-            className="mt-1 h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+            className="mt-1 h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
           />
-          <span className="ml-3 text-sm text-gray-700">
-            <strong className="text-[#1C3D6E]">Media Consent</strong><br />
+          <span className="ml-3 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
+            <strong className="text-primary-dark dark:text-darkMode-text">Media Consent</strong><br />
             I consent to TFDN using my photos and success stories for program promotion and impact reporting (your identity can be anonymized upon request).
           </span>
         </label>
@@ -834,10 +834,10 @@ const EnhancedProfileSetup = () => {
             name="newsletterOptIn"
             checked={formData.newsletterOptIn}
             onChange={handleInputChange}
-            className="mt-1 h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] rounded"
+            className="mt-1 h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus rounded"
           />
-          <span className="ml-3 text-sm text-gray-700">
-            <strong className="text-[#1C3D6E]">Newsletter</strong><br />
+          <span className="ml-3 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
+            <strong className="text-primary-dark dark:text-darkMode-text">Newsletter</strong><br />
             Yes, I would like to receive updates about new courses, opportunities, and TFDN programs via email.
           </span>
         </label>
@@ -846,32 +846,32 @@ const EnhancedProfileSetup = () => {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-forest-mist dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter'] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <OnboardingProgress currentStep={2} totalSteps={6} stepLabels={stepLabels} />
 
         <div className="max-w-3xl mx-auto space-y-8 animate-fade-in">
           <button
             onClick={() => navigate('/onboarding/age-verification')}
-            className="flex items-center text-[#1C3D6E] hover:text-[#3DAEDB] transition-colors mb-4"
+            className="flex items-center text-primary-dark dark:text-darkMode-text hover:text-primary-light dark:hover:text-darkMode-accent transition-colors mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Age Verification
           </button>
 
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#1C3D6E] to-[#4A9E3D] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary-dark to-secondary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg dark:shadow-dark">
               <UserCheck className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-4xl font-bold text-[#1C3D6E] mb-3">
+            <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-3">
               Complete Your Profile
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-lg max-w-2xl mx-auto">
               Section {currentSection} of 4: {['Basic Information', 'Accessibility & Support', 'Education & Photo', 'Hobbies & Consent'][currentSection - 1]}
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg p-8">
             <form onSubmit={currentSection === 4 ? handleSubmit : (e) => { e.preventDefault(); handleNext(); }}>
               {currentSection === 1 && renderSection1()}
               {currentSection === 2 && renderSection2()}
@@ -883,7 +883,7 @@ const EnhancedProfileSetup = () => {
                   <button
                     type="button"
                     onClick={() => setCurrentSection(prev => prev - 1)}
-                    className="flex-1 py-4 px-6 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50"
+                    className="flex-1 py-4 px-6 border-2 border-neutral-gray dark:border-darkMode-border text-neutral-dark/70 dark:text-darkMode-textSecondary rounded-xl font-semibold hover:bg-neutral-gray/50 dark:hover:bg-darkMode-surfaceHover transition-colors"
                   >
                     <ArrowLeft className="w-5 h-5 inline mr-2" />
                     Previous
@@ -892,7 +892,7 @@ const EnhancedProfileSetup = () => {
 
                 <button
                   type="submit"
-                  className="flex-1 py-4 px-6 bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white rounded-xl font-semibold hover:shadow-lg"
+                  className="flex-1 py-4 px-6 bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white rounded-xl font-semibold hover:shadow-lg transition-all"
                 >
                   {currentSection === 4 ? 'Complete Profile' : 'Next Section'}
                   <ArrowRight className="w-5 h-5 inline ml-2" />

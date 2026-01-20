@@ -138,17 +138,17 @@ export default function FeedbackSystem() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 bg-primary-dark rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-primary-dark dark:bg-darkMode-navbar rounded-xl flex items-center justify-center">
               <span className="text-2xl">💭</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E]">Feedback & Support</h1>
-              <p className="text-gray-600">Help us improve your learning experience</p>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text">Feedback & Support</h1>
+              <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">Help us improve your learning experience</p>
             </div>
           </div>
 
@@ -180,8 +180,8 @@ export default function FeedbackSystem() {
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`flex items-center gap-2 px-4 py-3 rounded-md font-medium transition-colors flex-1 justify-center ${
                 activeTab === tab.id
-                  ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-50'
+                  ? 'bg-primary-dark dark:bg-darkMode-navbar text-white'
+                  : 'text-neutral-dark/70 dark:text-darkMode-textSecondary hover:text-primary-dark dark:text-darkMode-text hover:bg-gray-50'
               }`}
             >
               <span>{tab.icon}</span>
@@ -192,13 +192,13 @@ export default function FeedbackSystem() {
 
         {/* Submit Feedback Tab */}
         {activeTab === 'submit' && (
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Submit New Feedback</h2>
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
+            <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-6">Submit New Feedback</h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Feedback Type */}
               <div>
-                <label className="block text-sm font-medium text-[#1C3D6E] mb-3">Feedback Type</label>
+                <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-3">Feedback Type</label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {(['bug', 'feature', 'improvement', 'general'] as const).map((type) => (
                     <button
@@ -207,8 +207,8 @@ export default function FeedbackSystem() {
                       onClick={() => setFeedbackForm(prev => ({ ...prev, type, category: '' }))}
                       className={`flex items-center gap-2 p-3 rounded-lg border-2 transition-colors capitalize ${
                         feedbackForm.type === type
-                          ? 'border-[#4A9E3D] bg-[#4A9E3D]/5 text-[#4A9E3D]'
-                          : 'border-gray-200 hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5'
+                          ? 'border-secondary bg-secondary/5 text-secondary dark:border-darkMode-success dark:bg-darkMode-success/10 dark:text-darkMode-success'
+                          : 'border-gray-200 hover:border-primary hover:bg-primary/5 dark:hover:border-darkMode-link dark:hover:bg-darkMode-link/10'
                       }`}
                     >
                       <span>{getTypeIcon(type)}</span>
@@ -221,11 +221,11 @@ export default function FeedbackSystem() {
               {/* Category */}
               {feedbackForm.type && (
                 <div>
-                  <label className="block text-sm font-medium text-[#1C3D6E] mb-2">Category</label>
+                  <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-2">Category</label>
                   <select
                     value={feedbackForm.category || ''}
                     onChange={(e) => setFeedbackForm(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 dark:border-darkMode-border dark:bg-darkMode-bg dark:text-darkMode-text rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-link focus:border-transparent"
                     required
                   >
                     <option value="">Select a category</option>
@@ -238,33 +238,33 @@ export default function FeedbackSystem() {
 
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-[#1C3D6E] mb-2">Title</label>
+                <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-2">Title</label>
                 <input
                   type="text"
                   value={feedbackForm.title || ''}
                   onChange={(e) => setFeedbackForm(prev => ({ ...prev, title: e.target.value }))}
                   placeholder="Brief description of your feedback"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border dark:bg-darkMode-bg dark:text-darkMode-text rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-link focus:border-transparent"
                   required
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-[#1C3D6E] mb-2">Description</label>
+                <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-2">Description</label>
                 <textarea
                   value={feedbackForm.description || ''}
                   onChange={(e) => setFeedbackForm(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="Please provide detailed information about your feedback..."
                   rows={5}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border dark:bg-darkMode-bg dark:text-darkMode-text rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-link focus:border-transparent"
                   required
                 />
               </div>
 
               {/* Priority */}
               <div>
-                <label className="block text-sm font-medium text-[#1C3D6E] mb-3">Priority</label>
+                <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-3">Priority</label>
                 <div className="flex gap-3">
                   {(['low', 'medium', 'high'] as const).map((priority) => (
                     <button
@@ -273,8 +273,8 @@ export default function FeedbackSystem() {
                       onClick={() => setFeedbackForm(prev => ({ ...prev, priority }))}
                       className={`px-4 py-2 rounded-lg border-2 transition-colors capitalize ${
                         feedbackForm.priority === priority
-                          ? 'border-[#4A9E3D] bg-[#4A9E3D]/5 text-[#4A9E3D]'
-                          : 'border-gray-200 hover:border-[#3DAEDB]'
+                          ? 'border-secondary bg-secondary/5 text-secondary dark:border-darkMode-success dark:bg-darkMode-success/10 dark:text-darkMode-success'
+                          : 'border-gray-200 hover:border-primary dark:hover:border-darkMode-link'
                       }`}
                     >
                       <span className={getPriorityColor(priority)}>●</span> {priority}
@@ -285,10 +285,10 @@ export default function FeedbackSystem() {
 
               {/* Contact Information */}
               <div className="border-t pt-6">
-                <h3 className="font-semibold text-[#1C3D6E] mb-4">Contact Information (Optional)</h3>
+                <h3 className="font-semibold text-primary-dark dark:text-darkMode-text mb-4">Contact Information (Optional)</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-[#1C3D6E] mb-2">Email</label>
+                    <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-text mb-2">Email</label>
                     <input
                       type="email"
                       value={feedbackForm.contactInfo?.email || ''}
@@ -297,7 +297,7 @@ export default function FeedbackSystem() {
                         contactInfo: { ...prev.contactInfo!, email: e.target.value }
                       }))}
                       placeholder="your.email@example.com"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 dark:border-darkMode-border dark:bg-darkMode-bg dark:text-darkMode-text rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-link focus:border-transparent"
                     />
                   </div>
                   <label className="flex items-center gap-3">
@@ -308,9 +308,9 @@ export default function FeedbackSystem() {
                         ...prev,
                         contactInfo: { ...prev.contactInfo!, allowContact: e.target.checked }
                       }))}
-                      className="rounded border-gray-300 focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 focus:ring-primary dark:focus:ring-darkMode-link"
                     />
-                    <span className="text-sm text-gray-700">
+                    <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">
                       Allow us to contact you for follow-up questions
                     </span>
                   </label>
@@ -333,7 +333,7 @@ export default function FeedbackSystem() {
                     contactInfo: { email: '', allowContact: true },
                     attachments: []
                   })}
-                  className="px-6 py-3 border border-gray-300 text-gray-600 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 border border-gray-300 dark:border-darkMode-border dark:bg-darkMode-bg dark:text-darkMode-text text-neutral-dark/70 dark:text-darkMode-textSecondary rounded-lg font-medium hover:bg-gray-50 transition-colors"
                 >
                   Clear
                 </button>
@@ -345,10 +345,10 @@ export default function FeedbackSystem() {
         {/* Community Feedback Tab */}
         {activeTab === 'community' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#1C3D6E]">Community Feedback</h2>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">Community Feedback</h2>
+                <div className="flex items-center gap-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                   <span>📊</span>
                   <span>{communityFeedback.length} submissions</span>
                 </div>
@@ -356,13 +356,13 @@ export default function FeedbackSystem() {
 
               <div className="space-y-4">
                 {communityFeedback.map((item) => (
-                  <div key={item.id} className="border border-gray-200 rounded-lg p-6">
+                  <div key={item.id} className="border border-gray-200 dark:border-darkMode-border rounded-lg p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{getTypeIcon(item.type)}</span>
                         <div>
-                          <h3 className="font-bold text-[#1C3D6E]">{item.title}</h3>
-                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <h3 className="font-bold text-primary-dark dark:text-darkMode-text">{item.title}</h3>
+                          <div className="flex items-center gap-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                             <span className="capitalize">{item.type}</span>
                             <span>•</span>
                             <span>{item.category}</span>
@@ -378,7 +378,7 @@ export default function FeedbackSystem() {
                       </span>
                     </div>
 
-                    <p className="text-gray-700 mb-4">{item.description}</p>
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">{item.description}</p>
 
                     {item.response && (
                       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
@@ -393,7 +393,7 @@ export default function FeedbackSystem() {
                     )}
 
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-sm text-gray-600">
+                      <div className="flex items-center gap-4 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                         <span>📅 {new Date(item.submittedDate).toLocaleDateString()}</span>
                         <span>🔄 Updated {new Date(item.lastUpdate).toLocaleDateString()}</span>
                       </div>
@@ -402,8 +402,8 @@ export default function FeedbackSystem() {
                           onClick={() => handleVote(item.id)}
                           className={`flex items-center gap-1 px-3 py-1 rounded-lg transition-colors ${
                             item.userVoted
-                              ? 'bg-[#4A9E3D] text-white'
-                              : 'bg-gray-100 text-gray-600 hover:bg-[#4A9E3D] hover:text-white'
+                              ? 'bg-secondary dark:bg-darkMode-success text-white'
+                              : 'bg-gray-100 text-neutral-dark/70 dark:text-darkMode-textSecondary hover:bg-secondary dark:bg-darkMode-success hover:text-white'
                           }`}
                         >
                           <span>👍</span>
@@ -420,18 +420,18 @@ export default function FeedbackSystem() {
 
         {/* My Feedback Tab */}
         {activeTab === 'my_feedback' && (
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">My Submitted Feedback</h2>
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
+            <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-6">My Submitted Feedback</h2>
 
             <div className="space-y-4">
               {mockFeedback.slice(0, 2).map((item) => (
-                <div key={item.id} className="border border-gray-200 rounded-lg p-6">
+                <div key={item.id} className="border border-gray-200 dark:border-darkMode-border rounded-lg p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{getTypeIcon(item.type)}</span>
                       <div>
-                        <h3 className="font-bold text-[#1C3D6E]">{item.title}</h3>
-                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <h3 className="font-bold text-primary-dark dark:text-darkMode-text">{item.title}</h3>
+                        <div className="flex items-center gap-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                           <span className="capitalize">{item.type}</span>
                           <span>•</span>
                           <span>{item.category}</span>
@@ -445,7 +445,7 @@ export default function FeedbackSystem() {
                     </span>
                   </div>
 
-                  <p className="text-gray-700 mb-4">{item.description}</p>
+                  <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">{item.description}</p>
 
                   {item.response && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
@@ -459,7 +459,7 @@ export default function FeedbackSystem() {
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between text-sm text-gray-600">
+                  <div className="flex items-center justify-between text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                     <span>📅 Submitted {new Date(item.submittedDate).toLocaleDateString()}</span>
                     <span>🔄 Last updated {new Date(item.lastUpdate).toLocaleDateString()}</span>
                   </div>

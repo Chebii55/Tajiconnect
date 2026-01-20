@@ -390,12 +390,12 @@ const ProfileSetup = () => {
   const stepLabels = ['Welcome', 'Verify Age', 'Profile', 'Assessment', 'Psychometric', 'Roadmap']
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-forest-mist dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Progress Indicator */}
-        <OnboardingProgress 
-          currentStep={2} 
-          totalSteps={6} 
+        <OnboardingProgress
+          currentStep={2}
+          totalSteps={6}
           stepLabels={stepLabels}
         />
 
@@ -403,29 +403,29 @@ const ProfileSetup = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="flex items-center text-[#1C3D6E] hover:text-[#3DAEDB] transition-colors duration-200 mb-4"
+            className="flex items-center text-primary-dark dark:text-darkMode-text hover:text-primary-light dark:hover:text-darkMode-accent transition-colors duration-200 mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Age Verification
           </button>
 
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#1C3D6E] to-[#4A9E3D] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary-dark to-secondary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg dark:shadow-dark">
               <UserCheck className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-4xl font-bold text-[#1C3D6E] mb-3">
+            <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-3">
               Complete Your Profile
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-lg max-w-2xl mx-auto">
               Tell us about yourself to personalize your learning experience and create your unique learning path
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border-0 p-8">
+          <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8">
             <form className="space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="firstName" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   First Name
                 </label>
                 <input
@@ -435,13 +435,13 @@ const ProfileSetup = () => {
                   required
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                   placeholder="Enter your first name"
                 />
               </div>
 
               <div>
-                <label htmlFor="lastName" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="lastName" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   Last Name
                 </label>
                 <input
@@ -451,13 +451,13 @@ const ProfileSetup = () => {
                   required
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                   placeholder="Enter your last name"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="email" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   Email Address
                 </label>
                 <input
@@ -467,17 +467,17 @@ const ProfileSetup = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                   placeholder="your@email.com"
                   disabled={!!formData.email}
                 />
                 {formData.email && (
-                  <p className="text-sm text-gray-500 mt-1">Email from registration</p>
+                  <p className="text-sm text-neutral-dark/50 dark:text-darkMode-textMuted mt-1">Email from registration</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="phone" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   Phone Number (Optional)
                 </label>
                 <input
@@ -486,13 +486,13 @@ const ProfileSetup = () => {
                   type="tel"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
 
               <div>
-                <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   Date of Birth
                 </label>
                 <input
@@ -502,16 +502,16 @@ const ProfileSetup = () => {
                   required
                   value={formData.dateOfBirth}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                   disabled={!!formData.dateOfBirth}
                 />
                 {formData.dateOfBirth && (
-                  <p className="text-sm text-gray-500 mt-1">Date from previous step</p>
+                  <p className="text-sm text-neutral-dark/50 dark:text-darkMode-textMuted mt-1">Date from previous step</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="gender" className="block text-sm font-semibold text-[#1C3D6E] mb-2">
+                <label htmlFor="gender" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">
                   Gender (Optional)
                 </label>
                 <select
@@ -519,7 +519,7 @@ const ProfileSetup = () => {
                   name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-neutral-dark dark:text-darkMode-text"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -531,30 +531,30 @@ const ProfileSetup = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-[#1C3D6E] mb-4">
+              <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-4">
                 Interests (Select all that apply)
               </label>
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {availableInterests.map((interest) => (
-                  <label key={interest} className="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 cursor-pointer transition-all duration-200">
+                  <label key={interest} className="flex items-center p-3 rounded-lg border-2 border-neutral-gray dark:border-darkMode-border hover:border-primary-light dark:hover:border-darkMode-progress hover:bg-primary-light/5 dark:hover:bg-darkMode-progress/5 cursor-pointer transition-all duration-200">
                     <input
                       type="checkbox"
                       checked={formData.interests.includes(interest)}
                       onChange={() => handleInterestToggle(interest)}
-                      className="h-4 w-4 text-[#1C3D6E] focus:ring-[#3DAEDB] border-gray-300 rounded"
+                      className="h-4 w-4 text-primary-dark dark:text-darkMode-progress focus:ring-primary-light dark:focus:ring-darkMode-focus border-neutral-gray dark:border-darkMode-border rounded"
                     />
-                    <span className="ml-3 text-sm font-medium text-[#1C3D6E]">{interest}</span>
+                    <span className="ml-3 text-sm font-medium text-primary-dark dark:text-darkMode-text">{interest}</span>
                   </label>
                 ))}
               </div>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-neutral-dark/50 dark:text-darkMode-textMuted mt-2">
                 This helps us recommend relevant courses and content
               </p>
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 px-6 bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white rounded-xl hover:from-[#2A9BC8] hover:to-[#1F6B61] focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
+              className="w-full py-4 px-6 bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white rounded-xl hover:from-primary hover:to-forest-deep dark:hover:from-darkMode-success dark:hover:to-darkMode-progress focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:ring-offset-2 dark:focus:ring-offset-darkMode-bg transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
             >
               Continue to Assessment
               <ArrowRight className="w-5 h-5 ml-2 inline" />

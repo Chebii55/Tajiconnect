@@ -20,10 +20,10 @@ const Sidebar = ({ title, items, bottomItems, className = "" }: SidebarProps) =>
   const isActivePath = (path: string) => location.pathname === path
 
   return (
-    <aside className={`w-60 bg-[#F9FAFB] p-3 rounded-2xl shadow-sm border border-gray-100 ${className}`}>
+    <aside className={`w-60 bg-neutral-light dark:bg-darkMode-surface p-3 rounded-2xl shadow-sm border border-gray-100 ${className}`}>
       {title && (
         <div className="mb-4 px-3">
-          <h2 className="text-lg font-semibold text-[#1C3D6E]">{title}</h2>
+          <h2 className="text-lg font-semibold text-primary-dark dark:text-darkMode-text">{title}</h2>
         </div>
       )}
       
@@ -34,12 +34,12 @@ const Sidebar = ({ title, items, bottomItems, className = "" }: SidebarProps) =>
             to={item.path}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               isActivePath(item.path)
-                ? 'bg-[#E6F0FF] text-[#1C3D6E]'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-[#1C3D6E]'
+                ? 'bg-primary/10 dark:bg-darkMode-accent/20 text-primary-dark dark:text-darkMode-text'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-primary-dark dark:text-darkMode-text'
             }`}
           >
             <item.icon className={`w-4 h-4 ${
-              isActivePath(item.path) ? 'text-[#1C3D6E]' : 'text-gray-500'
+              isActivePath(item.path) ? 'text-primary-dark dark:text-darkMode-text' : 'text-gray-500'
             }`} />
             <span>{item.label}</span>
           </Link>
@@ -54,7 +54,7 @@ const Sidebar = ({ title, items, bottomItems, className = "" }: SidebarProps) =>
               <Link
                 key={item.path}
                 to={item.path}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-[#1C3D6E]"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-dark dark:text-darkMode-text"
               >
                 <item.icon className="w-4 h-4" />
                 <span>{item.label}</span>

@@ -179,30 +179,30 @@ export default function NotificationCenter() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-primary-dark rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-primary-dark dark:bg-darkMode-navbar rounded-xl flex items-center justify-center">
                 <span className="text-2xl">🔔</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#1C3D6E]">Notification Center</h1>
-                <p className="text-gray-600">Stay updated with your learning progress and activities</p>
+                <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text">Notification Center</h1>
+                <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">Stay updated with your learning progress and activities</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-[#4A9E3D]">{unreadCount}</div>
-                <div className="text-sm text-gray-600">Unread</div>
+                <div className="text-2xl font-bold text-secondary dark:text-darkMode-success">{unreadCount}</div>
+                <div className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">Unread</div>
               </div>
               {highPriorityCount > 0 && (
                 <div className="text-center">
                   <div className="text-2xl font-bold text-red-500">{highPriorityCount}</div>
-                  <div className="text-sm text-gray-600">High Priority</div>
+                  <div className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">High Priority</div>
                 </div>
               )}
             </div>
@@ -213,15 +213,15 @@ export default function NotificationCenter() {
             <button
               onClick={markAllAsRead}
               disabled={unreadCount === 0}
-              className="px-4 py-2 bg-[#4A9E3D] text-white rounded-lg font-medium hover:bg-[#2F6B29] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-secondary dark:bg-darkMode-success text-white rounded-lg font-medium hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Mark All as Read
             </button>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
               <span>📊</span>
               <span>{notifications.length} total notifications</span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
               <span>🎯</span>
               <span>{notifications.filter(n => n.type === 'achievement').length} achievements</span>
             </div>
@@ -243,14 +243,14 @@ export default function NotificationCenter() {
               onClick={() => setFilter(tab.id as typeof filter)}
               className={`px-4 py-2 rounded-md font-medium transition-colors ${
                 filter === tab.id
-                  ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-50'
+                  ? 'bg-primary-dark dark:bg-darkMode-navbar text-white'
+                  : 'text-neutral-dark/70 dark:text-darkMode-textSecondary hover:text-primary-dark dark:text-darkMode-text hover:bg-gray-50'
               }`}
             >
               {tab.label}
               {tab.count > 0 && (
                 <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
-                  filter === tab.id ? 'bg-white text-[#1C3D6E]' : 'bg-gray-200 text-gray-600'
+                  filter === tab.id ? 'bg-white text-primary-dark dark:text-darkMode-text' : 'bg-gray-200 text-neutral-dark/70 dark:text-darkMode-textSecondary'
                 }`}>
                   {tab.count}
                 </span>
@@ -264,8 +264,8 @@ export default function NotificationCenter() {
           {filteredNotifications.length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">📭</div>
-              <h3 className="text-xl font-bold text-[#1C3D6E] mb-2">No notifications</h3>
-              <p className="text-gray-600">
+              <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-2">No notifications</h3>
+              <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">
                 {filter === 'unread' ? 'All caught up! No unread notifications.' : 'You\'re all set! No notifications found.'}
               </p>
             </div>
@@ -273,9 +273,9 @@ export default function NotificationCenter() {
             filteredNotifications.map((notification) => (
               <div
                 key={notification.id}
-                className={`bg-white rounded-xl shadow-lg border-l-4 transition-all hover:shadow-xl ${
+                className={`bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark border-l-4 transition-all hover:shadow-xl ${
                   getPriorityColor(notification.priority)
-                } ${!notification.read ? 'ring-2 ring-[#3DAEDB]/20' : ''}`}
+                } ${!notification.read ? 'ring-2 ring-primary dark:ring-darkMode-link/20' : ''}`}
               >
                 <div className="p-6">
                   <div className="flex items-start gap-4">
@@ -286,20 +286,20 @@ export default function NotificationCenter() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className={`font-bold text-lg ${!notification.read ? 'text-[#1C3D6E]' : 'text-gray-700'}`}>
+                          <h3 className={`font-bold text-lg ${!notification.read ? 'text-primary-dark dark:text-darkMode-text' : 'text-neutral-dark/80 dark:text-darkMode-textSecondary'}`}>
                             {notification.title}
                             {!notification.read && (
-                              <span className="ml-2 w-2 h-2 bg-[#4A9E3D] rounded-full inline-block"></span>
+                              <span className="ml-2 w-2 h-2 bg-secondary dark:bg-darkMode-success rounded-full inline-block"></span>
                             )}
                           </h3>
-                          <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <div className="flex items-center gap-2 text-sm text-neutral-dark/60 dark:text-darkMode-textMuted">
                             <span>{notification.category}</span>
                             <span>•</span>
                             <span>{formatTime(notification.timestamp)}</span>
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                               notification.priority === 'high' ? 'bg-red-100 text-red-700' :
                               notification.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-gray-100 text-gray-600'
+                              'bg-gray-100 text-neutral-dark/70 dark:text-darkMode-textSecondary'
                             }`}>
                               {notification.priority} priority
                             </span>
@@ -310,7 +310,7 @@ export default function NotificationCenter() {
                           {!notification.read && (
                             <button
                               onClick={() => markAsRead(notification.id)}
-                              className="text-[#3DAEDB] hover:text-[#1C3D6E] text-sm font-medium"
+                              className="text-primary dark:text-darkMode-link hover:text-primary-dark dark:text-darkMode-text text-sm font-medium"
                             >
                               Mark as read
                             </button>
@@ -319,7 +319,7 @@ export default function NotificationCenter() {
                             onClick={() => setExpandedNotification(
                               expandedNotification === notification.id ? null : notification.id
                             )}
-                            className="text-gray-400 hover:text-gray-600"
+                            className="text-gray-400 hover:text-neutral-dark/70 dark:text-darkMode-textSecondary"
                           >
                             {expandedNotification === notification.id ? '−' : '+'}
                           </button>
@@ -332,7 +332,7 @@ export default function NotificationCenter() {
                         </div>
                       </div>
 
-                      <p className={`text-sm mb-4 ${!notification.read ? 'text-gray-700' : 'text-gray-600'}`}>
+                      <p className={`text-sm mb-4 ${!notification.read ? 'text-neutral-dark/80 dark:text-darkMode-textSecondary' : 'text-neutral-dark/70 dark:text-darkMode-textSecondary'}`}>
                         {notification.message}
                       </p>
 
@@ -344,7 +344,7 @@ export default function NotificationCenter() {
                           {!notification.read && (
                             <button
                               onClick={() => markAsRead(notification.id)}
-                              className="border border-gray-300 text-gray-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                              className="border border-gray-300 text-neutral-dark/70 dark:text-darkMode-textSecondary px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors"
                             >
                               Dismiss
                             </button>
@@ -356,20 +356,20 @@ export default function NotificationCenter() {
                         <div className="mt-4 pt-4 border-t border-gray-200">
                           <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                              <label className="text-gray-500">Notification ID</label>
+                              <label className="text-neutral-dark/60 dark:text-darkMode-textMuted">Notification ID</label>
                               <p className="font-mono">{notification.id}</p>
                             </div>
                             <div>
-                              <label className="text-gray-500">Type</label>
+                              <label className="text-neutral-dark/60 dark:text-darkMode-textMuted">Type</label>
                               <p className="capitalize">{notification.type}</p>
                             </div>
                             <div>
-                              <label className="text-gray-500">Timestamp</label>
+                              <label className="text-neutral-dark/60 dark:text-darkMode-textMuted">Timestamp</label>
                               <p>{new Date(notification.timestamp).toLocaleString()}</p>
                             </div>
                             <div>
-                              <label className="text-gray-500">Status</label>
-                              <p className={notification.read ? 'text-gray-600' : 'text-[#4A9E3D] font-medium'}>
+                              <label className="text-neutral-dark/60 dark:text-darkMode-textMuted">Status</label>
+                              <p className={notification.read ? 'text-neutral-dark/70 dark:text-darkMode-textSecondary' : 'text-secondary dark:text-darkMode-success font-medium'}>
                                 {notification.read ? 'Read' : 'Unread'}
                               </p>
                             </div>
@@ -385,11 +385,11 @@ export default function NotificationCenter() {
         </div>
 
         {/* Notification Settings */}
-        <div className="mt-8 bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[#1C3D6E] mb-4">Notification Preferences</h2>
+        <div className="mt-8 bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
+          <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-4">Notification Preferences</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold text-[#1C3D6E] mb-3">Email Notifications</h3>
+              <h3 className="font-semibold text-primary-dark dark:text-darkMode-text mb-3">Email Notifications</h3>
               <div className="space-y-2">
                 {[
                   { id: 'achievements', label: 'New achievements and badges', checked: true },
@@ -401,16 +401,16 @@ export default function NotificationCenter() {
                     <input
                       type="checkbox"
                       defaultChecked={setting.checked}
-                      className="rounded border-gray-300 focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 focus:ring-primary dark:ring-darkMode-link"
                     />
-                    <span className="text-sm text-gray-700">{setting.label}</span>
+                    <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">{setting.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-[#1C3D6E] mb-3">Push Notifications</h3>
+              <h3 className="font-semibold text-primary-dark dark:text-darkMode-text mb-3">Push Notifications</h3>
               <div className="space-y-2">
                 {[
                   { id: 'immediate', label: 'Immediate notifications', checked: true },
@@ -422,9 +422,9 @@ export default function NotificationCenter() {
                     <input
                       type="checkbox"
                       defaultChecked={setting.checked}
-                      className="rounded border-gray-300 focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 focus:ring-primary dark:ring-darkMode-link"
                     />
-                    <span className="text-sm text-gray-700">{setting.label}</span>
+                    <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">{setting.label}</span>
                   </label>
                 ))}
               </div>
@@ -432,7 +432,7 @@ export default function NotificationCenter() {
           </div>
 
           <div className="mt-6 pt-6 border-t border-gray-200">
-            <button className="bg-[#4A9E3D] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#2F6B29] transition-colors">
+            <button className="bg-secondary dark:bg-darkMode-success text-white px-6 py-2 rounded-lg font-medium hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors">
               Save Preferences
             </button>
           </div>

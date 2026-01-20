@@ -265,7 +265,7 @@ export default function GoalTracking() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -275,7 +275,7 @@ export default function GoalTracking() {
                 <Target className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Goal Tracking</h1>
+                <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Goal Tracking</h1>
                 <p className="text-gray-600 dark:text-gray-300">Set, track, and achieve your learning objectives</p>
               </div>
             </div>
@@ -303,21 +303,21 @@ export default function GoalTracking() {
           {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#4A9E3D]">{activeGoals.length}</div>
+              <div className="text-2xl font-bold text-secondary">{activeGoals.length}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Active Goals</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#3DAEDB]">{completedGoals.length}</div>
+              <div className="text-2xl font-bold text-primary">{completedGoals.length}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Completed</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#2C857A]">
+              <div className="text-2xl font-bold text-forest-sage">
                 {Math.round(activeGoals.reduce((sum, g) => sum + calculateProgress(g), 0) / Math.max(activeGoals.length, 1))}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Avg Progress</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{overdueGoals.length}</div>
+              <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{overdueGoals.length}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Overdue</div>
             </div>
           </div>
@@ -346,8 +346,8 @@ export default function GoalTracking() {
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`flex items-center gap-2 px-4 py-3 rounded-md font-medium transition-colors flex-1 justify-center ${
                   activeTab === tab.id
-                    ? 'bg-[#1C3D6E] text-white'
-                    : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-gray-50'
+                    ? 'bg-primary-dark text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:text-darkMode-link hover:bg-gray-50'
                 }`}
               >
                 {getTabIcon(tab.id)}
@@ -362,20 +362,20 @@ export default function GoalTracking() {
           <div className="space-y-6">
             {/* Priority Goals */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">Priority Goals</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Priority Goals</h2>
               <div className="space-y-4">
                 {activeGoals.filter(g => g.priority === 'high').map((goal) => (
                   <div key={goal.id} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="text-[#1C3D6E] dark:text-[#3DAEDB]">{getCategoryIcon(goal.category)}</div>
+                        <div className="text-primary-dark dark:text-darkMode-link">{getCategoryIcon(goal.category)}</div>
                         <div>
-                          <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{goal.title}</h3>
+                          <h3 className="font-bold text-primary-dark dark:text-darkMode-link">{goal.title}</h3>
                           <p className="text-sm text-gray-600 dark:text-gray-300">{goal.description}</p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-[#4A9E3D]">{Math.round(calculateProgress(goal))}%</div>
+                        <div className="text-2xl font-bold text-secondary">{Math.round(calculateProgress(goal))}%</div>
                         <div className="text-xs text-gray-500">{getDaysRemaining(goal.targetDate)} days left</div>
                       </div>
                     </div>
@@ -403,15 +403,15 @@ export default function GoalTracking() {
 
                 return (
                   <div key={category} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
-                    <div className="flex justify-center mb-3 text-[#1C3D6E] dark:text-[#3DAEDB]">{getCategoryIcon(category as Goal['category'])}</div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2 capitalize">{category}</h3>
+                    <div className="flex justify-center mb-3 text-primary-dark dark:text-darkMode-link">{getCategoryIcon(category as Goal['category'])}</div>
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-2 capitalize">{category}</h3>
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
-                        <div className="text-lg font-bold text-[#3DAEDB]">{activeCount}</div>
+                        <div className="text-lg font-bold text-primary">{activeCount}</div>
                         <div className="text-gray-600 dark:text-gray-300">Active</div>
                       </div>
                       <div>
-                        <div className="text-lg font-bold text-[#4A9E3D]">{completedCount}</div>
+                        <div className="text-lg font-bold text-secondary">{completedCount}</div>
                         <div className="text-gray-600 dark:text-gray-300">Done</div>
                       </div>
                     </div>
@@ -422,13 +422,13 @@ export default function GoalTracking() {
 
             {/* Recent Achievements */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">Recent Achievements</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Recent Achievements</h2>
               <div className="space-y-3">
                 {completedGoals.slice(0, 3).map((goal) => (
                   <div key={goal.id} className="flex items-center gap-4 p-3 bg-green-50 rounded-lg">
                     <Trophy className="w-6 h-6 text-yellow-600" />
                     <div className="flex-1">
-                      <h3 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">{goal.title}</h3>
+                      <h3 className="font-semibold text-primary-dark dark:text-darkMode-link">{goal.title}</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
                         Completed {goal.completedDate ? new Date(goal.completedDate).toLocaleDateString() : 'recently'}
                       </p>
@@ -456,8 +456,8 @@ export default function GoalTracking() {
                   onClick={() => setFilter(category as typeof filter)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                     filter === category
-                      ? 'bg-[#3DAEDB] text-white'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] bg-white'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:text-darkMode-link bg-white'
                   }`}
                 >
                   {category}
@@ -473,10 +473,10 @@ export default function GoalTracking() {
                 <div key={goal.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-0 hover:shadow-xl transition-shadow">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="text-[#1C3D6E] dark:text-[#3DAEDB]">{getCategoryIcon(goal.category)}</div>
+                      <div className="text-primary-dark dark:text-darkMode-link">{getCategoryIcon(goal.category)}</div>
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg">{goal.title}</h3>
+                          <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">{goal.title}</h3>
                           <span className={`w-2 h-2 rounded-full ${getPriorityColor(goal.priority)} bg-current`}></span>
                         </div>
                         <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(goal.status)}`}>
@@ -485,7 +485,7 @@ export default function GoalTracking() {
                       </div>
                     </div>
                     {goal.isPublic && (
-                      <Globe className="w-5 h-5 text-[#3DAEDB]" />
+                      <Globe className="w-5 h-5 text-primary" />
                     )}
                   </div>
 
@@ -506,7 +506,7 @@ export default function GoalTracking() {
                         style={{ width: `${calculateProgress(goal)}%` }}
                       />
                     </div>
-                    <div className="text-right text-sm font-bold text-[#4A9E3D] mt-1">
+                    <div className="text-right text-sm font-bold text-secondary mt-1">
                       {Math.round(calculateProgress(goal))}%
                     </div>
                   </div>
@@ -531,7 +531,7 @@ export default function GoalTracking() {
                     {goal.completedDate && (
                       <div className="flex justify-between">
                         <span>Completed:</span>
-                        <span className="text-[#4A9E3D] font-medium">{new Date(goal.completedDate).toLocaleDateString()}</span>
+                        <span className="text-secondary font-medium">{new Date(goal.completedDate).toLocaleDateString()}</span>
                       </div>
                     )}
                   </div>
@@ -558,7 +558,7 @@ export default function GoalTracking() {
                         <button className="border border-gray-300 text-gray-600 dark:text-gray-300 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors">
                           Update Progress
                         </button>
-                        <button className="border border-[#4A9E3D] text-[#4A9E3D] py-2 px-4 rounded-lg font-medium hover:bg-[#4A9E3D] hover:text-white transition-colors">
+                        <button className="border border-secondary text-secondary py-2 px-4 rounded-lg font-medium hover:bg-secondary hover:text-white transition-colors">
                           Mark Complete
                         </button>
                       </div>
@@ -574,15 +574,15 @@ export default function GoalTracking() {
         {activeTab === 'create' && (
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">Goal Templates</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Goal Templates</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {goalTemplates.map((template) => (
-                  <div key={template.id} className="border border-gray-200 rounded-lg p-6 hover:border-[#3DAEDB] transition-colors">
+                  <div key={template.id} className="border border-gray-200 rounded-lg p-6 hover:border-primary transition-colors">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
-                        <div className="text-[#1C3D6E] dark:text-[#3DAEDB]">{getCategoryIcon(template.category)}</div>
+                        <div className="text-primary-dark dark:text-darkMode-link">{getCategoryIcon(template.category)}</div>
                         <div>
-                          <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{template.title}</h3>
+                          <h3 className="font-bold text-primary-dark dark:text-darkMode-link">{template.title}</h3>
                           {template.popular && (
                             <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
                               Popular
@@ -629,7 +629,7 @@ export default function GoalTracking() {
 
             {/* Custom Goal Creation */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Create Custom Goal</h3>
+              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Create Custom Goal</h3>
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 Design your own goal with personalized targets, milestones, and rewards.
               </p>
@@ -648,7 +648,7 @@ export default function GoalTracking() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Create New Goal</h3>
+                <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link">Create New Goal</h3>
                 <button
                   onClick={() => setShowCreateModal(false)}
                   className="text-gray-500 hover:text-gray-700"
@@ -659,22 +659,22 @@ export default function GoalTracking() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Goal Title</label>
+                  <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Goal Title</label>
                   <input
                     type="text"
                     value={newGoal.title || ''}
                     onChange={(e) => setNewGoal(prev => ({ ...prev, title: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     placeholder="Enter your goal title"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Description</label>
+                  <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Description</label>
                   <textarea
                     value={newGoal.description || ''}
                     onChange={(e) => setNewGoal(prev => ({ ...prev, description: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     rows={3}
                     placeholder="Describe your goal in detail"
                   />
@@ -682,11 +682,11 @@ export default function GoalTracking() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Category</label>
+                    <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Category</label>
                     <select
                       value={newGoal.category || 'learning'}
                       onChange={(e) => setNewGoal(prev => ({ ...prev, category: e.target.value as Goal['category'] }))}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
                       <option value="learning">Learning</option>
                       <option value="skill">Skill</option>
@@ -696,11 +696,11 @@ export default function GoalTracking() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Priority</label>
+                    <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Priority</label>
                     <select
                       value={newGoal.priority || 'medium'}
                       onChange={(e) => setNewGoal(prev => ({ ...prev, priority: e.target.value as Goal['priority'] }))}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -711,35 +711,35 @@ export default function GoalTracking() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Target Value</label>
+                    <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Target Value</label>
                     <input
                       type="number"
                       value={newGoal.targetValue || ''}
                       onChange={(e) => setNewGoal(prev => ({ ...prev, targetValue: Number(e.target.value) }))}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="e.g., 100"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Unit</label>
+                    <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Unit</label>
                     <input
                       type="text"
                       value={newGoal.unit || ''}
                       onChange={(e) => setNewGoal(prev => ({ ...prev, unit: e.target.value }))}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                       placeholder="hours, courses, skills, etc."
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Target Date</label>
+                  <label className="block text-sm font-medium text-primary-dark dark:text-darkMode-link mb-2">Target Date</label>
                   <input
                     type="date"
                     value={newGoal.targetDate || ''}
                     onChange={(e) => setNewGoal(prev => ({ ...prev, targetDate: e.target.value }))}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
 
@@ -748,7 +748,7 @@ export default function GoalTracking() {
                     type="checkbox"
                     checked={newGoal.isPublic || false}
                     onChange={(e) => setNewGoal(prev => ({ ...prev, isPublic: e.target.checked }))}
-                    className="rounded border-gray-300 focus:ring-[#3DAEDB]"
+                    className="rounded border-gray-300 focus:ring-primary"
                   />
                   <span className="text-sm text-gray-700">Make this goal public (visible to other learners)</span>
                 </label>
@@ -778,9 +778,9 @@ export default function GoalTracking() {
             <div className="bg-white rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="text-[#1C3D6E] dark:text-[#3DAEDB]">{getCategoryIcon(selectedGoal.category)}</div>
+                  <div className="text-primary-dark dark:text-darkMode-link">{getCategoryIcon(selectedGoal.category)}</div>
                   <div>
-                    <h3 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{selectedGoal.title}</h3>
+                    <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{selectedGoal.title}</h3>
                     <p className="text-gray-600 dark:text-gray-300">{selectedGoal.description}</p>
                   </div>
                 </div>
@@ -793,10 +793,10 @@ export default function GoalTracking() {
               </div>
 
               {/* Progress Overview */}
-              <div className="bg-[#4A9E3D]/10 rounded-lg p-4 mb-6">
+              <div className="bg-secondary/10 rounded-lg p-4 mb-6">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-medium text-[#1C3D6E] dark:text-[#3DAEDB]">Overall Progress</span>
-                  <span className="text-2xl font-bold text-[#4A9E3D]">{Math.round(calculateProgress(selectedGoal))}%</span>
+                  <span className="font-medium text-primary-dark dark:text-darkMode-link">Overall Progress</span>
+                  <span className="text-2xl font-bold text-secondary">{Math.round(calculateProgress(selectedGoal))}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
@@ -812,19 +812,19 @@ export default function GoalTracking() {
 
               {/* Milestones */}
               <div className="mb-6">
-                <h4 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Milestones</h4>
+                <h4 className="font-bold text-primary-dark dark:text-darkMode-link mb-4">Milestones</h4>
                 <div className="space-y-3">
                   {selectedGoal.milestones.map((milestone, index) => (
                     <div key={milestone.id} className={`flex items-center gap-4 p-3 rounded-lg ${
                       milestone.completed ? 'bg-green-50 border border-green-200' : 'bg-gray-50 border border-gray-200'
                     }`}>
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                        milestone.completed ? 'bg-[#4A9E3D] text-white' : 'bg-gray-300'
+                        milestone.completed ? 'bg-secondary text-white' : 'bg-gray-300'
                       }`}>
                         {milestone.completed ? '✓' : index + 1}
                       </div>
                       <div className="flex-1">
-                        <h5 className={`font-medium ${milestone.completed ? 'text-[#4A9E3D]' : 'text-gray-700'}`}>
+                        <h5 className={`font-medium ${milestone.completed ? 'text-secondary' : 'text-gray-700'}`}>
                           {milestone.title}
                         </h5>
                         {milestone.completedDate && (
@@ -850,10 +850,10 @@ export default function GoalTracking() {
                 </button>
                 {selectedGoal.status === 'active' && (
                   <>
-                    <button className="flex-1 bg-[#3DAEDB] text-white py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] transition-colors">
+                    <button className="flex-1 bg-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-primary-dark transition-colors">
                       Update Progress
                     </button>
-                    <button className="flex-1 bg-[#4A9E3D] text-white py-2 px-4 rounded-lg font-medium hover:bg-[#2F6B29] transition-colors">
+                    <button className="flex-1 bg-secondary text-white py-2 px-4 rounded-lg font-medium hover:bg-secondary-dark transition-colors">
                       Mark Complete
                     </button>
                   </>

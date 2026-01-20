@@ -22,7 +22,7 @@ const JobsSidebar = () => {
   const isActivePath = (path: string) => location.pathname === path
 
   return (
-    <aside className="w-60 bg-[#F9FAFB] p-3 rounded-2xl shadow-sm border border-gray-100">
+    <aside className="w-60 bg-neutral-light dark:bg-darkMode-surface p-3 rounded-2xl shadow-sm border border-gray-100">
       <nav className="flex flex-col space-y-1">
         {navItems.map((item) => (
           <Link
@@ -30,13 +30,13 @@ const JobsSidebar = () => {
             to={item.path}
             className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
               isActivePath(item.path)
-                ? 'bg-[#E6F0FF] text-[#1C3D6E]'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-[#1C3D6E]'
+                ? 'bg-primary/10 dark:bg-darkMode-accent/20 text-primary-dark dark:text-darkMode-text'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-primary-dark dark:text-darkMode-text'
             }`}
           >
             <span
               className={`flex items-center justify-center ${
-                isActivePath(item.path) ? 'text-[#1C3D6E]' : 'text-gray-500'
+                isActivePath(item.path) ? 'text-primary-dark dark:text-darkMode-text' : 'text-gray-500'
               }`}
             >
               {item.icon}
@@ -53,7 +53,7 @@ const JobsSidebar = () => {
       <div className="flex flex-col space-y-1">
         <Link
           to="/student/career/assessment"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-[#1C3D6E]"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-dark dark:text-darkMode-text"
         >
           <Target className="w-4 h-4" />
           <span>Career Assessment</span>
@@ -61,7 +61,7 @@ const JobsSidebar = () => {
 
         <Link
           to="/student/career/skills-gap"
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-[#1C3D6E]"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-primary-dark dark:text-darkMode-text"
         >
           <BarChart3 className="w-4 h-4" />
           <span>Skills Gap</span>

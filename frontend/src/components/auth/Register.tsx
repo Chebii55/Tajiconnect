@@ -171,15 +171,15 @@ const Register: React.FC = () => {
   const strengthColors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-blue-500', 'bg-green-500'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg font-['Inter'] flex items-center justify-center py-12 px-4">
       <div className="max-w-2xl w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#1C3D6E] rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-dark dark:bg-darkMode-navbar rounded-full mb-4">
             <UserPlus className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-[#1C3D6E] mb-2">Create Your Account</h1>
-          <p className="text-gray-600">Join TajiConnect and start your learning journey today</p>
+          <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text mb-2">Create Your Account</h1>
+          <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">Join TajiConnect and start your learning journey today</p>
         </div>
 
         {/* Notification */}
@@ -197,12 +197,12 @@ const Register: React.FC = () => {
         )}
 
         {/* Registration Form */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Fields */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="firstName" className="block text-sm font-medium text-neutral-dark dark:text-darkMode-text mb-2">
                   First Name
                 </label>
                 <div className="relative">
@@ -213,7 +213,7 @@ const Register: React.FC = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                       errors.firstName ? 'border-red-300 bg-red-50' : 'border-gray-300'
                     }`}
                     placeholder="Enter your first name"
@@ -239,7 +239,7 @@ const Register: React.FC = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                       errors.lastName ? 'border-red-300 bg-red-50' : 'border-gray-300'
                     }`}
                     placeholder="Enter your last name"
@@ -267,7 +267,7 @@ const Register: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                     errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                   placeholder="Enter your email"
@@ -294,7 +294,7 @@ const Register: React.FC = () => {
                   name="dateOfBirth"
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                     errors.dateOfBirth ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                 />
@@ -326,7 +326,7 @@ const Register: React.FC = () => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                       errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
                     }`}
                     placeholder="Create a password"
@@ -374,7 +374,7 @@ const Register: React.FC = () => {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
+                    className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
                       errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
                     }`}
                     placeholder="Confirm your password"
@@ -405,17 +405,17 @@ const Register: React.FC = () => {
                   name="agreeToTerms"
                   checked={formData.agreeToTerms}
                   onChange={handleChange}
-                  className={`mt-1 rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB] ${
+                  className={`mt-1 rounded border-gray-300 text-primary dark:text-darkMode-link focus:ring-primary ${
                     errors.agreeToTerms ? 'border-red-300' : ''
                   }`}
                 />
                 <label htmlFor="agreeToTerms" className="text-sm text-gray-700">
                   I agree to the{' '}
-                  <Link to="/terms" className="text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors">
+                  <Link to="/terms" className="text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent transition-colors">
                     Terms of Service
                   </Link>{' '}
                   and{' '}
-                  <Link to="/privacy" className="text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors">
+                  <Link to="/privacy" className="text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent transition-colors">
                     Privacy Policy
                   </Link>
                 </label>
@@ -434,7 +434,7 @@ const Register: React.FC = () => {
                   name="agreeToMarketing"
                   checked={formData.agreeToMarketing}
                   onChange={handleChange}
-                  className="mt-1 rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                  className="mt-1 rounded border-gray-300 text-primary dark:text-darkMode-link focus:ring-primary"
                 />
                 <label htmlFor="agreeToMarketing" className="text-sm text-gray-700">
                   I would like to receive updates about new courses, features, and special offers (optional)
@@ -446,7 +446,7 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 bg-primary dark:bg-darkMode-progress text-white rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-success focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>
@@ -502,7 +502,7 @@ const Register: React.FC = () => {
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium transition-colors"
+                className="text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent font-medium transition-colors"
               >
                 Sign in
               </Link>

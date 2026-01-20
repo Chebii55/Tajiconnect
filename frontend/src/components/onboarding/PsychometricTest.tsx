@@ -152,25 +152,25 @@ const PsychometricTest = () => {
     const traits = getPersonalityTraits(results)
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-success/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full space-y-8 animate-fade-in">
           {/* Header */}
           <div className="text-center">
-            <div className="w-24 h-24 bg-primary-dark rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+            <div className="w-24 h-24 bg-primary-dark dark:bg-darkMode-progress rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl dark:shadow-dark-lg">
               <span className="text-4xl">🎯</span>
             </div>
-            <h2 className="text-4xl font-bold text-[#1C3D6E] mb-4">
+            <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-4">
               Psychometric Assessment Complete!
             </h2>
-            <p className="text-gray-600 text-xl max-w-3xl mx-auto">
+            <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-xl max-w-3xl mx-auto">
               Here's your comprehensive personality and learning profile
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Profile Strengths */}
-            <div className="bg-white rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-              <h3 className="text-2xl font-bold text-[#1C3D6E] mb-6 flex items-center">
+            <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
                 <span className="text-3xl mr-3">✨</span>
                 Your Profile Strengths
               </h3>
@@ -178,7 +178,7 @@ const PsychometricTest = () => {
                 {traits.map((trait, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary/20 text-primary border border-primary/30"
+                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary/20 dark:bg-darkMode-progress/20 text-primary dark:text-darkMode-progress border border-primary/30 dark:border-darkMode-progress/30"
                   >
                     {trait}
                   </span>
@@ -187,20 +187,20 @@ const PsychometricTest = () => {
             </div>
 
             {/* Category Scores */}
-            <div className="bg-white rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-              <h3 className="text-2xl font-bold text-[#1C3D6E] mb-6 flex items-center">
+            <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
+              <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
                 <span className="text-3xl mr-3">📊</span>
                 Category Scores
               </h3>
               <div className="space-y-5">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#1C3D6E]">Personality & Social</span>
-                    <span className="font-bold text-[#333333]">{results.personality.toFixed(1)}/5</span>
+                    <span className="font-semibold text-primary-dark dark:text-darkMode-text">Personality & Social</span>
+                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.personality.toFixed(1)}/5</span>
                   </div>
-                  <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
                     <div
-                      className="bg-primary-dark h-3 rounded-full transition-all duration-500"
+                      className="bg-primary-dark dark:bg-darkMode-progress h-3 rounded-full transition-all duration-500"
                       style={{ width: `${(results.personality / 5) * 100}%` }}
                     ></div>
                   </div>
@@ -208,12 +208,12 @@ const PsychometricTest = () => {
 
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#4A9E3D]">Cognitive & Learning</span>
-                    <span className="font-bold text-[#333333]">{results.cognitive.toFixed(1)}/5</span>
+                    <span className="font-semibold text-secondary dark:text-darkMode-success">Cognitive & Learning</span>
+                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.cognitive.toFixed(1)}/5</span>
                   </div>
-                  <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
                     <div
-                      className="bg-primary-dark h-3 rounded-full transition-all duration-500"
+                      className="bg-secondary dark:bg-darkMode-success h-3 rounded-full transition-all duration-500"
                       style={{ width: `${(results.cognitive / 5) * 100}%` }}
                     ></div>
                   </div>
@@ -221,12 +221,12 @@ const PsychometricTest = () => {
 
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#2C857A]">Interests & Creativity</span>
-                    <span className="font-bold text-[#333333]">{results.interests.toFixed(1)}/5</span>
+                    <span className="font-semibold text-forest-sage dark:text-darkMode-accent">Interests & Creativity</span>
+                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.interests.toFixed(1)}/5</span>
                   </div>
-                  <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
                     <div
-                      className="bg-primary-dark h-3 rounded-full transition-all duration-500"
+                      className="bg-forest-sage dark:bg-darkMode-accent h-3 rounded-full transition-all duration-500"
                       style={{ width: `${(results.interests / 5) * 100}%` }}
                     ></div>
                   </div>
@@ -234,12 +234,12 @@ const PsychometricTest = () => {
 
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#3DAEDB]">Values & Motivation</span>
-                    <span className="font-bold text-[#333333]">{results.values.toFixed(1)}/5</span>
+                    <span className="font-semibold text-primary-light dark:text-darkMode-link">Values & Motivation</span>
+                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.values.toFixed(1)}/5</span>
                   </div>
-                  <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
                     <div
-                      className="bg-primary h-3 rounded-full transition-all duration-500"
+                      className="bg-primary-light dark:bg-darkMode-link h-3 rounded-full transition-all duration-500"
                       style={{ width: `${(results.values / 5) * 100}%` }}
                     ></div>
                   </div>
@@ -252,13 +252,13 @@ const PsychometricTest = () => {
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={resetTest}
-              className="flex-1 py-3 px-6 border-2 border-[#1C3D6E] text-[#1C3D6E] hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
+              className="flex-1 py-3 px-6 border-2 border-primary-dark dark:border-darkMode-border text-primary-dark dark:text-darkMode-text hover:bg-primary-dark dark:hover:bg-darkMode-surfaceHover hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
             >
               Retake Test
             </button>
             <button
               onClick={handleContinue}
-              className="btn-primary flex-1"
+              className="flex-1 py-4 px-6 bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white rounded-xl hover:from-primary hover:to-forest-deep dark:hover:from-darkMode-success dark:hover:to-darkMode-progress transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
             >
               Generate My Roadmap
               <svg className="w-5 h-5 ml-2 inline" fill="currentColor" viewBox="0 0 20 20">
@@ -272,37 +272,37 @@ const PsychometricTest = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-success/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl w-full space-y-8 animate-fade-in">
         {/* Header */}
         <div className="text-center">
-          <div className="w-20 h-20 bg-primary-dark rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className="w-20 h-20 bg-primary-dark dark:bg-darkMode-progress rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg dark:shadow-dark">
             <span className="text-3xl">🧠</span>
           </div>
-          <h2 className="text-4xl font-bold text-[#1C3D6E] mb-3">
+          <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-3">
             Psychometric Assessment
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-lg max-w-2xl mx-auto">
             Help us understand your personality and learning preferences to optimize your experience
           </p>
 
           {/* Progress Bar */}
           <div className="mt-8">
-            <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+            <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
               <div
-                className="bg-primary-dark h-3 rounded-full transition-all duration-500 shadow-sm"
+                className="bg-primary-dark dark:bg-darkMode-progress h-3 rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
               ></div>
             </div>
-            <p className="text-center text-sm font-medium text-[#2C857A] mt-3">
+            <p className="text-center text-sm font-medium text-forest-sage dark:text-darkMode-accent mt-3">
               Question {currentQuestion + 1} of {questions.length}
             </p>
           </div>
         </div>
 
         {/* Question Card */}
-        <div className="bg-white rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-          <h3 className="text-2xl font-bold text-[#1C3D6E] mb-8 text-center leading-relaxed">
+        <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
+          <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-8 text-center leading-relaxed">
             {questions[currentQuestion].question}
           </h3>
 
@@ -311,9 +311,9 @@ const PsychometricTest = () => {
               <button
                 key={index}
                 onClick={() => handleAnswer(index + 1)}
-                className="w-full text-center p-6 border-2 border-gray-200 rounded-xl hover:border-[#2C857A] hover:bg-[#2C857A]/5 focus:outline-none focus:ring-2 focus:ring-[#2C857A] focus:border-[#2C857A] transition-all duration-300 group"
+                className="w-full text-center p-6 border-2 border-neutral-gray dark:border-darkMode-border rounded-xl hover:border-forest-sage dark:hover:border-darkMode-success hover:bg-forest-sage/5 dark:hover:bg-darkMode-success/5 focus:outline-none focus:ring-2 focus:ring-forest-sage dark:focus:ring-darkMode-focus focus:border-forest-sage dark:focus:border-darkMode-success transition-all duration-300 group"
               >
-                <span className="text-base font-medium text-[#333333] group-hover:text-[#1C3D6E] transition-colors">
+                <span className="text-base font-medium text-neutral-dark dark:text-darkMode-textSecondary group-hover:text-primary-dark dark:group-hover:text-darkMode-text transition-colors">
                   {option}
                 </span>
               </button>

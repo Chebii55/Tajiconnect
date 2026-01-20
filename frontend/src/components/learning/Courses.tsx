@@ -300,26 +300,26 @@ const Courses: React.FC = () => {
 
   const getLevelColor = (level: string) => {
     switch (level) {
-      case 'Beginner': return 'text-green-600 bg-green-100';
-      case 'Intermediate': return 'text-yellow-600 bg-yellow-100';
-      case 'Advanced': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'Beginner': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      case 'Intermediate': return 'text-warning dark:text-warning-light bg-warning/10 dark:bg-warning/20';
+      case 'Advanced': return 'text-error dark:text-error-light bg-error/10 dark:bg-error/20';
+      default: return 'text-neutral-dark dark:text-darkMode-textSecondary bg-neutral-gray dark:bg-darkMode-surface';
     }
   };
 
   return (
-    <div className="min-h-screen bg-neutral-light font-sans">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg font-sans">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-primary rounded-lg">
+            <div className="p-3 bg-primary dark:bg-darkMode-navbar rounded-lg">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-primary font-heading">TFDN Learning Hub</h1>
-              <p className="text-neutral-dark/80">Explore GCED courses designed to empower you as a global citizen and change-maker</p>
-              <p className="text-sm text-[#4A9E3D] font-medium mt-1">
+              <h1 className="text-4xl font-bold text-primary dark:text-darkMode-text font-heading">TFDN Learning Hub</h1>
+              <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">Explore GCED courses designed to empower you as a global citizen and change-maker</p>
+              <p className="text-sm text-secondary dark:text-darkMode-success font-medium mt-1">
                 🌍 Aligned with CBC, SDGs, and Kenya's Children's Act 2022
               </p>
             </div>
@@ -327,21 +327,21 @@ const Courses: React.FC = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-darkMode-textMuted" />
               <input
                 type="text"
                 placeholder="Search courses, skills, or instructors..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="input-modern focus-ring"
+                className="input-modern focus-ring dark:bg-darkMode-surfaceHover dark:text-darkMode-text dark:border-darkMode-border"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-neutral-light transition-colors focus-ring"
+              className="flex items-center gap-2 px-4 py-3 border border-gray-300 dark:border-darkMode-border rounded-lg hover:bg-neutral-light dark:hover:bg-darkMode-surfaceHover transition-colors focus-ring text-neutral-dark dark:text-darkMode-textSecondary"
             >
               <Filter className="w-5 h-5" />
               Filters
@@ -350,11 +350,11 @@ const Courses: React.FC = () => {
           </div>
 
           {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 bg-neutral-gray dark:bg-darkMode-surfaceHover rounded-lg">
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="input-modern focus-ring"
+                className="input-modern focus-ring dark:bg-darkMode-surface dark:text-darkMode-text dark:border-darkMode-border"
               >
                 {categories.map(category => (
                   <option key={category} value={category}>
@@ -366,7 +366,7 @@ const Courses: React.FC = () => {
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="input-modern focus-ring"
+                className="input-modern focus-ring dark:bg-darkMode-surface dark:text-darkMode-text dark:border-darkMode-border"
               >
                 {levels.map(level => (
                   <option key={level} value={level}>
@@ -378,7 +378,7 @@ const Courses: React.FC = () => {
               <select
                 value={selectedPrice}
                 onChange={(e) => setSelectedPrice(e.target.value)}
-                className="input-modern focus-ring"
+                className="input-modern focus-ring dark:bg-darkMode-surface dark:text-darkMode-text dark:border-darkMode-border"
               >
                 <option value="all">All Prices</option>
                 <option value="free">Free</option>
@@ -388,7 +388,7 @@ const Courses: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="input-modern focus-ring"
+                className="input-modern focus-ring dark:bg-darkMode-surface dark:text-darkMode-text dark:border-darkMode-border"
               >
                 {sortOptions.map(option => (
                   <option key={option.value} value={option.value}>
@@ -400,15 +400,15 @@ const Courses: React.FC = () => {
           )}
 
           <div className="flex items-center justify-between mt-4">
-            <p className="text-gray-600">
+            <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">
               {filteredCourses.length} course{filteredCourses.length !== 1 ? 's' : ''} found
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">View:</span>
+              <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">View:</span>
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid' ? 'bg-primary-light text-white' : 'text-neutral-dark/80 hover:bg-neutral-light'
+                  viewMode === 'grid' ? 'bg-primary-light dark:bg-darkMode-progress text-white' : 'text-neutral-dark/80 dark:text-darkMode-textSecondary hover:bg-neutral-light dark:hover:bg-darkMode-surfaceHover'
                 }`}
               >
                 <Grid className="w-4 h-4" />
@@ -416,7 +416,7 @@ const Courses: React.FC = () => {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list' ? 'bg-primary-light text-white' : 'text-neutral-dark/80 hover:bg-neutral-light'
+                  viewMode === 'list' ? 'bg-primary-light dark:bg-darkMode-progress text-white' : 'text-neutral-dark/80 dark:text-darkMode-textSecondary hover:bg-neutral-light dark:hover:bg-darkMode-surfaceHover'
                 }`}
               >
                 <List className="w-4 h-4" />
@@ -432,12 +432,12 @@ const Courses: React.FC = () => {
             : 'grid-cols-1'
         }`}>
           {filteredCourses.map((course) => (
-            <div key={course.id} className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow ${
+            <div key={course.id} className={`bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark overflow-hidden hover:shadow-xl dark:hover:shadow-dark-lg transition-shadow ${
               viewMode === 'list' ? 'flex' : ''
             }`}>
               <div className={`relative ${
                 viewMode === 'list' ? 'w-64 flex-shrink-0' : 'h-48'
-              } brand-gradient flex items-center justify-center`}>
+              } bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success flex items-center justify-center`}>
                 <span className="text-6xl">{course.thumbnail}</span>
                 <div className="absolute top-3 left-3 flex gap-2">
                   {course.isPopular && (
@@ -446,12 +446,12 @@ const Courses: React.FC = () => {
                     </span>
                   )}
                   {course.isNew && (
-                    <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-full font-medium">
+                    <span className="px-2 py-1 bg-success dark:bg-darkMode-success text-white text-xs rounded-full font-medium">
                       New
                     </span>
                   )}
                   {course.isFree && (
-                    <span className="px-2 py-1 bg-blue-500 text-white text-xs rounded-full font-medium">
+                    <span className="px-2 py-1 bg-info dark:bg-darkMode-link text-white text-xs rounded-full font-medium">
                       Free
                     </span>
                   )}
@@ -465,24 +465,24 @@ const Courses: React.FC = () => {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-grow">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-sm text-gray-600">{course.category}</span>
+                      <span className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">{course.category}</span>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(course.level)}`}>
                         {course.level}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-primary font-heading mb-2 line-clamp-2">{course.title}</h3>
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">{course.description}</p>
+                    <h3 className="text-lg font-bold text-primary dark:text-darkMode-text font-heading mb-2 line-clamp-2">{course.title}</h3>
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm mb-3 line-clamp-2">{course.description}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-lg">{course.instructorAvatar}</span>
-                  <span className="text-sm text-gray-700">{course.instructor}</span>
+                  <span className="text-sm text-neutral-dark dark:text-darkMode-textSecondary">{course.instructor}</span>
                 </div>
 
-                <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                <div className="flex items-center gap-4 text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary mb-3">
                   <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-yellow-500" />
+                    <Star className="w-4 h-4 text-warning" />
                     <span className="font-medium">{course.rating}</span>
                     <span>({course.reviews.toLocaleString()})</span>
                   </div>
@@ -499,12 +499,12 @@ const Courses: React.FC = () => {
                 <div className="mb-4">
                   <div className="flex flex-wrap gap-1">
                     {course.skills.slice(0, 3).map((skill) => (
-                      <span key={skill} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                      <span key={skill} className="px-2 py-1 bg-info/10 dark:bg-darkMode-link/20 text-info dark:text-darkMode-link text-xs rounded-full">
                         {skill}
                       </span>
                     ))}
                     {course.skills.length > 3 && (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                      <span className="px-2 py-1 bg-neutral-gray dark:bg-darkMode-surfaceHover text-neutral-dark/80 dark:text-darkMode-textSecondary text-xs rounded-full">
                         +{course.skills.length - 3}
                       </span>
                     )}
@@ -514,12 +514,12 @@ const Courses: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     {course.isFree ? (
-                      <span className="text-xl font-bold text-secondary">Free</span>
+                      <span className="text-xl font-bold text-secondary dark:text-darkMode-success">Free</span>
                     ) : (
                       <div className="flex items-center gap-2">
-                        <span className="text-xl font-bold text-primary">${course.price}</span>
+                        <span className="text-xl font-bold text-primary dark:text-darkMode-text">${course.price}</span>
                         {course.originalPrice && (
-                          <span className="text-sm text-gray-500 line-through">${course.originalPrice}</span>
+                          <span className="text-sm text-neutral-dark/60 dark:text-darkMode-textMuted line-through">${course.originalPrice}</span>
                         )}
                       </div>
                     )}
@@ -534,7 +534,7 @@ const Courses: React.FC = () => {
                 </div>
 
                 {course.certificate && (
-                  <div className="flex items-center gap-1 mt-3 text-xs text-gray-600">
+                  <div className="flex items-center gap-1 mt-3 text-xs text-neutral-dark/80 dark:text-darkMode-textSecondary">
                     <Award className="w-3 h-3" />
                     <span>Certificate included</span>
                   </div>
@@ -546,9 +546,9 @@ const Courses: React.FC = () => {
 
         {filteredCourses.length === 0 && (
           <div className="text-center py-12">
-            <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-gray-900 mb-2">No courses found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria or filters.</p>
+            <BookOpen className="w-16 h-16 text-gray-400 dark:text-darkMode-textMuted mx-auto mb-4" />
+            <h3 className="text-xl font-medium text-neutral-dark dark:text-darkMode-text mb-2">No courses found</h3>
+            <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-6">Try adjusting your search criteria or filters.</p>
             <button
               onClick={() => {
                 setSearchTerm('');

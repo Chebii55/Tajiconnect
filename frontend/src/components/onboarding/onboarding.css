@@ -42,18 +42,18 @@
   animation: pulse-subtle 3s ease-in-out infinite;
 }
 
-/* Progress Bar Styles */
+/* Progress Bar Styles - Forest Theme */
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: #e5e7eb;
+  @apply bg-neutral-gray dark:bg-darkMode-surfaceHover;
   border-radius: 9999px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(to right, #3DAEDB, #2C857A);
+  @apply bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success;
   border-radius: 9999px;
   transition: width 0.5s ease-out;
 }
@@ -66,13 +66,12 @@
 /* Hover effects */
 .hover-lift:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  @apply shadow-forest-lg dark:shadow-dark-lg;
 }
 
 /* Focus styles for accessibility */
 .focus-ring:focus {
-  outline: 2px solid #3DAEDB;
-  outline-offset: 2px;
+  @apply outline-2 outline-primary dark:outline-darkMode-focus outline-offset-2;
 }
 
 /* Loading spinner */
@@ -86,9 +85,9 @@
   animation: spin 1s linear infinite;
 }
 
-/* Gradient text */
+/* Gradient text - Forest Theme */
 .gradient-text {
-  background: linear-gradient(135deg, #1C3D6E, #3DAEDB);
+  @apply bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-accent;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -101,10 +100,10 @@
 
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  @apply shadow-forest-lg dark:shadow-dark-lg;
 }
 
-/* Button animations */
+/* Button animations - Forest Theme */
 .btn-animate {
   position: relative;
   overflow: hidden;
@@ -113,7 +112,7 @@
 
 .btn-animate:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(61, 174, 219, 0.3);
+  @apply shadow-forest dark:shadow-dark-glow;
 }
 
 .btn-animate:active {
@@ -126,3 +125,51 @@
 .stagger-3 { animation-delay: 0.3s; }
 .stagger-4 { animation-delay: 0.4s; }
 .stagger-5 { animation-delay: 0.5s; }
+
+/* Onboarding specific card styles */
+.onboarding-card {
+  @apply bg-neutral-white dark:bg-darkMode-surface rounded-2xl shadow-forest dark:shadow-dark border border-border-light dark:border-darkMode-border;
+}
+
+.onboarding-card-elevated {
+  @apply bg-neutral-white dark:bg-darkMode-surface rounded-2xl shadow-forest-lg dark:shadow-dark-lg;
+}
+
+/* Onboarding input styles */
+.onboarding-input {
+  @apply w-full px-4 py-3 border border-border-light dark:border-darkMode-border rounded-xl;
+  @apply bg-neutral-white dark:bg-darkMode-surface text-neutral-dark dark:text-darkMode-text;
+  @apply placeholder-forest-sage dark:placeholder-darkMode-textMuted;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus;
+  @apply transition-all duration-300;
+}
+
+/* Onboarding selection card */
+.selection-card {
+  @apply border-2 border-border-light dark:border-darkMode-border rounded-xl p-4;
+  @apply bg-neutral-white dark:bg-darkMode-surface;
+  @apply hover:border-primary dark:hover:border-darkMode-accent;
+  @apply transition-all duration-200 cursor-pointer;
+}
+
+.selection-card.selected {
+  @apply border-primary dark:border-darkMode-accent bg-primary/5 dark:bg-darkMode-accent/10;
+}
+
+/* Onboarding step indicator */
+.step-indicator {
+  @apply w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold;
+  @apply transition-all duration-300;
+}
+
+.step-indicator.active {
+  @apply bg-primary dark:bg-darkMode-progress text-white;
+}
+
+.step-indicator.completed {
+  @apply bg-success dark:bg-darkMode-success text-white;
+}
+
+.step-indicator.pending {
+  @apply bg-neutral-gray dark:bg-darkMode-surfaceHover text-forest-sage dark:text-darkMode-textMuted;
+}

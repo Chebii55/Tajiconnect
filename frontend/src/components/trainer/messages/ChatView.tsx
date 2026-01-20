@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTrainer } from '../../../contexts/TrainerContext';
-import { 
-  ArrowLeft, 
-  Send, 
-  Paperclip, 
-  Smile, 
-  Phone, 
-  Video, 
+import {
+  ArrowLeft,
+  Send,
+  Paperclip,
+  Smile,
+  Phone,
+  Video,
   MoreVertical,
   Circle
 } from 'lucide-react';
@@ -16,9 +16,9 @@ const ChatView: React.FC = () => {
   const { conversationId } = useParams();
   const navigate = useNavigate();
   const { learners } = useTrainer();
-  
+
   const [message, setMessage] = useState('');
-  
+
   // Mock conversation data
   const conversation = {
     id: conversationId,
@@ -64,41 +64,41 @@ const ChatView: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-['Inter'] flex flex-col">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg font-['Inter'] flex flex-col">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+      <div className="bg-neutral-white dark:bg-darkMode-surface shadow-sm border-b dark:border-darkMode-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/trainer/messages')}
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 bg-gradient-to-r from-primary-light to-secondary rounded-full flex items-center justify-center text-white font-medium">
+                  <div className="w-10 h-10 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-medium">
                     {conversation.participant?.name?.charAt(0) || 'L'}
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-success border-2 border-white dark:border-darkMode-surface rounded-full"></div>
                 </div>
                 <div>
-                  <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h1 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">
                     {conversation.participant?.name || 'Learner'}
                   </h1>
-                  <p className="text-sm text-green-600 dark:text-green-400">Online</p>
+                  <p className="text-sm text-success dark:text-darkMode-success">Online</p>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+              <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar">
                 <Phone className="w-5 h-5" />
               </button>
-              <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+              <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar">
                 <Video className="w-5 h-5" />
               </button>
-              <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+              <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar">
                 <MoreVertical className="w-5 h-5" />
               </button>
             </div>
@@ -117,18 +117,18 @@ const ChatView: React.FC = () => {
               >
                 <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                   msg.sender === 'trainer'
-                    ? 'bg-primary-light text-white'
-                    : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-600'
+                    ? 'bg-primary text-white'
+                    : 'bg-neutral-white dark:bg-darkMode-surface text-neutral-dark dark:text-darkMode-text border border-neutral-gray dark:border-darkMode-border'
                 }`}>
                   <p className="text-sm">{msg.content}</p>
                   <p className={`text-xs mt-1 ${
-                    msg.sender === 'trainer' 
-                      ? 'text-primary-light/70' 
-                      : 'text-gray-500 dark:text-gray-400'
+                    msg.sender === 'trainer'
+                      ? 'text-white/70'
+                      : 'text-forest-sage dark:text-darkMode-textSecondary'
                   }`}>
-                    {new Date(msg.timestamp).toLocaleTimeString([], { 
-                      hour: '2-digit', 
-                      minute: '2-digit' 
+                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit'
                     })}
                   </p>
                 </div>
@@ -139,13 +139,13 @@ const ChatView: React.FC = () => {
       </div>
 
       {/* Message Input */}
-      <div className="bg-white dark:bg-gray-800 border-t dark:border-gray-700">
+      <div className="bg-neutral-white dark:bg-darkMode-surface border-t dark:border-darkMode-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-end gap-4">
-            <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar">
               <Paperclip className="w-5 h-5" />
             </button>
-            
+
             <div className="flex-1 relative">
               <textarea
                 value={message}
@@ -153,19 +153,19 @@ const ChatView: React.FC = () => {
                 onKeyPress={handleKeyPress}
                 placeholder="Type your message..."
                 rows={1}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
+                className="w-full px-4 py-3 border border-neutral-gray dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus focus:border-transparent dark:bg-darkMode-navbar dark:text-darkMode-text resize-none"
                 style={{ minHeight: '44px', maxHeight: '120px' }}
               />
             </div>
-            
-            <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+
+            <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar">
               <Smile className="w-5 h-5" />
             </button>
-            
+
             <button
               onClick={handleSendMessage}
               disabled={!message.trim()}
-              className="p-3 bg-primary-light text-white rounded-lg hover:bg-primary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Send className="w-5 h-5" />
             </button>

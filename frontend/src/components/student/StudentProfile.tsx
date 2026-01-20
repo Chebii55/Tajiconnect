@@ -121,22 +121,22 @@ const StudentProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
       {/* Header */}
-      <header className="bg-white shadow-lg">
+      <header className="bg-white dark:bg-darkMode-navbar shadow-lg dark:shadow-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center">
               <Link
                 to="/student/dashboard"
-                className="mr-4 text-[#2C857A] hover:text-[#236660] font-medium transition-colors duration-200 flex items-center"
+                className="mr-4 text-forest-sage hover:text-forest-deep dark:text-darkMode-link dark:hover:text-darkMode-accent font-medium transition-colors duration-200 flex items-center"
               >
                 <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                 </svg>
                 Back to Dashboard
               </Link>
-              <h1 className="text-3xl font-bold text-[#1C3D6E]">My Profile</h1>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text">My Profile</h1>
             </div>
             <button
               onClick={() => setIsEditing(!isEditing)}
@@ -153,110 +153,110 @@ const StudentProfile = () => {
           {/* Profile Information */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
-            <div className="bg-white rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-2xl font-bold text-[#1C3D6E] mb-8 flex items-center">
+            <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark border-0 p-8 hover:shadow-2xl transition-all duration-300">
+              <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-8 flex items-center">
                 <span className="text-3xl mr-3">👤</span>
                 Basic Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">First Name</label>
+                  <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">First Name</label>
                   {isEditing ? (
                     <input
                       type="text"
                       name="firstName"
                       value={profileData.firstName}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-200"
+                      className="w-full px-4 py-3 border-2 border-gray-200 dark:border-darkMode-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-darkMode-bg dark:text-darkMode-text transition-all duration-200"
                     />
                   ) : (
-                    <p className="text-[#333333] font-medium">{profileData.firstName}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-textSecondary font-medium">{profileData.firstName}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-[#1C3D6E] mb-2">Last Name</label>
+                  <label className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">Last Name</label>
                   {isEditing ? (
                     <input
                       type="text"
                       name="lastName"
                       value={profileData.lastName}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-darkMode-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                     />
                   ) : (
-                    <p className="text-gray-900">{profileData.lastName}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-textSecondary">{profileData.lastName}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">Email</label>
                   {isEditing ? (
                     <input
                       type="email"
                       name="email"
                       value={profileData.email}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                     />
                   ) : (
-                    <p className="text-gray-900">{profileData.email}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-text">{profileData.email}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                  <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">Phone</label>
                   {isEditing ? (
                     <input
                       type="tel"
                       name="phone"
                       value={profileData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                     />
                   ) : (
-                    <p className="text-gray-900">{profileData.phone}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-text">{profileData.phone}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                  <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">Location</label>
                   {isEditing ? (
                     <input
                       type="text"
                       name="location"
                       value={profileData.location}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                     />
                   ) : (
-                    <p className="text-gray-900">{profileData.location}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-text">{profileData.location}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                  <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">Date of Birth</label>
                   {isEditing ? (
                     <input
                       type="date"
                       name="dateOfBirth"
                       value={profileData.dateOfBirth}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                     />
                   ) : (
-                    <p className="text-gray-900">{new Date(profileData.dateOfBirth).toLocaleDateString()}</p>
+                    <p className="text-neutral-dark dark:text-darkMode-text">{new Date(profileData.dateOfBirth).toLocaleDateString()}</p>
                   )}
                 </div>
               </div>
 
               <div className="mt-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-2">Bio</label>
                 {isEditing ? (
                   <textarea
                     name="bio"
                     rows={4}
                     value={profileData.bio}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text"
                   />
                 ) : (
-                  <p className="text-gray-900">{profileData.bio}</p>
+                  <p className="text-neutral-dark dark:text-darkMode-text">{profileData.bio}</p>
                 )}
               </div>
 
@@ -264,13 +264,13 @@ const StudentProfile = () => {
                 <div className="mt-6 flex space-x-3">
                   <button
                     onClick={handleSave}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium"
+                    className="bg-primary dark:bg-darkMode-progress hover:bg-primary-dark dark:hover:bg-darkMode-success text-white px-4 py-2 rounded-md font-medium"
                   >
                     Save Changes
                   </button>
                   <button
                     onClick={handleCancel}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium"
+                    className="bg-gray-300 hover:bg-gray-400 text-neutral-dark/80 dark:text-darkMode-textSecondary px-4 py-2 rounded-md font-medium"
                   >
                     Cancel
                   </button>
@@ -279,32 +279,32 @@ const StudentProfile = () => {
             </div>
 
             {/* Learning Stats */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Learning Statistics</h2>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow dark:shadow-dark p-6">
+              <h2 className="text-xl font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Learning Statistics</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {learningStats.map((stat, index) => (
                   <div key={index} className="text-center">
                     <div className={`w-16 h-16 ${stat.color} rounded-full flex items-center justify-center mx-auto mb-2`}>
                       <span className="text-2xl font-bold text-white">{stat.value}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{stat.label}</p>
+                    <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-6">Recent Activity</h2>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow dark:shadow-dark p-6">
+              <h2 className="text-xl font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Recent Activity</h2>
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
                   <div key={activity.id} className="flex items-center space-x-3">
                     <span className="text-2xl">{activity.icon}</span>
                     <div className="flex-1">
-                      <p className="text-gray-900">
+                      <p className="text-neutral-dark dark:text-darkMode-text">
                         <span className="font-medium">{activity.action}</span> {activity.target}
                       </p>
-                      <p className="text-sm text-gray-500">{activity.timestamp}</p>
+                      <p className="text-sm text-neutral-dark/60 dark:text-darkMode-textMuted">{activity.timestamp}</p>
                     </div>
                   </div>
                 ))}
@@ -315,48 +315,48 @@ const StudentProfile = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Profile Picture */}
-            <div className="bg-white rounded-lg shadow p-6 text-center">
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow dark:shadow-dark p-6 text-center">
               <div className="w-32 h-32 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-4xl text-gray-600">👤</span>
+                <span className="text-4xl text-neutral-dark/70 dark:text-darkMode-textSecondary">👤</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-neutral-dark dark:text-darkMode-text">
                 {profileData.firstName} {profileData.lastName}
               </h3>
-              <p className="text-gray-600 mt-1">Student</p>
+              <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary mt-1">Student</p>
               {isEditing && (
-                <button className="mt-3 text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+                <button className="mt-3 text-primary dark:text-darkMode-link hover:text-primary-light dark:hover:text-darkMode-accent text-sm font-medium">
                   Change Photo
                 </button>
               )}
             </div>
 
             {/* Achievements */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Achievements</h3>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow dark:shadow-dark p-6">
+              <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-4">Recent Achievements</h3>
               <div className="space-y-3">
                 {achievements.slice(0, 3).map((achievement) => (
                   <div key={achievement.id} className="flex items-start space-x-3">
                     <span className="text-2xl">{achievement.icon}</span>
                     <div>
-                      <h4 className="font-medium text-gray-900 text-sm">{achievement.title}</h4>
-                      <p className="text-xs text-gray-600">{achievement.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">{new Date(achievement.date).toLocaleDateString()}</p>
+                      <h4 className="font-medium text-neutral-dark dark:text-darkMode-text text-sm">{achievement.title}</h4>
+                      <p className="text-xs text-neutral-dark/70 dark:text-darkMode-textSecondary">{achievement.description}</p>
+                      <p className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted mt-1">{new Date(achievement.date).toLocaleDateString()}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <button className="mt-4 text-indigo-600 hover:text-indigo-500 text-sm font-medium">
+              <button className="mt-4 text-primary dark:text-darkMode-link hover:text-primary-light dark:hover:text-darkMode-accent text-sm font-medium">
                 View All Achievements
               </button>
             </div>
 
             {/* Social Links */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Social Links</h3>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow dark:shadow-dark p-6">
+              <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-4">Social Links</h3>
               <div className="space-y-3">
                 {Object.entries(profileData.socialLinks).map(([platform, url]) => (
                   <div key={platform}>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 capitalize">
+                    <label className="block text-sm font-medium text-neutral-dark/80 dark:text-darkMode-textSecondary mb-1 capitalize">
                       {platform}
                     </label>
                     {isEditing ? (
@@ -365,14 +365,14 @@ const StudentProfile = () => {
                         name={`social.${platform}`}
                         value={url}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text text-sm"
                       />
                     ) : (
                       <a
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-indigo-600 hover:text-indigo-500 text-sm break-all"
+                        className="text-primary dark:text-darkMode-link hover:text-primary-light dark:hover:text-darkMode-accent text-sm break-all"
                       >
                         {url}
                       </a>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Save, 
-  Monitor, 
-  Sun, 
-  Moon, 
-  Palette, 
+import {
+  ArrowLeft,
+  Save,
+  Monitor,
+  Sun,
+  Moon,
+  Palette,
   Type,
   Layout,
   Eye,
@@ -15,7 +15,7 @@ import {
 
 const DisplaySettings: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const [settings, setSettings] = useState({
     theme: 'system', // 'light', 'dark', 'system'
     colorScheme: 'blue', // 'blue', 'green', 'purple', 'orange'
@@ -48,12 +48,12 @@ const DisplaySettings: React.FC = () => {
   ];
 
   const colorSchemes = [
-    { value: 'blue', label: 'Blue', color: 'bg-blue-500' },
-    { value: 'green', label: 'Green', color: 'bg-green-500' },
-    { value: 'purple', label: 'Purple', color: 'bg-purple-500' },
-    { value: 'orange', label: 'Orange', color: 'bg-orange-500' },
-    { value: 'red', label: 'Red', color: 'bg-red-500' },
-    { value: 'teal', label: 'Teal', color: 'bg-teal-500' }
+    { value: 'blue', label: 'Blue', color: 'bg-primary' },
+    { value: 'green', label: 'Green', color: 'bg-success' },
+    { value: 'purple', label: 'Purple', color: 'bg-secondary' },
+    { value: 'orange', label: 'Orange', color: 'bg-accent-gold' },
+    { value: 'red', label: 'Red', color: 'bg-error' },
+    { value: 'teal', label: 'Teal', color: 'bg-forest-sage' }
   ];
 
   const fontSizes = [
@@ -70,29 +70,29 @@ const DisplaySettings: React.FC = () => {
 
   const languages = [
     { value: 'en', label: 'English' },
-    { value: 'es', label: 'Español' },
-    { value: 'fr', label: 'Français' },
+    { value: 'es', label: 'Espanol' },
+    { value: 'fr', label: 'Francais' },
     { value: 'de', label: 'Deutsch' },
-    { value: 'pt', label: 'Português' },
-    { value: 'zh', label: '中文' }
+    { value: 'pt', label: 'Portugues' },
+    { value: 'zh', label: 'Chinese' }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-['Inter']">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg font-['Inter']">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+      <div className="bg-neutral-white dark:bg-darkMode-surface shadow-sm border-b dark:border-darkMode-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/trainer/settings')}
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Display Settings</h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-1">
+                <h1 className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text">Display Settings</h1>
+                <p className="text-forest-sage dark:text-darkMode-textSecondary mt-1">
                   Customize the appearance and layout of your interface
                 </p>
               </div>
@@ -100,7 +100,7 @@ const DisplaySettings: React.FC = () => {
             <button
               onClick={handleSave}
               disabled={!hasChanges}
-              className="px-4 py-2 bg-primary-light text-white rounded-lg hover:bg-primary transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Save className="w-4 h-4" />
               Save Changes
@@ -112,14 +112,14 @@ const DisplaySettings: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="space-y-8">
           {/* Theme Selection */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Palette className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Palette className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Theme</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Choose your preferred theme</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Theme</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Choose your preferred theme</p>
               </div>
             </div>
 
@@ -132,19 +132,19 @@ const DisplaySettings: React.FC = () => {
                     onClick={() => handleSettingChange('theme', theme.value)}
                     className={`p-4 rounded-lg border-2 text-left transition-colors ${
                       settings.theme === theme.value
-                        ? 'border-primary-light bg-primary-light/5 dark:bg-primary-light/10'
-                        : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                        ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                        : 'border-neutral-gray dark:border-darkMode-border hover:border-forest-sage dark:hover:border-darkMode-textSecondary'
                     }`}
                   >
                     <Icon className={`w-6 h-6 mb-2 ${
-                      settings.theme === theme.value ? 'text-primary-light' : 'text-gray-400'
+                      settings.theme === theme.value ? 'text-primary' : 'text-forest-sage dark:text-darkMode-textMuted'
                     }`} />
                     <h3 className={`font-medium mb-1 ${
-                      settings.theme === theme.value ? 'text-primary-light' : 'text-gray-900 dark:text-white'
+                      settings.theme === theme.value ? 'text-primary' : 'text-neutral-dark dark:text-darkMode-text'
                     }`}>
                       {theme.label}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">
                       {theme.description}
                     </p>
                   </button>
@@ -154,14 +154,14 @@ const DisplaySettings: React.FC = () => {
           </div>
 
           {/* Color Scheme */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Palette className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Palette className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Color Scheme</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Choose your accent color</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Color Scheme</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Choose your accent color</p>
               </div>
             </div>
 
@@ -172,32 +172,32 @@ const DisplaySettings: React.FC = () => {
                   onClick={() => handleSettingChange('colorScheme', scheme.value)}
                   className={`p-4 rounded-lg border-2 text-center transition-colors ${
                     settings.colorScheme === scheme.value
-                      ? 'border-primary-light bg-primary-light/5 dark:bg-primary-light/10'
-                      : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                      ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                      : 'border-neutral-gray dark:border-darkMode-border hover:border-forest-sage dark:hover:border-darkMode-textSecondary'
                   }`}
                 >
                   <div className={`w-8 h-8 ${scheme.color} rounded-full mx-auto mb-2`}></div>
-                  <span className="text-sm font-medium text-gray-900 dark:text-white">{scheme.label}</span>
+                  <span className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">{scheme.label}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Typography */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Type className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Type className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Typography</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Adjust text size and readability</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Typography</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Adjust text size and readability</p>
               </div>
             </div>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <label className="block text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-3">
                   Font Size
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -207,16 +207,16 @@ const DisplaySettings: React.FC = () => {
                       onClick={() => handleSettingChange('fontSize', size.value)}
                       className={`p-4 rounded-lg border-2 text-left transition-colors ${
                         settings.fontSize === size.value
-                          ? 'border-primary-light bg-primary-light/5 dark:bg-primary-light/10'
-                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                          ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                          : 'border-neutral-gray dark:border-darkMode-border hover:border-forest-sage dark:hover:border-darkMode-textSecondary'
                       }`}
                     >
                       <h3 className={`font-medium mb-1 ${
-                        settings.fontSize === size.value ? 'text-primary-light' : 'text-gray-900 dark:text-white'
+                        settings.fontSize === size.value ? 'text-primary' : 'text-neutral-dark dark:text-darkMode-text'
                       }`}>
                         {size.label}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">
                         {size.description}
                       </p>
                     </button>
@@ -227,20 +227,20 @@ const DisplaySettings: React.FC = () => {
           </div>
 
           {/* Layout */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Layout className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Layout className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Layout</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Customize spacing and layout density</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Layout</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Customize spacing and layout density</p>
               </div>
             </div>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <label className="block text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-3">
                   Content Density
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -250,16 +250,16 @@ const DisplaySettings: React.FC = () => {
                       onClick={() => handleSettingChange('density', density.value)}
                       className={`p-4 rounded-lg border-2 text-left transition-colors ${
                         settings.density === density.value
-                          ? 'border-primary-light bg-primary-light/5 dark:bg-primary-light/10'
-                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
+                          ? 'border-primary bg-primary/5 dark:bg-primary/10'
+                          : 'border-neutral-gray dark:border-darkMode-border hover:border-forest-sage dark:hover:border-darkMode-textSecondary'
                       }`}
                     >
                       <h3 className={`font-medium mb-1 ${
-                        settings.density === density.value ? 'text-primary-light' : 'text-gray-900 dark:text-white'
+                        settings.density === density.value ? 'text-primary' : 'text-neutral-dark dark:text-darkMode-text'
                       }`}>
                         {density.label}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">
                         {density.description}
                       </p>
                     </button>
@@ -267,10 +267,10 @@ const DisplaySettings: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between py-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between py-3 border-t border-neutral-gray dark:border-darkMode-border">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">Collapse Sidebar by Default</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Start with a collapsed navigation sidebar</p>
+                  <h3 className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">Collapse Sidebar by Default</h3>
+                  <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Start with a collapsed navigation sidebar</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -279,29 +279,29 @@ const DisplaySettings: React.FC = () => {
                     onChange={(e) => handleSettingChange('sidebarCollapsed', e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-light/20 dark:peer-focus:ring-primary-light/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                  <div className="w-11 h-6 bg-neutral-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-darkMode-focus/30 rounded-full peer dark:bg-darkMode-navbar peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-darkMode-border peer-checked:bg-primary"></div>
                 </label>
               </div>
             </div>
           </div>
 
           {/* Accessibility */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Eye className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Eye className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Accessibility</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Options to improve accessibility</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Accessibility</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Options to improve accessibility</p>
               </div>
             </div>
 
             <div className="space-y-4">
-              <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between py-3 border-b border-neutral-gray dark:border-darkMode-border">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">Reduce Motion</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Minimize animations and transitions</p>
+                  <h3 className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">Reduce Motion</h3>
+                  <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Minimize animations and transitions</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -310,14 +310,14 @@ const DisplaySettings: React.FC = () => {
                     onChange={(e) => handleSettingChange('reducedMotion', e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-light/20 dark:peer-focus:ring-primary-light/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                  <div className="w-11 h-6 bg-neutral-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-darkMode-focus/30 rounded-full peer dark:bg-darkMode-navbar peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-darkMode-border peer-checked:bg-primary"></div>
                 </label>
               </div>
 
-              <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+              <div className="flex items-center justify-between py-3 border-b border-neutral-gray dark:border-darkMode-border">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">High Contrast</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Increase contrast for better visibility</p>
+                  <h3 className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">High Contrast</h3>
+                  <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Increase contrast for better visibility</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -326,14 +326,14 @@ const DisplaySettings: React.FC = () => {
                     onChange={(e) => handleSettingChange('highContrast', e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-light/20 dark:peer-focus:ring-primary-light/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                  <div className="w-11 h-6 bg-neutral-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-darkMode-focus/30 rounded-full peer dark:bg-darkMode-navbar peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-darkMode-border peer-checked:bg-primary"></div>
                 </label>
               </div>
 
               <div className="flex items-center justify-between py-3">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">Enable Animations</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Show smooth transitions and animations</p>
+                  <h3 className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">Enable Animations</h3>
+                  <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Show smooth transitions and animations</p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
@@ -342,32 +342,32 @@ const DisplaySettings: React.FC = () => {
                     onChange={(e) => handleSettingChange('animations', e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-light/20 dark:peer-focus:ring-primary-light/30 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-light"></div>
+                  <div className="w-11 h-6 bg-neutral-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-darkMode-focus/30 rounded-full peer dark:bg-darkMode-navbar peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-gray after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-darkMode-border peer-checked:bg-primary"></div>
                 </label>
               </div>
             </div>
           </div>
 
           {/* Language */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+          <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border p-6">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-primary-light/10 dark:bg-primary-light/20 rounded-lg">
-                <Globe className="w-5 h-5 text-primary-light" />
+              <div className="p-2 bg-primary/10 dark:bg-darkMode-accent/20 rounded-lg">
+                <Globe className="w-5 h-5 text-primary dark:text-darkMode-accent" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Language & Region</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Set your preferred language</p>
+                <h2 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text">Language & Region</h2>
+                <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">Set your preferred language</p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-2">
                 Interface Language
               </label>
               <select
                 value={settings.language}
                 onChange={(e) => handleSettingChange('language', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border border-neutral-gray dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus focus:border-transparent dark:bg-darkMode-navbar dark:text-darkMode-text"
               >
                 {languages.map((lang) => (
                   <option key={lang.value} value={lang.value}>

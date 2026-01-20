@@ -150,15 +150,15 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg font-['Inter'] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-[#1C3D6E] rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-dark dark:bg-darkMode-navbar rounded-full mb-4">
             <LogIn className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-[#1C3D6E] mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Sign in to continue your learning journey</p>
+          <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text mb-2">Welcome Back</h1>
+          <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">Sign in to continue your learning journey</p>
         </div>
 
         {/* Notification */}
@@ -176,11 +176,11 @@ const Login: React.FC = () => {
         )}
 
         {/* Login Form */}
-        <div className="bg-white rounded-xl shadow-lg p-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="email" className="block text-sm font-medium text-neutral-dark dark:text-darkMode-text mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -191,8 +191,8 @@ const Login: React.FC = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
-                    errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors dark:bg-darkMode-surface dark:text-darkMode-text ${
+                    errors.email ? 'border-red-300 bg-red-50 dark:border-error dark:bg-error/10' : 'border-gray-300 dark:border-darkMode-border'
                   }`}
                   placeholder="Enter your email"
                 />
@@ -207,7 +207,7 @@ const Login: React.FC = () => {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-neutral-dark dark:text-darkMode-text mb-2">
                 Password
               </label>
               <div className="relative">
@@ -218,8 +218,8 @@ const Login: React.FC = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent transition-colors ${
-                    errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors dark:bg-darkMode-surface dark:text-darkMode-text ${
+                    errors.password ? 'border-red-300 bg-red-50 dark:border-error dark:bg-error/10' : 'border-gray-300 dark:border-darkMode-border'
                   }`}
                   placeholder="Enter your password"
                 />
@@ -244,13 +244,13 @@ const Login: React.FC = () => {
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  className="rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                  className="rounded border-gray-300 dark:border-darkMode-border text-primary focus:ring-primary dark:bg-darkMode-surface"
                 />
-                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                <span className="ml-2 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">Remember me</span>
               </label>
               <Link
                 to="/forgot-password"
-                className="text-sm text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+                className="text-sm text-primary hover:text-primary-dark dark:text-darkMode-link dark:hover:text-darkMode-accent transition-colors"
               >
                 Forgot password?
               </Link>
@@ -260,7 +260,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-4 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 px-4 bg-primary text-white rounded-lg hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 dark:bg-darkMode-progress dark:hover:bg-darkMode-success"
             >
               {isLoading ? (
                 <>
@@ -312,11 +312,11 @@ const Login: React.FC = () => {
 
           {/* Register Link */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
               Don&apos;t have an account?{' '}
               <Link
                 to="/register"
-                className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium transition-colors"
+                className="text-primary hover:text-primary-dark dark:text-darkMode-link dark:hover:text-darkMode-accent font-medium transition-colors"
               >
                 Create account
               </Link>

@@ -185,38 +185,38 @@ const MilestoneTracker: React.FC = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle className="w-6 h-6 text-green-600" />;
-      case 'in-progress': return <Clock className="w-6 h-6 text-blue-600" />;
-      case 'overdue': return <AlertCircle className="w-6 h-6 text-red-600" />;
-      default: return <Circle className="w-6 h-6 text-gray-400" />;
+      case 'completed': return <CheckCircle className="w-6 h-6 text-success dark:text-darkMode-success" />;
+      case 'in-progress': return <Clock className="w-6 h-6 text-info dark:text-darkMode-link" />;
+      case 'overdue': return <AlertCircle className="w-6 h-6 text-error dark:text-error-light" />;
+      default: return <Circle className="w-6 h-6 text-gray-400 dark:text-darkMode-textMuted" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in-progress': return 'text-blue-600 bg-blue-100';
-      case 'overdue': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      case 'in-progress': return 'text-info dark:text-darkMode-link bg-info/10 dark:bg-darkMode-link/20';
+      case 'overdue': return 'text-error dark:text-error-light bg-error/10 dark:bg-error/20';
+      default: return 'text-neutral-dark dark:text-darkMode-textSecondary bg-neutral-gray dark:bg-darkMode-surface';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-600 bg-red-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'high': return 'text-error dark:text-error-light bg-error/10 dark:bg-error/20';
+      case 'medium': return 'text-warning dark:text-warning-light bg-warning/10 dark:bg-warning/20';
+      case 'low': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      default: return 'text-neutral-dark dark:text-darkMode-textSecondary bg-neutral-gray dark:bg-darkMode-surface';
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'personal': return 'text-purple-600 bg-purple-100';
-      case 'course': return 'text-blue-600 bg-blue-100';
-      case 'career': return 'text-orange-600 bg-orange-100';
-      case 'skill': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'personal': return 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30';
+      case 'course': return 'text-info dark:text-darkMode-link bg-info/10 dark:bg-darkMode-link/20';
+      case 'career': return 'text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30';
+      case 'skill': return 'text-success dark:text-darkMode-success bg-success/10 dark:bg-darkMode-success/20';
+      default: return 'text-neutral-dark dark:text-darkMode-textSecondary bg-neutral-gray dark:bg-darkMode-surface';
     }
   };
 
@@ -237,23 +237,23 @@ const MilestoneTracker: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter']">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter']">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-[#1C3D6E] rounded-lg">
+              <div className="p-3 bg-primary-dark dark:bg-darkMode-navbar rounded-lg">
                 <Target className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E]">Milestone Tracker</h1>
-                <p className="text-gray-600">Track your learning goals and achievements</p>
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text">Milestone Tracker</h1>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">Track your learning goals and achievements</p>
               </div>
             </div>
             <button
               onClick={() => {/* TODO: Implement create modal */}}
-              className="flex items-center gap-2 px-6 py-3 bg-[#4A9E3D] text-white rounded-lg hover:bg-[#3A7B30] transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-secondary dark:bg-darkMode-success text-white rounded-lg hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors"
             >
               <Plus className="w-5 h-5" />
               New Milestone
@@ -263,63 +263,63 @@ const MilestoneTracker: React.FC = () => {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#4A9E3D]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 border-l-4 border-secondary dark:border-darkMode-success">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockStats.total}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Total</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.total}</p>
               </div>
-              <Target className="w-8 h-8 text-[#4A9E3D]" />
+              <Target className="w-8 h-8 text-secondary dark:text-darkMode-success" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 border-l-4 border-success dark:border-darkMode-success">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockStats.completed}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Completed</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.completed}</p>
               </div>
-              <CheckCircle className="w-8 h-8 text-green-600" />
+              <CheckCircle className="w-8 h-8 text-success dark:text-darkMode-success" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 border-l-4 border-info dark:border-darkMode-link">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">In Progress</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockStats.inProgress}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">In Progress</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.inProgress}</p>
               </div>
-              <Clock className="w-8 h-8 text-blue-600" />
+              <Clock className="w-8 h-8 text-info dark:text-darkMode-link" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 border-l-4 border-error dark:border-error-light">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Overdue</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockStats.overdue}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Overdue</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.overdue}</p>
               </div>
-              <AlertCircle className="w-8 h-8 text-red-600" />
+              <AlertCircle className="w-8 h-8 text-error dark:text-error-light" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 border-l-4 border-purple-500 dark:border-purple-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Success Rate</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockStats.completionRate}%</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Success Rate</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.completionRate}%</p>
               </div>
-              <TrendingUp className="w-8 h-8 text-purple-600" />
+              <TrendingUp className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 mb-8">
           <div className="flex flex-wrap gap-4 items-center">
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-500" />
-              <span className="font-medium text-gray-700">Filter by:</span>
+              <Filter className="w-5 h-5 text-neutral-dark/60 dark:text-darkMode-textMuted" />
+              <span className="font-medium text-neutral-dark dark:text-darkMode-textSecondary">Filter by:</span>
             </div>
 
             <div className="flex gap-2">
@@ -329,8 +329,8 @@ const MilestoneTracker: React.FC = () => {
                   onClick={() => setSelectedFilter(filter as 'all' | 'upcoming' | 'in-progress' | 'completed' | 'overdue')}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                     selectedFilter === filter
-                      ? 'bg-[#3DAEDB] text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-primary-light dark:bg-darkMode-progress text-white'
+                      : 'bg-neutral-gray dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-textSecondary hover:bg-gray-200 dark:hover:bg-darkMode-border'
                   }`}
                 >
                   {filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1).replace('-', ' ')}
@@ -338,12 +338,12 @@ const MilestoneTracker: React.FC = () => {
               ))}
             </div>
 
-            <div className="border-l border-gray-300 h-6"></div>
+            <div className="border-l border-gray-300 dark:border-darkMode-border h-6"></div>
 
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+              className="px-4 py-2 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-transparent bg-white dark:bg-darkMode-surface text-neutral-dark dark:text-darkMode-text"
             >
               {categories.map(category => (
                 <option key={category} value={category}>
@@ -357,7 +357,7 @@ const MilestoneTracker: React.FC = () => {
         {/* Milestones List */}
         <div className="space-y-6">
           {filteredMilestones.map((milestone) => (
-            <div key={milestone.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+            <div key={milestone.id} className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark overflow-hidden hover:shadow-xl dark:hover:shadow-dark-lg transition-shadow">
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-4 flex-grow">
@@ -367,8 +367,8 @@ const MilestoneTracker: React.FC = () => {
                     <div className="flex-grow">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className="text-xl font-bold text-[#1C3D6E] mb-1">{milestone.title}</h3>
-                          <p className="text-gray-600 mb-3">{milestone.description}</p>
+                          <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-1">{milestone.title}</h3>
+                          <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-3">{milestone.description}</p>
                           <div className="flex flex-wrap gap-2 mb-3">
                             <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(milestone.status)}`}>
                               {milestone.status.replace('-', ' ')}
@@ -380,17 +380,17 @@ const MilestoneTracker: React.FC = () => {
                               {milestone.category}
                             </span>
                             {milestone.learningPath && (
-                              <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+                              <span className="px-2 py-1 bg-neutral-gray dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-textSecondary rounded-full text-xs">
                                 {milestone.learningPath}
                               </span>
                             )}
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <button className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                          <button className="p-2 text-gray-400 dark:text-darkMode-textMuted hover:text-gray-600 dark:hover:text-darkMode-text transition-colors">
                             <Edit className="w-4 h-4" />
                           </button>
-                          <button className="p-2 text-gray-400 hover:text-red-600 transition-colors">
+                          <button className="p-2 text-gray-400 dark:text-darkMode-textMuted hover:text-error dark:hover:text-error-light transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -398,14 +398,14 @@ const MilestoneTracker: React.FC = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                         <div className="text-sm">
-                          <span className="text-gray-500">Start Date:</span>
-                          <p className="font-medium">{formatDate(milestone.startDate)}</p>
+                          <span className="text-neutral-dark/60 dark:text-darkMode-textMuted">Start Date:</span>
+                          <p className="font-medium text-neutral-dark dark:text-darkMode-text">{formatDate(milestone.startDate)}</p>
                         </div>
                         <div className="text-sm">
-                          <span className="text-gray-500">Due Date:</span>
-                          <p className="font-medium">{formatDate(milestone.dueDate)}</p>
+                          <span className="text-neutral-dark/60 dark:text-darkMode-textMuted">Due Date:</span>
+                          <p className="font-medium text-neutral-dark dark:text-darkMode-text">{formatDate(milestone.dueDate)}</p>
                           {milestone.status !== 'completed' && (
-                            <p className={`text-xs ${getDaysUntilDue(milestone.dueDate) < 0 ? 'text-red-600' : getDaysUntilDue(milestone.dueDate) < 7 ? 'text-yellow-600' : 'text-gray-500'}`}>
+                            <p className={`text-xs ${getDaysUntilDue(milestone.dueDate) < 0 ? 'text-error dark:text-error-light' : getDaysUntilDue(milestone.dueDate) < 7 ? 'text-warning dark:text-warning-light' : 'text-neutral-dark/60 dark:text-darkMode-textMuted'}`}>
                               {getDaysUntilDue(milestone.dueDate) < 0
                                 ? `${Math.abs(getDaysUntilDue(milestone.dueDate))} days overdue`
                                 : `${getDaysUntilDue(milestone.dueDate)} days remaining`}
@@ -413,8 +413,8 @@ const MilestoneTracker: React.FC = () => {
                           )}
                         </div>
                         <div className="text-sm">
-                          <span className="text-gray-500">Time Investment:</span>
-                          <p className="font-medium">
+                          <span className="text-neutral-dark/60 dark:text-darkMode-textMuted">Time Investment:</span>
+                          <p className="font-medium text-neutral-dark dark:text-darkMode-text">
                             {milestone.actualHours || 0}h / {milestone.estimatedHours}h
                           </p>
                         </div>
@@ -423,12 +423,12 @@ const MilestoneTracker: React.FC = () => {
                       {milestone.status !== 'completed' && (
                         <div className="mb-4">
                           <div className="flex justify-between text-sm mb-2">
-                            <span>Progress</span>
-                            <span>{milestone.progress}%</span>
+                            <span className="text-neutral-dark dark:text-darkMode-textSecondary">Progress</span>
+                            <span className="text-neutral-dark dark:text-darkMode-text">{milestone.progress}%</span>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
                             <div
-                              className="bg-[#4A9E3D] h-2 rounded-full transition-all duration-300"
+                              className="bg-secondary dark:bg-darkMode-success h-2 rounded-full transition-all duration-300"
                               style={{ width: `${milestone.progress}%` }}
                             ></div>
                           </div>
@@ -437,10 +437,10 @@ const MilestoneTracker: React.FC = () => {
 
                       {milestone.skills.length > 0 && (
                         <div className="mb-4">
-                          <p className="text-sm font-medium text-gray-700 mb-2">Skills:</p>
+                          <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-2">Skills:</p>
                           <div className="flex flex-wrap gap-2">
                             {milestone.skills.map((skill) => (
-                              <span key={skill} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                              <span key={skill} className="px-2 py-1 bg-info/10 dark:bg-darkMode-link/20 text-info dark:text-darkMode-link text-xs rounded-full">
                                 {skill}
                               </span>
                             ))}
@@ -449,38 +449,38 @@ const MilestoneTracker: React.FC = () => {
                       )}
 
                       <div className="mb-4">
-                        <p className="text-sm font-medium text-gray-700 mb-2">Tasks ({milestone.tasks.filter(t => t.completed).length}/{milestone.tasks.length}):</p>
+                        <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-2">Tasks ({milestone.tasks.filter(t => t.completed).length}/{milestone.tasks.length}):</p>
                         <div className="space-y-1">
                           {milestone.tasks.slice(0, 3).map((task) => (
                             <div key={task.id} className="flex items-center gap-2 text-sm">
-                              <CheckCircle className={`w-4 h-4 ${task.completed ? 'text-green-600' : 'text-gray-300'}`} />
-                              <span className={task.completed ? 'text-gray-500 line-through' : 'text-gray-700'}>
+                              <CheckCircle className={`w-4 h-4 ${task.completed ? 'text-success dark:text-darkMode-success' : 'text-gray-300 dark:text-darkMode-textMuted'}`} />
+                              <span className={task.completed ? 'text-neutral-dark/60 dark:text-darkMode-textMuted line-through' : 'text-neutral-dark dark:text-darkMode-textSecondary'}>
                                 {task.title}
                               </span>
                               {task.dueDate && !task.completed && (
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted">
                                   (due {formatDate(task.dueDate)})
                                 </span>
                               )}
                             </div>
                           ))}
                           {milestone.tasks.length > 3 && (
-                            <p className="text-xs text-gray-500">+{milestone.tasks.length - 3} more tasks</p>
+                            <p className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted">+{milestone.tasks.length - 3} more tasks</p>
                           )}
                         </div>
                       </div>
 
                       {milestone.notes && (
                         <div className="mb-4">
-                          <p className="text-sm font-medium text-gray-700 mb-1">Notes:</p>
-                          <p className="text-sm text-gray-600 italic">{milestone.notes}</p>
+                          <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-textSecondary mb-1">Notes:</p>
+                          <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary italic">{milestone.notes}</p>
                         </div>
                       )}
 
                       {milestone.completedDate && (
-                        <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
-                          <Award className="w-5 h-5 text-green-600" />
-                          <span className="text-sm font-medium text-green-800">
+                        <div className="flex items-center gap-2 p-3 bg-success/10 dark:bg-darkMode-success/20 rounded-lg">
+                          <Award className="w-5 h-5 text-success dark:text-darkMode-success" />
+                          <span className="text-sm font-medium text-success-dark dark:text-darkMode-successLight">
                             Completed on {formatDate(milestone.completedDate)}
                           </span>
                         </div>
@@ -489,22 +489,22 @@ const MilestoneTracker: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                <div className="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-darkMode-border">
                   <Link
                     to={`/student/roadmap/milestones/${milestone.id}`}
-                    className="inline-flex items-center gap-2 text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+                    className="inline-flex items-center gap-2 text-primary-light dark:text-darkMode-accent hover:text-primary-dark dark:hover:text-darkMode-accentHover transition-colors"
                   >
                     View Details <ChevronRight className="w-4 h-4" />
                   </Link>
 
                   {milestone.status === 'in-progress' && (
-                    <button className="px-4 py-2 bg-[#4A9E3D] text-white rounded-lg hover:bg-[#3A7B30] transition-colors">
+                    <button className="px-4 py-2 bg-secondary dark:bg-darkMode-success text-white rounded-lg hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors">
                       Update Progress
                     </button>
                   )}
 
                   {milestone.status === 'upcoming' && (
-                    <button className="px-4 py-2 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] transition-colors">
+                    <button className="px-4 py-2 bg-primary-light dark:bg-darkMode-progress text-white rounded-lg hover:bg-primary dark:hover:bg-darkMode-success transition-colors">
                       Start Milestone
                     </button>
                   )}
@@ -516,12 +516,12 @@ const MilestoneTracker: React.FC = () => {
 
         {filteredMilestones.length === 0 && (
           <div className="text-center py-12">
-            <Target className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-medium text-gray-900 mb-2">No milestones found</h3>
-            <p className="text-gray-600 mb-6">Create your first milestone to start tracking your learning goals.</p>
+            <Target className="w-16 h-16 text-gray-400 dark:text-darkMode-textMuted mx-auto mb-4" />
+            <h3 className="text-xl font-medium text-neutral-dark dark:text-darkMode-text mb-2">No milestones found</h3>
+            <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-6">Create your first milestone to start tracking your learning goals.</p>
             <button
               onClick={() => {/* TODO: Implement create modal */}}
-              className="px-6 py-3 bg-[#4A9E3D] text-white rounded-lg hover:bg-[#3A7B30] transition-colors"
+              className="px-6 py-3 bg-secondary dark:bg-darkMode-success text-white rounded-lg hover:bg-secondary-dark dark:hover:bg-darkMode-progress transition-colors"
             >
               Create Milestone
             </button>

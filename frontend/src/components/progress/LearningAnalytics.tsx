@@ -24,10 +24,10 @@ interface SkillProgress {
 }
 
 const mockCategoryData: AnalyticsData[] = [
-  { label: 'Programming', value: 24, percentage: 45, color: '#1C3D6E' },
-  { label: 'Data Analysis', value: 15, percentage: 28, color: '#4A9E3D' },
-  { label: 'Design', value: 8, percentage: 15, color: '#3DAEDB' },
-  { label: 'Business', value: 6, percentage: 12, color: '#2C857A' }
+  { label: 'Programming', value: 24, percentage: 45, color: 'var(--color-primary-dark)' },
+  { label: 'Data Analysis', value: 15, percentage: 28, color: 'var(--color-secondary)' },
+  { label: 'Design', value: 8, percentage: 15, color: 'var(--color-primary)' },
+  { label: 'Business', value: 6, percentage: 12, color: 'var(--color-forest-sage)' }
 ]
 
 const mockTimeData: TimeData[] = [
@@ -105,7 +105,7 @@ export default function LearningAnalytics() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -114,7 +114,7 @@ export default function LearningAnalytics() {
               <span className="text-2xl">📈</span>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E]">Learning Analytics</h1>
+              <h1 className="text-3xl font-bold text-primary-dark">Learning Analytics</h1>
               <p className="text-gray-600">Detailed insights into your learning patterns and progress</p>
             </div>
           </div>
@@ -146,8 +146,8 @@ export default function LearningAnalytics() {
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-50'
+                  ? 'bg-primary-dark text-white'
+                  : 'text-gray-600 hover:text-primary-dark hover:bg-gray-50'
               }`}
             >
               <span>{tab.icon}</span>
@@ -165,8 +165,8 @@ export default function LearningAnalytics() {
                 onClick={() => setSelectedPeriod(period as typeof selectedPeriod)}
                 className={`px-3 py-1 rounded-md text-sm font-medium transition-colors capitalize ${
                   selectedPeriod === period
-                    ? 'bg-[#3DAEDB] text-white'
-                    : 'text-gray-600 hover:text-[#1C3D6E]'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:text-primary-dark'
                 }`}
               >
                 {period}
@@ -180,12 +180,12 @@ export default function LearningAnalytics() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Learning Categories */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Learning Categories</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Learning Categories</h2>
               <div className="space-y-4">
                 {mockCategoryData.map((category, index) => (
                   <div key={index}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-[#1C3D6E]">{category.label}</span>
+                      <span className="font-medium text-primary-dark">{category.label}</span>
                       <span className="text-sm text-gray-600">{category.value}h ({category.percentage}%)</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
@@ -204,22 +204,22 @@ export default function LearningAnalytics() {
 
             {/* Weekly Summary */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Weekly Summary</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Weekly Summary</h2>
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="text-center p-4 bg-[#4A9E3D]/10 rounded-lg">
-                  <div className="text-2xl font-bold text-[#4A9E3D]">{totalHours.toFixed(1)}h</div>
+                <div className="text-center p-4 bg-secondary/10 rounded-lg">
+                  <div className="text-2xl font-bold text-secondary">{totalHours.toFixed(1)}h</div>
                   <div className="text-sm text-gray-600">Total Hours</div>
                 </div>
-                <div className="text-center p-4 bg-[#3DAEDB]/10 rounded-lg">
-                  <div className="text-2xl font-bold text-[#3DAEDB]">{avgHoursPerDay.toFixed(1)}h</div>
+                <div className="text-center p-4 bg-primary/10 rounded-lg">
+                  <div className="text-2xl font-bold text-primary">{avgHoursPerDay.toFixed(1)}h</div>
                   <div className="text-sm text-gray-600">Avg/Day</div>
                 </div>
-                <div className="text-center p-4 bg-[#2C857A]/10 rounded-lg">
-                  <div className="text-2xl font-bold text-[#2C857A]">11</div>
+                <div className="text-center p-4 bg-forest-sage/10 rounded-lg">
+                  <div className="text-2xl font-bold text-forest-sage">11</div>
                   <div className="text-sm text-gray-600">Courses</div>
                 </div>
-                <div className="text-center p-4 bg-[#1C3D6E]/10 rounded-lg">
-                  <div className="text-2xl font-bold text-[#1C3D6E]">12</div>
+                <div className="text-center p-4 bg-primary-dark/10 rounded-lg">
+                  <div className="text-2xl font-bold text-primary-dark">12</div>
                   <div className="text-sm text-gray-600">Skills</div>
                 </div>
               </div>
@@ -227,8 +227,8 @@ export default function LearningAnalytics() {
               {/* Learning Streak */}
               <div className="border-t pt-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-medium text-[#1C3D6E]">Learning Streak</span>
-                  <span className="text-2xl font-bold text-[#4A9E3D]">7 days 🔥</span>
+                  <span className="font-medium text-primary-dark">Learning Streak</span>
+                  <span className="text-2xl font-bold text-secondary">7 days 🔥</span>
                 </div>
                 <p className="text-sm text-gray-600 mt-2">Keep it up! You're on a roll!</p>
               </div>
@@ -240,19 +240,19 @@ export default function LearningAnalytics() {
           <div className="space-y-8">
             {/* Daily Time Chart */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Daily Learning Time</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Daily Learning Time</h2>
               <div className="grid grid-cols-7 gap-4">
                 {mockTimeData.map((day, index) => (
                   <div key={index} className="text-center">
                     <div className="text-sm text-gray-600 mb-2">{day.day}</div>
                     <div
-                      className="bg-[#4A9E3D] rounded-lg mx-auto relative"
+                      className="bg-secondary rounded-lg mx-auto relative"
                       style={{
                         height: `${Math.max(day.hours * 20, 20)}px`,
                         width: '40px'
                       }}
                     >
-                      <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-[#1C3D6E]">
+                      <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-xs font-bold text-primary-dark">
                         {day.hours}h
                       </div>
                     </div>
@@ -264,37 +264,37 @@ export default function LearningAnalytics() {
             {/* Time Distribution */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold text-[#1C3D6E] mb-4">Best Learning Times</h3>
+                <h3 className="text-lg font-bold text-primary-dark mb-4">Best Learning Times</h3>
                 <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-[#4A9E3D]/10 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">🌅 Morning (6-12 PM)</span>
-                    <span className="font-bold text-[#4A9E3D]">40%</span>
+                  <div className="flex justify-between items-center p-3 bg-secondary/10 rounded-lg">
+                    <span className="text-primary-dark font-medium">🌅 Morning (6-12 PM)</span>
+                    <span className="font-bold text-secondary">40%</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-[#3DAEDB]/10 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">🌞 Afternoon (12-6 PM)</span>
-                    <span className="font-bold text-[#3DAEDB]">35%</span>
+                  <div className="flex justify-between items-center p-3 bg-primary/10 rounded-lg">
+                    <span className="text-primary-dark font-medium">🌞 Afternoon (12-6 PM)</span>
+                    <span className="font-bold text-primary">35%</span>
                   </div>
-                  <div className="flex justify-between items-center p-3 bg-[#2C857A]/10 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">🌙 Evening (6+ PM)</span>
-                    <span className="font-bold text-[#2C857A]">25%</span>
+                  <div className="flex justify-between items-center p-3 bg-forest-sage/10 rounded-lg">
+                    <span className="text-primary-dark font-medium">🌙 Evening (6+ PM)</span>
+                    <span className="font-bold text-forest-sage">25%</span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white rounded-xl shadow-lg p-6">
-                <h3 className="text-lg font-bold text-[#1C3D6E] mb-4">Session Duration</h3>
+                <h3 className="text-lg font-bold text-primary-dark mb-4">Session Duration</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-[#1C3D6E]">Average Session</span>
-                    <span className="font-bold text-[#4A9E3D]">45 minutes</span>
+                    <span className="text-primary-dark">Average Session</span>
+                    <span className="font-bold text-secondary">45 minutes</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[#1C3D6E]">Longest Session</span>
-                    <span className="font-bold text-[#3DAEDB]">2h 30m</span>
+                    <span className="text-primary-dark">Longest Session</span>
+                    <span className="font-bold text-primary">2h 30m</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-[#1C3D6E]">Sessions This Week</span>
-                    <span className="font-bold text-[#2C857A]">18</span>
+                    <span className="text-primary-dark">Sessions This Week</span>
+                    <span className="font-bold text-forest-sage">18</span>
                   </div>
                 </div>
 
@@ -317,14 +317,14 @@ export default function LearningAnalytics() {
 
         {activeTab === 'skills' && (
           <div className="bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Skill Development Progress</h2>
+            <h2 className="text-xl font-bold text-primary-dark mb-6">Skill Development Progress</h2>
             <div className="space-y-6">
               {mockSkillProgress.map((skill, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-bold text-[#1C3D6E] text-lg">{skill.skill}</h3>
+                        <h3 className="font-bold text-primary-dark text-lg">{skill.skill}</h3>
                         <span className={`px-2 py-1 rounded-full text-xs font-bold ${getSkillLevelColor(skill.level)}`}>
                           Level {skill.level} - {getSkillLevelText(skill.level)}
                         </span>
@@ -335,7 +335,7 @@ export default function LearningAnalytics() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-[#4A9E3D]">{skill.progress}%</div>
+                      <div className="text-2xl font-bold text-secondary">{skill.progress}%</div>
                       <div className="text-xs text-gray-500">to next level</div>
                     </div>
                   </div>
@@ -358,7 +358,7 @@ export default function LearningAnalytics() {
                       <div
                         key={i}
                         className={`w-4 h-4 rounded-full ${
-                          i < skill.level ? 'bg-[#4A9E3D]' : 'bg-gray-200'
+                          i < skill.level ? 'bg-secondary' : 'bg-gray-200'
                         }`}
                       />
                     ))}
@@ -389,30 +389,30 @@ export default function LearningAnalytics() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Performance Trends */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Performance Trends</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Performance Trends</h2>
               <div className="space-y-4">
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">Assessment Scores</span>
-                    <span className="text-[#4A9E3D] font-bold">↗️ +5%</span>
+                    <span className="font-medium text-primary-dark">Assessment Scores</span>
+                    <span className="text-secondary font-bold">↗️ +5%</span>
                   </div>
-                  <div className="text-2xl font-bold text-[#1C3D6E]">85%</div>
+                  <div className="text-2xl font-bold text-primary-dark">85%</div>
                   <p className="text-sm text-gray-600">Average across all assessments</p>
                 </div>
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">Completion Rate</span>
-                    <span className="text-[#4A9E3D] font-bold">↗️ +12%</span>
+                    <span className="font-medium text-primary-dark">Completion Rate</span>
+                    <span className="text-secondary font-bold">↗️ +12%</span>
                   </div>
-                  <div className="text-2xl font-bold text-[#1C3D6E]">92%</div>
+                  <div className="text-2xl font-bold text-primary-dark">92%</div>
                   <p className="text-sm text-gray-600">Course completion rate</p>
                 </div>
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">Learning Efficiency</span>
-                    <span className="text-[#4A9E3D] font-bold">↗️ +8%</span>
+                    <span className="font-medium text-primary-dark">Learning Efficiency</span>
+                    <span className="text-secondary font-bold">↗️ +8%</span>
                   </div>
-                  <div className="text-2xl font-bold text-[#1C3D6E]">78%</div>
+                  <div className="text-2xl font-bold text-primary-dark">78%</div>
                   <p className="text-sm text-gray-600">Skills gained per hour</p>
                 </div>
               </div>
@@ -420,26 +420,26 @@ export default function LearningAnalytics() {
 
             {/* Comparative Analysis */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Comparative Performance</h2>
+              <h2 className="text-xl font-bold text-primary-dark mb-6">Comparative Performance</h2>
               <div className="space-y-4">
-                <div className="p-4 bg-[#4A9E3D]/10 rounded-lg">
+                <div className="p-4 bg-secondary/10 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">vs. Peer Average</span>
-                    <span className="text-[#4A9E3D] font-bold">+18%</span>
+                    <span className="font-medium text-primary-dark">vs. Peer Average</span>
+                    <span className="text-secondary font-bold">+18%</span>
                   </div>
                   <p className="text-sm text-gray-600">You're performing above average</p>
                 </div>
-                <div className="p-4 bg-[#3DAEDB]/10 rounded-lg">
+                <div className="p-4 bg-primary/10 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">Top 25%</span>
-                    <span className="text-[#3DAEDB] font-bold">🏆</span>
+                    <span className="font-medium text-primary-dark">Top 25%</span>
+                    <span className="text-primary font-bold">🏆</span>
                   </div>
                   <p className="text-sm text-gray-600">In your learning cohort</p>
                 </div>
-                <div className="p-4 bg-[#2C857A]/10 rounded-lg">
+                <div className="p-4 bg-forest-sage/10 rounded-lg">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-[#1C3D6E]">Consistency Score</span>
-                    <span className="text-[#2C857A] font-bold">94%</span>
+                    <span className="font-medium text-primary-dark">Consistency Score</span>
+                    <span className="text-forest-sage font-bold">94%</span>
                   </div>
                   <p className="text-sm text-gray-600">Daily learning consistency</p>
                 </div>

@@ -19,68 +19,176 @@ html, body, #root {
   width: 100%;
 }
 
+/* Base body styling with dark mode support */
 body {
-  @apply bg-neutral-light dark:bg-neutral-dark text-neutral-dark dark:text-neutral-light font-sans;
+  @apply bg-neutral-light text-neutral-dark font-sans;
+  @apply dark:bg-darkMode-bg dark:text-darkMode-text;
 }
 
+/* Glass card effect */
 .card-glass {
   @apply bg-white/10 backdrop-blur-lg rounded-2xl shadow-md border border-white/20;
+  @apply dark:bg-darkMode-surface/50 dark:border-darkMode-border;
 }
 
+/* Focus ring utility */
 .focus-ring {
   @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  @apply dark:focus:ring-darkMode-focus dark:focus:ring-offset-darkMode-bg;
 }
 
+/* Brand gradient */
 .brand-gradient {
-  @apply bg-primary-dark;
+  @apply bg-gradient-to-r from-primary-dark via-primary to-primary-light;
 }
 
-/* Custom utility classes */
+/* ============================================
+   Button Components - Forest Theme
+   ============================================ */
+
 .btn-primary {
-  @apply bg-primary-dark hover:bg-primary text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+  @apply bg-primary hover:bg-primary-light text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-forest hover:shadow-forest-lg transform hover:scale-105 active:scale-95;
+  @apply dark:bg-darkMode-progress dark:hover:bg-darkMode-success dark:shadow-dark;
 }
 
 .btn-secondary {
-  @apply bg-secondary hover:bg-secondary-dark text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+  @apply bg-secondary hover:bg-secondary-dark text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-forest hover:shadow-forest-lg transform hover:scale-105 active:scale-95;
+  @apply dark:bg-forest-sage dark:hover:bg-forest-medium dark:shadow-dark;
 }
 
 .btn-accent {
-  @apply bg-accent-teal hover:bg-accent-teal/90 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95;
+  @apply bg-accent-gold hover:bg-accent-goldLight text-primary-dark font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-gold hover:shadow-gold transform hover:scale-105 active:scale-95;
+  @apply dark:bg-darkMode-accent dark:hover:bg-darkMode-accentHover dark:text-darkMode-bg;
 }
 
 .btn-outline {
-  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-lg;
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:shadow-forest;
+  @apply dark:border-darkMode-progress dark:text-darkMode-progress dark:hover:bg-darkMode-progress dark:hover:text-darkMode-bg;
 }
 
 .btn-ghost {
-  @apply text-primary hover:bg-primary-light/10 hover:text-primary-dark font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  @apply text-primary hover:bg-primary/10 hover:text-primary-dark font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  @apply dark:text-darkMode-text dark:hover:bg-darkMode-surfaceHover dark:hover:text-darkMode-accent;
 }
+
+/* ============================================
+   Card Components
+   ============================================ */
 
 .card-modern {
-  @apply bg-neutral-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 backdrop-blur-sm hover:shadow-2xl transition-all duration-300;
+  @apply bg-neutral-white rounded-2xl shadow-forest border border-neutral-gray backdrop-blur-sm hover:shadow-forest-lg transition-all duration-300;
+  @apply dark:bg-darkMode-surface dark:border-darkMode-border dark:shadow-dark dark:hover:shadow-dark-lg;
 }
+
+.card-elevated {
+  @apply bg-neutral-white rounded-2xl shadow-forest-lg border-0 hover:shadow-gold transition-all duration-300;
+  @apply dark:bg-darkMode-surface dark:shadow-dark-lg dark:hover:shadow-dark-glow;
+}
+
+/* ============================================
+   Form Input Components
+   ============================================ */
 
 .input-modern {
-  @apply w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-300 bg-neutral-white dark:bg-gray-700 text-neutral-dark dark:text-neutral-light placeholder-gray-400 dark:placeholder-gray-500;
+  @apply w-full px-4 py-3 border border-border-light rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-300 bg-neutral-white text-neutral-dark placeholder-forest-sage;
+  @apply dark:bg-darkMode-surface dark:border-darkMode-border dark:text-darkMode-text dark:placeholder-darkMode-textMuted dark:focus:ring-darkMode-focus dark:focus:border-darkMode-focus;
 }
 
+.input-filled {
+  @apply w-full px-4 py-3 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 bg-neutral-gray text-neutral-dark placeholder-forest-sage;
+  @apply dark:bg-darkMode-surfaceHover dark:text-darkMode-text dark:placeholder-darkMode-textMuted dark:focus:ring-darkMode-focus;
+}
+
+/* ============================================
+   Progress Components
+   ============================================ */
+
 .progress-bar {
-  @apply w-full bg-neutral-light rounded-full h-3 shadow-inner;
+  @apply w-full bg-neutral-gray rounded-full h-3 shadow-inner;
+  @apply dark:bg-darkMode-surfaceHover;
 }
 
 .progress-fill {
-  @apply bg-primary-dark h-3 rounded-full transition-all duration-500 shadow-sm;
+  @apply bg-gradient-to-r from-primary to-primary-light h-3 rounded-full transition-all duration-500 shadow-sm;
+  @apply dark:from-darkMode-progress dark:to-darkMode-success;
 }
 
-.text-muted { @apply text-gray-600 dark:text-gray-400; }
+.progress-gold {
+  @apply bg-gradient-to-r from-accent-gold to-accent-goldLight h-3 rounded-full transition-all duration-500;
+  @apply dark:from-darkMode-accent dark:to-darkMode-accentHover;
+}
 
-/* Status colors */
-.status-success { @apply bg-secondary text-white; }
-.status-info { @apply bg-primary-light text-white; }
-.status-warning { @apply bg-orange-400 text-white; }
-.status-error { @apply bg-red-500 text-white; }
+/* ============================================
+   Text Utilities
+   ============================================ */
 
-/* Animations */
+.text-muted {
+  @apply text-forest-sage;
+  @apply dark:text-darkMode-textMuted;
+}
+
+.text-secondary-content {
+  @apply text-forest-medium;
+  @apply dark:text-darkMode-textSecondary;
+}
+
+/* ============================================
+   Status Colors
+   ============================================ */
+
+.status-success {
+  @apply bg-success text-white;
+  @apply dark:bg-darkMode-success;
+}
+
+.status-info {
+  @apply bg-info text-white;
+  @apply dark:bg-darkMode-link;
+}
+
+.status-warning {
+  @apply bg-warning text-primary-dark;
+  @apply dark:bg-accent-goldMuted dark:text-darkMode-bg;
+}
+
+.status-error {
+  @apply bg-error text-white;
+}
+
+/* ============================================
+   Navigation & Layout
+   ============================================ */
+
+.nav-link {
+  @apply text-forest-sage hover:text-primary font-medium transition-colors duration-200;
+  @apply dark:text-darkMode-textSecondary dark:hover:text-darkMode-accent;
+}
+
+.nav-link-active {
+  @apply text-primary font-semibold;
+  @apply dark:text-darkMode-accent;
+}
+
+/* Sidebar styling */
+.sidebar {
+  @apply bg-neutral-white border-r border-border-light;
+  @apply dark:bg-darkMode-navbar dark:border-darkMode-border;
+}
+
+.sidebar-item {
+  @apply flex items-center gap-3 px-4 py-3 rounded-lg text-forest-medium hover:bg-forest-mist hover:text-primary transition-all duration-200;
+  @apply dark:text-darkMode-textSecondary dark:hover:bg-darkMode-surfaceHover dark:hover:text-darkMode-text;
+}
+
+.sidebar-item-active {
+  @apply bg-primary/10 text-primary font-medium;
+  @apply dark:bg-darkMode-surfaceHover dark:text-darkMode-accent;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -112,30 +220,95 @@ body {
 .animate-bounce-soft { animation: bounce-soft 2s ease-in-out infinite; }
 
 @keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(61, 174, 219, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(61, 174, 219, 0.6), 0 0 60px rgba(44, 133, 122, 0.3); }
+  0%, 100% { box-shadow: 0 0 20px rgba(95, 179, 122, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(95, 179, 122, 0.6), 0 0 60px rgba(76, 175, 115, 0.3); }
 }
 .animate-glow-pulse { animation: glow-pulse 3s ease-in-out infinite; }
 
-/* Modern glass effect */
+@keyframes gold-shimmer {
+  0%, 100% { box-shadow: 0 0 20px rgba(253, 197, 0, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(253, 197, 0, 0.6), 0 0 60px rgba(230, 201, 122, 0.3); }
+}
+.animate-gold-shimmer { animation: gold-shimmer 3s ease-in-out infinite; }
+
+/* ============================================
+   Glass & Special Effects
+   ============================================ */
+
 .glass-effect {
-  @apply backdrop-blur-md bg-white/80 border border-white/20 shadow-2xl;
+  @apply backdrop-blur-md bg-white/80 border border-white/20 shadow-forest-lg;
+  @apply dark:bg-darkMode-surface/80 dark:border-darkMode-border;
 }
 
-/* Custom scrollbar */
+.glass-dark {
+  @apply backdrop-blur-md bg-primary-dark/90 border border-white/10 shadow-dark-lg;
+}
+
+/* ============================================
+   Custom Scrollbar
+   ============================================ */
+
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { @apply bg-neutral-light; border-radius: 4px; }
+::-webkit-scrollbar-track {
+  @apply bg-neutral-gray;
+  border-radius: 4px;
+}
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary-dark;
+  @apply bg-primary;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
+  @apply bg-primary-dark;
 }
 
-/* Focus styles */
-.focus-ring {
-  @apply focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:ring-offset-2 focus:ring-offset-white;
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  @apply bg-darkMode-surfaceHover;
+}
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-darkMode-border;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-darkMode-textMuted;
 }
 
-/* Typography enhancements */
+/* ============================================
+   Badge & Tag Components
+   ============================================ */
+
+.badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.badge-primary {
+  @apply bg-primary/10 text-primary;
+  @apply dark:bg-darkMode-progress/20 dark:text-darkMode-progress;
+}
+
+.badge-gold {
+  @apply bg-accent-gold/10 text-accent-gold;
+  @apply dark:bg-darkMode-accent/20 dark:text-darkMode-accent;
+}
+
+.badge-success {
+  @apply bg-success/10 text-success;
+  @apply dark:bg-darkMode-success/20 dark:text-darkMode-success;
+}
+
+/* ============================================
+   Dividers
+   ============================================ */
+
+.divider {
+  @apply border-t border-border-light;
+  @apply dark:border-darkMode-border;
+}
+
+/* ============================================
+   Tooltip styling
+   ============================================ */
+
+.tooltip {
+  @apply bg-primary-dark text-white text-sm px-3 py-2 rounded-lg shadow-forest;
+  @apply dark:bg-darkMode-surface dark:text-darkMode-text dark:border dark:border-darkMode-border dark:shadow-dark;
+}

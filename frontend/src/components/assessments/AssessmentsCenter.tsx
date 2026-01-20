@@ -70,7 +70,7 @@ export default function AssessmentCenter() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -79,7 +79,7 @@ export default function AssessmentCenter() {
               <BarChart3 className="w-8 h-8 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Assessment Center</h1>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Assessment Center</h1>
               <p className="text-gray-600 dark:text-gray-300">Discover your strengths and track your progress</p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function AssessmentCenter() {
               className={`px-4 py-2 rounded-md font-medium transition-colors capitalize ${
                 filter === tab
                   ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:hover:text-[#3DAEDB] hover:bg-gray-50 dark:hover:bg-gray-700'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:hover:text-primary hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
               {tab}
@@ -121,7 +121,7 @@ export default function AssessmentCenter() {
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{getTypeIcon(assessment.type)}</span>
                     <div>
-                      <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg">{assessment.title}</h3>
+                      <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">{assessment.title}</h3>
                       <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(assessment.status)}`}>
                         {assessment.status.replace('_', ' ')}
                       </span>
@@ -153,7 +153,7 @@ export default function AssessmentCenter() {
                     <button className="w-full bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-200 py-2 px-4 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors">
                       View Results
                     </button>
-                    <button className="w-full border border-[#1C3D6E] dark:border-[#3DAEDB] text-[#1C3D6E] dark:text-[#3DAEDB] py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] dark:hover:bg-[#3DAEDB] hover:text-white dark:hover:text-gray-900 transition-colors">
+                    <button className="w-full border border-[#1C3D6E] dark:border-[#3DAEDB] text-primary-dark dark:text-darkMode-link py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] dark:hover:bg-primary hover:text-white dark:hover:text-gray-900 transition-colors">
                       Retake Assessment
                     </button>
                   </div>
@@ -169,14 +169,14 @@ export default function AssessmentCenter() {
 
         {/* Progress Overview */}
         <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Assessment Progress</h2>
+          <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Assessment Progress</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <div className="text-2xl font-bold text-[#4A9E3D]">1</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Completed</div>
             </div>
             <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-              <div className="text-2xl font-bold text-[#3DAEDB]">1</div>
+              <div className="text-2xl font-bold text-primary">1</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">In Progress</div>
             </div>
             <div className="text-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">

@@ -289,7 +289,7 @@ const SkillsGapAnalysis = () => {
 
   if (currentStep === 'profile') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -298,7 +298,7 @@ const SkillsGapAnalysis = () => {
                 <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                   <TrendingUp className="w-10 h-10 text-white" />
                 </div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                   Skills Gap Analysis
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
@@ -307,8 +307,8 @@ const SkillsGapAnalysis = () => {
               </div>
 
               <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6 flex items-center">
-                  <Target className="w-8 h-8 mr-3 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-6 flex items-center">
+                  <Target className="w-8 h-8 mr-3 text-primary-dark dark:text-darkMode-link" />
                   Select Your Target Career
                 </h2>
 
@@ -323,7 +323,7 @@ const SkillsGapAnalysis = () => {
                         <Briefcase className="w-8 h-8 text-white" />
                       </div>
 
-                      <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2 group-hover:text-[#0f2844] transition-colors">
+                      <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-2 group-hover:text-[#0f2844] transition-colors">
                         {career.title}
                       </h3>
 
@@ -359,7 +359,7 @@ const SkillsGapAnalysis = () => {
     const mediumPrioritySkills = skillsData.filter(skill => skill.importance === 'medium');
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -368,7 +368,7 @@ const SkillsGapAnalysis = () => {
               <div className="mb-8">
                 <button
                   onClick={() => setCurrentStep('profile')}
-                  className="flex items-center text-[#1C3D6E] dark:text-[#3DAEDB] hover:text-[#0f2844] mb-4 transition-colors"
+                  className="flex items-center text-primary-dark dark:text-darkMode-link hover:text-[#0f2844] mb-4 transition-colors"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -377,7 +377,7 @@ const SkillsGapAnalysis = () => {
                 </button>
 
                 <div className="text-center">
-                  <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                  <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                     Skills Gap Analysis: {selectedCareer}
                   </h1>
                   <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
@@ -390,7 +390,7 @@ const SkillsGapAnalysis = () => {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
                   <p className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Total Skills</p>
-                  <p className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{skillsData.length}</p>
+                  <p className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">{skillsData.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border">
                   <p className="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Skills with Gaps</p>
@@ -416,7 +416,7 @@ const SkillsGapAnalysis = () => {
                   {/* High Priority Skills */}
                   {highPrioritySkills.length > 0 && (
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 mb-8">
-                      <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6 flex items-center">
+                      <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-6 flex items-center">
                         <span className="text-3xl mr-3">🚨</span>
                         High Priority Skills
                       </h2>
@@ -427,7 +427,7 @@ const SkillsGapAnalysis = () => {
                             <div key={skill.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:border-[#3DAEDB] transition-all duration-300">
                               <div className="flex justify-between items-start mb-3">
                                 <div className="flex-1">
-                                  <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{skill.name}</h3>
+                                  <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-2">{skill.name}</h3>
                                   <p className="text-gray-600 dark:text-gray-300 mb-3">{skill.description}</p>
 
                                   <div className="flex items-center space-x-4 mb-3">
@@ -468,15 +468,15 @@ const SkillsGapAnalysis = () => {
                   {/* Medium Priority Skills */}
                   {mediumPrioritySkills.length > 0 && (
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 mb-8">
-                      <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6 flex items-center">
-                        <AlertTriangle className="w-8 h-8 mr-3 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+                      <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-6 flex items-center">
+                        <AlertTriangle className="w-8 h-8 mr-3 text-primary-dark dark:text-darkMode-link" />
                         Medium Priority Skills
                       </h2>
                       <div className="space-y-4">
                         {mediumPrioritySkills.map((skill) => (
                           <div key={skill.id} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-[#3DAEDB] transition-all duration-300">
                             <div className="flex justify-between items-center mb-2">
-                              <h3 className="text-lg font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{skill.name}</h3>
+                              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link">{skill.name}</h3>
                               <span className="text-sm text-orange-600 font-semibold">
                                 Gap: {skill.requiredLevel - skill.currentLevel} level{skill.requiredLevel - skill.currentLevel > 1 ? 's' : ''}
                               </span>
@@ -501,7 +501,7 @@ const SkillsGapAnalysis = () => {
                 <div className="space-y-6">
                   {/* Action Plan */}
                   <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-6">
-                    <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 flex items-center">
+                    <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4 flex items-center">
                       <span className="text-2xl mr-2">📋</span>
                       Action Plan
                     </h3>
@@ -529,26 +529,26 @@ const SkillsGapAnalysis = () => {
 
                   {/* Skill Categories */}
                   <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-6">
-                    <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 flex items-center">
-                      <BarChart3 className="w-6 h-6 mr-2 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+                    <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4 flex items-center">
+                      <BarChart3 className="w-6 h-6 mr-2 text-primary-dark dark:text-darkMode-link" />
                       Skill Categories
                     </h3>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-300">Technical Skills</span>
-                        <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">
+                        <span className="font-semibold text-primary-dark dark:text-darkMode-link">
                           {skillsData.filter(s => s.category === 'technical').length}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-300">Soft Skills</span>
-                        <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">
+                        <span className="font-semibold text-primary-dark dark:text-darkMode-link">
                           {skillsData.filter(s => s.category === 'soft').length}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-gray-600 dark:text-gray-300">Industry Skills</span>
-                        <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">
+                        <span className="font-semibold text-primary-dark dark:text-darkMode-link">
                           {skillsData.filter(s => s.category === 'industry').length}
                         </span>
                       </div>
@@ -557,14 +557,14 @@ const SkillsGapAnalysis = () => {
 
                   {/* Progress Overview */}
                   <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-6">
-                    <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 flex items-center">
-                      <Target className="w-6 h-6 mr-2 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+                    <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4 flex items-center">
+                      <Target className="w-6 h-6 mr-2 text-primary-dark dark:text-darkMode-link" />
                       Progress Overview
                     </h3>
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between text-sm mb-2">
-                          <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">Overall Readiness</span>
+                          <span className="font-semibold text-primary-dark dark:text-darkMode-link">Overall Readiness</span>
                           <span className="font-bold text-[#333333]">
                             {Math.round((skillsData.reduce((acc, skill) => acc + skill.currentLevel, 0) /
                               skillsData.reduce((acc, skill) => acc + skill.requiredLevel, 0)) * 100)}%
@@ -593,7 +593,7 @@ const SkillsGapAnalysis = () => {
 
   // Learning Plan Step
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
         <CareerSidebar />
         <div className="flex-1 ml-6">
@@ -601,7 +601,7 @@ const SkillsGapAnalysis = () => {
             <div className="mb-8">
               <button
                 onClick={() => setCurrentStep('analysis')}
-                className="flex items-center text-[#1C3D6E] dark:text-[#3DAEDB] hover:text-[#0f2844] mb-4 transition-colors"
+                className="flex items-center text-primary-dark dark:text-darkMode-link hover:text-[#0f2844] mb-4 transition-colors"
               >
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -613,7 +613,7 @@ const SkillsGapAnalysis = () => {
                 <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
                   <BookOpen className="w-12 h-12 text-white" />
                 </div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                   Your Personalized Learning Plan
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
@@ -627,7 +627,7 @@ const SkillsGapAnalysis = () => {
                 <div key={skill.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8">
                   <div className="flex justify-between items-start mb-6">
                     <div>
-                      <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{skill.name}</h2>
+                      <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-2">{skill.name}</h2>
                       <p className="text-gray-600 dark:text-gray-300">{skill.description}</p>
                       <div className="flex items-center space-x-4 mt-3">
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getImportanceColor(skill.importance)}`}>
@@ -640,14 +640,14 @@ const SkillsGapAnalysis = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Recommended Learning Resources:</h3>
+                  <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Recommended Learning Resources:</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {skill.resources.map((resource, resourceIndex) => (
-                      <div key={resourceIndex} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 transition-all duration-300">
+                      <div key={resourceIndex} className="border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:border-[#3DAEDB] hover:bg-primary/5 transition-all duration-300">
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{resource.title}</h4>
+                          <h4 className="font-bold text-primary-dark dark:text-darkMode-link">{resource.title}</h4>
                           <span className={`px-2 py-1 rounded-full text-xs font-semibold ${resource.cost === 'Free' ? 'bg-[#4A9E3D]/20 text-[#4A9E3D]' :
-                              resource.cost === 'Paid' ? 'bg-[#3DAEDB]/20 text-[#1C3D6E] dark:text-[#3DAEDB]' :
+                              resource.cost === 'Paid' ? 'bg-primary/20 text-primary-dark dark:text-darkMode-link' :
                                 'bg-[#333333]/20 text-[#333333]'
                             }`}>
                             {resource.cost}

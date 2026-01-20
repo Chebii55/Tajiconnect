@@ -77,7 +77,7 @@ const CareerPathways = () => {
 
   if (selectedPath) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -85,7 +85,7 @@ const CareerPathways = () => {
               <div className="mb-8">
                 <button
                   onClick={handleBackToOverview}
-                  className="flex items-center text-[#1C3D6E] dark:text-[#3DAEDB] hover:text-[#0f2844] mb-4 transition-colors"
+                  className="flex items-center text-primary-dark dark:text-darkMode-link hover:text-[#0f2844] mb-4 transition-colors"
                 >
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -98,7 +98,7 @@ const CareerPathways = () => {
                     <Briefcase className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{selectedPath.title}</h1>
+                    <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-2">{selectedPath.title}</h1>
                     <p className="text-gray-600 dark:text-gray-300 text-lg">{selectedPath.description}</p>
                   </div>
                 </div>
@@ -111,13 +111,13 @@ const CareerPathways = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
         <CareerSidebar />
         <div className="flex-1 ml-6">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                 Career Pathways
               </h1>
               <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
@@ -132,10 +132,10 @@ const CareerPathways = () => {
                   <div className={`w-12 h-12 ${path.color} rounded-full flex items-center justify-center mb-4 shadow-lg`}>
                     <Briefcase className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{path.title}</h3>
+                  <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-2">{path.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">{path.description}</p>
                   <div className="flex justify-between items-center text-sm">
-                    <span className="text-[#4A9E3D] font-semibold">{path.averageSalary}</span>
+                    <span className="text-secondary font-semibold">{path.averageSalary}</span>
                     <span className="text-[#2C857A] font-semibold">{path.growthRate}</span>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ const CareerPathways = () => {
                 <p className="text-gray-500 text-lg">No career paths found matching "{selectedCareer}"</p>
                 <Link
                   to="/student/career/pathways"
-                  className="inline-block mt-4 text-[#1C3D6E] dark:text-[#3DAEDB] hover:text-[#0f2844] font-semibold"
+                  className="inline-block mt-4 text-primary-dark dark:text-darkMode-link hover:text-[#0f2844] font-semibold"
                 >
                   View all career paths
                 </Link>

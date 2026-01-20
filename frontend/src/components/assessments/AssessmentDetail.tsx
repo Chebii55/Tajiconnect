@@ -73,13 +73,13 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
 
   if (showFeedback) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 p-6">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8 text-center">
             <div className="w-16 h-16 bg-primary-dark rounded-full flex items-center justify-center mx-auto mb-6">
               <span className="text-3xl">✅</span>
             </div>
-            <h1 className="text-3xl font-bold text-[#1C3D6E] mb-4">Assessment Complete!</h1>
+            <h1 className="text-3xl font-bold text-primary-dark mb-4">Assessment Complete!</h1>
             <p className="text-gray-600 mb-6">
               Thank you for completing the assessment. Your results are being processed.
             </p>
@@ -98,7 +98,7 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
               <button className="btn-primary w-full">
                 View Preliminary Results
               </button>
-              <button className="w-full border border-[#1C3D6E] text-[#1C3D6E] py-3 px-6 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
+              <button className="w-full border border-[#1C3D6E] text-primary-dark py-3 px-6 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
                 Return to Assessment Center
               </button>
             </div>
@@ -112,7 +112,7 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
   const hasAnswer = answers[question.id] !== undefined
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 p-6">
       <div className="max-w-4xl mx-auto">
         {/* Progress Header */}
         <div className="mb-8">
@@ -122,13 +122,13 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
                 <span className="text-white font-bold">{currentQuestion + 1}</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-[#1C3D6E]">Career Aptitude Assessment</h1>
+                <h1 className="text-2xl font-bold text-primary-dark">Career Aptitude Assessment</h1>
                 <p className="text-gray-600">Question {currentQuestion + 1} of {mockQuestions.length}</p>
               </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-600 mb-1">Progress</div>
-              <div className="text-lg font-bold text-[#4A9E3D]">{Math.round(progress)}%</div>
+              <div className="text-lg font-bold text-secondary">{Math.round(progress)}%</div>
             </div>
           </div>
 
@@ -144,10 +144,10 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
         {/* Question Card */}
         <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
           <div className="mb-6">
-            <div className="inline-block bg-[#3DAEDB]/10 text-[#1C3D6E] px-3 py-1 rounded-full text-sm font-medium mb-4">
+            <div className="inline-block bg-primary/10 text-primary-dark px-3 py-1 rounded-full text-sm font-medium mb-4">
               {question.category}
             </div>
-            <h2 className="text-xl font-bold text-[#1C3D6E] mb-4">{question.text}</h2>
+            <h2 className="text-xl font-bold text-primary-dark mb-4">{question.text}</h2>
           </div>
 
           {question.type === 'multiple_choice' && question.options && (
@@ -159,7 +159,7 @@ export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps
                   className={`w-full text-left p-4 rounded-lg border-2 transition-colors ${
                     answers[question.id] === option
                       ? 'border-[#4A9E3D] bg-[#4A9E3D]/5'
-                      : 'border-gray-200 hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5'
+                      : 'border-gray-200 hover:border-[#3DAEDB] hover:bg-primary/5'
                   }`}
                 >
                   <div className="flex items-center gap-3">

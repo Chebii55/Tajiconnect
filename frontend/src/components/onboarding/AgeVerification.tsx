@@ -75,12 +75,12 @@ const AgeVerification = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-forest-mist dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter'] py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Progress Indicator */}
-        <OnboardingProgress 
-          currentStep={1} 
-          totalSteps={6} 
+        <OnboardingProgress
+          currentStep={1}
+          totalSteps={6}
           stepLabels={stepLabels}
         />
 
@@ -88,31 +88,31 @@ const AgeVerification = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="flex items-center text-[#1C3D6E] hover:text-[#3DAEDB] transition-colors duration-200 mb-4"
+            className="flex items-center text-primary-dark dark:text-darkMode-text hover:text-primary-light dark:hover:text-darkMode-accent transition-colors duration-200 mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Welcome
           </button>
 
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#1C3D6E] to-[#3DAEDB] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary-dark to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg dark:shadow-dark">
               <Cake className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-3xl font-bold text-[#1C3D6E] mb-3">
+            <h2 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text mb-3">
               {userData?.firstName ? `Hi ${userData.firstName}!` : 'Age Verification'}
             </h2>
-            <p className="text-gray-600 text-lg">
-              {dateOfBirth && userData?.dateOfBirth ? 
+            <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-lg">
+              {dateOfBirth && userData?.dateOfBirth ?
                 'We have your date of birth from registration. Please confirm or update it below.' :
                 'Please enter your date of birth to continue your learning journey'
               }
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl border-0 p-8">
+          <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-[#1C3D6E] mb-3">
+                <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-3">
                   Date of Birth
                 </label>
                 <input
@@ -122,22 +122,22 @@ const AgeVerification = () => {
                   value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(e.target.value)}
                   max={today}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 text-base"
+                  className="w-full px-4 py-3 border-2 border-neutral-gray dark:border-darkMode-border bg-white dark:bg-darkMode-surfaceHover rounded-xl focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-primary-light dark:focus:border-darkMode-focus transition-all duration-300 text-base text-neutral-dark dark:text-darkMode-text"
                   required
                 />
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-neutral-dark/50 dark:text-darkMode-textMuted mt-2">
                   We use this to provide age-appropriate content and experiences
                 </p>
               </div>
 
               {dateOfBirth && (
-                <div className="bg-gradient-to-r from-[#3DAEDB]/10 to-[#2C857A]/10 rounded-xl p-4 border border-[#3DAEDB]/20">
-                  <p className="text-sm text-[#1C3D6E]">
+                <div className="bg-gradient-to-r from-primary-light/10 to-forest-sage/10 dark:from-darkMode-progress/10 dark:to-darkMode-success/10 rounded-xl p-4 border border-primary-light/20 dark:border-darkMode-progress/20">
+                  <p className="text-sm text-primary-dark dark:text-darkMode-text">
                     <span className="font-semibold">Age:</span> {calculateAge(dateOfBirth)} years old
                   </p>
                   {calculateAge(dateOfBirth) < 13 && (
-                    <p className="text-sm text-orange-600 mt-1">
-                      ⚠️ Parental consent will be required for users under 13
+                    <p className="text-sm text-warning dark:text-warning-light mt-1">
+                      Parental consent will be required for users under 13
                     </p>
                   )}
                 </div>
@@ -148,8 +148,8 @@ const AgeVerification = () => {
                 disabled={!dateOfBirth || isSubmitting}
                 className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:scale-105 active:scale-95 ${
                   !dateOfBirth || isSubmitting
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white hover:from-[#2A9BC8] hover:to-[#1F6B61]'
+                    ? 'bg-neutral-gray dark:bg-darkMode-border text-neutral-dark/50 dark:text-darkMode-textMuted cursor-not-allowed'
+                    : 'bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white hover:from-primary hover:to-forest-deep dark:hover:from-darkMode-success dark:hover:to-darkMode-progress'
                 }`}
               >
                 {isSubmitting ? (
@@ -169,7 +169,7 @@ const AgeVerification = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-neutral-dark/50 dark:text-darkMode-textMuted">
                 Your information is secure and used only for providing personalized learning experiences
               </p>
             </div>

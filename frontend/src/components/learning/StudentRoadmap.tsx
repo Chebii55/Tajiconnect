@@ -25,93 +25,93 @@ const StudentRoadmap: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter']">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter']">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-[#1C3D6E] rounded-lg">
+            <div className="p-3 bg-primary-dark dark:bg-darkMode-navbar rounded-lg">
               <Map className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-[#1C3D6E]">Learning Roadmap</h1>
-              <p className="text-gray-600">Your personalized path to success</p>
+              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text">Learning Roadmap</h1>
+              <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">Your personalized path to success</p>
             </div>
           </div>
         </div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-[#4A9E3D]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-secondary dark:border-darkMode-success">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Milestones</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">{mockStats.completedMilestones}/{mockStats.totalMilestones}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Milestones</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.completedMilestones}/{mockStats.totalMilestones}</p>
               </div>
-              <Target className="w-6 h-6 text-[#4A9E3D]" />
+              <Target className="w-6 h-6 text-secondary dark:text-darkMode-success" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-[#3DAEDB]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-primary-light dark:border-darkMode-accent">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Current Streak</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">{mockStats.currentStreak} days</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Current Streak</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.currentStreak} days</p>
               </div>
-              <Star className="w-6 h-6 text-[#3DAEDB]" />
+              <Star className="w-6 h-6 text-primary-light dark:text-darkMode-accent" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-[#2C857A]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-forest-sage dark:border-darkMode-success">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Skills Mastered</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">{mockStats.masteredSkills}/{mockStats.totalSkills}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Skills Mastered</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.masteredSkills}/{mockStats.totalSkills}</p>
               </div>
-              <Award className="w-6 h-6 text-[#2C857A]" />
+              <Award className="w-6 h-6 text-forest-sage dark:text-darkMode-success" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-purple-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-purple-500 dark:border-purple-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Completion</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">{mockStats.estimatedCompletion}</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Completion</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">{mockStats.estimatedCompletion}</p>
               </div>
-              <Calendar className="w-6 h-6 text-purple-600" />
+              <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-orange-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-orange-500 dark:border-orange-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Progress</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">68%</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Progress</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">68%</p>
               </div>
-              <TrendingUp className="w-6 h-6 text-orange-600" />
+              <TrendingUp className="w-6 h-6 text-orange-600 dark:text-orange-400" />
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 border-l-4 border-pink-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-4 border-l-4 border-pink-500 dark:border-pink-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Study Time</p>
-                <p className="text-xl font-bold text-[#1C3D6E]">127h</p>
+                <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary">Study Time</p>
+                <p className="text-xl font-bold text-primary-dark dark:text-darkMode-text">127h</p>
               </div>
-              <Clock className="w-6 h-6 text-pink-600" />
+              <Clock className="w-6 h-6 text-pink-600 dark:text-pink-400" />
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-[#1C3D6E] mb-6">Your Learning Journey</h2>
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
+          <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6">Your Learning Journey</h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Current Learning Path */}
-            <div className="bg-gradient-to-r from-[#1C3D6E] to-[#3DAEDB] rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-r from-primary-dark to-primary-light dark:from-darkMode-navbar dark:to-darkMode-progress rounded-xl p-6 text-white">
               <h3 className="text-xl font-bold mb-2">Current Learning Path</h3>
-              <p className="text-blue-100 mb-4">Full-Stack Web Developer</p>
+              <p className="text-blue-100 dark:text-darkMode-textSecondary mb-4">Full-Stack Web Developer</p>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <div className="flex justify-between text-sm mb-2">
                   <span>Progress</span>
@@ -123,24 +123,24 @@ const StudentRoadmap: React.FC = () => {
               </div>
               <Link
                 to="/student/roadmap/learning-path"
-                className="inline-flex items-center gap-2 mt-4 text-white hover:text-blue-100 transition-colors"
+                className="inline-flex items-center gap-2 mt-4 text-white hover:text-blue-100 dark:hover:text-darkMode-accent transition-colors"
               >
                 View Details <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
 
             {/* Next Milestone */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h3 className="text-xl font-bold text-[#1C3D6E] mb-4">Next Milestone</h3>
+            <div className="bg-white dark:bg-darkMode-surface border border-gray-200 dark:border-darkMode-border rounded-xl p-6">
+              <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-4">Next Milestone</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-blue-600 mt-1" />
+                  <Clock className="w-5 h-5 text-info dark:text-darkMode-link mt-1" />
                   <div>
-                    <h4 className="font-semibold text-gray-900">React Development</h4>
-                    <p className="text-gray-600 text-sm">Complete by January 30, 2025</p>
+                    <h4 className="font-semibold text-neutral-dark dark:text-darkMode-text">React Development</h4>
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Complete by January 30, 2025</p>
                     <div className="flex gap-2 mt-2">
                       {['React', 'JSX', 'Components'].map((skill) => (
-                        <span key={skill} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                        <span key={skill} className="px-2 py-1 bg-info/10 dark:bg-darkMode-link/20 text-info dark:text-darkMode-link text-xs rounded-full">
                           {skill}
                         </span>
                       ))}
@@ -150,7 +150,7 @@ const StudentRoadmap: React.FC = () => {
               </div>
               <Link
                 to="/student/roadmap/milestones"
-                className="inline-flex items-center gap-2 mt-4 text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+                className="inline-flex items-center gap-2 mt-4 text-primary-light dark:text-darkMode-accent hover:text-primary-dark dark:hover:text-darkMode-accentHover transition-colors"
               >
                 View All Milestones <ChevronRight className="w-4 h-4" />
               </Link>
@@ -161,34 +161,34 @@ const StudentRoadmap: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
             <Link
               to="/student/courses"
-              className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow"
+              className="flex items-center gap-3 p-4 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-xl hover:shadow-lg dark:hover:shadow-dark transition-shadow"
             >
-              <BookOpen className="w-8 h-8 text-[#4A9E3D]" />
+              <BookOpen className="w-8 h-8 text-secondary dark:text-darkMode-success" />
               <div>
-                <h4 className="font-semibold text-[#1C3D6E]">Browse Courses</h4>
-                <p className="text-gray-600 text-sm">Explore available courses</p>
+                <h4 className="font-semibold text-primary-dark dark:text-darkMode-text">Browse Courses</h4>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Explore available courses</p>
               </div>
             </Link>
 
             <Link
               to="/student/assessments"
-              className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow"
+              className="flex items-center gap-3 p-4 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-xl hover:shadow-lg dark:hover:shadow-dark transition-shadow"
             >
-              <Target className="w-8 h-8 text-[#3DAEDB]" />
+              <Target className="w-8 h-8 text-primary-light dark:text-darkMode-accent" />
               <div>
-                <h4 className="font-semibold text-[#1C3D6E]">Take Assessment</h4>
-                <p className="text-gray-600 text-sm">Test your skills</p>
+                <h4 className="font-semibold text-primary-dark dark:text-darkMode-text">Take Assessment</h4>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Test your skills</p>
               </div>
             </Link>
 
             <Link
               to="/student/progress/analytics"
-              className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:shadow-lg transition-shadow"
+              className="flex items-center gap-3 p-4 bg-neutral-light dark:bg-darkMode-surfaceHover rounded-xl hover:shadow-lg dark:hover:shadow-dark transition-shadow"
             >
-              <BarChart3 className="w-8 h-8 text-[#2C857A]" />
+              <BarChart3 className="w-8 h-8 text-forest-sage dark:text-darkMode-success" />
               <div>
-                <h4 className="font-semibold text-[#1C3D6E]">View Analytics</h4>
-                <p className="text-gray-600 text-sm">Track your progress</p>
+                <h4 className="font-semibold text-primary-dark dark:text-darkMode-text">View Analytics</h4>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm">Track your progress</p>
               </div>
             </Link>
           </div>

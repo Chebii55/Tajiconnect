@@ -224,7 +224,7 @@ export default function SkillsAssessment() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {!isAssessing ? (
           <>
@@ -235,7 +235,7 @@ export default function SkillsAssessment() {
                   <span className="text-2xl">⚡</span>
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Skills Assessment</h1>
+                  <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Skills Assessment</h1>
                   <p className="text-gray-600 dark:text-gray-300">Evaluate and track your professional skills</p>
                 </div>
               </div>
@@ -256,19 +256,19 @@ export default function SkillsAssessment() {
               {/* Overview Stats */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-[#4A9E3D]">{assessedSkills.length}</div>
+                  <div className="text-2xl font-bold text-secondary">{assessedSkills.length}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Skills Assessed</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-[#3DAEDB]">{averageLevel.toFixed(1)}</div>
+                  <div className="text-2xl font-bold text-primary">{averageLevel.toFixed(1)}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Average Level</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-[#2C857A]">{skills.filter(s => s.trending).length}</div>
+                  <div className="text-2xl font-bold text-forest-sage">{skills.filter(s => s.trending).length}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Trending Skills</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{skills.filter(s => s.certificateAvailable).length}</div>
+                  <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{skills.filter(s => s.certificateAvailable).length}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Certifiable</div>
                 </div>
               </div>
@@ -283,8 +283,8 @@ export default function SkillsAssessment() {
                     onClick={() => setFilter(filterOption as typeof filter)}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                       filter === filterOption
-                        ? 'bg-[#3DAEDB] text-white'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] bg-white'
+                        ? 'bg-primary text-white'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:text-darkMode-link bg-white'
                     }`}
                   >
                     {filterOption.replace('_', ' ')}
@@ -295,7 +295,7 @@ export default function SkillsAssessment() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="name">Sort by Name</option>
                 <option value="level">Sort by Level</option>
@@ -314,7 +314,7 @@ export default function SkillsAssessment() {
                         <span className="text-3xl">{getCategoryIcon(skill.category)}</span>
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg">{skill.name}</h3>
+                            <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">{skill.name}</h3>
                             {skill.trending && (
                               <span className="text-orange-500 text-sm">🔥</span>
                             )}
@@ -396,7 +396,7 @@ export default function SkillsAssessment() {
 
             {/* Skills Development Recommendations */}
             <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Skill Development Recommendations</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Skill Development Recommendations</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <h3 className="font-bold text-red-800 mb-2">🎯 Priority Skills</h3>
@@ -430,7 +430,7 @@ export default function SkillsAssessment() {
                     <span className="text-white font-bold">{currentQuestion + 1}</span>
                   </div>
                   <div>
-                    <h1 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{selectedSkill?.name} Assessment</h1>
+                    <h1 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{selectedSkill?.name} Assessment</h1>
                     <p className="text-gray-600 dark:text-gray-300">Question {currentQuestion + 1} of {selectedSkill?.questions}</p>
                   </div>
                 </div>
@@ -455,14 +455,14 @@ export default function SkillsAssessment() {
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6">
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-[#3DAEDB]/10 text-[#1C3D6E] dark:text-[#3DAEDB] px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-primary/10 text-primary-dark dark:text-darkMode-link px-3 py-1 rounded-full text-sm font-medium">
                     {selectedSkill?.assessmentType}
                   </span>
                   <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
                     10 points
                   </span>
                 </div>
-                <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                   What is the output of the following Python code?
                 </h2>
                 <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm mb-4">
@@ -474,7 +474,7 @@ export default function SkillsAssessment() {
                 {['[0, 1, 4, 9, 16]', '[1, 4, 9, 16, 25]', '[0, 1, 2, 3, 4]', 'Error'].map((option, index) => (
                   <button
                     key={index}
-                    className="w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 transition-colors"
+                    className="w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full border-2 border-gray-300" />

@@ -53,9 +53,9 @@ const LegalDocumentModal = ({
 
       {/* Modal */}
       <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-fade-in">
+        <div className="relative bg-white dark:bg-darkMode-surface rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col animate-fade-in">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-[#1C3D6E] to-[#3DAEDB] text-white rounded-t-2xl">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-navbar dark:to-darkMode-progress text-white rounded-t-2xl">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <Icon className="w-6 h-6" />
@@ -97,32 +97,32 @@ const LegalDocumentModal = ({
             <ReactMarkdown
               components={{
                 h1: ({ children }) => (
-                  <h1 className="text-3xl font-bold text-[#1C3D6E] mb-4 mt-6 first:mt-0">
+                  <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text mb-4 mt-6 first:mt-0">
                     {children}
                   </h1>
                 ),
                 h2: ({ children }) => (
-                  <h2 className="text-2xl font-bold text-[#1C3D6E] mb-3 mt-6">
+                  <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-3 mt-6">
                     {children}
                   </h2>
                 ),
                 h3: ({ children }) => (
-                  <h3 className="text-xl font-semibold text-[#2C857A] mb-2 mt-4">
+                  <h3 className="text-xl font-semibold text-forest-sage dark:text-darkMode-success mb-2 mt-4">
                     {children}
                   </h3>
                 ),
                 p: ({ children }) => (
-                  <p className="text-gray-700 mb-3 leading-relaxed">
+                  <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-3 leading-relaxed">
                     {children}
                   </p>
                 ),
                 ul: ({ children }) => (
-                  <ul className="list-disc list-inside mb-3 space-y-1 text-gray-700">
+                  <ul className="list-disc list-inside mb-3 space-y-1 text-neutral-dark/80 dark:text-darkMode-textSecondary">
                     {children}
                   </ul>
                 ),
                 ol: ({ children }) => (
-                  <ol className="list-decimal list-inside mb-3 space-y-1 text-gray-700">
+                  <ol className="list-decimal list-inside mb-3 space-y-1 text-neutral-dark/80 dark:text-darkMode-textSecondary">
                     {children}
                   </ol>
                 ),
@@ -132,7 +132,7 @@ const LegalDocumentModal = ({
                   </li>
                 ),
                 strong: ({ children }) => (
-                  <strong className="font-semibold text-[#1C3D6E]">
+                  <strong className="font-semibold text-primary-dark dark:text-darkMode-text">
                     {children}
                   </strong>
                 ),
@@ -140,7 +140,7 @@ const LegalDocumentModal = ({
                   <hr className="my-6 border-gray-300" />
                 ),
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-[#3DAEDB] pl-4 italic my-4 text-gray-600">
+                  <blockquote className="border-l-4 border-primary dark:border-darkMode-link pl-4 italic my-4 text-neutral-dark/70 dark:text-darkMode-textSecondary">
                     {children}
                   </blockquote>
                 ),
@@ -154,7 +154,7 @@ const LegalDocumentModal = ({
           <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
             {requiresAcceptance ? (
               <>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                   {hasScrolledToBottom
                     ? 'You have reviewed the document'
                     : 'Scroll to the bottom to accept'}
@@ -162,7 +162,7 @@ const LegalDocumentModal = ({
                 <div className="flex gap-3">
                   <button
                     onClick={onClose}
-                    className="px-6 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition-colors"
+                    className="px-6 py-2 rounded-lg border-2 border-gray-300 text-neutral-dark/80 dark:text-darkMode-textSecondary font-medium hover:bg-gray-100 transition-colors"
                   >
                     Decline
                   </button>
@@ -171,7 +171,7 @@ const LegalDocumentModal = ({
                     disabled={!hasScrolledToBottom}
                     className={`px-6 py-2 rounded-lg font-medium transition-all ${
                       hasScrolledToBottom
-                        ? 'bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white hover:shadow-lg'
+                        ? 'bg-gradient-to-r from-primary to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white hover:shadow-lg'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }`}
                   >
@@ -181,12 +181,12 @@ const LegalDocumentModal = ({
               </>
             ) : (
               <>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
                   Last updated: October 28, 2025
                 </p>
                 <button
                   onClick={onClose}
-                  className="px-6 py-2 rounded-lg bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white font-medium hover:shadow-lg transition-shadow"
+                  className="px-6 py-2 rounded-lg bg-gradient-to-r from-primary to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white font-medium hover:shadow-lg transition-shadow"
                 >
                   Close
                 </button>

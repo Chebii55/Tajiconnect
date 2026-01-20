@@ -65,7 +65,7 @@ const GeneralJobs = () => {
       applicationDeadline: "2024-02-16",
       remote: false,
       urgent: false,
-      companyLogo: <Smartphone className="w-8 h-8 text-blue-600" />,
+      companyLogo: <Smartphone className="w-8 h-8 text-primary" />,
       category: "Technology",
       featured: true
     },
@@ -305,11 +305,11 @@ const GeneralJobs = () => {
 
   const getJobTypeColor = (type: string) => {
     switch (type) {
-      case 'Full-time': return 'text-[#1C3D6E] bg-[#1C3D6E]/20'
-      case 'Part-time': return 'text-[#2C857A] bg-[#2C857A]/20'
-      case 'Contract': return 'text-[#3DAEDB] bg-[#3DAEDB]/20'
-      case 'Internship': return 'text-[#4A9E3D] bg-[#4A9E3D]/20'
-      default: return 'text-gray-600 bg-gray-100'
+      case 'Full-time': return 'text-primary-dark bg-primary-dark/20 dark:text-darkMode-text dark:bg-primary-dark/30'
+      case 'Part-time': return 'text-forest-sage bg-forest-sage/20 dark:text-darkMode-accent dark:bg-forest-sage/30'
+      case 'Contract': return 'text-primary bg-primary/20 dark:text-info dark:bg-info/30'
+      case 'Internship': return 'text-secondary bg-secondary/20 dark:text-darkMode-success dark:bg-darkMode-success/30'
+      default: return 'text-gray-600 bg-gray-100 dark:text-darkMode-textSecondary dark:bg-darkMode-surface'
     }
   }
 
@@ -326,7 +326,7 @@ const GeneralJobs = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
       <div className="flex">
         <JobsSidebar />
         <div className="flex-1 ml-6">
@@ -334,24 +334,24 @@ const GeneralJobs = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-primary-dark rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className="w-20 h-20 bg-primary-dark dark:bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <Globe className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-[#1C3D6E] mb-4">
+          <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-4">
             General Job Board
           </h1>
-          <p className="text-gray-600 text-xl max-w-3xl mx-auto">
+          <p className="text-gray-600 dark:text-darkMode-textSecondary text-xl max-w-3xl mx-auto">
             Browse all available job opportunities from top companies in Kenya
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-2xl shadow-xl border-0 p-6 mb-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl border-0 dark:border dark:border-darkMode-border p-6 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4">
             {/* Search */}
             <div className="flex-1">
               <div className="relative">
-                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-darkMode-textSecondary w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -359,7 +359,7 @@ const GeneralJobs = () => {
                   placeholder="Search jobs, companies, or skills..."
                   value={currentSearchQuery}
                   onChange={(e) => setCurrentSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-darkMode-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary dark:bg-darkMode-bg dark:text-darkMode-text dark:placeholder-darkMode-textSecondary transition-all duration-300"
                 />
               </div>
             </div>
@@ -368,7 +368,7 @@ const GeneralJobs = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'date' | 'salary' | 'relevance')}
-              className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] bg-white"
+              className="px-4 py-3 border border-gray-200 dark:border-darkMode-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary bg-white dark:bg-darkMode-bg dark:text-darkMode-text"
             >
               <option value="relevance">Most Relevant</option>
               <option value="date">Latest First</option>
@@ -378,7 +378,7 @@ const GeneralJobs = () => {
             {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-6 py-3 border border-[#1C3D6E] text-[#1C3D6E] hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 flex items-center"
+              className="px-6 py-3 border border-primary-dark dark:border-primary text-primary-dark dark:text-primary hover:bg-primary-dark hover:text-white dark:hover:bg-primary dark:hover:text-white font-semibold rounded-xl transition-all duration-300 flex items-center"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
@@ -389,14 +389,14 @@ const GeneralJobs = () => {
 
           {/* Expanded Filters */}
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-darkMode-border">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-darkMode-text mb-2">Category</label>
                   <select
                     value={filters.category}
                     onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] bg-white"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-darkMode-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-darkMode-bg dark:text-darkMode-text"
                   >
                     <option value="">All Categories</option>
                     {jobCategories.map(category => (
@@ -405,21 +405,21 @@ const GeneralJobs = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Location</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-darkMode-text mb-2">Location</label>
                   <input
                     type="text"
                     placeholder="City, County"
                     value={filters.location}
                     onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3DAEDB]"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-darkMode-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-darkMode-bg dark:text-darkMode-text dark:placeholder-darkMode-textSecondary"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Job Type</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-darkMode-text mb-2">Job Type</label>
                   <select
                     value={filters.jobType}
                     onChange={(e) => setFilters(prev => ({ ...prev, jobType: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] bg-white"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-darkMode-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-darkMode-bg dark:text-darkMode-text"
                   >
                     <option value="">All Types</option>
                     <option value="Full-time">Full-time</option>
@@ -429,11 +429,11 @@ const GeneralJobs = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Salary Range</label>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-darkMode-text mb-2">Salary Range</label>
                   <select
                     value={filters.salaryRange}
                     onChange={(e) => setFilters(prev => ({ ...prev, salaryRange: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] bg-white"
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-darkMode-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-darkMode-bg dark:text-darkMode-text"
                   >
                     <option value="">Any Salary</option>
                     <option value="0-100000">Under KSh 100K</option>
@@ -448,9 +448,9 @@ const GeneralJobs = () => {
                       type="checkbox"
                       checked={filters.remote}
                       onChange={(e) => setFilters(prev => ({ ...prev, remote: e.target.checked }))}
-                      className="h-4 w-4 text-[#3DAEDB] focus:ring-[#3DAEDB] border-gray-300 rounded mr-2"
+                      className="h-4 w-4 text-primary focus:ring-primary border-gray-300 dark:border-darkMode-border rounded mr-2"
                     />
-                    <span className="text-sm font-semibold text-gray-700">Remote Only</span>
+                    <span className="text-sm font-semibold text-gray-700 dark:text-darkMode-text">Remote Only</span>
                   </label>
                 </div>
               </div>
@@ -460,22 +460,22 @@ const GeneralJobs = () => {
 
         {/* Results Summary */}
         <div className="mb-6">
-          <p className="text-gray-600">
-            Showing <span className="font-semibold text-[#1C3D6E]">{filteredJobs.length}</span> jobs
+          <p className="text-gray-600 dark:text-darkMode-textSecondary">
+            Showing <span className="font-semibold text-primary-dark dark:text-darkMode-text">{filteredJobs.length}</span> jobs
             {currentSearchQuery && <span> for "{currentSearchQuery}"</span>}
           </p>
         </div>
 
         {/* Job Categories Quick Filter */}
-        <div className="mb-8 bg-white rounded-2xl shadow-lg border-0 p-6">
-          <h3 className="text-lg font-bold text-[#1C3D6E] mb-4">Browse by Category</h3>
+        <div className="mb-8 bg-white dark:bg-darkMode-surface rounded-2xl shadow-lg border-0 dark:border dark:border-darkMode-border p-6">
+          <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Browse by Category</h3>
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => setFilters(prev => ({ ...prev, category: '' }))}
               className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
                 !filters.category
-                  ? 'bg-[#1C3D6E] text-white'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-primary-dark dark:bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-darkMode-bg text-gray-600 dark:text-darkMode-textSecondary hover:bg-gray-200 dark:hover:bg-darkMode-border'
               }`}
             >
               All Jobs
@@ -486,8 +486,8 @@ const GeneralJobs = () => {
                 onClick={() => setFilters(prev => ({ ...prev, category }))}
                 className={`px-4 py-2 rounded-full font-medium transition-all duration-300 ${
                   filters.category === category
-                    ? 'bg-[#4A9E3D] text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? 'bg-secondary dark:bg-darkMode-success text-white'
+                    : 'bg-gray-100 dark:bg-darkMode-bg text-gray-600 dark:text-darkMode-textSecondary hover:bg-gray-200 dark:hover:bg-darkMode-border'
                 }`}
               >
                 {category}
@@ -501,8 +501,8 @@ const GeneralJobs = () => {
           {filteredJobs.map((job, index) => (
             <div
               key={job.id}
-              className={`bg-white rounded-2xl shadow-lg border hover:shadow-2xl hover:border-[#3DAEDB] transition-all duration-300 p-6 ${
-                job.featured ? 'border-secondary bg-secondary/5' : 'border-gray-100'
+              className={`bg-white dark:bg-darkMode-surface rounded-2xl shadow-lg border hover:shadow-2xl hover:border-primary dark:hover:border-primary transition-all duration-300 p-6 ${
+                job.featured ? 'border-secondary dark:border-darkMode-success bg-secondary/5 dark:bg-darkMode-success/10' : 'border-gray-100 dark:border-darkMode-border'
               }`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
@@ -510,43 +510,43 @@ const GeneralJobs = () => {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-primary-dark rounded-full flex items-center justify-center mr-4 text-2xl">
+                      <div className="w-12 h-12 bg-primary-dark dark:bg-primary rounded-full flex items-center justify-center mr-4 text-2xl">
                         {job.companyLogo}
                       </div>
                       <div>
                         <div className="flex items-center space-x-2">
-                          <h3 className="text-xl font-bold text-[#1C3D6E] hover:text-[#0f2844] transition-colors">
+                          <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text hover:text-primary dark:hover:text-primary transition-colors">
                             {job.title}
                           </h3>
                           {job.featured && (
-                            <span className="px-2 py-1 bg-primary-dark text-white text-xs font-bold rounded-full">
+                            <span className="px-2 py-1 bg-primary-dark dark:bg-primary text-white text-xs font-bold rounded-full">
                               FEATURED
                             </span>
                           )}
                         </div>
-                        <p className="text-gray-600 font-medium">{job.company}</p>
+                        <p className="text-gray-600 dark:text-darkMode-textSecondary font-medium">{job.company}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
                       {job.urgent && (
-                        <span className="px-2 py-1 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
+                        <span className="px-2 py-1 bg-red-100 dark:bg-error/20 text-red-600 dark:text-error text-xs font-semibold rounded-full">
                           Urgent
                         </span>
                       )}
-                      <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-full">
+                      <span className="px-2 py-1 bg-gray-100 dark:bg-darkMode-bg text-gray-600 dark:text-darkMode-textSecondary text-xs font-semibold rounded-full">
                         {job.category}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-600">
+                  <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-600 dark:text-darkMode-textSecondary">
                     <div className="flex items-center">
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       {job.location}
-                      {job.remote && <span className="ml-1 text-[#4A9E3D] font-semibold">(Remote)</span>}
+                      {job.remote && <span className="ml-1 text-secondary dark:text-darkMode-success font-semibold">(Remote)</span>}
                     </div>
                     <div className="flex items-center">
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -559,28 +559,28 @@ const GeneralJobs = () => {
                     </span>
                   </div>
 
-                  <p className="text-gray-600 mb-4 leading-relaxed">{job.description}</p>
+                  <p className="text-gray-600 dark:text-darkMode-textSecondary mb-4 leading-relaxed">{job.description}</p>
 
                   <div className="mb-4">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Required Skills:</h4>
+                    <h4 className="text-sm font-semibold text-gray-700 dark:text-darkMode-text mb-2">Required Skills:</h4>
                     <div className="flex flex-wrap gap-2">
                       {job.skills.slice(0, 6).map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="px-3 py-1 bg-primary-dark/20 text-primary border border-primary-light/30 rounded-full text-sm font-medium"
+                          className="px-3 py-1 bg-primary-dark/20 dark:bg-primary/20 text-primary dark:text-primary-light border border-primary-light/30 dark:border-primary/30 rounded-full text-sm font-medium"
                         >
                           {skill}
                         </span>
                       ))}
                       {job.skills.length > 6 && (
-                        <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-sm font-medium">
+                        <span className="px-3 py-1 bg-gray-100 dark:bg-darkMode-bg text-gray-500 dark:text-darkMode-textSecondary rounded-full text-sm font-medium">
                           +{job.skills.length - 6} more
                         </span>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-darkMode-textSecondary">
                     <div className="flex items-center space-x-4">
                       <span>Posted {formatDate(job.postedDate)}</span>
                       <span>Apply by {new Date(job.applicationDeadline).toLocaleDateString()}</span>
@@ -597,11 +597,11 @@ const GeneralJobs = () => {
                   </Link>
                   <Link
                     to={`/student/jobs/${job.id}/apply`}
-                    className="border-2 border-[#4A9E3D] text-[#4A9E3D] hover:bg-[#4A9E3D] hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 text-center"
+                    className="border-2 border-secondary dark:border-darkMode-success text-secondary dark:text-darkMode-success hover:bg-secondary hover:text-white dark:hover:bg-darkMode-success dark:hover:text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 text-center"
                   >
                     Apply Now
                   </Link>
-                  <button className="text-[#2C857A] hover:text-[#236660] font-medium py-2 px-4 rounded-lg hover:bg-[#2C857A]/10 transition-all duration-200 text-center">
+                  <button className="text-forest-sage dark:text-darkMode-accent hover:text-forest-sage/80 dark:hover:text-darkMode-accent/80 font-medium py-2 px-4 rounded-lg hover:bg-forest-sage/10 dark:hover:bg-darkMode-accent/10 transition-all duration-200 text-center">
                     Save Job
                   </button>
                 </div>
@@ -613,11 +613,11 @@ const GeneralJobs = () => {
         {/* Empty State */}
         {filteredJobs.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search className="w-10 h-10 text-gray-400" />
+            <div className="w-24 h-24 bg-gray-100 dark:bg-darkMode-bg rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="w-10 h-10 text-gray-400 dark:text-darkMode-textSecondary" />
             </div>
-            <h3 className="text-xl font-bold text-gray-600 mb-4">No jobs found</h3>
-            <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-bold text-gray-600 dark:text-darkMode-text mb-4">No jobs found</h3>
+            <p className="text-gray-500 dark:text-darkMode-textSecondary mb-6">Try adjusting your search or filters</p>
             <button
               onClick={() => {
                 setFilters({

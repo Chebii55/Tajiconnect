@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTrainer } from '../../../contexts/TrainerContext';
-import { 
-  ArrowLeft, 
-  MessageSquare, 
-  Mail, 
-  Calendar, 
-  Clock, 
-  TrendingUp, 
-  Award, 
+import {
+  ArrowLeft,
+  MessageSquare,
+  Mail,
+  Calendar,
+  Clock,
+  TrendingUp,
+  Award,
   BookOpen,
   Star,
   Activity,
@@ -20,18 +20,18 @@ const LearnerDetails: React.FC = () => {
   const { learnerId } = useParams();
   const navigate = useNavigate();
   const { learners, courses } = useTrainer();
-  
+
   const learner = learners.find(l => l.id === learnerId);
   const [activeTab, setActiveTab] = useState('overview');
 
   if (!learner) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Learner Not Found</h2>
+          <h2 className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text mb-2">Learner Not Found</h2>
           <button
             onClick={() => navigate('/trainer/learners')}
-            className="px-4 py-2 bg-primary-light text-white rounded-lg hover:bg-primary transition-colors"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
           >
             Back to Learners
           </button>
@@ -40,7 +40,7 @@ const LearnerDetails: React.FC = () => {
     );
   }
 
-  const enrolledCourses = courses.filter(course => 
+  const enrolledCourses = courses.filter(course =>
     learner.enrolledCourses.includes(course.id)
   );
 
@@ -55,92 +55,92 @@ const LearnerDetails: React.FC = () => {
     <div className="space-y-6">
       {/* Learner Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-100 dark:border-gray-700">
+        <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg p-6 border border-neutral-gray dark:border-darkMode-border">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Courses Enrolled</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{learner.enrolledCourses.length}</p>
+              <p className="text-sm font-medium text-forest-sage dark:text-darkMode-textSecondary">Courses Enrolled</p>
+              <p className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text mt-1">{learner.enrolledCourses.length}</p>
             </div>
-            <BookOpen className="w-8 h-8 text-blue-600" />
+            <BookOpen className="w-8 h-8 text-primary dark:text-darkMode-accent" />
           </div>
         </div>
-        
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-100 dark:border-gray-700">
+
+        <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg p-6 border border-neutral-gray dark:border-darkMode-border">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Overall Progress</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{learner.overallProgress}%</p>
+              <p className="text-sm font-medium text-forest-sage dark:text-darkMode-textSecondary">Overall Progress</p>
+              <p className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text mt-1">{learner.overallProgress}%</p>
             </div>
-            <TrendingUp className="w-8 h-8 text-green-600" />
+            <TrendingUp className="w-8 h-8 text-success dark:text-darkMode-success" />
           </div>
         </div>
-        
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-100 dark:border-gray-700">
+
+        <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg p-6 border border-neutral-gray dark:border-darkMode-border">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Achievements</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">{learner.achievements.length}</p>
+              <p className="text-sm font-medium text-forest-sage dark:text-darkMode-textSecondary">Achievements</p>
+              <p className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text mt-1">{learner.achievements.length}</p>
             </div>
-            <Award className="w-8 h-8 text-yellow-600" />
+            <Award className="w-8 h-8 text-accent-gold dark:text-darkMode-accent" />
           </div>
         </div>
-        
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-100 dark:border-gray-700">
+
+        <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg p-6 border border-neutral-gray dark:border-darkMode-border">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Time</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              <p className="text-sm font-medium text-forest-sage dark:text-darkMode-textSecondary">Total Time</p>
+              <p className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text mt-1">
                 {Math.round(learner.progress.reduce((sum, p) => sum + p.timeSpent, 0) / 60)}h
               </p>
             </div>
-            <Clock className="w-8 h-8 text-purple-600" />
+            <Clock className="w-8 h-8 text-secondary dark:text-darkMode-accent" />
           </div>
         </div>
       </div>
 
       {/* Course Progress */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Course Progress</h3>
-        
+      <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg border border-neutral-gray dark:border-darkMode-border p-6">
+        <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Course Progress</h3>
+
         {enrolledCourses.length === 0 ? (
           <div className="text-center py-8">
-            <BookOpen className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400">No courses enrolled yet</p>
+            <BookOpen className="w-12 h-12 text-forest-sage dark:text-darkMode-textMuted mx-auto mb-4" />
+            <p className="text-forest-sage dark:text-darkMode-textSecondary">No courses enrolled yet</p>
           </div>
         ) : (
           <div className="space-y-4">
             {enrolledCourses.map((course) => {
               const progress = learner.progress.find(p => p.courseId === course.id);
               return (
-                <div key={course.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                <div key={course.id} className="border border-neutral-gray dark:border-darkMode-border rounded-lg p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white">{course.title}</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{course.category}</p>
+                      <h4 className="font-medium text-neutral-dark dark:text-darkMode-text">{course.title}</h4>
+                      <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">{course.category}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">
                         {progress?.completionPercentage || 0}%
                       </p>
                       {progress?.grade && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">
                           Grade: {progress.grade}%
                         </p>
                       )}
                     </div>
                   </div>
-                  
-                  <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mb-3">
+
+                  <div className="w-full bg-neutral-gray dark:bg-darkMode-navbar rounded-full h-2 mb-3">
                     <div
-                      className="bg-primary-light h-2 rounded-full"
+                      className="bg-primary dark:bg-darkMode-progress h-2 rounded-full"
                       style={{ width: `${progress?.completionPercentage || 0}%` }}
                     />
                   </div>
-                  
-                  <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
+
+                  <div className="flex items-center justify-between text-sm text-forest-sage dark:text-darkMode-textSecondary">
                     <span>Current: {progress?.currentModule || 'Not started'}</span>
                     <span>
-                      Last activity: {progress?.lastActivity 
+                      Last activity: {progress?.lastActivity
                         ? new Date(progress.lastActivity).toLocaleDateString()
                         : 'Never'
                       }
@@ -156,12 +156,12 @@ const LearnerDetails: React.FC = () => {
   );
 
   const renderProgress = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Detailed Progress</h3>
+    <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg border border-neutral-gray dark:border-darkMode-border p-6">
+      <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Detailed Progress</h3>
       <div className="text-center py-12">
-        <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Progress Analytics</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <BarChart3 className="w-16 h-16 text-forest-sage dark:text-darkMode-textMuted mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-neutral-dark dark:text-darkMode-text mb-2">Progress Analytics</h3>
+        <p className="text-forest-sage dark:text-darkMode-textSecondary">
           Detailed progress analytics coming soon
         </p>
       </div>
@@ -169,31 +169,31 @@ const LearnerDetails: React.FC = () => {
   );
 
   const renderAchievements = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Achievements & Badges</h3>
-      
+    <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg border border-neutral-gray dark:border-darkMode-border p-6">
+      <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Achievements & Badges</h3>
+
       {learner.achievements.length === 0 ? (
         <div className="text-center py-8">
-          <Award className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">No achievements earned yet</p>
+          <Award className="w-12 h-12 text-forest-sage dark:text-darkMode-textMuted mx-auto mb-4" />
+          <p className="text-forest-sage dark:text-darkMode-textSecondary">No achievements earned yet</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {learner.achievements.map((achievement) => (
-            <div key={achievement.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 text-center">
+            <div key={achievement.id} className="border border-neutral-gray dark:border-darkMode-border rounded-lg p-4 text-center">
               <div className={`w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center ${
-                achievement.type === 'badge' ? 'bg-blue-100 dark:bg-blue-900/30' :
-                achievement.type === 'certificate' ? 'bg-green-100 dark:bg-green-900/30' :
-                'bg-purple-100 dark:bg-purple-900/30'
+                achievement.type === 'badge' ? 'bg-primary/10 dark:bg-darkMode-accent/20' :
+                achievement.type === 'certificate' ? 'bg-success/10 dark:bg-darkMode-success/20' :
+                'bg-secondary/10 dark:bg-darkMode-accent/20'
               }`}>
                 <Award className={`w-6 h-6 ${
-                  achievement.type === 'badge' ? 'text-blue-600 dark:text-blue-400' :
-                  achievement.type === 'certificate' ? 'text-green-600 dark:text-green-400' :
-                  'text-purple-600 dark:text-purple-400'
+                  achievement.type === 'badge' ? 'text-primary dark:text-darkMode-accent' :
+                  achievement.type === 'certificate' ? 'text-success dark:text-darkMode-success' :
+                  'text-secondary dark:text-darkMode-accent'
                 }`} />
               </div>
-              <h4 className="font-medium text-gray-900 dark:text-white mb-1">{achievement.name}</h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <h4 className="font-medium text-neutral-dark dark:text-darkMode-text mb-1">{achievement.name}</h4>
+              <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary">
                 Earned {new Date(achievement.earnedDate).toLocaleDateString()}
               </p>
             </div>
@@ -204,12 +204,12 @@ const LearnerDetails: React.FC = () => {
   );
 
   const renderActivity = () => (
-    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 p-6">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Recent Activity</h3>
+    <div className="bg-neutral-white dark:bg-darkMode-surface rounded-lg border border-neutral-gray dark:border-darkMode-border p-6">
+      <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Recent Activity</h3>
       <div className="text-center py-12">
-        <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Activity Timeline</h3>
-        <p className="text-gray-600 dark:text-gray-400">
+        <Activity className="w-16 h-16 text-forest-sage dark:text-darkMode-textMuted mx-auto mb-4" />
+        <h3 className="text-lg font-medium text-neutral-dark dark:text-darkMode-text mb-2">Activity Timeline</h3>
+        <p className="text-forest-sage dark:text-darkMode-textSecondary">
           Activity timeline coming soon
         </p>
       </div>
@@ -217,37 +217,37 @@ const LearnerDetails: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-['Inter']">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg font-['Inter']">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+      <div className="bg-neutral-white dark:bg-darkMode-surface shadow-sm border-b dark:border-darkMode-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => navigate('/trainer/learners')}
-                className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-navbar"
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-primary-light to-secondary rounded-full flex items-center justify-center text-white font-medium">
+                <div className="w-12 h-12 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-medium">
                   {learner.name.charAt(0)}
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{learner.name}</h1>
-                  <p className="text-gray-600 dark:text-gray-400 mt-1">
-                    Joined {new Date(learner.joinedDate).toLocaleDateString()} • 
+                  <h1 className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text">{learner.name}</h1>
+                  <p className="text-forest-sage dark:text-darkMode-textSecondary mt-1">
+                    Joined {new Date(learner.joinedDate).toLocaleDateString()} •
                     Last active {new Date(learner.lastActive).toLocaleDateString()}
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button className="px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2">
+              <button className="px-4 py-2 text-neutral-dark dark:text-darkMode-textSecondary border border-neutral-gray dark:border-darkMode-border rounded-lg hover:bg-neutral-light dark:hover:bg-darkMode-navbar flex items-center gap-2">
                 <Mail className="w-4 h-4" />
                 Email
               </button>
-              <button className="px-4 py-2 bg-primary-light text-white rounded-lg hover:bg-primary transition-colors flex items-center gap-2">
+              <button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2">
                 <MessageSquare className="w-4 h-4" />
                 Message
               </button>
@@ -258,7 +258,7 @@ const LearnerDetails: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tabs */}
-        <div className="border-b border-gray-200 dark:border-gray-700 mb-8">
+        <div className="border-b border-neutral-gray dark:border-darkMode-border mb-8">
           <nav className="-mb-px flex space-x-8">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -268,8 +268,8 @@ const LearnerDetails: React.FC = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center gap-2 ${
                     activeTab === tab.id
-                      ? 'border-primary-light text-primary-light'
-                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+                      ? 'border-primary text-primary dark:border-darkMode-accent dark:text-darkMode-accent'
+                      : 'border-transparent text-forest-sage dark:text-darkMode-textSecondary hover:text-neutral-dark dark:hover:text-darkMode-text hover:border-neutral-gray dark:hover:border-darkMode-border'
                   }`}
                 >
                   <Icon className="w-4 h-4" />

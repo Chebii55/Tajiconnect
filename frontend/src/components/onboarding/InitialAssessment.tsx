@@ -73,7 +73,7 @@ const InitialAssessment = () => {
       assessmentComplete: true
     }
     sessionStorage.setItem('onboardingData', JSON.stringify(updatedData))
-    
+
     navigate('/onboarding/psychometric-test')
   }
 
@@ -105,56 +105,56 @@ const InitialAssessment = () => {
   if (showResults) {
     const results = getResults()
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light to-forest-mist dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Progress Indicator */}
-          <OnboardingProgress 
-            currentStep={3} 
-            totalSteps={6} 
+          <OnboardingProgress
+            currentStep={3}
+            totalSteps={6}
             stepLabels={stepLabels}
           />
 
           <div className="max-w-3xl mx-auto space-y-8 animate-fade-in">
             {/* Header */}
             <div className="text-center">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#1C3D6E] to-[#4A9E3D] rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <div className="w-24 h-24 bg-gradient-to-br from-primary-dark to-secondary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl dark:shadow-dark-lg">
                 <Sparkles className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-4xl font-bold text-[#1C3D6E] mb-4">
+              <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-4">
                 Assessment Complete!
               </h2>
-              <p className="text-gray-600 text-xl max-w-2xl mx-auto">
+              <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-xl max-w-2xl mx-auto">
                 Here's your personalized learning profile summary
               </p>
             </div>
 
             {/* Results Card */}
-            <div className="bg-white rounded-2xl shadow-xl border-0 p-8">
-              <h3 className="text-2xl font-bold text-[#1C3D6E] mb-8 flex items-center justify-center">
-                <BarChart3 className="w-8 h-8 mr-3 text-[#1C3D6E]" />
+            <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8">
+              <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-8 flex items-center justify-center">
+                <BarChart3 className="w-8 h-8 mr-3 text-primary-dark dark:text-darkMode-accent" />
                 Your Learning Profile
               </h3>
 
               <dl className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-[#1C3D6E]/10 to-[#1C3D6E]/5 p-4 rounded-xl border border-[#1C3D6E]/20">
-                  <dt className="text-sm font-semibold text-[#1C3D6E] mb-2">Education Level</dt>
-                  <dd className="text-lg font-bold text-gray-800">{results.education}</dd>
+                <div className="bg-gradient-to-br from-primary-dark/10 to-primary-dark/5 dark:from-darkMode-progress/10 dark:to-darkMode-progress/5 p-4 rounded-xl border border-primary-dark/20 dark:border-darkMode-progress/20">
+                  <dt className="text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">Education Level</dt>
+                  <dd className="text-lg font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.education}</dd>
                 </div>
-                <div className="bg-gradient-to-br from-[#3DAEDB]/10 to-[#3DAEDB]/5 p-4 rounded-xl border border-[#3DAEDB]/20">
-                  <dt className="text-sm font-semibold text-[#3DAEDB] mb-2">Primary Interest</dt>
-                  <dd className="text-lg font-bold text-gray-800">{results.interests}</dd>
+                <div className="bg-gradient-to-br from-primary-light/10 to-primary-light/5 dark:from-darkMode-accent/10 dark:to-darkMode-accent/5 p-4 rounded-xl border border-primary-light/20 dark:border-darkMode-accent/20">
+                  <dt className="text-sm font-semibold text-primary-light dark:text-darkMode-accent mb-2">Primary Interest</dt>
+                  <dd className="text-lg font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.interests}</dd>
                 </div>
-                <div className="bg-gradient-to-br from-[#2C857A]/10 to-[#2C857A]/5 p-4 rounded-xl border border-[#2C857A]/20">
-                  <dt className="text-sm font-semibold text-[#2C857A] mb-2">Learning Style</dt>
-                  <dd className="text-lg font-bold text-gray-800">{results.learning_style}</dd>
+                <div className="bg-gradient-to-br from-forest-sage/10 to-forest-sage/5 dark:from-darkMode-success/10 dark:to-darkMode-success/5 p-4 rounded-xl border border-forest-sage/20 dark:border-darkMode-success/20">
+                  <dt className="text-sm font-semibold text-forest-sage dark:text-darkMode-success mb-2">Learning Style</dt>
+                  <dd className="text-lg font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.learning_style}</dd>
                 </div>
-                <div className="bg-gradient-to-br from-[#4A9E3D]/10 to-[#4A9E3D]/5 p-4 rounded-xl border border-[#4A9E3D]/20">
-                  <dt className="text-sm font-semibold text-[#4A9E3D] mb-2">Primary Goal</dt>
-                  <dd className="text-lg font-bold text-gray-800">{results.goals}</dd>
+                <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 dark:from-darkMode-successLight/10 dark:to-darkMode-successLight/5 p-4 rounded-xl border border-secondary/20 dark:border-darkMode-successLight/20">
+                  <dt className="text-sm font-semibold text-secondary dark:text-darkMode-successLight mb-2">Primary Goal</dt>
+                  <dd className="text-lg font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.goals}</dd>
                 </div>
-                <div className="md:col-span-2 bg-gradient-to-br from-[#1C3D6E]/10 to-[#3DAEDB]/10 p-4 rounded-xl border border-[#1C3D6E]/20">
-                  <dt className="text-sm font-semibold text-[#1C3D6E] mb-2">Daily Time Commitment</dt>
-                  <dd className="text-lg font-bold text-gray-800">{results.time_commitment}</dd>
+                <div className="md:col-span-2 bg-gradient-to-br from-primary-dark/10 to-primary-light/10 dark:from-darkMode-progress/10 dark:to-darkMode-accent/10 p-4 rounded-xl border border-primary-dark/20 dark:border-darkMode-border">
+                  <dt className="text-sm font-semibold text-primary-dark dark:text-darkMode-text mb-2">Daily Time Commitment</dt>
+                  <dd className="text-lg font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.time_commitment}</dd>
                 </div>
               </dl>
             </div>
@@ -163,13 +163,13 @@ const InitialAssessment = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={resetAssessment}
-                className="flex-1 py-3 px-6 border-2 border-[#1C3D6E] text-[#1C3D6E] rounded-xl hover:bg-[#1C3D6E] hover:text-white transition-all duration-300 font-medium"
+                className="flex-1 py-3 px-6 border-2 border-primary-dark dark:border-darkMode-border text-primary-dark dark:text-darkMode-text rounded-xl hover:bg-primary-dark dark:hover:bg-darkMode-surfaceHover hover:text-white transition-all duration-300 font-medium"
               >
                 Retake Assessment
               </button>
               <button
                 onClick={handleContinue}
-                className="flex-1 py-3 px-6 bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] text-white rounded-xl hover:from-[#2A9BC8] hover:to-[#1F6B61] transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                className="flex-1 py-3 px-6 bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success text-white rounded-xl hover:from-primary hover:to-forest-deep dark:hover:from-darkMode-success dark:hover:to-darkMode-progress transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
               >
                 Continue to Psychometric Test
                 <ArrowRight className="w-5 h-5 ml-2 inline" />
@@ -182,12 +182,12 @@ const InitialAssessment = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-forest-mist dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter'] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Progress Indicator */}
-        <OnboardingProgress 
-          currentStep={3} 
-          totalSteps={6} 
+        <OnboardingProgress
+          currentStep={3}
+          totalSteps={6}
           stepLabels={stepLabels}
         />
 
@@ -195,7 +195,7 @@ const InitialAssessment = () => {
           {/* Back Button */}
           <button
             onClick={handleBack}
-            className="flex items-center text-[#1C3D6E] hover:text-[#3DAEDB] transition-colors duration-200 mb-4"
+            className="flex items-center text-primary-dark dark:text-darkMode-text hover:text-primary-light dark:hover:text-darkMode-accent transition-colors duration-200 mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Profile Setup
@@ -203,36 +203,36 @@ const InitialAssessment = () => {
 
           {/* Header */}
           <div className="text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-[#1C3D6E] to-[#3DAEDB] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <div className="w-20 h-20 bg-gradient-to-br from-primary-dark to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg dark:shadow-dark">
               <Target className="w-8 h-8 text-white" />
             </div>
-            <h2 className="text-4xl font-bold text-[#1C3D6E] mb-3">
+            <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-3">
               Learning Assessment
             </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-lg max-w-2xl mx-auto">
               Help us understand your learning needs and preferences to create your personalized journey
             </p>
 
             {/* Progress Bar */}
             <div className="mt-8">
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3">
                 <div
-                  className="bg-gradient-to-r from-[#3DAEDB] to-[#2C857A] h-3 rounded-full transition-all duration-500"
+                  className="bg-gradient-to-r from-primary-light to-forest-sage dark:from-darkMode-progress dark:to-darkMode-success h-3 rounded-full transition-all duration-500"
                   style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
                 ></div>
               </div>
-              <p className="text-center text-sm font-medium text-[#2C857A] mt-3">
+              <p className="text-center text-sm font-medium text-forest-sage dark:text-darkMode-accent mt-3">
                 Question {currentQuestion + 1} of {questions.length}
               </p>
-              <p className="text-center text-xs text-gray-500 mt-1">
+              <p className="text-center text-xs text-neutral-dark/50 dark:text-darkMode-textMuted mt-1">
                 Education level and interests already collected from your profile
               </p>
             </div>
           </div>
 
           {/* Question Card */}
-          <div className="bg-white rounded-2xl shadow-xl border-0 p-8">
-            <h3 className="text-2xl font-bold text-[#1C3D6E] mb-8 text-center leading-relaxed">
+          <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8">
+            <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-8 text-center leading-relaxed">
               {questions[currentQuestion].question}
             </h3>
 
@@ -241,13 +241,13 @@ const InitialAssessment = () => {
                 <button
                   key={index}
                   onClick={() => handleAnswer(option)}
-                  className="w-full text-left p-6 border-2 border-gray-200 rounded-xl hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 transition-all duration-300 group transform hover:scale-105"
+                  className="w-full text-left p-6 border-2 border-neutral-gray dark:border-darkMode-border rounded-xl hover:border-primary-light dark:hover:border-darkMode-progress hover:bg-primary-light/5 dark:hover:bg-darkMode-progress/5 transition-all duration-300 group transform hover:scale-105"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="flex-1 text-base font-medium text-gray-800 group-hover:text-[#1C3D6E] transition-colors">
+                    <span className="flex-1 text-base font-medium text-neutral-dark dark:text-darkMode-textSecondary group-hover:text-primary-dark dark:group-hover:text-darkMode-text transition-colors">
                       {option}
                     </span>
-                    <ChevronRight className="w-6 h-6 text-gray-400 group-hover:text-[#3DAEDB] group-hover:scale-110 transition-all duration-200" />
+                    <ChevronRight className="w-6 h-6 text-neutral-dark/40 dark:text-darkMode-textMuted group-hover:text-primary-light dark:group-hover:text-darkMode-progress group-hover:scale-110 transition-all duration-200" />
                   </div>
                 </button>
               ))}

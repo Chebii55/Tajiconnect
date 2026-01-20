@@ -91,14 +91,14 @@ export default function ProgressDashboard() {
 
   const getTrendColor = (trend: string) => {
     switch (trend) {
-      case 'up': return 'text-[#4A9E3D]'
+      case 'up': return 'text-secondary'
       case 'down': return 'text-red-500'
       default: return 'text-gray-500'
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -108,7 +108,7 @@ export default function ProgressDashboard() {
                 <span className="text-2xl">📊</span>
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-[#1C3D6E]">Progress Dashboard</h1>
+                <h1 className="text-3xl font-bold text-primary-dark">Progress Dashboard</h1>
                 <p className="text-gray-600">Track your learning journey and achievements</p>
               </div>
             </div>
@@ -120,8 +120,8 @@ export default function ProgressDashboard() {
                   onClick={() => setTimeFrame(period as typeof timeFrame)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                     timeFrame === period
-                      ? 'bg-[#1C3D6E] text-white'
-                      : 'text-gray-600 hover:text-[#1C3D6E] hover:bg-gray-100'
+                      ? 'bg-primary-dark text-white'
+                      : 'text-gray-600 hover:text-primary-dark hover:bg-gray-100'
                   }`}
                 >
                   {period}
@@ -149,13 +149,13 @@ export default function ProgressDashboard() {
           {mockMetrics.map((metric, index) => (
             <div key={index} className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-[#1C3D6E]">{metric.label}</h3>
+                <h3 className="font-semibold text-primary-dark">{metric.label}</h3>
                 <span className={getTrendColor(metric.trend)}>{getTrendIcon(metric.trend)}</span>
               </div>
 
               <div className="mb-4">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-[#1C3D6E]">{metric.current}</span>
+                  <span className="text-3xl font-bold text-primary-dark">{metric.current}</span>
                   <span className="text-gray-600">/ {metric.target} {metric.unit}</span>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">{metric.change}</p>
@@ -175,8 +175,8 @@ export default function ProgressDashboard() {
           {/* Course Progress */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E]">Course Progress</h2>
-              <button className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium">View All</button>
+              <h2 className="text-xl font-bold text-primary-dark">Course Progress</h2>
+              <button className="text-primary hover:text-primary-dark font-medium">View All</button>
             </div>
 
             <div className="space-y-4">
@@ -184,13 +184,13 @@ export default function ProgressDashboard() {
                 <div key={course.id} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-[#1C3D6E] mb-1">{course.title}</h3>
+                      <h3 className="font-semibold text-primary-dark mb-1">{course.title}</h3>
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <span>⏱️ {course.timeSpent}</span>
                         <span>📅 Last: {new Date(course.lastAccessed).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className="text-lg font-bold text-[#4A9E3D]">{course.progress}%</span>
+                    <span className="text-lg font-bold text-secondary">{course.progress}%</span>
                   </div>
 
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
@@ -202,7 +202,7 @@ export default function ProgressDashboard() {
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Next: {course.nextMilestone}</span>
-                    <button className="text-[#3DAEDB] hover:text-[#1C3D6E] text-sm font-medium">
+                    <button className="text-primary hover:text-primary-dark text-sm font-medium">
                       Continue
                     </button>
                   </div>
@@ -216,18 +216,18 @@ export default function ProgressDashboard() {
             {/* Recent Achievements */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#1C3D6E]">Recent Achievements</h2>
-                <button className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium">View All</button>
+                <h2 className="text-xl font-bold text-primary-dark">Recent Achievements</h2>
+                <button className="text-primary hover:text-primary-dark font-medium">View All</button>
               </div>
 
               <div className="space-y-3">
                 {mockAchievements.map((achievement) => (
-                  <div key={achievement.id} className="flex items-center gap-3 p-3 bg-[#4A9E3D]/5 rounded-lg">
-                    <div className="w-10 h-10 bg-[#4A9E3D] rounded-full flex items-center justify-center">
+                  <div key={achievement.id} className="flex items-center gap-3 p-3 bg-secondary/5 rounded-lg">
+                    <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center">
                       <span className="text-white">🏆</span>
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-semibold text-[#1C3D6E]">{achievement.title}</h3>
+                      <h3 className="font-semibold text-primary-dark">{achievement.title}</h3>
                       <p className="text-sm text-gray-600">{achievement.description}</p>
                       <span className="text-xs text-gray-500">
                         {new Date(achievement.earnedDate).toLocaleDateString()}
@@ -241,10 +241,10 @@ export default function ProgressDashboard() {
             {/* Learning Goals */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-[#1C3D6E]">Learning Goals</h2>
+                <h2 className="text-xl font-bold text-primary-dark">Learning Goals</h2>
                 <button
                   onClick={() => setShowGoals(!showGoals)}
-                  className="text-[#3DAEDB] hover:text-[#1C3D6E] font-medium"
+                  className="text-primary hover:text-primary-dark font-medium"
                 >
                   {showGoals ? 'Hide' : 'Set Goals'}
                 </button>
@@ -253,23 +253,23 @@ export default function ProgressDashboard() {
               {showGoals ? (
                 <div className="space-y-4">
                   <div className="border border-gray-200 rounded-lg p-4">
-                    <label className="block text-sm font-medium text-[#1C3D6E] mb-2">
+                    <label className="block text-sm font-medium text-primary-dark mb-2">
                       Monthly Learning Hours
                     </label>
                     <input
                       type="number"
                       defaultValue="60"
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
                   <div className="border border-gray-200 rounded-lg p-4">
-                    <label className="block text-sm font-medium text-[#1C3D6E] mb-2">
+                    <label className="block text-sm font-medium text-primary-dark mb-2">
                       Courses to Complete
                     </label>
                     <input
                       type="number"
                       defaultValue="8"
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
                   <button className="btn-primary w-full">
@@ -279,16 +279,16 @@ export default function ProgressDashboard() {
               ) : (
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">Complete 8 courses this year</span>
-                    <span className="text-[#4A9E3D] font-bold">3/8</span>
+                    <span className="text-primary-dark font-medium">Complete 8 courses this year</span>
+                    <span className="text-secondary font-bold">3/8</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">60 hours monthly learning</span>
-                    <span className="text-[#4A9E3D] font-bold">47/60h</span>
+                    <span className="text-primary-dark font-medium">60 hours monthly learning</span>
+                    <span className="text-secondary font-bold">47/60h</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                    <span className="text-[#1C3D6E] font-medium">Master 20 skills</span>
-                    <span className="text-[#4A9E3D] font-bold">12/20</span>
+                    <span className="text-primary-dark font-medium">Master 20 skills</span>
+                    <span className="text-secondary font-bold">12/20</span>
                   </div>
                 </div>
               )}
@@ -311,7 +311,7 @@ export default function ProgressDashboard() {
 
         {/* Time Analytics Chart Placeholder */}
         <div className="mt-8 bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-[#1C3D6E] mb-6">Learning Time Analytics</h2>
+          <h2 className="text-xl font-bold text-primary-dark mb-6">Learning Time Analytics</h2>
           <div className="h-64 bg-primary-dark/10 rounded-lg flex items-center justify-center">
             <div className="text-center">
               <div className="text-4xl mb-2">📈</div>

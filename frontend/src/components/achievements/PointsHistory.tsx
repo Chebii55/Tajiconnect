@@ -154,11 +154,11 @@ const PointsHistory: React.FC = () => {
 
   const getTransactionColor = (type: string) => {
     switch (type) {
-      case 'earned': return 'text-green-600';
-      case 'spent': return 'text-red-600';
-      case 'bonus': return 'text-blue-600';
-      case 'penalty': return 'text-orange-600';
-      default: return 'text-gray-600';
+      case 'earned': return 'text-green-600 dark:text-darkMode-success';
+      case 'spent': return 'text-red-600 dark:text-error';
+      case 'bonus': return 'text-blue-600 dark:text-info';
+      case 'penalty': return 'text-orange-600 dark:text-warning';
+      default: return 'text-gray-600 dark:text-darkMode-textSecondary';
     }
   };
 
@@ -188,87 +188,87 @@ const PointsHistory: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter']">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary-light/10 dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter']">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-[#1C3D6E] mb-2">Points History</h1>
-          <p className="text-gray-600">Track your earning and spending patterns</p>
+          <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-2">Points History</h1>
+          <p className="text-gray-600 dark:text-darkMode-textSecondary">Track your earning and spending patterns</p>
         </div>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#4A9E3D]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-l-4 border-secondary dark:border-darkMode-success">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Current Balance</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockSummary.currentBalance.toLocaleString()}</p>
+                <p className="text-sm text-gray-600 dark:text-darkMode-textSecondary mb-1">Current Balance</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockSummary.currentBalance.toLocaleString()}</p>
               </div>
-              <div className="p-3 bg-[#4A9E3D] bg-opacity-10 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-[#4A9E3D]" />
+              <div className="p-3 bg-secondary/10 dark:bg-darkMode-success/10 rounded-lg">
+                <TrendingUp className="w-6 h-6 text-secondary dark:text-darkMode-success" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#3DAEDB]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-l-4 border-primary-light dark:border-darkMode-link">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total Earned</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockSummary.totalEarned.toLocaleString()}</p>
+                <p className="text-sm text-gray-600 dark:text-darkMode-textSecondary mb-1">Total Earned</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockSummary.totalEarned.toLocaleString()}</p>
               </div>
-              <div className="p-3 bg-[#3DAEDB] bg-opacity-10 rounded-lg">
-                <Award className="w-6 h-6 text-[#3DAEDB]" />
+              <div className="p-3 bg-primary-light/10 dark:bg-darkMode-link/10 rounded-lg">
+                <Award className="w-6 h-6 text-primary-light dark:text-darkMode-link" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-[#2C857A]">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-l-4 border-forest-sage dark:border-darkMode-progress">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">This Month</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">+{mockSummary.thisMonth}</p>
-                <p className="text-sm text-green-600">
+                <p className="text-sm text-gray-600 dark:text-darkMode-textSecondary mb-1">This Month</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">+{mockSummary.thisMonth}</p>
+                <p className="text-sm text-green-600 dark:text-darkMode-success">
                   +{Math.round(((mockSummary.thisMonth - mockSummary.lastMonth) / mockSummary.lastMonth) * 100)}% from last month
                 </p>
               </div>
-              <div className="p-3 bg-[#2C857A] bg-opacity-10 rounded-lg">
-                <Calendar className="w-6 h-6 text-[#2C857A]" />
+              <div className="p-3 bg-forest-sage/10 dark:bg-darkMode-progress/10 rounded-lg">
+                <Calendar className="w-6 h-6 text-forest-sage dark:text-darkMode-progress" />
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-l-4 border-purple-500 dark:border-purple-400">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Daily Average</p>
-                <p className="text-2xl font-bold text-[#1C3D6E]">{mockSummary.averageDaily}</p>
-                <p className="text-sm text-gray-500">points per day</p>
+                <p className="text-sm text-gray-600 dark:text-darkMode-textSecondary mb-1">Daily Average</p>
+                <p className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">{mockSummary.averageDaily}</p>
+                <p className="text-sm text-gray-500 dark:text-darkMode-textMuted">points per day</p>
               </div>
-              <div className="p-3 bg-purple-100 rounded-lg">
-                <Target className="w-6 h-6 text-purple-600" />
+              <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 mb-8">
           <div className="flex flex-wrap gap-4 items-center justify-between">
             <div className="flex flex-wrap gap-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-darkMode-textMuted" />
                 <input
                   type="text"
                   placeholder="Search transactions..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                  className="pl-10 pr-4 py-2 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-transparent bg-white dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-text"
                 />
               </div>
 
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-transparent bg-white dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-text"
               >
                 {categories.map(cat => (
                   <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -278,7 +278,7 @@ const PointsHistory: React.FC = () => {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-transparent bg-white dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-text"
               >
                 {types.map(type => (
                   <option key={type.value} value={type.value}>{type.label}</option>
@@ -288,7 +288,7 @@ const PointsHistory: React.FC = () => {
               <select
                 value={selectedPeriod}
                 onChange={(e) => setSelectedPeriod(e.target.value as 'week' | 'month' | 'quarter' | 'year' | 'all')}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3DAEDB] focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-darkMode-focus focus:border-transparent bg-white dark:bg-darkMode-surfaceHover text-neutral-dark dark:text-darkMode-text"
               >
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
@@ -299,7 +299,7 @@ const PointsHistory: React.FC = () => {
 
             <button
               onClick={handleExport}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1C3D6E] text-white rounded-lg hover:bg-[#2A4F7C] transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary-dark dark:bg-darkMode-accent text-white dark:text-darkMode-bg rounded-lg hover:bg-primary dark:hover:bg-darkMode-accentHover transition-colors"
             >
               <Download className="w-4 h-4" />
               Export CSV
@@ -308,30 +308,30 @@ const PointsHistory: React.FC = () => {
         </div>
 
         {/* Transactions List */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-[#1C3D6E]">
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg overflow-hidden">
+          <div className="p-6 border-b border-gray-200 dark:border-darkMode-border">
+            <h2 className="text-xl font-semibold text-primary-dark dark:text-darkMode-text">
               Transaction History ({filteredTransactions.length} transactions)
             </h2>
           </div>
 
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-200 dark:divide-darkMode-border">
             {filteredTransactions.map((transaction) => (
-              <div key={transaction.id} className="p-6 hover:bg-gray-50 transition-colors">
+              <div key={transaction.id} className="p-6 hover:bg-gray-50 dark:hover:bg-darkMode-surfaceHover transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className={`p-2 rounded-lg ${
-                      transaction.type === 'earned' ? 'bg-green-100' :
-                      transaction.type === 'spent' ? 'bg-red-100' :
-                      transaction.type === 'bonus' ? 'bg-blue-100' :
-                      'bg-orange-100'
+                      transaction.type === 'earned' ? 'bg-green-100 dark:bg-darkMode-success/20' :
+                      transaction.type === 'spent' ? 'bg-red-100 dark:bg-error/20' :
+                      transaction.type === 'bonus' ? 'bg-blue-100 dark:bg-info/20' :
+                      'bg-orange-100 dark:bg-warning/20'
                     }`}>
                       {getTransactionIcon(transaction.category)}
                     </div>
 
                     <div>
-                      <h3 className="font-medium text-gray-900">{transaction.reason}</h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <h3 className="font-medium text-gray-900 dark:text-darkMode-text">{transaction.reason}</h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-darkMode-textSecondary">
                         <span className="capitalize">{transaction.category}</span>
                         {transaction.relatedItem && (
                           <>
@@ -342,7 +342,7 @@ const PointsHistory: React.FC = () => {
                         {transaction.multiplier && (
                           <>
                             <span>•</span>
-                            <span className="text-blue-600 font-medium">
+                            <span className="text-blue-600 dark:text-info font-medium">
                               {transaction.multiplier}x multiplier
                             </span>
                           </>
@@ -355,7 +355,7 @@ const PointsHistory: React.FC = () => {
                     <p className={`text-lg font-semibold ${getTransactionColor(transaction.type)}`}>
                       {transaction.amount > 0 ? '+' : ''}{transaction.amount.toLocaleString()}
                     </p>
-                    <p className="text-sm text-gray-600">{formatDate(transaction.date)}</p>
+                    <p className="text-sm text-gray-600 dark:text-darkMode-textSecondary">{formatDate(transaction.date)}</p>
                   </div>
                 </div>
               </div>
@@ -364,15 +364,15 @@ const PointsHistory: React.FC = () => {
 
           {filteredTransactions.length === 0 && (
             <div className="p-12 text-center">
-              <Filter className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No transactions found</h3>
-              <p className="text-gray-600">Try adjusting your filters or search terms.</p>
+              <Filter className="w-12 h-12 text-gray-400 dark:text-darkMode-textMuted mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-darkMode-text mb-2">No transactions found</h3>
+              <p className="text-gray-600 dark:text-darkMode-textSecondary">Try adjusting your filters or search terms.</p>
             </div>
           )}
         </div>
 
         {/* Success Notification */}
-        <div className="fixed bottom-4 right-4 bg-[#4A9E3D] text-white px-6 py-3 rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity duration-300" id="success-notification">
+        <div className="fixed bottom-4 right-4 bg-secondary dark:bg-darkMode-success text-white px-6 py-3 rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity duration-300" id="success-notification">
           <div className="flex items-center gap-2">
             <Award className="w-5 h-5" />
             <span>Points history updated successfully!</span>

@@ -160,7 +160,7 @@ const PersonalizedRoadmap = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -178,7 +178,7 @@ const PersonalizedRoadmap = () => {
 
   if (!roadmap) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -203,7 +203,7 @@ const PersonalizedRoadmap = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
         <CareerSidebar />
         <div className="flex-1 ml-6">
@@ -222,7 +222,7 @@ const PersonalizedRoadmap = () => {
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="flex-1">
                     <div className="flex items-center mb-2">
-                      <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mr-4">
+                      <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link mr-4">
                         {roadmap.title}
                       </h1>
                       {roadmap.aiGenerated && (
@@ -275,7 +275,7 @@ const PersonalizedRoadmap = () => {
                         />
                       </svg>
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">
+                        <span className="text-xl font-bold text-primary-dark dark:text-darkMode-link">
                           {getOverallProgress()}%
                         </span>
                       </div>
@@ -314,7 +314,7 @@ const PersonalizedRoadmap = () => {
                       <BookOpen className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">
+                      <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">
                         {roadmap.phases[activePhase].phase} Phase
                       </h2>
                       <p className="text-gray-600 dark:text-gray-300">
@@ -325,7 +325,7 @@ const PersonalizedRoadmap = () => {
 
                   {/* Skills to Learn */}
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3">
+                    <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-3">
                       Skills to Master
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -342,7 +342,7 @@ const PersonalizedRoadmap = () => {
 
                   {/* Milestones */}
                   <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3">
+                    <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-3">
                       Milestones
                     </h3>
                     <div className="space-y-3">
@@ -379,7 +379,7 @@ const PersonalizedRoadmap = () => {
                   {/* Personalized Tips */}
                   {roadmap.phases[activePhase].personalizedTips && (
                     <div>
-                      <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3 flex items-center">
+                      <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-3 flex items-center">
                         <Lightbulb className="w-5 h-5 mr-2" />
                         Personalized Tips
                       </h3>
@@ -400,7 +400,7 @@ const PersonalizedRoadmap = () => {
               <div className="space-y-6">
                 {/* Phase Progress */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-                  <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 flex items-center">
+                  <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-4 flex items-center">
                     <Award className="w-5 h-5 mr-2" />
                     Phase Progress
                   </h3>
@@ -428,7 +428,7 @@ const PersonalizedRoadmap = () => {
 
                 {/* Quick Actions */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-                  <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                  <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-4">
                     Quick Actions
                   </h3>
                   <div className="space-y-3">
@@ -446,7 +446,7 @@ const PersonalizedRoadmap = () => {
 
                 {/* Timeline */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-                  <h3 className="text-lg font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 flex items-center">
+                  <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-4 flex items-center">
                     <Calendar className="w-5 h-5 mr-2" />
                     Timeline
                   </h3>

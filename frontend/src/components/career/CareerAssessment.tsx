@@ -183,7 +183,7 @@ const CareerAssessment = () => {
     const recommendations = aiRecommendations.length > 0 ? aiRecommendations : fallbackRecommendations
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -192,7 +192,7 @@ const CareerAssessment = () => {
                 <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
                   <Brain className="w-10 h-10 text-white" />
                 </div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                   AI Career Assessment Complete!
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto">
@@ -245,7 +245,7 @@ const CareerAssessment = () => {
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex-1">
                         <div className="flex items-center mb-3">
-                          <h3 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mr-4">{career.title}</h3>
+                          <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mr-4">{career.title}</h3>
                           <span className={`px-4 py-2 rounded-full text-white font-bold ${career.color}`}>
                             {career.match} Match
                           </span>
@@ -253,7 +253,7 @@ const CareerAssessment = () => {
                         <p className="text-gray-600 dark:text-gray-300 mb-4">{career.description}</p>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                           <div>
-                            <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">Key Skills:</span>
+                            <span className="font-semibold text-primary-dark dark:text-darkMode-link">Key Skills:</span>
                             <p className="text-gray-600 dark:text-gray-300">{career.requiredSkills?.join(", ") || "N/A"}</p>
                           </div>
                           <div>
@@ -267,7 +267,7 @@ const CareerAssessment = () => {
                         </div>
                         {career.personalizedRoadmap && career.personalizedRoadmap.length > 0 && (
                           <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                            <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">
+                            <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">
                               🗺️ Personalized Learning Roadmap ({career.personalizedRoadmap.length} phases)
                             </h4>
                             <div className="flex flex-wrap gap-2">
@@ -311,7 +311,7 @@ const CareerAssessment = () => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <button
                     onClick={resetAssessment}
-                    className="py-3 px-6 border-2 border-[#1C3D6E] text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
+                    className="py-3 px-6 border-2 border-[#1C3D6E] text-primary-dark dark:text-darkMode-link hover:bg-[#1C3D6E] hover:text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg"
                   >
                     Retake Assessment
                   </button>
@@ -333,7 +333,7 @@ const CareerAssessment = () => {
   // Show loading state during AI processing
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
           <CareerSidebar />
           <div className="flex-1 ml-6">
@@ -342,7 +342,7 @@ const CareerAssessment = () => {
                 <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
                   <Loader2 className="w-10 h-10 text-white animate-spin" />
                 </div>
-                <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">
+                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
                   AI is Analyzing Your Responses...
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto mb-8">
@@ -376,7 +376,7 @@ const CareerAssessment = () => {
   const progress = ((currentQuestion + 1) / questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
         <CareerSidebar />
         <div className="flex-1 ml-6">
@@ -386,7 +386,7 @@ const CareerAssessment = () => {
               <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <span className="text-3xl">🧭</span>
               </div>
-              <h1 className="text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3">
+              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-3">
                 Career Assessment
               </h1>
               <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
@@ -409,7 +409,7 @@ const CareerAssessment = () => {
 
             {/* Question Card */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-8 text-center leading-relaxed">
+              <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-8 text-center leading-relaxed">
                 {currentQ.question}
               </h2>
 
@@ -419,9 +419,9 @@ const CareerAssessment = () => {
                   <button
                     key={index}
                     onClick={() => handleAnswer(option)}
-                    className="w-full text-left p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 group"
+                    className="w-full text-left p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 group"
                   >
-                    <span className="text-base font-medium text-[#333333] group-hover:text-[#1C3D6E] dark:text-[#3DAEDB] transition-colors">
+                    <span className="text-base font-medium text-[#333333] group-hover:text-primary-dark dark:text-darkMode-link transition-colors">
                       {option}
                     </span>
                   </button>
@@ -439,7 +439,7 @@ const CareerAssessment = () => {
                         <button
                           key={value}
                           onClick={() => handleAnswer(value)}
-                          className="flex-1 h-16 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 flex items-center justify-center font-bold text-lg text-[#333333] hover:text-[#1C3D6E] dark:text-[#3DAEDB]"
+                          className="flex-1 h-16 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 flex items-center justify-center font-bold text-lg text-[#333333] hover:text-primary-dark dark:text-darkMode-link"
                         >
                           {value}
                         </button>
@@ -452,10 +452,10 @@ const CareerAssessment = () => {
                 {currentQ.type === 'checkbox' && (
                   <div className="space-y-4">
                     {currentQ.options?.map((option, index) => (
-                      <label key={index} className="flex items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 cursor-pointer transition-all duration-300">
+                      <label key={index} className="flex items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 cursor-pointer transition-all duration-300">
                         <input
                           type="checkbox"
-                          className="h-5 w-5 text-[#3DAEDB] focus:ring-[#3DAEDB] border-gray-300 rounded mr-4"
+                          className="h-5 w-5 text-primary focus:ring-[#3DAEDB] border-gray-300 rounded mr-4"
                           onChange={(e) => {
                             const currentAnswers = (answers[currentQ.id] as string[]) || []
                             if (e.target.checked) {
@@ -487,7 +487,7 @@ const CareerAssessment = () => {
                     className={`py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
                       currentQuestion === 0
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'border-2 border-[#1C3D6E] text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-[#1C3D6E] hover:text-white'
+                        : 'border-2 border-[#1C3D6E] text-primary-dark dark:text-darkMode-link hover:bg-[#1C3D6E] hover:text-white'
                     }`}
                   >
                     Previous

@@ -133,7 +133,7 @@ const CareerDashboard = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
         <CareerSidebar />
         <div className="flex-1 ml-6">
@@ -160,12 +160,12 @@ const CareerDashboard = () => {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div className="mb-2 sm:mb-0">
                   <p className="text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1 leading-tight">{stat.label}</p>
-                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{stat.value}</p>
-                  <p className="text-xs text-[#4A9E3D] font-medium mt-1 hidden sm:block">{stat.trend}</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary-dark dark:text-darkMode-link">{stat.value}</p>
+                  <p className="text-xs text-secondary font-medium mt-1 hidden sm:block">{stat.trend}</p>
                 </div>
-                <div className="self-start sm:self-center text-[#1C3D6E] dark:text-[#3DAEDB]">{stat.icon}</div>
+                <div className="self-start sm:self-center text-primary-dark dark:text-darkMode-link">{stat.icon}</div>
               </div>
-              <p className="text-xs text-[#4A9E3D] font-medium mt-2 sm:hidden truncate">{stat.trend}</p>
+              <p className="text-xs text-secondary font-medium mt-2 sm:hidden truncate">{stat.trend}</p>
             </div>
           ))}
         </div>
@@ -175,8 +175,8 @@ const CareerDashboard = () => {
           <div className="xl:col-span-2 space-y-6 lg:space-y-8">
             {/* Career Actions */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6 lg:mb-8 flex items-center">
-                <Rocket className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+              <h2 className="text-xl sm:text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-6 lg:mb-8 flex items-center">
+                <Rocket className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 text-primary-dark dark:text-darkMode-link" />
                 Career Development Tools
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -190,7 +190,7 @@ const CareerDashboard = () => {
                     <div className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                       <span className="text-2xl">{action.icon}</span>
                     </div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg mb-2 group-hover:text-[#0f2844] transition-colors">
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg mb-2 group-hover:text-[#0f2844] transition-colors">
                       {action.title}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">{action.description}</p>
@@ -201,7 +201,7 @@ const CareerDashboard = () => {
 
             {/* Career Categories */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6 lg:mb-8 flex items-center">
+              <h2 className="text-xl sm:text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-6 lg:mb-8 flex items-center">
                 <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">🏢</span>
                 Top Career Categories
               </h2>
@@ -216,7 +216,7 @@ const CareerDashboard = () => {
                     <div className={`w-16 h-16 ${category.color} rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                       {category.icon}
                     </div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg mb-2 group-hover:text-[#0f2844] transition-colors">
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg mb-2 group-hover:text-[#0f2844] transition-colors">
                       {category.name}
                     </h3>
                     <div className="space-y-2">
@@ -224,9 +224,9 @@ const CareerDashboard = () => {
                         <span className="font-medium">{category.jobCount}</span> jobs available
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Avg: <span className="font-medium text-[#4A9E3D]">{category.averageSalary}</span>
+                        Avg: <span className="font-medium text-secondary">{category.averageSalary}</span>
                       </p>
-                      <p className="text-sm text-[#2C857A] font-medium">
+                      <p className="text-sm text-forest-sage font-medium">
                         {category.growth} growth
                       </p>
                     </div>
@@ -240,19 +240,19 @@ const CareerDashboard = () => {
           <div className="order-first xl:order-last space-y-6 lg:space-y-8">
             {/* Quick Actions */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-4 sm:p-6 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-lg sm:text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 sm:mb-6 flex items-center">
-                <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+              <h2 className="text-lg sm:text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4 sm:mb-6 flex items-center">
+                <Zap className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-primary-dark dark:text-darkMode-link" />
                 Quick Actions
               </h2>
               <div className="space-y-3 sm:space-y-4">
                 <Link
                   to="/student/jobs/personalized"
-                  className="w-full text-left p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl hover:border-[#3DAEDB] hover:bg-[#3DAEDB]/5 transition-all duration-200 group block"
+                  className="w-full text-left p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 transition-all duration-200 group block"
                 >
                   <div className="flex items-center">
-                    <Target className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:scale-110 transition-transform duration-200 flex-shrink-0 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+                    <Target className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:scale-110 transition-transform duration-200 flex-shrink-0 text-primary-dark dark:text-darkMode-link" />
                     <div>
-                      <p className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] group-hover:text-[#0f2844] transition-colors text-sm sm:text-base">View Personalized Jobs</p>
+                      <p className="font-semibold text-primary-dark dark:text-darkMode-link group-hover:text-[#0f2844] transition-colors text-sm sm:text-base">View Personalized Jobs</p>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Jobs matched to your profile</p>
                     </div>
                   </div>
@@ -264,7 +264,7 @@ const CareerDashboard = () => {
                   <div className="flex items-center">
                     <span className="text-2xl sm:text-3xl mr-3 sm:mr-4 group-hover:scale-110 transition-transform duration-200 flex-shrink-0">🌐</span>
                     <div>
-                      <p className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] group-hover:text-[#4A9E3D] transition-colors text-sm sm:text-base">Browse All Jobs</p>
+                      <p className="font-semibold text-primary-dark dark:text-darkMode-link group-hover:text-secondary transition-colors text-sm sm:text-base">Browse All Jobs</p>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Explore general job board</p>
                     </div>
                   </div>
@@ -274,9 +274,9 @@ const CareerDashboard = () => {
                   className="w-full text-left p-3 sm:p-4 border border-gray-200 dark:border-gray-700 rounded-lg sm:rounded-xl hover:border-[#2C857A] hover:bg-[#2C857A]/5 transition-all duration-200 group block"
                 >
                   <div className="flex items-center">
-                    <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:scale-110 transition-transform duration-200 flex-shrink-0 text-[#4A9E3D]" />
+                    <DollarSign className="w-6 h-6 sm:w-8 sm:h-8 mr-3 sm:mr-4 group-hover:scale-110 transition-transform duration-200 flex-shrink-0 text-secondary" />
                     <div>
-                      <p className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] group-hover:text-[#2C857A] transition-colors text-sm sm:text-base">Salary Insights</p>
+                      <p className="font-semibold text-primary-dark dark:text-darkMode-link group-hover:text-forest-sage transition-colors text-sm sm:text-base">Salary Insights</p>
                       <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">Market salary information</p>
                     </div>
                   </div>
@@ -286,14 +286,14 @@ const CareerDashboard = () => {
 
             {/* Career Progress */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-4 sm:p-6 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-lg sm:text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4 sm:mb-6 flex items-center">
-                <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-[#1C3D6E] dark:text-[#3DAEDB]" />
+              <h2 className="text-lg sm:text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4 sm:mb-6 flex items-center">
+                <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 mr-2 text-primary-dark dark:text-darkMode-link" />
                 Career Progress
               </h2>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">Profile Completion</span>
+                    <span className="font-semibold text-primary-dark dark:text-darkMode-link">Profile Completion</span>
                     <span className="font-bold text-[#333333]">75%</span>
                   </div>
                   <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
@@ -302,7 +302,7 @@ const CareerDashboard = () => {
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB]">Skills Assessment</span>
+                    <span className="font-semibold text-primary-dark dark:text-darkMode-link">Skills Assessment</span>
                     <span className="font-bold text-[#333333]">60%</span>
                   </div>
                   <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">

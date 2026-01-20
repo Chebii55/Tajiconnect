@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useTrainer } from '../../contexts/TrainerContext';
-import { 
-  Send, 
-  Search, 
-  Filter, 
-  Users, 
+import {
+  Send,
+  Search,
+  Filter,
+  Users,
   User,
   Clock,
   CheckCircle,
   Circle,
   Paperclip,
   Smile,
-  MoreVertical
+  MoreVertical,
+  MessageSquare
 } from 'lucide-react';
 
 interface Message {
@@ -179,7 +180,7 @@ const TrainerMessages: React.FC = () => {
       if (!learner) return;
 
       const existingConv = conversations.find(conv => conv.participantId === learnerId);
-      
+
       const newMessage: Message = {
         id: `msg-${Date.now()}-${learnerId}`,
         senderId: 'trainer-1',
@@ -236,20 +237,20 @@ const TrainerMessages: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-['Inter']">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg font-['Inter']">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-neutral-white dark:bg-darkMode-surface shadow-sm border-b dark:border-darkMode-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Messages</h1>
-              <p className="text-gray-600 mt-1">
+              <h1 className="text-2xl font-bold text-neutral-dark dark:text-darkMode-text">Messages</h1>
+              <p className="text-forest-sage dark:text-darkMode-textSecondary mt-1">
                 Communicate with your learners and provide support
               </p>
             </div>
-            <button 
+            <button
               onClick={() => setShowNewMessage(true)}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+              className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors flex items-center gap-2"
             >
               <Send className="w-4 h-4" />
               New Message
@@ -259,20 +260,20 @@ const TrainerMessages: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-[calc(100vh-200px)]">
+        <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl shadow-sm border border-neutral-gray dark:border-darkMode-border overflow-hidden h-[calc(100vh-200px)]">
           <div className="flex h-full">
             {/* Conversations List */}
-            <div className="w-1/3 border-r border-gray-200 flex flex-col">
+            <div className="w-1/3 border-r border-neutral-gray dark:border-darkMode-border flex flex-col">
               {/* Search */}
-              <div className="p-4 border-b border-gray-200">
+              <div className="p-4 border-b border-neutral-gray dark:border-darkMode-border">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-forest-sage dark:text-darkMode-textMuted" />
                   <input
                     type="text"
                     placeholder="Search conversations..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                    className="w-full pl-10 pr-4 py-2 border border-neutral-gray dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus focus:border-transparent text-sm dark:bg-darkMode-navbar dark:text-darkMode-text"
                   />
                 </div>
               </div>
@@ -283,31 +284,31 @@ const TrainerMessages: React.FC = () => {
                   <div
                     key={conversation.id}
                     onClick={() => setSelectedConversation(conversation.id)}
-                    className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-                      selectedConversation === conversation.id ? 'bg-indigo-50 border-indigo-200' : ''
+                    className={`p-4 border-b border-neutral-gray dark:border-darkMode-border cursor-pointer hover:bg-neutral-light dark:hover:bg-darkMode-navbar ${
+                      selectedConversation === conversation.id ? 'bg-primary/10 dark:bg-primary/20 border-primary/20 dark:border-primary/30' : ''
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium flex-shrink-0">
+                      <div className="w-10 h-10 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-medium flex-shrink-0">
                         {conversation.participantName.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-text truncate">
                             {conversation.participantName}
                           </p>
                           <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500">
+                            <span className="text-xs text-forest-sage dark:text-darkMode-textMuted">
                               {formatTime(conversation.lastMessageTime)}
                             </span>
                             {conversation.unreadCount > 0 && (
-                              <span className="bg-indigo-600 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
+                              <span className="bg-primary dark:bg-darkMode-progress text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
                                 {conversation.unreadCount}
                               </span>
                             )}
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 truncate mt-1">
+                        <p className="text-sm text-forest-sage dark:text-darkMode-textSecondary truncate mt-1">
                           {conversation.lastMessage}
                         </p>
                       </div>
@@ -322,18 +323,18 @@ const TrainerMessages: React.FC = () => {
               {selectedConv ? (
                 <>
                   {/* Chat Header */}
-                  <div className="p-4 border-b border-gray-200 bg-gray-50">
+                  <div className="p-4 border-b border-neutral-gray dark:border-darkMode-border bg-neutral-light dark:bg-darkMode-navbar">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-medium">
+                        <div className="w-10 h-10 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-medium">
                           {selectedConv.participantName.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">{selectedConv.participantName}</p>
-                          <p className="text-sm text-gray-500">Online</p>
+                          <p className="font-medium text-neutral-dark dark:text-darkMode-text">{selectedConv.participantName}</p>
+                          <p className="text-sm text-forest-sage dark:text-darkMode-textMuted">Online</p>
                         </div>
                       </div>
-                      <button className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                      <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-gray dark:hover:bg-darkMode-border">
                         <MoreVertical className="w-5 h-5" />
                       </button>
                     </div>
@@ -348,12 +349,12 @@ const TrainerMessages: React.FC = () => {
                       >
                         <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                           message.senderType === 'trainer'
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-gray-100 text-gray-900'
+                            ? 'bg-primary dark:bg-darkMode-progress text-white'
+                            : 'bg-neutral-gray dark:bg-darkMode-navbar text-neutral-dark dark:text-darkMode-text'
                         }`}>
                           <p className="text-sm">{message.content}</p>
                           <p className={`text-xs mt-1 ${
-                            message.senderType === 'trainer' ? 'text-indigo-200' : 'text-gray-500'
+                            message.senderType === 'trainer' ? 'text-white/70' : 'text-forest-sage dark:text-darkMode-textMuted'
                           }`}>
                             {formatTime(message.timestamp)}
                           </p>
@@ -363,9 +364,9 @@ const TrainerMessages: React.FC = () => {
                   </div>
 
                   {/* Message Input */}
-                  <div className="p-4 border-t border-gray-200">
+                  <div className="p-4 border-t border-neutral-gray dark:border-darkMode-border">
                     <div className="flex items-center gap-3">
-                      <button className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+                      <button className="p-2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text rounded-lg hover:bg-neutral-light dark:hover:bg-darkMode-navbar">
                         <Paperclip className="w-5 h-5" />
                       </button>
                       <div className="flex-1 relative">
@@ -375,16 +376,16 @@ const TrainerMessages: React.FC = () => {
                           onChange={(e) => setMessageText(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                           placeholder="Type your message..."
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-neutral-gray dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus focus:border-transparent dark:bg-darkMode-navbar dark:text-darkMode-text"
                         />
-                        <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                        <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text">
                           <Smile className="w-5 h-5" />
                         </button>
                       </div>
-                      <button 
+                      <button
                         onClick={handleSendMessage}
                         disabled={!messageText.trim()}
-                        className="bg-indigo-600 text-white p-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="bg-primary dark:bg-darkMode-progress text-white p-2 rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-success disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Send className="w-5 h-5" />
                       </button>
@@ -394,10 +395,10 @@ const TrainerMessages: React.FC = () => {
               ) : (
                 <div className="flex-1 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <MessageSquare className="w-8 h-8 text-gray-400" />
+                    <div className="w-16 h-16 bg-neutral-gray dark:bg-darkMode-navbar rounded-full flex items-center justify-center mx-auto mb-4">
+                      <MessageSquare className="w-8 h-8 text-forest-sage dark:text-darkMode-textMuted" />
                     </div>
-                    <p className="text-gray-500">Select a conversation to start messaging</p>
+                    <p className="text-forest-sage dark:text-darkMode-textSecondary">Select a conversation to start messaging</p>
                   </div>
                 </div>
               )}
@@ -408,25 +409,25 @@ const TrainerMessages: React.FC = () => {
         {/* New Message Modal */}
         {showNewMessage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6 border-b border-gray-100">
+            <div className="bg-neutral-white dark:bg-darkMode-surface rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="p-6 border-b border-neutral-gray dark:border-darkMode-border">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold text-gray-900">New Message</h2>
-                  <button 
+                  <h2 className="text-xl font-semibold text-neutral-dark dark:text-darkMode-text">New Message</h2>
+                  <button
                     onClick={() => setShowNewMessage(false)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-forest-sage hover:text-neutral-dark dark:text-darkMode-textSecondary dark:hover:text-darkMode-text"
                   >
                     ×
                   </button>
                 </div>
               </div>
-              
+
               <div className="p-6 space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Select Learners</label>
-                  <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-lg">
+                  <label className="block text-sm font-medium text-neutral-dark dark:text-darkMode-text mb-2">Select Learners</label>
+                  <div className="max-h-40 overflow-y-auto border border-neutral-gray dark:border-darkMode-border rounded-lg">
                     {learners.map((learner) => (
-                      <label key={learner.id} className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer">
+                      <label key={learner.id} className="flex items-center gap-3 p-3 hover:bg-neutral-light dark:hover:bg-darkMode-navbar cursor-pointer">
                         <input
                           type="checkbox"
                           checked={selectedLearners.includes(learner.id)}
@@ -437,14 +438,14 @@ const TrainerMessages: React.FC = () => {
                               setSelectedLearners(selectedLearners.filter(id => id !== learner.id));
                             }
                           }}
-                          className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="rounded border-neutral-gray dark:border-darkMode-border text-primary dark:text-darkMode-progress focus:ring-primary dark:focus:ring-darkMode-focus"
                         />
-                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        <div className="w-8 h-8 bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white text-sm font-medium">
                           {learner.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{learner.name}</p>
-                          <p className="text-xs text-gray-500">{learner.email}</p>
+                          <p className="text-sm font-medium text-neutral-dark dark:text-darkMode-text">{learner.name}</p>
+                          <p className="text-xs text-forest-sage dark:text-darkMode-textMuted">{learner.email}</p>
                         </div>
                       </label>
                     ))}
@@ -452,28 +453,28 @@ const TrainerMessages: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                  <label className="block text-sm font-medium text-neutral-dark dark:text-darkMode-text mb-2">Message</label>
                   <textarea
                     value={messageText}
                     onChange={(e) => setMessageText(e.target.value)}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-neutral-gray dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus focus:border-transparent dark:bg-darkMode-navbar dark:text-darkMode-text"
                     placeholder="Type your message..."
                   />
                 </div>
               </div>
 
-              <div className="p-6 border-t border-gray-100 flex justify-end gap-3">
-                <button 
+              <div className="p-6 border-t border-neutral-gray dark:border-darkMode-border flex justify-end gap-3">
+                <button
                   onClick={() => setShowNewMessage(false)}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-4 py-2 text-neutral-dark dark:text-darkMode-text border border-neutral-gray dark:border-darkMode-border rounded-lg hover:bg-neutral-light dark:hover:bg-darkMode-navbar"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   onClick={handleNewMessage}
                   disabled={selectedLearners.length === 0 || !messageText.trim()}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="px-4 py-2 bg-primary dark:bg-darkMode-progress text-white rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-success disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Send className="w-4 h-4" />
                   Send Message

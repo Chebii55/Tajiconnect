@@ -26,27 +26,27 @@ const CookiePolicy: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-['Inter']">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg font-['Inter']">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors mb-4"
+            className="inline-flex items-center gap-2 text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Home
           </Link>
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-[#1C3D6E] rounded-lg">
+            <div className="p-3 bg-primary-dark dark:bg-darkMode-navbar rounded-lg">
               <Cookie className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-[#1C3D6E]">Cookie Policy</h1>
-              <p className="text-gray-600">How we use cookies and similar technologies</p>
+              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text">Cookie Policy</h1>
+              <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary">How we use cookies and similar technologies</p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-sm text-gray-600">
+          <div className="flex items-center gap-4 text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
               <span>Last updated: November 17, 2024</span>
@@ -59,12 +59,12 @@ const CookiePolicy: React.FC = () => {
         {/* Content */}
         <div className="max-w-4xl mx-auto">
           {/* Cookie Preferences Panel */}
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-            <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4 flex items-center gap-2">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 mb-8">
+            <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4 flex items-center gap-2">
               <Settings className="w-6 h-6" />
               Manage Your Cookie Preferences
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="text-neutral-dark/70 dark:text-darkMode-textSecondary mb-6">
               Customize your cookie preferences below. Essential cookies are required for the platform to function and cannot be disabled.
             </p>
 
@@ -80,7 +80,7 @@ const CookiePolicy: React.FC = () => {
                     Always Active
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary mb-2">
                   Required for basic platform functionality, security, and user authentication.
                 </p>
                 <div className="text-xs text-gray-500">
@@ -100,11 +100,11 @@ const CookiePolicy: React.FC = () => {
                       type="checkbox"
                       checked={cookiePreferences.analytics}
                       onChange={() => handlePreferenceChange('analytics')}
-                      className="rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                     />
                   </label>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary mb-2">
                   Help us understand how you use our platform to improve user experience.
                 </p>
                 <div className="text-xs text-gray-500">
@@ -124,11 +124,11 @@ const CookiePolicy: React.FC = () => {
                       type="checkbox"
                       checked={cookiePreferences.marketing}
                       onChange={() => handlePreferenceChange('marketing')}
-                      className="rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                     />
                   </label>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary mb-2">
                   Enable personalized course recommendations and relevant career opportunities.
                 </p>
                 <div className="text-xs text-gray-500">
@@ -148,11 +148,11 @@ const CookiePolicy: React.FC = () => {
                       type="checkbox"
                       checked={cookiePreferences.preferences}
                       onChange={() => handlePreferenceChange('preferences')}
-                      className="rounded border-gray-300 text-[#3DAEDB] focus:ring-[#3DAEDB]"
+                      className="rounded border-gray-300 text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                     />
                   </label>
                 </div>
-                <p className="text-sm text-gray-600 mb-2">
+                <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary mb-2">
                   Remember your settings and preferences for a personalized experience.
                 </p>
                 <div className="text-xs text-gray-500">
@@ -164,7 +164,7 @@ const CookiePolicy: React.FC = () => {
             <div className="mt-6 flex gap-4">
               <button
                 onClick={savePreferences}
-                className="px-6 py-2 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] transition-colors"
+                className="px-6 py-2 bg-primary dark:bg-darkMode-progress text-white rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-success transition-colors"
               >
                 Save Preferences
               </button>
@@ -175,7 +175,7 @@ const CookiePolicy: React.FC = () => {
                   marketing: false,
                   preferences: false
                 })}
-                className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-6 py-2 border border-gray-300 text-neutral-dark/80 dark:text-darkMode-textSecondary rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Reject All (Except Essential)
               </button>
@@ -183,19 +183,19 @@ const CookiePolicy: React.FC = () => {
           </div>
 
           {/* Detailed Policy */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-8">
             <div className="prose prose-lg max-w-none">
-              <div className="bg-blue-50 border-l-4 border-[#3DAEDB] p-6 rounded-r-lg mb-8">
-                <h2 className="text-xl font-bold text-[#1C3D6E] mb-2">What Are Cookies?</h2>
-                <p className="text-gray-700">
+              <div className="bg-blue-50 border-l-4 border-primary dark:border-darkMode-link p-6 rounded-r-lg mb-8">
+                <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-2">What Are Cookies?</h2>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">
                   Cookies are small text files stored on your device when you visit websites. They help us provide
                   you with a better, more personalized experience on TajiConnect.
                 </p>
               </div>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">1. How We Use Cookies</h2>
-                <p className="text-gray-700 mb-4">
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">1. How We Use Cookies</h2>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">
                   TajiConnect uses cookies and similar technologies to enhance your learning experience, provide
                   personalized content, and improve our services.
                 </p>
@@ -223,15 +223,15 @@ const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">2. Types of Cookies We Use</h2>
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">2. Types of Cookies We Use</h2>
 
                 <div className="space-y-6">
                   <div className="border border-gray-200 rounded-lg p-4">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Session Cookies</h3>
-                    <p className="text-gray-700 text-sm mb-2">
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm mb-2">
                       Temporary cookies that expire when you close your browser. Essential for platform functionality.
                     </p>
-                    <div className="bg-gray-50 p-3 rounded text-xs text-gray-600">
+                    <div className="bg-gray-50 p-3 rounded text-xs text-neutral-dark/70 dark:text-darkMode-textSecondary">
                       <strong>Duration:</strong> Until browser session ends<br />
                       <strong>Purpose:</strong> Authentication, security, form data
                     </div>
@@ -239,10 +239,10 @@ const CookiePolicy: React.FC = () => {
 
                   <div className="border border-gray-200 rounded-lg p-4">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Persistent Cookies</h3>
-                    <p className="text-gray-700 text-sm mb-2">
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm mb-2">
                       Stored on your device for a specific period to remember your preferences across visits.
                     </p>
-                    <div className="bg-gray-50 p-3 rounded text-xs text-gray-600">
+                    <div className="bg-gray-50 p-3 rounded text-xs text-neutral-dark/70 dark:text-darkMode-textSecondary">
                       <strong>Duration:</strong> 30 days to 2 years (varies by purpose)<br />
                       <strong>Purpose:</strong> User preferences, analytics, recommendations
                     </div>
@@ -250,10 +250,10 @@ const CookiePolicy: React.FC = () => {
 
                   <div className="border border-gray-200 rounded-lg p-4">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Third-Party Cookies</h3>
-                    <p className="text-gray-700 text-sm mb-2">
+                    <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary text-sm mb-2">
                       Set by trusted third-party services we use to enhance our platform functionality.
                     </p>
-                    <div className="bg-gray-50 p-3 rounded text-xs text-gray-600">
+                    <div className="bg-gray-50 p-3 rounded text-xs text-neutral-dark/70 dark:text-darkMode-textSecondary">
                       <strong>Examples:</strong> Google Analytics, payment processors, content delivery networks<br />
                       <strong>Control:</strong> Managed through our cookie preferences or browser settings
                     </div>
@@ -262,10 +262,10 @@ const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">3. Managing Cookies</h2>
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">3. Managing Cookies</h2>
 
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">3.1 Browser Controls</h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">
                   Most browsers allow you to control cookies through their settings. However, disabling cookies
                   may limit platform functionality.
                 </p>
@@ -275,20 +275,20 @@ const CookiePolicy: React.FC = () => {
                     <div key={browser} className="text-center p-3 border border-gray-200 rounded-lg">
                       <div className="text-2xl mb-2">🌐</div>
                       <h4 className="font-semibold mb-1">{browser}</h4>
-                      <p className="text-xs text-gray-600">Settings → Privacy → Cookies</p>
+                      <p className="text-xs text-neutral-dark/70 dark:text-darkMode-textSecondary">Settings → Privacy → Cookies</p>
                     </div>
                   ))}
                 </div>
 
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">3.2 Our Cookie Preference Center</h3>
-                <p className="text-gray-700 mb-4">
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">
                   Use our preference center above to customize which types of cookies you accept. Your choices
                   are respected and stored locally.
                 </p>
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">4. Third-Party Services</h2>
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">4. Third-Party Services</h2>
                 <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg mb-4">
                   <h3 className="font-semibold text-yellow-900 mb-2">Analytics Partners</h3>
                   <p className="text-yellow-800 text-sm">
@@ -301,13 +301,13 @@ const CookiePolicy: React.FC = () => {
                   <div className="flex justify-between items-center p-4 border border-gray-200 rounded-lg">
                     <div>
                       <h4 className="font-semibold">Google Analytics</h4>
-                      <p className="text-sm text-gray-600">Website usage analytics and user behavior insights</p>
+                      <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">Website usage analytics and user behavior insights</p>
                     </div>
                     <a
                       href="https://tools.google.com/dlpage/gaoptout"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#3DAEDB] hover:text-[#1C3D6E] text-sm"
+                      className="text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent text-sm"
                     >
                       Opt-out →
                     </a>
@@ -315,7 +315,7 @@ const CookiePolicy: React.FC = () => {
                   <div className="flex justify-between items-center p-4 border border-gray-200 rounded-lg">
                     <div>
                       <h4 className="font-semibold">Payment Processors</h4>
-                      <p className="text-sm text-gray-600">Secure payment processing and fraud prevention</p>
+                      <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">Secure payment processing and fraud prevention</p>
                     </div>
                     <span className="text-sm text-gray-500">Essential</span>
                   </div>
@@ -323,11 +323,11 @@ const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">5. Data Retention</h2>
-                <p className="text-gray-700 mb-4">
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">5. Data Retention</h2>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">
                   Cookie data is retained for different periods based on its purpose:
                 </p>
-                <ul className="list-disc ml-6 space-y-2 text-gray-700">
+                <ul className="list-disc ml-6 space-y-2 text-neutral-dark/80 dark:text-darkMode-textSecondary">
                   <li><strong>Session cookies:</strong> Deleted when you close your browser</li>
                   <li><strong>Preference cookies:</strong> Retained for up to 1 year</li>
                   <li><strong>Analytics cookies:</strong> Retained for up to 2 years</li>
@@ -336,32 +336,32 @@ const CookiePolicy: React.FC = () => {
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">6. Updates to This Policy</h2>
-                <p className="text-gray-700">
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">6. Updates to This Policy</h2>
+                <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">
                   We may update this cookie policy to reflect changes in our practices or legal requirements.
                   Significant changes will be communicated through our platform or via email.
                 </p>
               </section>
 
               <section className="mb-8">
-                <h2 className="text-2xl font-bold text-[#1C3D6E] mb-4">7. Contact Us</h2>
+                <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">7. Contact Us</h2>
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-gray-700 mb-4">
+                  <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary mb-4">
                     Questions about our use of cookies? Contact our privacy team:
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3">
-                      <Mail className="w-5 h-5 text-[#3DAEDB]" />
+                      <Mail className="w-5 h-5 text-primary dark:text-darkMode-link" />
                       <div>
                         <p className="font-medium">Privacy Team</p>
-                        <p className="text-sm text-gray-600">privacy@tajiconnect.com</p>
+                        <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">privacy@tajiconnect.com</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Phone className="w-5 h-5 text-[#3DAEDB]" />
+                      <Phone className="w-5 h-5 text-primary dark:text-darkMode-link" />
                       <div>
                         <p className="font-medium">Support</p>
-                        <p className="text-sm text-gray-600">+1 (555) 123-4567</p>
+                        <p className="text-sm text-neutral-dark/70 dark:text-darkMode-textSecondary">+1 (555) 123-4567</p>
                       </div>
                     </div>
                   </div>
@@ -375,19 +375,19 @@ const CookiePolicy: React.FC = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 to="/privacy"
-                className="px-4 py-2 text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+                className="px-4 py-2 text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
                 to="/terms"
-                className="px-4 py-2 text-[#3DAEDB] hover:text-[#1C3D6E] transition-colors"
+                className="px-4 py-2 text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-accent transition-colors"
               >
                 Terms of Service
               </Link>
               <Link
                 to="/contact"
-                className="px-4 py-2 bg-[#3DAEDB] text-white rounded-lg hover:bg-[#2A9BC8] transition-colors"
+                className="px-4 py-2 bg-primary dark:bg-darkMode-progress text-white rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-success transition-colors"
               >
                 Contact Support
               </Link>

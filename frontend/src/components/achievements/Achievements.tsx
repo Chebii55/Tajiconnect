@@ -172,31 +172,31 @@ export default function Achievements() {
 
   const getRarityColor = (rarity: Achievement['rarity']) => {
     switch (rarity) {
-      case 'common': return 'border-gray-300 bg-gray-50'
-      case 'rare': return 'border-blue-300 bg-blue-50'
-      case 'epic': return 'border-purple-300 bg-purple-50'
-      case 'legendary': return 'border-yellow-300 bg-yellow-50'
+      case 'common': return 'border-gray-300 bg-gray-50 dark:border-darkMode-border dark:bg-darkMode-surface'
+      case 'rare': return 'border-blue-300 bg-blue-50 dark:border-info dark:bg-info/10'
+      case 'epic': return 'border-purple-300 bg-purple-50 dark:border-purple-400 dark:bg-purple-900/20'
+      case 'legendary': return 'border-accent-gold bg-accent-goldLight/20 dark:border-darkMode-accent dark:bg-darkMode-accent/10'
     }
   }
 
   const getRarityText = (rarity: Achievement['rarity']) => {
     switch (rarity) {
-      case 'common': return 'text-gray-600 dark:text-gray-300'
-      case 'rare': return 'text-blue-600'
-      case 'epic': return 'text-purple-600'
-      case 'legendary': return 'text-yellow-600'
+      case 'common': return 'text-gray-600 dark:text-darkMode-textSecondary'
+      case 'rare': return 'text-blue-600 dark:text-info'
+      case 'epic': return 'text-purple-600 dark:text-purple-400'
+      case 'legendary': return 'text-accent-gold dark:text-darkMode-accent'
     }
   }
 
   const getBadgeLevelColor = (level: number) => {
     switch (level) {
-      case 0: return 'bg-gray-100 text-gray-600 dark:text-gray-300'
-      case 1: return 'bg-bronze-100 text-yellow-700'
-      case 2: return 'bg-silver-100 text-gray-700'
-      case 3: return 'bg-yellow-100 text-yellow-800'
-      case 4: return 'bg-purple-100 text-purple-800'
-      case 5: return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-600 dark:text-gray-300'
+      case 0: return 'bg-gray-100 text-gray-600 dark:bg-darkMode-surface dark:text-darkMode-textSecondary'
+      case 1: return 'bg-bronze-100 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-600'
+      case 2: return 'bg-silver-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
+      case 3: return 'bg-accent-goldLight/30 text-accent-gold dark:bg-darkMode-accent/20 dark:text-darkMode-accent'
+      case 4: return 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400'
+      case 5: return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+      default: return 'bg-gray-100 text-gray-600 dark:bg-darkMode-surface dark:text-darkMode-textSecondary'
     }
   }
 
@@ -225,27 +225,27 @@ export default function Achievements() {
   const unlockedCount = mockAchievements.filter(a => a.unlocked).length
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 bg-primary-dark rounded-xl flex items-center justify-center">
-              <Trophy className="w-8 h-8 text-yellow-600" />
+              <Trophy className="w-8 h-8 text-accent-gold" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">Achievements & Rewards</h1>
-              <p className="text-gray-600 dark:text-gray-300">Track your progress and unlock exciting rewards</p>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text">Achievements & Rewards</h1>
+              <p className="text-gray-600 dark:text-darkMode-textSecondary">Track your progress and unlock exciting rewards</p>
             </div>
           </div>
 
           {/* Achievement Unlock Notification */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+          <div className="bg-accent-goldLight/20 border border-accent-gold/30 rounded-lg p-4 mb-6 dark:bg-darkMode-accent/10 dark:border-darkMode-accent/30">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-yellow-600" />
+              <Sparkles className="w-6 h-6 text-accent-gold dark:text-darkMode-accent" />
               <div>
-                <p className="text-yellow-800 font-medium">New Achievement Unlocked!</p>
-                <p className="text-yellow-700 text-sm">
+                <p className="text-yellow-800 dark:text-darkMode-accent font-medium">New Achievement Unlocked!</p>
+                <p className="text-yellow-700 dark:text-darkMode-textSecondary text-sm">
                   "Week Warrior" - You've maintained a 7-day learning streak! Keep it up!
                 </p>
               </div>
@@ -254,27 +254,27 @@ export default function Achievements() {
 
           {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#4A9E3D]">{totalPoints}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Total Points</div>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
+              <div className="text-2xl font-bold text-secondary dark:text-darkMode-success">{totalPoints}</div>
+              <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Total Points</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#3DAEDB]">{unlockedCount}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Achievements</div>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
+              <div className="text-2xl font-bold text-primary-light dark:text-darkMode-link">{unlockedCount}</div>
+              <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Achievements</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#2C857A]">{mockBadges.filter(b => b.earned).length}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Badges Earned</div>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
+              <div className="text-2xl font-bold text-forest-sage dark:text-darkMode-progress">{mockBadges.filter(b => b.earned).length}</div>
+              <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Badges Earned</div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">15</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Leaderboard Rank</div>
+            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
+              <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-text">15</div>
+              <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Leaderboard Rank</div>
             </div>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex gap-2 mb-8 p-1 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+        <div className="flex gap-2 mb-8 p-1 bg-white dark:bg-darkMode-surface rounded-lg shadow-sm">
           {[
             { id: 'achievements', label: 'Achievements', icon: <Trophy className="w-5 h-5" /> },
             { id: 'badges', label: 'Skill Badges', icon: <Award className="w-5 h-5" /> }
@@ -284,8 +284,8 @@ export default function Achievements() {
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`flex items-center gap-2 px-6 py-3 rounded-md font-medium transition-colors flex-1 justify-center ${
                 activeTab === tab.id
-                  ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-gray-50'
+                  ? 'bg-primary-dark text-white'
+                  : 'text-gray-600 dark:text-darkMode-textSecondary hover:text-primary-dark dark:hover:text-darkMode-text hover:bg-gray-50 dark:hover:bg-darkMode-surfaceHover'
               }`}
             >
               <span>{tab.icon}</span>
@@ -306,20 +306,20 @@ export default function Achievements() {
                     onClick={() => setFilter(category as typeof filter)}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                       filter === category
-                        ? 'bg-[#3DAEDB] text-white'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] bg-white'
+                        ? 'bg-primary-light text-white dark:bg-darkMode-accent dark:text-darkMode-bg'
+                        : 'text-gray-600 dark:text-darkMode-textSecondary hover:text-primary-dark dark:hover:text-darkMode-text bg-white dark:bg-darkMode-surface'
                     }`}
                   >
                     {category}
                   </button>
                 ))}
               </div>
-              <label className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+              <label className="flex items-center gap-2 text-gray-600 dark:text-darkMode-textSecondary">
                 <input
                   type="checkbox"
                   checked={showUnlockedOnly}
                   onChange={(e) => setShowUnlockedOnly(e.target.checked)}
-                  className="rounded border-gray-300 focus:ring-[#3DAEDB]"
+                  className="rounded border-gray-300 dark:border-darkMode-border focus:ring-primary-light dark:focus:ring-darkMode-accent"
                 />
                 <span>Unlocked only</span>
               </label>
@@ -333,7 +333,7 @@ export default function Achievements() {
                   className={`rounded-xl p-6 border-2 transition-all hover:shadow-lg ${
                     achievement.unlocked
                       ? getRarityColor(achievement.rarity)
-                      : 'border-gray-200 bg-gray-50 opacity-75'
+                      : 'border-gray-200 bg-gray-50 opacity-75 dark:border-darkMode-border dark:bg-darkMode-surfaceHover'
                   }`}
                 >
                   <div className="text-center mb-4">
@@ -341,12 +341,12 @@ export default function Achievements() {
                       {achievement.icon}
                     </div>
                     <h3 className={`font-bold text-lg mb-2 ${
-                      achievement.unlocked ? 'text-[#1C3D6E] dark:text-[#3DAEDB]' : 'text-gray-500'
+                      achievement.unlocked ? 'text-primary-dark dark:text-darkMode-text' : 'text-gray-500 dark:text-darkMode-textMuted'
                     }`}>
                       {achievement.title}
                     </h3>
                     <p className={`text-sm ${
-                      achievement.unlocked ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400'
+                      achievement.unlocked ? 'text-gray-600 dark:text-darkMode-textSecondary' : 'text-gray-400 dark:text-darkMode-textMuted'
                     }`}>
                       {achievement.description}
                     </p>
@@ -358,7 +358,7 @@ export default function Achievements() {
                         {achievement.rarity}
                       </span>
                       <span className={`font-bold ${
-                        achievement.unlocked ? 'text-[#4A9E3D]' : 'text-gray-400'
+                        achievement.unlocked ? 'text-secondary dark:text-darkMode-success' : 'text-gray-400 dark:text-darkMode-textMuted'
                       }`}>
                         {achievement.points} pts
                       </span>
@@ -366,13 +366,13 @@ export default function Achievements() {
 
                     {!achievement.unlocked && (
                       <div>
-                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
+                        <div className="flex justify-between text-sm text-gray-600 dark:text-darkMode-textSecondary mb-2">
                           <span>Progress</span>
                           <span>{achievement.progress}/{achievement.total}</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
                           <div
-                            className="bg-primary h-2 rounded-full"
+                            className="bg-primary dark:bg-darkMode-progress h-2 rounded-full"
                             style={{ width: `${(achievement.progress / achievement.total) * 100}%` }}
                           />
                         </div>
@@ -380,18 +380,18 @@ export default function Achievements() {
                     )}
 
                     {achievement.unlocked && achievement.unlockedDate && (
-                      <div className="text-xs text-gray-500 text-center">
+                      <div className="text-xs text-gray-500 dark:text-darkMode-textMuted text-center">
                         Unlocked {new Date(achievement.unlockedDate).toLocaleDateString()}
                       </div>
                     )}
 
                     {/* Requirements */}
-                    <div className="border-t pt-3">
-                      <p className="text-xs text-gray-500 mb-2">Requirements:</p>
+                    <div className="border-t dark:border-darkMode-border pt-3">
+                      <p className="text-xs text-gray-500 dark:text-darkMode-textMuted mb-2">Requirements:</p>
                       <ul className="space-y-1">
                         {achievement.requirements.map((req, index) => (
-                          <li key={index} className="text-xs text-gray-600 dark:text-gray-300 flex items-center gap-2">
-                            <span className={achievement.unlocked ? 'text-[#4A9E3D]' : 'text-gray-400'}>
+                          <li key={index} className="text-xs text-gray-600 dark:text-darkMode-textSecondary flex items-center gap-2">
+                            <span className={achievement.unlocked ? 'text-secondary dark:text-darkMode-success' : 'text-gray-400 dark:text-darkMode-textMuted'}>
                               {achievement.unlocked ? '✓' : '○'}
                             </span>
                             {req}
@@ -413,8 +413,8 @@ export default function Achievements() {
               {mockBadges.map((badge) => (
                 <div
                   key={badge.id}
-                  className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-2 transition-all hover:shadow-xl ${
-                    badge.earned ? 'border-[#4A9E3D]' : 'border-gray-200'
+                  className={`bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-2 transition-all hover:shadow-xl ${
+                    badge.earned ? 'border-secondary dark:border-darkMode-success' : 'border-gray-200 dark:border-darkMode-border'
                   }`}
                 >
                   <div className="text-center mb-4">
@@ -422,12 +422,12 @@ export default function Achievements() {
                       {badge.icon}
                     </div>
                     <h3 className={`font-bold text-lg mb-2 ${
-                      badge.earned ? 'text-[#1C3D6E] dark:text-[#3DAEDB]' : 'text-gray-500'
+                      badge.earned ? 'text-primary-dark dark:text-darkMode-text' : 'text-gray-500 dark:text-darkMode-textMuted'
                     }`}>
                       {badge.name}
                     </h3>
                     <p className={`text-sm mb-3 ${
-                      badge.earned ? 'text-gray-600 dark:text-gray-300' : 'text-gray-400'
+                      badge.earned ? 'text-gray-600 dark:text-darkMode-textSecondary' : 'text-gray-400 dark:text-darkMode-textMuted'
                     }`}>
                       {badge.description}
                     </p>
@@ -438,7 +438,7 @@ export default function Achievements() {
 
                   <div className="space-y-3">
                     <div className="text-center">
-                      <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+                      <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary mb-2">
                         Level {badge.level}/{badge.maxLevel}
                       </div>
                       <div className="flex justify-center gap-1 mb-2">
@@ -446,7 +446,7 @@ export default function Achievements() {
                           <div
                             key={i}
                             className={`w-3 h-3 rounded-full ${
-                              i < badge.level ? 'bg-[#4A9E3D]' : 'bg-gray-200'
+                              i < badge.level ? 'bg-secondary dark:bg-darkMode-success' : 'bg-gray-200 dark:bg-darkMode-border'
                             }`}
                           />
                         ))}
@@ -455,13 +455,13 @@ export default function Achievements() {
 
                     {badge.earned && badge.level < badge.maxLevel && (
                       <div>
-                        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
+                        <div className="flex justify-between text-sm text-gray-600 dark:text-darkMode-textSecondary mb-2">
                           <span>Next Level Progress</span>
                           <span>{badge.progress}%</span>
                         </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
                           <div
-                            className="bg-primary-dark h-2 rounded-full"
+                            className="bg-primary-dark dark:bg-darkMode-progress h-2 rounded-full"
                             style={{ width: `${badge.progress}%` }}
                           />
                         </div>
@@ -469,7 +469,7 @@ export default function Achievements() {
                     )}
 
                     <div className="text-center">
-                      <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                      <span className="text-xs text-gray-500 dark:text-darkMode-textMuted bg-gray-100 dark:bg-darkMode-surfaceHover px-2 py-1 rounded-full">
                         {badge.category}
                       </span>
                     </div>
@@ -479,12 +479,12 @@ export default function Achievements() {
             </div>
 
             {/* Badge Progress Feedback */}
-            <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="mt-8 bg-blue-50 dark:bg-info/10 border border-blue-200 dark:border-info/30 rounded-lg p-4">
               <div className="flex items-start gap-2">
-                <Target className="w-6 h-6 text-blue-600" />
+                <Target className="w-6 h-6 text-blue-600 dark:text-info" />
                 <div>
-                  <p className="text-blue-800 font-medium">Badge Progress Tip</p>
-                  <p className="text-blue-700 text-sm">
+                  <p className="text-blue-800 dark:text-info font-medium">Badge Progress Tip</p>
+                  <p className="text-blue-700 dark:text-darkMode-textSecondary text-sm">
                     Focus on Algorithm Master badge by completing more computer science courses to unlock advanced problem-solving skills.
                   </p>
                 </div>

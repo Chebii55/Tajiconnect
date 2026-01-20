@@ -268,7 +268,7 @@ export default function PsychometricDashboard() {
   const avgHRBAAlignment = completedAssessments.reduce((sum, a) => sum + a.hrbaAlignment, 0) / completedAssessments.length || 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F2F2F2] via-white to-[#2C857A]/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -277,9 +277,9 @@ export default function PsychometricDashboard() {
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] font-heading">TFDN Assessment Center</h1>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link font-heading">TFDN Assessment Center</h1>
               <p className="text-gray-600 dark:text-gray-300">Evidence-based assessments for Global Citizenship & Social-Emotional Learning</p>
-              <p className="text-sm text-[#4A9E3D] font-medium mt-1">
+              <p className="text-sm text-secondary font-medium mt-1">
                 🌍 Building holistic profiles for positive community impact
               </p>
             </div>
@@ -301,19 +301,19 @@ export default function PsychometricDashboard() {
           {/* TFDN Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#4A9E3D]">{completedAssessments.length}</div>
+              <div className="text-2xl font-bold text-secondary">{completedAssessments.length}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Assessments Complete</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#3DAEDB]">{Math.round(avgHRBAAlignment)}</div>
+              <div className="text-2xl font-bold text-primary">{Math.round(avgHRBAAlignment)}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">HRBA Alignment</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#2C857A]">{profile.communityEngagementReadiness}</div>
+              <div className="text-2xl font-bold text-forest-sage">{profile.communityEngagementReadiness}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Community Readiness</div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB]">{profile.careerPathways.length}</div>
+              <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{profile.careerPathways.length}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Career Pathways</div>
             </div>
           </div>
@@ -333,7 +333,7 @@ export default function PsychometricDashboard() {
               className={`flex items-center gap-2 px-4 py-3 rounded-md font-medium transition-colors flex-1 justify-center ${
                 activeTab === tab.id
                   ? 'bg-[#1C3D6E] text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-[#1C3D6E] dark:text-[#3DAEDB] hover:bg-gray-50'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:text-darkMode-link hover:bg-gray-50'
               }`}
             >
               <span>{tab.icon}</span>
@@ -347,26 +347,26 @@ export default function PsychometricDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Global Citizenship Profile */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Global Citizenship Profile</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Global Citizenship Profile</h2>
               <div className="text-center mb-6">
                 <div className="w-20 h-20 bg-[#1C3D6E] rounded-full flex items-center justify-center mx-auto mb-4">
                   <Globe className="w-10 h-10 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{profile.globalCitizenshipLevel}</h3>
+                <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-2">{profile.globalCitizenshipLevel}</h3>
                 <p className="text-gray-600 dark:text-gray-300">Global Citizenship Development Level</p>
               </div>
 
               <div className="space-y-3">
                 <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                  <span className="text-[#1C3D6E] dark:text-[#3DAEDB] font-medium">Empathy Index</span>
+                  <span className="text-primary-dark dark:text-darkMode-link font-medium">Empathy Index</span>
                   <span className="text-blue-600 font-bold">{profile.empathyIndex}/100</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                  <span className="text-[#1C3D6E] dark:text-[#3DAEDB] font-medium">Resilience Score</span>
+                  <span className="text-primary-dark dark:text-darkMode-link font-medium">Resilience Score</span>
                   <span className="text-green-600 font-bold">{profile.resilienceScore}/100</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-purple-50 rounded-lg">
-                  <span className="text-[#1C3D6E] dark:text-[#3DAEDB] font-medium">Cultural Competence</span>
+                  <span className="text-primary-dark dark:text-darkMode-link font-medium">Cultural Competence</span>
                   <span className="text-purple-600 font-bold">{profile.culturalCompetenceIndex}/100</span>
                 </div>
               </div>
@@ -374,15 +374,15 @@ export default function PsychometricDashboard() {
 
             {/* SEL Competencies */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">SEL Competencies</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">SEL Competencies</h2>
               <div className="space-y-3 mb-6">
                 <div className="flex items-center gap-3 p-3 bg-red-50 rounded-lg">
                   <Heart className="w-5 h-5 text-red-500" />
-                  <span className="text-[#1C3D6E] dark:text-[#3DAEDB] font-medium">Social-Emotional Learning</span>
+                  <span className="text-primary-dark dark:text-darkMode-link font-medium">Social-Emotional Learning</span>
                 </div>
               </div>
 
-              <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3">CASEL Framework Scores</h3>
+              <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-3">CASEL Framework Scores</h3>
               <div className="space-y-3">
                 {Object.entries(profile.selCompetencies).map(([competency, score]) => (
                   <div key={competency}>
@@ -401,7 +401,7 @@ export default function PsychometricDashboard() {
               </div>
 
               <div className="mt-6">
-                <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-3">HRBA Indicators</h3>
+                <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-3">HRBA Indicators</h3>
                 <div className="space-y-3">
                   {Object.entries(profile.hrbaIndicators).map(([indicator, score]) => (
                     <div key={indicator}>
@@ -411,7 +411,7 @@ export default function PsychometricDashboard() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
-                          className="bg-[#3DAEDB] h-2 rounded-full"
+                          className="bg-primary h-2 rounded-full"
                           style={{ width: `${score}%` }}
                         />
                       </div>
@@ -423,19 +423,19 @@ export default function PsychometricDashboard() {
 
             {/* TFDN Career Pathways */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 lg:col-span-2">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">TFDN-Aligned Career Pathways</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">TFDN-Aligned Career Pathways</h2>
               <p className="text-gray-600 mb-6">Career paths aligned with your GCED competencies and community impact potential</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {profile.careerPathways.map((career, index) => (
                   <div key={index} className="text-center p-4 bg-[#2C857A]/10 rounded-lg hover:bg-[#2C857A]/20 transition-colors cursor-pointer border border-[#2C857A]/20">
                     <div className="text-2xl mb-2">🌍</div>
-                    <h3 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] text-sm">{career}</h3>
+                    <h3 className="font-semibold text-primary-dark dark:text-darkMode-link text-sm">{career}</h3>
                   </div>
                 ))}
               </div>
 
               <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <h3 className="font-bold text-[#1C3D6E] mb-2">Trauma-Informed Care Needs</h3>
+                <h3 className="font-bold text-primary-dark mb-2">Trauma-Informed Care Needs</h3>
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(profile.traumaInformedNeeds).map(([need, met]) => (
                     <span key={need} className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -471,13 +471,13 @@ export default function PsychometricDashboard() {
                   </div>
                   {assessment.score && (
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-[#4A9E3D]">{assessment.score}%</div>
-                      <div className="text-xs text-[#3DAEDB]">HRBA: {assessment.hrbaAlignment}%</div>
+                      <div className="text-2xl font-bold text-secondary">{assessment.score}%</div>
+                      <div className="text-xs text-primary">HRBA: {assessment.hrbaAlignment}%</div>
                     </div>
                   )}
                 </div>
 
-                <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] text-lg mb-2">{assessment.name}</h3>
+                <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg mb-2">{assessment.name}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{assessment.description}</p>
 
                 <div className="space-y-2 text-sm text-gray-500 mb-4">
@@ -491,7 +491,7 @@ export default function PsychometricDashboard() {
                   </div>
                   <div className="flex justify-between">
                     <span>HRBA Alignment:</span>
-                    <span className="text-[#3DAEDB] font-medium">{assessment.hrbaAlignment}%</span>
+                    <span className="text-primary font-medium">{assessment.hrbaAlignment}%</span>
                   </div>
                   {assessment.lastTaken && (
                     <div className="flex justify-between">
@@ -503,7 +503,7 @@ export default function PsychometricDashboard() {
 
                 <div className="mb-4">
                   <div className="text-xs text-gray-500 mb-1">Evidence Base:</div>
-                  <div className="text-xs text-[#2C857A] font-medium">{assessment.evidenceBase}</div>
+                  <div className="text-xs text-forest-sage font-medium">{assessment.evidenceBase}</div>
                 </div>
 
                 {assessment.status === 'completed' ? (
@@ -511,12 +511,12 @@ export default function PsychometricDashboard() {
                     <button className="w-full bg-[#4A9E3D] text-white py-2 px-4 rounded-lg font-medium hover:bg-[#4A9E3D]/90 transition-colors">
                       View TFDN Report
                     </button>
-                    <button className="w-full border border-[#1C3D6E] text-[#1C3D6E] dark:text-[#3DAEDB] py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
+                    <button className="w-full border border-[#1C3D6E] text-primary-dark dark:text-darkMode-link py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] hover:text-white transition-colors">
                       Retake Assessment
                     </button>
                   </div>
                 ) : assessment.status === 'in_progress' ? (
-                  <button className="w-full bg-[#3DAEDB] text-white py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] transition-colors">
+                  <button className="w-full bg-primary text-white py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E] transition-colors">
                     Continue Assessment
                   </button>
                 ) : (
@@ -533,19 +533,19 @@ export default function PsychometricDashboard() {
         {activeTab === 'profile' && (
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">Complete TFDN Assessment Profile</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Complete TFDN Assessment Profile</h2>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
-                  <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Development Areas</h3>
+                  <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-4">Development Areas</h3>
                   <div className="space-y-3">
                     {completedAssessments.filter(a => a.developmentAreas.length > 0).map((assessment) => (
                       <div key={assessment.id} className="border border-gray-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{assessment.name}</h4>
+                        <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">{assessment.name}</h4>
                         <ul className="space-y-1">
                           {assessment.developmentAreas.map((area, index) => (
                             <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                              <span className="text-[#4A9E3D] mt-1">•</span>
+                              <span className="text-secondary mt-1">•</span>
                               <span>{area}</span>
                             </li>
                           ))}
@@ -556,15 +556,15 @@ export default function PsychometricDashboard() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Community Impact Potential</h3>
+                  <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-4">Community Impact Potential</h3>
                   <div className="space-y-3">
                     {completedAssessments.filter(a => a.communityImpactPotential.length > 0).map((assessment) => (
                       <div key={assessment.id} className="border border-gray-200 rounded-lg p-4">
-                        <h4 className="font-semibold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">{assessment.name}</h4>
+                        <h4 className="font-semibold text-primary-dark dark:text-darkMode-link mb-2">{assessment.name}</h4>
                         <ul className="space-y-1">
                           {assessment.communityImpactPotential.map((potential, index) => (
                             <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                              <span className="text-[#2C857A] mt-1">✓</span>
+                              <span className="text-forest-sage mt-1">✓</span>
                               <span>{potential}</span>
                             </li>
                           ))}
@@ -578,11 +578,11 @@ export default function PsychometricDashboard() {
 
             {/* TFDN Recommended Interventions */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-4">Recommended TFDN Interventions</h3>
+              <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-4">Recommended TFDN Interventions</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {profile.recommendedInterventions.map((intervention, index) => (
                   <div key={index} className="p-4 bg-[#4A9E3D]/10 rounded-lg border border-[#4A9E3D]/20">
-                    <span className="text-[#4A9E3D] font-medium">{intervention}</span>
+                    <span className="text-secondary font-medium">{intervention}</span>
                   </div>
                 ))}
               </div>
@@ -594,7 +594,7 @@ export default function PsychometricDashboard() {
         {activeTab === 'insights' && (
           <div className="space-y-6">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">TFDN Development Insights</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">TFDN Development Insights</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-blue-50 rounded-lg p-6">
@@ -653,23 +653,23 @@ export default function PsychometricDashboard() {
 
             {/* TFDN Development Plan */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-6">Personalized TFDN Development Plan</h2>
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Personalized TFDN Development Plan</h2>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-4 p-4 bg-[#4A9E3D]/10 rounded-lg">
                   <span className="text-2xl">🌱</span>
                   <div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">SEL Competency Growth</h3>
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-2">SEL Competency Growth</h3>
                     <p className="text-gray-700 text-sm">
                       Focus on strengthening responsible decision-making skills (currently {profile.selCompetencies.responsibleDecisionMaking}%) through community-based scenarios and ethical dilemma discussions.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4 p-4 bg-[#3DAEDB]/10 rounded-lg">
+                <div className="flex items-start gap-4 p-4 bg-primary/10 rounded-lg">
                   <span className="text-2xl">🌍</span>
                   <div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Global Citizenship Advancement</h3>
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-2">Global Citizenship Advancement</h3>
                     <p className="text-gray-700 text-sm">
                       Advance to expert level through critical thinking enhancement (currently {profile.criticalThinkingLevel}%) and policy advocacy training.
                     </p>
@@ -679,7 +679,7 @@ export default function PsychometricDashboard() {
                 <div className="flex items-start gap-4 p-4 bg-[#2C857A]/10 rounded-lg">
                   <span className="text-2xl">🤝</span>
                   <div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Community Leadership</h3>
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-2">Community Leadership</h3>
                     <p className="text-gray-700 text-sm">
                       Your high community engagement readiness ({profile.communityEngagementReadiness}%) positions you for peer mentoring and community organizing roles.
                     </p>
@@ -689,7 +689,7 @@ export default function PsychometricDashboard() {
                 <div className="flex items-start gap-4 p-4 bg-purple-50 rounded-lg">
                   <span className="text-2xl">🚪</span>
                   <div>
-                    <h3 className="font-bold text-[#1C3D6E] dark:text-[#3DAEDB] mb-2">Career Pathway Preparation</h3>
+                    <h3 className="font-bold text-primary-dark dark:text-darkMode-link mb-2">Career Pathway Preparation</h3>
                     <p className="text-gray-700 text-sm">
                       Based on your profile, pursue internships or shadowing in {profile.careerPathways[0]} or {profile.careerPathways[1]} to apply your competencies in real-world settings.
                     </p>
