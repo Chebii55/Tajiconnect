@@ -25,8 +25,17 @@ import {
   Play,
   ChevronRight
 } from 'lucide-react'
+import { useRecommendations } from '../../contexts/RecommendationsContext'
+import RecommendationCard from '../ui/RecommendationCard'
+import PerformanceWidget from '../ui/PerformanceWidget'
+import LoadingSpinner from '../ui/LoadingSpinner'
+import TrendingContent from '../ui/TrendingContent'
+import DifficultyAdjuster from '../ui/DifficultyAdjuster'
+import RealTimeNotifications from '../ui/RealTimeNotifications'
 
 const StudentDashboard = () => {
+  const { recommendations, performance, isLoading, error, refreshRecommendations } = useRecommendations()
+  
   // Mock student data
   const studentName = "Amara Wanjiku"
   
@@ -90,10 +99,7 @@ const StudentDashboard = () => {
 
             {/* Right side actions */}
             <div className="flex items-center gap-4">
-              <button className="relative p-2 text-gray-400 hover:text-gray-600 dark:hover:text-darkMode-textSecondary">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
-              </button>
+              <RealTimeNotifications />
 
               {/* User Profile */}
               <div className="flex items-center gap-3">
@@ -334,48 +340,6 @@ const StudentDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-darkMode-border">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-darkMode-text">Quick Actions</h3>
-              </div>
-              <div className="p-6">
-                <div className="space-y-3">
-                  <button className="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-darkMode-surfaceHover rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-border transition-colors">
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-5 h-5 text-primary" />
-                      <span className="text-sm font-medium text-gray-900 dark:text-darkMode-text">Browse Courses</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </button>
-                  
-                  <button className="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-darkMode-surfaceHover rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-border transition-colors">
-                    <div className="flex items-center gap-3">
-                      <BarChart3 className="w-5 h-5 text-success dark:text-darkMode-success" />
-                      <span className="text-sm font-medium text-gray-900 dark:text-darkMode-text">View Progress</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </button>
-                  
-                  <button className="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-darkMode-surfaceHover rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-border transition-colors">
-                    <div className="flex items-center gap-3">
-                      <Brain className="w-5 h-5 text-info" />
-                      <span className="text-sm font-medium text-gray-900 dark:text-darkMode-text">Take Assessment</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </button>
-                  
-                  <button className="w-full flex items-center justify-between p-3 text-left bg-gray-50 dark:bg-darkMode-surfaceHover rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-border transition-colors">
-                    <div className="flex items-center gap-3">
-                      <MessageSquare className="w-5 h-5 text-warning" />
-                      <span className="text-sm font-medium text-gray-900 dark:text-darkMode-text">Ask Question</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
             {/* Learning Goals */}
             <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-darkMode-border">
@@ -401,6 +365,65 @@ const StudentDashboard = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* AI Recommendations Section */}
+        <div className="mt-8 space-y-6">
+          {/* Performance Widget */}
+          {performance && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <PerformanceWidget performance={performance} />
+              </div>
+              <div className="lg:col-span-2">
+                <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                      AI-Powered Recommendations
+                    </h3>
+                    <button
+                      onClick={refreshRecommendations}
+                      className="text-sm text-primary hover:text-primary-dark transition-colors"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? 'Refreshing...' : 'Refresh'}
+                    </button>
+                  </div>
+                  
+                  {isLoading ? (
+                    <LoadingSpinner message="Loading personalized recommendations..." />
+                  ) : error ? (
+                    <div className="text-center py-8">
+                      <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+                      <button
+                        onClick={refreshRecommendations}
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  ) : recommendations.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {recommendations.slice(0, 4).map((recommendation, index) => (
+                        <RecommendationCard key={index} recommendation={recommendation} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      <Lightbulb className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>Complete more assessments to get personalized recommendations</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Additional AI Features Section */}
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TrendingContent />
+            <DifficultyAdjuster />
           </div>
         </div>
       </main>

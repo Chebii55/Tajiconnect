@@ -544,7 +544,6 @@
       "isCompleted": false
     }
   ],
-
   "goals": [
     {
       "id": "1",
@@ -561,13 +560,17 @@
       "startDate": "2024-01-10T00:00:00Z",
       "targetDate": "2024-03-10T00:00:00Z",
       "completedDate": null,
-      "milestones": [1],
-      "tags": ["JavaScript", "programming"],
+      "milestones": [
+        1
+      ],
+      "tags": [
+        "JavaScript",
+        "programming"
+      ],
       "isPublic": false,
       "reward": "JavaScript Completion Badge"
     }
   ],
-
   "TFDNProfiles": [
     {
       "userId": 1,
@@ -575,9 +578,18 @@
       "socialEmotionalLearningCompetency": "Developing",
       "leadershipSkills": "Proficient",
       "culturalCompetence": "Advanced",
-      "developmentAreas": ["Communication", "Team Collaboration"],
-      "communityImpactPotential": ["Local Education Initiatives", "Youth Leadership Programs"],
-      "strengths": ["Analytical Thinking", "Problem Solving"],
+      "developmentAreas": [
+        "Communication",
+        "Team Collaboration"
+      ],
+      "communityImpactPotential": [
+        "Local Education Initiatives",
+        "Youth Leadership Programs"
+      ],
+      "strengths": [
+        "Analytical Thinking",
+        "Problem Solving"
+      ],
       "lastUpdated": "2024-02-01T00:00:00Z"
     }
   ],
@@ -592,40 +604,67 @@
       "dateOfBirth": "2007-06-15",
       "age": 17,
       "gender": "male",
-      "interests": ["Technology", "Innovation", "Sustainable Development"],
-
+      "interests": [
+        "Technology",
+        "Innovation",
+        "Sustainable Development"
+      ],
       "isPWD": true,
       "impairmentType": "Visual Impairment",
       "requiresParentInfo": true,
-
       "parentGuardianDetails": {
         "name": "Jane Doe",
         "email": "jane.doe@example.com",
         "phone": "+254-123-456-788",
         "relationship": "parent"
       },
-
       "profilePicture": "path/to/passport/photo.jpg",
-
       "education": {
         "level": "Senior Secondary School",
-        "documents": ["diploma.pdf", "transcript.pdf"]
+        "documents": [
+          "diploma.pdf",
+          "transcript.pdf"
+        ]
       },
-
-      "hobbies": ["Reading", "Sports", "Music"],
-      "talents": ["Public Speaking", "Leadership"],
-
+      "hobbies": [
+        "Reading",
+        "Sports",
+        "Music"
+      ],
+      "talents": [
+        "Public Speaking",
+        "Leadership"
+      ],
       "consent": {
         "termsAccepted": true,
         "privacyAccepted": true,
         "dataConsent": true,
         "mediaConsent": true
       },
-
       "newsletterOptIn": true,
       "profileComplete": true,
       "createdAt": "2025-10-27T00:00:00Z",
       "updatedAt": "2025-10-28T00:00:00Z"
+    },
+    {
+      "id": "1768914298343",
+      "userId": "test-user-123",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "dateOfBirth": "2000-01-01",
+      "age": 24,
+      "educationLevel": "bachelor",
+      "interests": [
+        "Technology",
+        "Business"
+      ],
+      "careerGoals": "Become a software engineer",
+      "termsAccepted": true,
+      "privacyAccepted": true,
+      "isComplete": true,
+      "createdAt": "2026-01-20T13:04:58.343Z",
+      "updatedAt": "2026-01-20T13:04:58.344Z"
     }
   ],
   "roadmaps": [

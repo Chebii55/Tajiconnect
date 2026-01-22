@@ -1,4 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { skillsApi } from '../../services/api/skills'
+import type { SkillGap } from '../../services/api/types'
+import { handleApiError } from '../../utils/errorHandler'
+import LoadingSpinner from '../ui/LoadingSpinner'
+import SkillGapAnalysis from '../ui/SkillGapAnalysis'
+import SkillRecommendations from '../ui/SkillRecommendations'
 
 interface Skill {
   id: string
@@ -141,6 +147,56 @@ export default function SkillsAssessment() {
   const [isAssessing, setIsAssessing] = useState(false)
   const [filter, setFilter] = useState<'all' | Skill['category'] | 'trending' | 'not_assessed'>('all')
   const [sortBy, setSortBy] = useState<'name' | 'level' | 'demand' | 'recent'>('name')
+  
+  // AI Integration State
+  const [skillGaps, setSkillGaps] = useState<SkillGap[]>([])
+  const [recommendations, setRecommendations] = useState<any[]>([])
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analysisError, setAnalysisError] = useState<string | null>(null)
+
+  const userId = localStorage.getItem('user_id') || 'temp_user'
+
+  // Load skill gaps and recommendations on component mount
+  useEffect(() => {
+    loadSkillAnalysis()
+  }, [])
+
+  const loadSkillAnalysis = async () => {
+    setIsAnalyzing(true)
+    setAnalysisError(null)
+    
+    try {
+      const [gaps, recs] = await Promise.all([
+        skillsApi.getSkillGaps(userId),
+        skillsApi.getRecommendations(userId)
+      ])
+      
+      setSkillGaps(gaps)
+      setRecommendations(recs)
+    } catch (err: any) {
+      setAnalysisError(handleApiError(err))
+    } finally {
+      setIsAnalyzing(false)
+    }
+  }
+
+  const submitSkillAssessment = async (skillCode: string, assessmentData: any) => {
+    try {
+      await skillsApi.createAssessment({
+        user_id: userId,
+        skill_code: skillCode,
+        assessment_data: assessmentData
+      })
+      
+      // Trigger AI analysis after assessment
+      await skillsApi.analyzeSkills(userId)
+      
+      // Reload skill analysis
+      await loadSkillAnalysis()
+    } catch (err: any) {
+      setAnalysisError(handleApiError(err))
+    }
+  }
 
   const getLevelColor = (level: number) => {
     switch (level) {
@@ -303,6 +359,41 @@ export default function SkillsAssessment() {
                 <option value="recent">Sort by Recent</option>
               </select>
             </div>
+
+            {/* AI Analysis Section */}
+            {(skillGaps.length > 0 || recommendations.length > 0 || isAnalyzing) && (
+              <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkillGapAnalysis skillGaps={skillGaps} isLoading={isAnalyzing} />
+                <SkillRecommendations 
+                  recommendations={recommendations} 
+                  isLoading={isAnalyzing}
+                  onStartLearning={(skillName) => {
+                    // Find and start assessment for recommended skill
+                    const skill = skills.find(s => s.name.toLowerCase().includes(skillName.toLowerCase()));
+                    if (skill) {
+                      setSelectedSkill(skill);
+                      setIsAssessing(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+
+            {analysisError && (
+              <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-red-600">⚠️</span>
+                  <h3 className="text-red-800 dark:text-red-200 font-semibold">AI Analysis Error</h3>
+                </div>
+                <p className="text-red-600 dark:text-red-300 text-sm mb-3">{analysisError}</p>
+                <button
+                  onClick={loadSkillAnalysis}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                >
+                  Retry Analysis
+                </button>
+              </div>
+            )}
 
             {/* Skills Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

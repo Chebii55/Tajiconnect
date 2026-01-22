@@ -28,52 +28,49 @@ class OnboardingIntegrationService {
     }
   }
 
-  // Process onboarding data and generate career recommendations
+  // Process streamlined onboarding data
   async processOnboardingData(userId, onboardingData) {
     try {
       const db = this.loadDatabase();
       
-      // Find or create user onboarding record
-      let userOnboarding = db.onboarding?.find(o => o.userId.toString() === userId.toString());
+      // Create user onboarding record
+      const userOnboarding = {
+        id: Date.now().toString(),
+        userId: userId,
+        ...onboardingData,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
       
-      if (!userOnboarding) {
-        userOnboarding = {
-          id: Date.now().toString(),
-          userId: userId,
-          ...onboardingData,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        
-        if (!db.onboarding) db.onboarding = [];
-        db.onboarding.push(userOnboarding);
-      } else {
-        // Update existing record
-        Object.assign(userOnboarding, onboardingData);
-        userOnboarding.updatedAt = new Date().toISOString();
+      if (!db.onboarding) db.onboarding = [];
+      db.onboarding.push(userOnboarding);
+
+      // Update user's onboarding status
+      const user = db.users && db.users.find(u => u.id.toString() === userId.toString());
+      if (user) {
+        user.onboardingComplete = true;
+        user.updatedAt = new Date().toISOString();
       }
 
-      // Generate career assessment based on onboarding data
+      // Generate career assessment from onboarding data
       const assessmentAnswers = this.convertOnboardingToAssessment(onboardingData);
       const userProfile = this.extractUserProfile(userOnboarding);
 
-      // Generate AI career recommendations
-      const recommendations = this.careerService.generateCareerRecommendations(
+      // Generate career recommendations
+      const recommendations = await this.careerService.generateCareerRecommendations(
         { answers: assessmentAnswers, userId },
         userProfile
       );
 
-      // Save assessment and roadmaps
+      // Save assessment and generate roadmaps
       const result = await this.careerService.saveCareerAssessment(
         userId, 
         { answers: assessmentAnswers }, 
         recommendations
       );
 
-      // Update user profile with career preferences
+      // Update user profile
       this.updateUserCareerPreferences(userId, recommendations, db);
-
-      // Save database
       this.saveToDatabase(db);
 
       return {
@@ -90,95 +87,62 @@ class OnboardingIntegrationService {
     }
   }
 
-  // Convert onboarding data to assessment format
+  // Convert streamlined onboarding data to assessment format
   convertOnboardingToAssessment(onboardingData) {
     const answers = {};
 
     // Map education level to work environment preference
-    if (onboardingData.education?.level) {
-      if (onboardingData.education.level.includes('Bachelor') || onboardingData.education.level.includes('Master')) {
-        answers[1] = 'Corporate office'; // Higher education -> corporate preference
+    if (onboardingData.educationLevel) {
+      answers[1] = onboardingData.educationLevel.includes('bachelor') || onboardingData.educationLevel.includes('master') 
+        ? 'Corporate office' : 'Remote/flexible';
+    } else {
+      answers[1] = 'Remote/flexible'; // Default for brief onboarding
+    }
+
+    // Map interests to career preferences
+    if (onboardingData.interests && onboardingData.interests.length > 0) {
+      // Map first interest to work style preference
+      const firstInterest = onboardingData.interests[0].toLowerCase();
+      if (firstInterest.includes('technology')) {
+        answers[2] = 'Analytical and data-driven';
+      } else if (firstInterest.includes('business')) {
+        answers[2] = 'Strategic and goal-oriented';
+      } else if (firstInterest.includes('healthcare')) {
+        answers[2] = 'Helping others and making a difference';
       } else {
-        answers[1] = 'Remote/flexible'; // Flexible for others
+        answers[2] = 'Creative and innovative';
       }
+    } else {
+      answers[2] = 'Balanced approach'; // Default
     }
 
-    // Map hobbies to interests
-    if (onboardingData.education?.hobbies) {
-      const techHobbies = ['Programming', 'Gaming', 'Electronics', 'Computers'];
-      const creativeHobbies = ['Painting', 'Drawing', 'Music', 'Writing', 'Photography'];
-      const socialHobbies = ['Sports', 'Volunteering', 'Teaching', 'Mentoring'];
-
-      const interests = [];
-      onboardingData.education.hobbies.forEach(hobby => {
-        if (techHobbies.some(tech => hobby.toLowerCase().includes(tech.toLowerCase()))) {
-          interests.push('Problem solving', 'Data analysis');
-        } else if (creativeHobbies.some(creative => hobby.toLowerCase().includes(creative.toLowerCase()))) {
-          interests.push('Creative design');
-        } else if (socialHobbies.some(social => hobby.toLowerCase().includes(social.toLowerCase()))) {
-          interests.push('Teaching others', 'Helping people');
-        }
-      });
-
-      if (interests.length > 0) {
-        answers[3] = [...new Set(interests)]; // Remove duplicates
-      }
-    }
-
-    // Map talents to skills
-    if (onboardingData.education?.talents) {
-      const skillMapping = {
-        'Public Speaking': 'Communication',
-        'Leadership': 'Leadership',
-        'Writing': 'Communication',
-        'Mathematics': 'Data analysis',
-        'Technology': 'Programming'
-      };
-
-      const skills = [];
-      onboardingData.education.talents.forEach(talent => {
-        Object.keys(skillMapping).forEach(key => {
-          if (talent.toLowerCase().includes(key.toLowerCase())) {
-            skills.push(skillMapping[key]);
-          }
-        });
-      });
-
-      if (skills.length > 0) {
-        answers[5] = [...new Set(skills)];
-      }
-    }
-
-    // Set default values for missing answers
-    if (!answers[2]) answers[2] = 4; // Technology interest (scale 1-5)
-    if (!answers[4]) answers[4] = 3; // Communication skills (scale 1-5)
-    if (!answers[6]) answers[6] = 3; // Public speaking comfort (scale 1-5)
-    if (!answers[7]) answers[7] = 'Career growth'; // Career importance
-    if (!answers[8]) answers[8] = 3; // Salary importance (scale 1-5)
-    if (!answers[9]) answers[9] = 'Mix of both'; // Work preference
-    if (!answers[10]) answers[10] = 3; // Stress handling (scale 1-5)
+    // Set default values for missing assessment data
+    answers[3] = 'Moderate challenge'; // Challenge preference
+    answers[4] = 'Team collaboration'; // Work style
+    answers[5] = 'Work-life balance'; // Priority
 
     return answers;
   }
 
-  // Extract user profile from onboarding data
+  // Extract user profile from streamlined onboarding data
   extractUserProfile(onboardingData) {
     return {
       id: onboardingData.userId,
       age: onboardingData.age,
       education: {
-        level: onboardingData.education?.level || 'High school'
+        level: onboardingData.educationLevel || 'High school'
       },
       isPWD: onboardingData.isPWD || false,
       impairmentType: onboardingData.impairmentType,
-      hobbies: onboardingData.education?.hobbies || [],
-      talents: onboardingData.education?.talents || []
+      hobbies: onboardingData.hobbies || [],
+      talents: onboardingData.talents || [],
+      interests: onboardingData.interests || []
     };
   }
 
   // Update user's career preferences
   updateUserCareerPreferences(userId, recommendations, db) {
-    const user = db.users?.find(u => u.id.toString() === userId.toString());
+    const user = db.users && db.users.find(u => u.id.toString() === userId.toString());
     
     if (user) {
       if (!user.careerPreferences) {
@@ -186,8 +150,8 @@ class OnboardingIntegrationService {
       }
 
       user.careerPreferences = {
-        primaryCareer: recommendations.recommendations[0]?.title,
-        secondaryCareer: recommendations.recommendations[1]?.title,
+        primaryCareer: recommendations.recommendations[0] && recommendations.recommendations[0].title,
+        secondaryCareer: recommendations.recommendations[1] && recommendations.recommendations[1].title,
         interests: recommendations.analysis.interests.map(i => i.interest),
         skillLevels: recommendations.analysis.skills,
         lastUpdated: new Date().toISOString()
@@ -200,7 +164,7 @@ class OnboardingIntegrationService {
   // Get user's onboarding status
   getOnboardingStatus(userId) {
     const db = this.loadDatabase();
-    const userOnboarding = db.onboarding?.find(o => o.userId.toString() === userId.toString());
+    const userOnboarding = db.onboarding && db.onboarding.find(o => o.userId.toString() === userId.toString());
     
     if (!userOnboarding) {
       return {

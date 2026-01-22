@@ -1,4 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { skillsApi } from '../../services/api/skills'
+import { handleApiError } from '../../utils/errorHandler'
+import LoadingSpinner from '../ui/LoadingSpinner'
+import { Brain, TrendingUp, Target, Lightbulb } from 'lucide-react'
 
 interface ResultCategory {
   name: string
@@ -64,6 +68,29 @@ const mockResult: AssessmentResult = {
 export default function AssessmentResults() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [showShareModal, setShowShareModal] = useState(false)
+  const [aiAnalysis, setAiAnalysis] = useState<any>(null)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analysisError, setAnalysisError] = useState<string | null>(null)
+
+  const userId = localStorage.getItem('user_id') || 'temp_user'
+
+  useEffect(() => {
+    loadAiAnalysis()
+  }, [])
+
+  const loadAiAnalysis = async () => {
+    setIsAnalyzing(true)
+    setAnalysisError(null)
+    
+    try {
+      const analysis = await skillsApi.analyzeSkills(userId)
+      setAiAnalysis(analysis)
+    } catch (err: any) {
+      setAnalysisError(handleApiError(err))
+    } finally {
+      setIsAnalyzing(false)
+    }
+  }
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-secondary dark:text-green-400'

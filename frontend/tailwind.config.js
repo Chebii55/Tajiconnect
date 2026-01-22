@@ -48,8 +48,8 @@ export default {
           // Text Colors (proper contrast hierarchy)
           text: '#F1F5F9',          // Primary text - high contrast
           textSecondary: '#CBD5E1', // Secondary text
-          textMuted: '#888a8dff',     // Muted text
-          textDisabled: '#373e47ff',  // Disabled text
+          textMuted: '#878e97ff',     // Muted text
+          textDisabled: '#9ca5afff',  // Disabled text
 
           // Accent Colors (purposeful, not decorative)
           accent: '#E6C97A',        // Gold - active items, rewards, progress

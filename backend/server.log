@@ -1,0 +1,33 @@
+🚀 JSON Server is running on port 3001
+📊 Database: http://localhost:3001/db
+🔗 API Base URL: http://localhost:3001/api
+📚 Available endpoints:
+   - GET /api/users
+   - GET /api/career-paths
+   - GET /api/assessments
+   - GET /api/courses
+   - GET /api/jobs
+   - POST /api/auth/login
+   - POST /api/auth/register
+   - POST /api/career/assess (AI Career Assessment)
+   - GET /api/users/:id/roadmaps
+   - PUT /api/roadmaps/:id/progress
+   - POST /api/onboarding/:id/process (Process Onboarding)
+   - GET /api/onboarding/:id/status (Onboarding Status)
+   - POST /api/onboarding/:id/complete (Complete Onboarding)
+   - POST /api/onboarding/profile (Save Onboarding Profile)
+   - GET /api/onboarding/profile/:userId (Get Onboarding Profile)
+   - GET /api/users/:id/skills-gap/:careerPathId
+Registration request received: undefined
+Registration error: TypeError: Cannot destructure property 'firstName' of 'req.body' as it is undefined.
+    at /home/sheila/Projects/Tajiconnect/backend/server.js:31:15
+    at Layer.handle [as handle_request] (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:328:13)
+    at /home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:346:12)
+    at next (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:280:10)
+    at /home/sheila/Projects/Tajiconnect/backend/node_modules/json-server/lib/server/defaults.js:54:5
+    at Layer.handle [as handle_request] (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:328:13)
+    at /home/sheila/Projects/Tajiconnect/backend/node_modules/express/lib/router/index.js:286:9
+[0mPOST /api/auth/register [31m500[0m 9.139 ms - 58[0m

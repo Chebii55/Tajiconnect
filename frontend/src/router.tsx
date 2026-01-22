@@ -3,10 +3,12 @@ import Layout from './components/Layout';
 
 // Onboarding - All exist
 import AgeVerification from './components/onboarding/AgeVerification';
-import EnhancedProfileSetup from './components/onboarding/EnhancedProfileSetup';
+import ProfileSettings from './components/settings/ProfileSettings';
+import BriefOnboarding from './components/onboarding/BriefOnboarding';
 import ParentalConsent from './components/onboarding/ParentalConsent';
 import InitialAssessment from './components/onboarding/InitialAssessment';
 import PsychometricTest from './components/onboarding/PsychometricTest';
+import PathGeneration from './components/onboarding/PathGeneration';
 import RoadmapGeneration from './components/onboarding/RoadmapGeneration';
 import WelcomePage from './components/onboarding/WelcomePage';
 
@@ -83,6 +85,9 @@ import TrainerSettings from './components/trainer/TrainerSettings';
 // Settings
 import Settings from './components/settings/Settings';
 
+// Development Components (only in development)
+import TestDashboard from './components/dev/TestDashboard';
+
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -95,13 +100,10 @@ export const router = createBrowserRouter([
       { path: '/register', element: <Register /> },
       { path: '/trainer/login', element: <TrainerLogin /> },
 
-      // Onboarding
-      { path: '/onboarding/welcome', element: <WelcomePage /> },
-      { path: '/onboarding/age-verification', element: <AgeVerification /> },
-      { path: '/onboarding/profile-setup', element: <EnhancedProfileSetup /> },
-      { path: '/onboarding/parental-consent', element: <ParentalConsent /> },
-      { path: '/onboarding/initial-assessment', element: <InitialAssessment /> },
-      { path: '/onboarding/psychometric-test', element: <PsychometricTest /> },
+      // Onboarding - Streamlined single flow
+      { path: '/onboarding', element: <BriefOnboarding /> },
+      { path: '/onboarding/psychometric', element: <PsychometricTest /> },
+      { path: '/onboarding/path-generation', element: <PathGeneration /> },
       { path: '/onboarding/roadmap-generation', element: <RoadmapGeneration /> },
 
       // Student Core (Protected)
@@ -118,6 +120,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute requiredRole="student">
             <StudentProfile />
+          </ProtectedRoute>
+        ) 
+      },
+      { 
+        path: '/student/settings', 
+        element: (
+          <ProtectedRoute requiredRole="student">
+            <ProfileSettings />
           </ProtectedRoute>
         ) 
       },
@@ -403,7 +413,12 @@ export const router = createBrowserRouter([
             <Settings />
           </ProtectedRoute>
         ) 
-      }
+      },
+
+      // Development Routes (only in development)
+      ...(process.env.REACT_APP_ENV === 'development' ? [
+        { path: '/dev/test', element: <TestDashboard /> }
+      ] : [])
     ]
   },
   

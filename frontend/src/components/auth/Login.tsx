@@ -95,48 +95,68 @@ const Login: React.FC = () => {
     setNotification(null);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Call backend login API with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-      // Mock successful authentication - set tokens and user data
-      const mockUser = {
-        id: '1',
-        name: 'Amara Wanjiku',
-        email: formData.email,
-        role: 'student',
-        onboardingComplete: false // Include onboarding status
-      };
-
-      const mockTokens = {
-        accessToken: 'mock-access-token-' + Date.now(),
-        refreshToken: 'mock-refresh-token-' + Date.now()
-      };
-
-      // Store authentication data
-      localStorage.setItem('accessToken', mockTokens.accessToken);
-      localStorage.setItem('refreshToken', mockTokens.refreshToken);
-      localStorage.setItem('user', JSON.stringify(mockUser));
-
-      setNotification({
-        type: 'success',
-        message: 'Login successful! Redirecting...'
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        }),
+        signal: controller.signal
       });
 
-      // Check if onboarding is complete and redirect accordingly
-      if (mockUser.onboardingComplete) {
+      clearTimeout(timeoutId);
+
+      let result;
+      try {
+        const text = await response.text();
+        result = text ? JSON.parse(text) : {};
+      } catch (jsonError) {
+        console.error('JSON parsing error:', jsonError);
+        throw new Error('Server response was invalid. Please try again.');
+      }
+
+      if (response.ok && result.success) {
+        // Store authentication data
+        localStorage.setItem('accessToken', result.token);
+        localStorage.setItem('userId', result.user.id);
+        localStorage.setItem('user', JSON.stringify(result.user));
+
+        setNotification({
+          type: 'success',
+          message: 'Login successful! Redirecting...'
+        });
+
+        // Check onboarding status
+        const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
+        
         setTimeout(() => {
-          window.location.href = '/student/dashboard';
+          if (onboardingComplete) {
+            navigate('/student/dashboard');
+          } else {
+            navigate('/onboarding');
+          }
         }, 1500);
       } else {
-        setTimeout(() => {
-          window.location.href = '/onboarding/welcome';
-        }, 1500);
+        throw new Error(result.message || 'Login failed');
       }
-    } catch {
-      setNotification({
-        type: 'error',
-        message: 'Login failed. Please check your credentials and try again.'
-      });
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error.name === 'AbortError') {
+        setNotification({
+          type: 'error',
+          message: 'Request timed out. Please check your connection and try again.'
+        });
+      } else {
+        setNotification({
+          type: 'error',
+          message: error.message || 'Login failed. Please check your credentials and try again.'
+        });
+      }
     } finally {
       setIsLoading(false);
     }

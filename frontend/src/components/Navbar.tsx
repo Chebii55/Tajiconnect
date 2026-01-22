@@ -62,6 +62,16 @@ const Navbar = () => {
       icon: <Home className="w-5 h-5" />
     },
     {
+      label: 'Quick Actions',
+      icon: <Rocket className="w-5 h-5" />,
+      dropdown: [
+        { label: 'Browse Courses', path: '/student/courses', icon: <BookOpen className="w-4 h-4" />, description: 'Explore available courses' },
+        { label: 'View Progress', path: '/student/progress/analytics', icon: <BarChart3 className="w-4 h-4" />, description: 'Check your learning progress' },
+        { label: 'Take Assessment', path: '/student/assessments', icon: <Brain className="w-4 h-4" />, description: 'Start a new assessment' },
+        { label: 'Ask Question', path: '/student/help', icon: <MessageSquare className="w-4 h-4" />, description: 'Get help and support' }
+      ]
+    },
+    {
       label: 'Learning',
       icon: <BookOpen className="w-5 h-5" />,
       dropdown: [
@@ -161,7 +171,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-neutral-white dark:bg-darkMode-navbar shadow-forest dark:shadow-dark sticky top-0 z-[100] border-b border-border-light dark:border-darkMode-border w-full">
+    <nav className="bg-neutral-white dark:bg-darkMode-navbar shadow-forest dark:shadow-dark sticky top-0 z-[150] border-b border-border-light dark:border-darkMode-border w-full">
       <div className="w-full px-6 sm:px-8 lg:px-12">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -224,7 +234,7 @@ const Navbar = () => {
 
                 {/* Dropdown Menu */}
                 {item.dropdown && activeDropdown === item.label && (
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-neutral-white dark:bg-darkMode-surface rounded-2xl shadow-forest-lg dark:shadow-dark-lg border border-border-light dark:border-darkMode-border py-4 animate-fade-in z-[110]">
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-80 bg-neutral-white dark:bg-darkMode-surface rounded-2xl shadow-forest-lg dark:shadow-dark-lg border border-border-light dark:border-darkMode-border py-4 animate-fade-in z-[200]">
                     <div className="px-4 pb-3 border-b border-border-light dark:border-darkMode-border">
                       <h3 className="text-lg font-bold text-primary dark:text-darkMode-accent flex items-center">
                         <span className="mr-2">{item.icon}</span>

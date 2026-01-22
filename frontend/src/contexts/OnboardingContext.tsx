@@ -131,7 +131,22 @@ export const OnboardingProvider: React.FC<OnboardingProviderProps> = ({ children
   const [data, setData] = useState<OnboardingData>(initialData);
 
   const updateData = (updates: Partial<OnboardingData>) => {
-    setData(prev => ({ ...prev, ...updates }));
+    setData(prev => {
+      const newData = { ...prev, ...updates };
+      
+      // Auto-calculate age when dateOfBirth changes
+      if (updates.dateOfBirth) {
+        const birthDate = new Date(updates.dateOfBirth);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear() - 
+          (today.getMonth() < birthDate.getMonth() || 
+           (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate()) ? 1 : 0);
+        newData.age = age;
+        newData.requiresParentInfo = age < 18;
+      }
+      
+      return newData;
+    });
   };
 
   const nextStep = () => {

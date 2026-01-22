@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { psychometricApi } from '../../services/api/psychometric'
+import type { PsychometricResponse, UserProfile } from '../../services/api/types'
+import { handleApiError } from '../../utils/errorHandler'
+import LoadingSpinner from '../ui/LoadingSpinner'
 
 interface PsychometricQuestion {
   id: number
@@ -13,6 +17,10 @@ const PsychometricTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<number, number>>({})
   const [showResults, setShowResults] = useState(false)
+  const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [analysisResults, setAnalysisResults] = useState<UserProfile | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [assessmentId, setAssessmentId] = useState<string | null>(null)
 
   const questions: PsychometricQuestion[] = [
     {
@@ -77,19 +85,60 @@ const PsychometricTest = () => {
     }
   ]
 
-  const handleAnswer = (score: number) => {
+  const handleAnswer = async (score: number) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: score }
     setAnswers(newAnswers)
 
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
+      await submitAssessment(newAnswers)
+    }
+  }
+
+  const submitAssessment = async (finalAnswers: Record<number, number>) => {
+    setIsAnalyzing(true)
+    setError(null)
+    
+    try {
+      // Get user ID from localStorage or context
+      const userId = localStorage.getItem('user_id') || 'temp_user'
+      
+      // Create assessment if not exists
+      if (!assessmentId) {
+        const assessment = await psychometricApi.createAssessment({ 
+          user_id: userId,
+          assessment_type: 'onboarding'
+        })
+        setAssessmentId(assessment.id)
+      }
+
+      // Submit responses
+      const responses: PsychometricResponse[] = Object.entries(finalAnswers).map(([questionId, value]) => ({
+        question_id: parseInt(questionId),
+        response_value: value,
+        response_time_ms: Date.now() // Simple timestamp
+      }))
+
+      await psychometricApi.submitResponses({
+        assessment_id: assessmentId!,
+        responses
+      })
+
+      // Trigger AI analysis
+      const results = await psychometricApi.analyzeUser(userId)
+      setAnalysisResults(results)
       setShowResults(true)
+      
+    } catch (err: any) {
+      setError(handleApiError(err))
+    } finally {
+      setIsAnalyzing(false)
     }
   }
 
   const handleContinue = () => {
-    navigate('/onboarding/roadmap-generation')
+    navigate('/onboarding/path-generation')
   }
 
   const resetTest = () => {
@@ -147,10 +196,48 @@ const PsychometricTest = () => {
     return traits.length > 0 ? traits : ["Well-rounded individual"]
   }
 
-  if (showResults) {
-    const results = getResults()
-    const traits = getPersonalityTraits(results)
+  // Show loading state during AI analysis
+  if (isAnalyzing) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-success/10 flex items-center justify-center py-12 px-4">
+        <div className="max-w-md w-full text-center">
+          <LoadingSpinner size="lg" message="Analyzing your responses with AI..." />
+          <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+            This may take a few moments as we process your psychometric profile
+          </p>
+        </div>
+      </div>
+    )
+  }
 
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-success/10 flex items-center justify-center py-12 px-4">
+        <div className="max-w-md w-full text-center">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">
+              Assessment Error
+            </h3>
+            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+            <button
+              onClick={() => {
+                setError(null)
+                setCurrentQuestion(0)
+                setAnswers({})
+                setShowResults(false)
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (showResults && analysisResults) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-success/10 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl w-full space-y-8 animate-fade-in">
@@ -160,92 +247,86 @@ const PsychometricTest = () => {
               <span className="text-4xl">🎯</span>
             </div>
             <h2 className="text-4xl font-bold text-primary-dark dark:text-darkMode-text mb-4">
-              Psychometric Assessment Complete!
+              AI Analysis Complete!
             </h2>
             <p className="text-neutral-dark/60 dark:text-darkMode-textSecondary text-xl max-w-3xl mx-auto">
-              Here's your comprehensive personality and learning profile
+              Your personalized learning profile based on AI analysis
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Profile Strengths */}
+            {/* Learner Archetype */}
             <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
               <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
-                <span className="text-3xl mr-3">✨</span>
-                Your Profile Strengths
+                <span className="text-3xl mr-3">🎭</span>
+                Your Learner Type
               </h3>
-              <div className="flex flex-wrap gap-3">
-                {traits.map((trait, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-primary/20 dark:bg-darkMode-progress/20 text-primary dark:text-darkMode-progress border border-primary/30 dark:border-darkMode-progress/30"
-                  >
-                    {trait}
-                  </span>
-                ))}
+              <div className="text-center">
+                <div className="text-lg font-semibold text-primary capitalize mb-2">
+                  {analysisResults.learner_archetype.replace('_', ' ')}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Primary Learning Style: {analysisResults.learning_preferences.primary_style}
+                </div>
               </div>
             </div>
 
-            {/* Category Scores */}
+            {/* Motivation Scores */}
             <div className="bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
               <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
-                <span className="text-3xl mr-3">📊</span>
-                Category Scores
+                <span className="text-3xl mr-3">⚡</span>
+                Motivation Profile
               </h3>
-              <div className="space-y-5">
+              <div className="space-y-4">
                 <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-primary-dark dark:text-darkMode-text">Personality & Social</span>
-                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.personality.toFixed(1)}/5</span>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Intrinsic Motivation</span>
+                    <span>{Math.round(analysisResults.motivation_score.intrinsic_motivation * 100)}%</span>
                   </div>
-                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
-                    <div
-                      className="bg-primary-dark dark:bg-darkMode-progress h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(results.personality / 5) * 100}%` }}
-                    ></div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-primary h-2 rounded-full" 
+                      style={{ width: `${analysisResults.motivation_score.intrinsic_motivation * 100}%` }}
+                    />
                   </div>
                 </div>
-
                 <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-secondary dark:text-darkMode-success">Cognitive & Learning</span>
-                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.cognitive.toFixed(1)}/5</span>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Engagement Prediction</span>
+                    <span>{Math.round(analysisResults.motivation_score.engagement_prediction * 100)}%</span>
                   </div>
-                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
-                    <div
-                      className="bg-secondary dark:bg-darkMode-success h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(results.cognitive / 5) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-forest-sage dark:text-darkMode-accent">Interests & Creativity</span>
-                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.interests.toFixed(1)}/5</span>
-                  </div>
-                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
-                    <div
-                      className="bg-forest-sage dark:bg-darkMode-accent h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(results.interests / 5) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="font-semibold text-primary-light dark:text-darkMode-link">Values & Motivation</span>
-                    <span className="font-bold text-neutral-dark dark:text-darkMode-textSecondary">{results.values.toFixed(1)}/5</span>
-                  </div>
-                  <div className="w-full bg-neutral-gray dark:bg-darkMode-border rounded-full h-3 shadow-inner">
-                    <div
-                      className="bg-primary-light dark:bg-darkMode-link h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(results.values / 5) * 100}%` }}
-                    ></div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-secondary h-2 rounded-full" 
+                      style={{ width: `${analysisResults.motivation_score.engagement_prediction * 100}%` }}
+                    />
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Skill Gaps */}
+            {analysisResults.skill_gaps.length > 0 && (
+              <div className="lg:col-span-2 bg-white dark:bg-darkMode-surface rounded-2xl shadow-xl dark:shadow-dark-lg border-0 p-8 hover:shadow-2xl transition-all duration-300">
+                <h3 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-6 flex items-center">
+                  <span className="text-3xl mr-3">🎯</span>
+                  Priority Learning Areas
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {analysisResults.skill_gaps.slice(0, 4).map((gap, index) => (
+                    <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                      <div className="font-semibold text-gray-800 dark:text-gray-200">{gap.skill_name}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Current: {gap.current_level}% → Target: {gap.target_level}%
+                      </div>
+                      <div className="text-xs text-primary mt-1">
+                        Priority: {Math.round(gap.priority * 100)}%
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}

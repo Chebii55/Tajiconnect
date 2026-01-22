@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLearningPath } from '../../contexts/LearningPathContext';
+import LoadingSpinner from '../ui/LoadingSpinner';
 import {
   Map,
   Target,
@@ -10,19 +12,39 @@ import {
   TrendingUp,
   ChevronRight,
   Star,
-  BarChart3
+  BarChart3,
+  Brain,
+  Lightbulb
 } from 'lucide-react';
 
 const StudentRoadmap: React.FC = () => {
+  const { userPaths, currentPath, isLoading, error, generatePath } = useLearningPath();
 
   const mockStats = {
-    totalMilestones: 12,
+    totalMilestones: currentPath?.modules.length || 12,
     completedMilestones: 7,
     currentStreak: 15,
     totalSkills: 24,
     masteredSkills: 18,
-    estimatedCompletion: 'March 2025'
+    estimatedCompletion: currentPath ? 
+      new Date(Date.now() + currentPath.estimated_duration_weeks * 7 * 24 * 60 * 60 * 1000).toLocaleDateString() : 
+      'March 2025'
   };
+
+  const handleGenerateNewPath = async () => {
+    await generatePath({
+      focus_areas: ['grammar', 'vocabulary', 'communication'],
+      max_duration_weeks: 16
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-darkMode-bg dark:to-darkMode-surface flex items-center justify-center">
+        <LoadingSpinner size="lg" message="Loading your AI-generated learning roadmap..." />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-darkMode-bg dark:to-darkMode-surface font-['Inter']">

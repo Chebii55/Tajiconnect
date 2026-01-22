@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const jsonServer = require('json-server');
+const express = require('express');
 const CareerGenerationService = require('./services/careerGenerationService');
 const OnboardingIntegrationService = require('./services/onboardingIntegrationService');
 const server = jsonServer.create();
@@ -20,17 +21,96 @@ server.use((req, res, next) => {
   next();
 });
 
+// Parse JSON bodies - use express middleware
+server.use(express.json());
+
 // Custom routes and middleware
 server.use(middlewares);
+
+// User registration
+server.use('/api/auth/register', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      console.log('Registration request received:', req.body);
+      const { firstName, lastName, email, password, dateOfBirth, age, role, termsAccepted, newsletterOptIn, createdAt } = req.body;
+      
+      // Validate required fields
+      if (!firstName || !lastName || !email || !password) {
+        return res.status(400).json({
+          success: false,
+          message: 'Missing required fields'
+        });
+      }
+      
+      const db = router.db.getState();
+      const users = db.users || [];
+      
+      // Check if user already exists
+      const existingUser = users.find(u => u.email === email);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: 'User with this email already exists'
+        });
+      }
+      
+      // Create new user
+      const newUser = {
+        id: Date.now().toString(),
+        firstName,
+        lastName,
+        name: `${firstName} ${lastName}`,
+        email,
+        password, // In production, hash this
+        dateOfBirth,
+        age,
+        role: role || 'student',
+        termsAccepted,
+        newsletterOptIn,
+        onboardingComplete: false,
+        createdAt: createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      
+      // Add to database
+      if (!db.users) db.users = [];
+      db.users.push(newUser);
+      router.db.setState(db);
+      
+      console.log('User created successfully:', newUser.id);
+      
+      // Return success response
+      res.json({
+        success: true,
+        user: {
+          id: newUser.id,
+          name: newUser.name,
+          email: newUser.email,
+          role: newUser.role
+        },
+        token: `mock-jwt-token-${newUser.id}`,
+        message: 'Registration successful'
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Registration failed'
+      });
+    }
+  } else {
+    next();
+  }
+});
 
 // Custom authentication middleware
 server.use('/api/auth/login', (req, res, next) => {
   if (req.method === 'POST') {
     const { email, password } = req.body;
     
-    // Simple mock authentication
-    const users = router.db.get('users').value();
-    const user = users.find(u => u.email === email);
+    const db = router.db.getState();
+    const users = db.users || [];
+    const user = users.find(u => u.email === email && u.password === password);
     
     if (user) {
       res.json({
@@ -39,7 +119,8 @@ server.use('/api/auth/login', (req, res, next) => {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role
+          role: user.role,
+          onboardingComplete: user.onboardingComplete
         },
         token: `mock-jwt-token-${user.id}`,
         message: 'Login successful'
@@ -48,59 +129,6 @@ server.use('/api/auth/login', (req, res, next) => {
       res.status(401).json({
         success: false,
         message: 'Invalid credentials'
-      });
-    }
-  } else {
-    next();
-  }
-});
-
-// Custom registration endpoint
-server.use('/api/auth/register', (req, res, next) => {
-  if (req.method === 'POST') {
-    const { email, name, password, role = 'student' } = req.body;
-    
-    const users = router.db.get('users').value();
-    const existingUser = users.find(u => u.email === email);
-    
-    if (existingUser) {
-      res.status(400).json({
-        success: false,
-        message: 'User already exists'
-      });
-    } else {
-      const newUser = {
-        id: users.length + 1,
-        email,
-        name,
-        role,
-        profile: {
-          avatar: 'https://via.placeholder.com/150',
-          bio: '',
-          location: '',
-          phone: ''
-        },
-        preferences: {
-          notifications: true,
-          emailUpdates: true,
-          theme: 'light'
-        },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      
-      router.db.get('users').push(newUser).write();
-      
-      res.json({
-        success: true,
-        user: {
-          id: newUser.id,
-          email: newUser.email,
-          name: newUser.name,
-          role: newUser.role
-        },
-        token: `mock-jwt-token-${newUser.id}`,
-        message: 'Registration successful'
       });
     }
   } else {
@@ -252,6 +280,39 @@ server.use('/api/onboarding/:userId/process', (req, res, next) => {
   }
 });
 
+// Complete onboarding endpoint
+server.use('/api/onboarding/complete', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const { userId, ...onboardingData } = req.body;
+      
+      onboardingService.processOnboardingData(userId, onboardingData)
+        .then(result => {
+          res.json({
+            success: true,
+            data: result,
+            message: 'Onboarding completed successfully'
+          });
+        })
+        .catch(error => {
+          console.error('Error completing onboarding:', error);
+          res.status(500).json({
+            success: false,
+            message: 'Error completing onboarding'
+          });
+        });
+    } catch (error) {
+      console.error('Onboarding completion error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error processing onboarding completion'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
 // Get onboarding status
 server.use('/api/onboarding/:userId/status', (req, res, next) => {
   if (req.method === 'GET') {
@@ -269,6 +330,109 @@ server.use('/api/onboarding/:userId/status', (req, res, next) => {
       res.status(500).json({
         success: false,
         message: 'Error retrieving onboarding status'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Get user profile
+server.use('/api/users/:userId/profile', (req, res, next) => {
+  if (req.method === 'GET') {
+    try {
+      const { userId } = req.params;
+      const db = router.db.getState();
+      const user = db.users?.find(u => u.id.toString() === userId.toString());
+      
+      if (user) {
+        res.json({
+          success: true,
+          data: {
+            educationLevel: user.educationLevel || '',
+            interests: user.interests || [],
+            hobbies: user.hobbies || [],
+            talents: user.talents || [],
+            phone: user.phone || '',
+            gender: user.gender || ''
+          }
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+    } catch (error) {
+      console.error('Get profile error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to get profile'
+      });
+    }
+  } else if (req.method === 'PUT') {
+    try {
+      const { userId } = req.params;
+      const profileData = req.body;
+      const db = router.db.getState();
+      const user = db.users?.find(u => u.id.toString() === userId.toString());
+      
+      if (user) {
+        // Update user profile
+        Object.assign(user, profileData, { updatedAt: new Date().toISOString() });
+        router.db.setState(db);
+        
+        res.json({
+          success: true,
+          message: 'Profile updated successfully'
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+    } catch (error) {
+      console.error('Update profile error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to update profile'
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+// Streamlined onboarding completion
+server.use('/api/onboarding/complete', (req, res, next) => {
+  if (req.method === 'POST') {
+    try {
+      const onboardingData = req.body;
+      const userId = onboardingData.userId || Date.now().toString(); // Generate ID if not provided
+      
+      onboardingService.processOnboardingData(userId, onboardingData)
+        .then(result => {
+          res.json({
+            success: true,
+            data: result,
+            message: 'Onboarding completed successfully'
+          });
+        })
+        .catch(error => {
+          console.error('Onboarding completion error:', error);
+          res.status(500).json({
+            success: false,
+            message: 'Failed to complete onboarding',
+            error: error.message
+          });
+        });
+    } catch (error) {
+      console.error('Onboarding completion error:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to complete onboarding',
+        error: error.message
       });
     }
   } else {
