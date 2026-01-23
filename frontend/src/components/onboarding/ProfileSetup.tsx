@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserCheck, ArrowRight, ArrowLeft, Upload, X, FileText, Shield, Image } from 'lucide-react'
+import { UserCheck, ArrowLeft, ArrowRight } from 'lucide-react'
 import OnboardingProgress from './OnboardingProgress'
-import LegalDocumentModal from '../legal/LegalDocumentModal'
-import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../../constants/legalDocuments'
 
 interface ProfileForm {
   firstName: string
@@ -84,11 +82,11 @@ const ProfileSetup = () => {
     newsletterOptIn: false
   })
 
-  const [currentSection, setCurrentSection] = useState(1)
-  const [showTermsModal, setShowTermsModal] = useState(false)
-  const [showPrivacyModal, setShowPrivacyModal] = useState(false)
-  const [termsDocument, setTermsDocument] = useState<'terms' | 'privacy'>('terms')
-  const [photoPreview, setPhotoPreview] = useState<string | null>(null)
+  const [_currentSection, _setCurrentSection] = useState(1)
+  const [_showTermsModal, _setShowTermsModal] = useState(false)
+  const [_showPrivacyModal, _setShowPrivacyModal] = useState(false)
+  const [_termsDocument, _setTermsDocument] = useState<'terms' | 'privacy'>('terms')
+  const [_photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [age, setAge] = useState<number>(0)
 
   useEffect(() => {
@@ -122,8 +120,8 @@ const ProfileSetup = () => {
   useEffect(() => {
     const hasAcceptedTerms = sessionStorage.getItem('termsAccepted')
     if (!hasAcceptedTerms) {
-      setTermsDocument('terms')
-      setShowTermsModal(true)
+      _setTermsDocument('terms')
+      _setShowTermsModal(true)
     }
   }, [])
 
@@ -145,7 +143,7 @@ const ProfileSetup = () => {
     'Travel and Tourism'
   ]
 
-  const impairmentTypes = [
+  const _impairmentTypes = [
     'Visual Impairment',
     'Hearing Impairment',
     'Physical/Mobility Impairment',
@@ -156,7 +154,7 @@ const ProfileSetup = () => {
     'Other'
   ]
 
-  const educationLevels = [
+  const _educationLevels = [
     'Primary Education',
     'Junior Secondary School (JSS)',
     'Senior Secondary School',
@@ -167,7 +165,7 @@ const ProfileSetup = () => {
     'Other'
   ]
 
-  const commonHobbies = [
+  const _commonHobbies = [
     'Reading',
     'Writing',
     'Sports',
@@ -180,7 +178,7 @@ const ProfileSetup = () => {
     'Travel'
   ]
 
-  const commonTalents = [
+  const _commonTalents = [
     'Public Speaking',
     'Singing',
     'Musical Instrument',
@@ -228,7 +226,7 @@ const ProfileSetup = () => {
     }))
   }
 
-  const handleHobbyToggle = (hobby: string) => {
+  const _handleHobbyToggle = (hobby: string) => {
     setFormData(prev => ({
       ...prev,
       hobbies: prev.hobbies.includes(hobby)
@@ -237,7 +235,7 @@ const ProfileSetup = () => {
     }))
   }
 
-  const handleTalentToggle = (talent: string) => {
+  const _handleTalentToggle = (talent: string) => {
     setFormData(prev => ({
       ...prev,
       talents: prev.talents.includes(talent)
@@ -246,7 +244,7 @@ const ProfileSetup = () => {
     }))
   }
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const _handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
@@ -267,7 +265,7 @@ const ProfileSetup = () => {
     }
   }
 
-  const handleDocumentUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const _handleDocumentUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
 
     const validFiles = files.filter(file => {
@@ -284,36 +282,36 @@ const ProfileSetup = () => {
     }))
   }
 
-  const removeDocument = (index: number) => {
+  const _removeDocument = (index: number) => {
     setFormData(prev => ({
       ...prev,
       educationDocuments: prev.educationDocuments.filter((_, i) => i !== index)
     }))
   }
 
-  const handleTermsAccept = () => {
+  const _handleTermsAccept = () => {
     setFormData(prev => ({ ...prev, termsAccepted: true }))
     sessionStorage.setItem('termsAccepted', 'true')
-    setShowTermsModal(false)
+    _setShowTermsModal(false)
     // Show privacy policy next
-    setTermsDocument('privacy')
-    setShowPrivacyModal(true)
+    _setTermsDocument('privacy')
+    _setShowPrivacyModal(true)
   }
 
-  const handlePrivacyAccept = () => {
+  const _handlePrivacyAccept = () => {
     setFormData(prev => ({ ...prev, privacyAccepted: true }))
     sessionStorage.setItem('privacyAccepted', 'true')
-    setShowPrivacyModal(false)
+    _setShowPrivacyModal(false)
   }
 
-  const openTermsModal = () => {
-    setTermsDocument('terms')
-    setShowTermsModal(true)
+  const _openTermsModal = () => {
+    _setTermsDocument('terms')
+    _setShowTermsModal(true)
   }
 
-  const openPrivacyModal = () => {
-    setTermsDocument('privacy')
-    setShowPrivacyModal(true)
+  const _openPrivacyModal = () => {
+    _setTermsDocument('privacy')
+    _setShowPrivacyModal(true)
   }
 
   const validateSection = (section: number): boolean => {
@@ -337,16 +335,16 @@ const ProfileSetup = () => {
     }
   }
 
-  const handleNext = () => {
-    if (validateSection(currentSection)) {
-      setCurrentSection(prev => prev + 1)
+  const _handleNext = () => {
+    if (validateSection(_currentSection)) {
+      _setCurrentSection(prev => prev + 1)
     } else {
       alert('Please complete all required fields in this section')
     }
   }
 
-  const handlePrevious = () => {
-    setCurrentSection(prev => prev - 1)
+  const _handlePrevious = () => {
+    _setCurrentSection(prev => prev - 1)
   }
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -1,5 +1,5 @@
 // Mock API responses for development and testing
-// import { UserProfile, LearningPath, ContentRecommendation, PerformanceMetrics, SkillGap } from '../services/api/types';
+import type { UserProfile, LearningPath, ContentRecommendation, PerformanceMetrics, SkillGap } from '../services/api/types';
 
 export const mockUserProfile: UserProfile = {
   user_id: 'test_user_123',

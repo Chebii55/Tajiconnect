@@ -12,13 +12,11 @@ import {
   TrendingUp,
   ChevronRight,
   Star,
-  BarChart3,
-  Brain,
-  Lightbulb
+  BarChart3
 } from 'lucide-react';
 
 const StudentRoadmap: React.FC = () => {
-  const { userPaths, currentPath, isLoading, error, generatePath } = useLearningPath();
+  const { currentPath, isLoading } = useLearningPath();
 
   const mockStats = {
     totalMilestones: currentPath?.modules.length || 12,
@@ -26,16 +24,9 @@ const StudentRoadmap: React.FC = () => {
     currentStreak: 15,
     totalSkills: 24,
     masteredSkills: 18,
-    estimatedCompletion: currentPath ? 
-      new Date(Date.now() + currentPath.estimated_duration_weeks * 7 * 24 * 60 * 60 * 1000).toLocaleDateString() : 
+    estimatedCompletion: currentPath ?
+      new Date(Date.now() + currentPath.estimated_duration_weeks * 7 * 24 * 60 * 60 * 1000).toLocaleDateString() :
       'March 2025'
-  };
-
-  const handleGenerateNewPath = async () => {
-    await generatePath({
-      focus_areas: ['grammar', 'vocabulary', 'communication'],
-      max_duration_weeks: 16
-    });
   };
 
   if (isLoading) {

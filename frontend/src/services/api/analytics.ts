@@ -1,6 +1,6 @@
 import { apiClient } from './client';
 import { API_ENDPOINTS } from './endpoints';
-// import type { ContentRecommendation, PerformanceMetrics } from './types';
+import type { ContentRecommendation, PerformanceMetrics } from './types';
 import { cacheManager, CACHE_KEYS, CACHE_TTL } from '../../utils/cache';
 
 export const analyticsApi = {
@@ -9,8 +9,8 @@ export const analyticsApi = {
     recommendations: ContentRecommendation[];
   }> => {
     const cacheKey = CACHE_KEYS.RECOMMENDATIONS(userId);
-    const cached = cacheManager.get(cacheKey);
-    
+    const cached = cacheManager.get(cacheKey) as { recommendations: ContentRecommendation[] } | null;
+
     if (cached) {
       return cached;
     }
@@ -19,7 +19,7 @@ export const analyticsApi = {
       user_id: userId,
       limit,
       context: { current_time: new Date().toISOString() }
-    });
+    }) as { recommendations: ContentRecommendation[] };
 
     cacheManager.set(cacheKey, result, CACHE_TTL.RECOMMENDATIONS);
     return result;
@@ -28,13 +28,13 @@ export const analyticsApi = {
   // Get performance metrics with caching
   getPerformance: async (userId: string): Promise<PerformanceMetrics> => {
     const cacheKey = CACHE_KEYS.PERFORMANCE(userId);
-    const cached = cacheManager.get(cacheKey);
-    
+    const cached = cacheManager.get(cacheKey) as PerformanceMetrics | null;
+
     if (cached) {
       return cached;
     }
 
-    const result = await apiClient.get(API_ENDPOINTS.ANALYTICS.GET_PERFORMANCE(userId));
+    const result = await apiClient.get(API_ENDPOINTS.ANALYTICS.GET_PERFORMANCE(userId)) as PerformanceMetrics;
     cacheManager.set(cacheKey, result, CACHE_TTL.PERFORMANCE);
     return result;
   },

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, LogIn, AlertCircle, CheckCircle, Loader } from 'lucide-react';
+import { loginUser, getLoginRedirectPath } from '../../utils/auth';
+import { onboardingService } from '../../services/api/onboarding';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -95,58 +97,35 @@ const Login: React.FC = () => {
     setNotification(null);
 
     try {
-      // Call backend login API with timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      // Use the auth service to login
+      const result = await loginUser(formData.email, formData.password);
 
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
-        signal: controller.signal
+      setNotification({
+        type: 'success',
+        message: 'Login successful! Redirecting...'
       });
 
-      clearTimeout(timeoutId);
+      // Check onboarding status from API
+      let redirectPath = getLoginRedirectPath(result.user);
 
-      let result;
       try {
-        const text = await response.text();
-        result = text ? JSON.parse(text) : {};
-      } catch (jsonError) {
-        console.error('JSON parsing error:', jsonError);
-        throw new Error('Server response was invalid. Please try again.');
+        const onboardingStatus = await onboardingService.getStatus();
+        if (!onboardingStatus.is_completed) {
+          redirectPath = '/onboarding';
+        }
+      } catch {
+        // If onboarding check fails, redirect to default path
+        console.warn('Could not check onboarding status');
       }
 
-      if (response.ok && result.success) {
-        // Store authentication data
-        localStorage.setItem('accessToken', result.token);
-        localStorage.setItem('userId', result.user.id);
-        localStorage.setItem('user', JSON.stringify(result.user));
-
-        setNotification({
-          type: 'success',
-          message: 'Login successful! Redirecting...'
-        });
-
-        // Check onboarding status
-        const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
-        
-        setTimeout(() => {
-          if (onboardingComplete) {
-            navigate('/student/dashboard');
-          } else {
-            navigate('/onboarding');
-          }
-        }, 1500);
-      } else {
-        throw new Error(result.message || 'Login failed');
-      }
-    } catch (error) {
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 1500);
+    } catch (error: unknown) {
       console.error('Login error:', error);
-      if (error.name === 'AbortError') {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+
+      if (errorMessage.includes('timeout') || errorMessage.includes('network')) {
         setNotification({
           type: 'error',
           message: 'Request timed out. Please check your connection and try again.'
@@ -154,7 +133,7 @@ const Login: React.FC = () => {
       } else {
         setNotification({
           type: 'error',
-          message: error.message || 'Login failed. Please check your credentials and try again.'
+          message: errorMessage || 'Login failed. Please check your credentials and try again.'
         });
       }
     } finally {

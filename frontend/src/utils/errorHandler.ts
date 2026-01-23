@@ -15,7 +15,7 @@ export const handleApiError = (error: ApiError): string => {
     case 'NOT_FOUND':
       return 'The requested resource was not found';
     case 'VALIDATION_ERROR':
-      return error.details?.message || 'Please check your input and try again';
+      return (typeof error.details?.message === 'string' ? error.details.message : null) || 'Please check your input and try again';
     default:
       return error.message || 'Something went wrong, please try again';
   }

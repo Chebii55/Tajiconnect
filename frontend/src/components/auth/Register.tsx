@@ -2,20 +2,66 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Calendar, UserPlus, AlertCircle, CheckCircle, Loader, Shield } from 'lucide-react';
 
-const useForm = (initialState) => {
-  const [formData, setFormData] = useState(initialState);
-  const [errors, setErrors] = useState({});
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
 
-  const handleChange = (e) => {
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  dateOfBirth: string;
+  agreeToTerms: boolean;
+  agreeToMarketing: boolean;
+  age?: number;
+}
+
+interface ValidationRule {
+  message?: string;
+  pattern?: RegExp;
+  error?: string;
+}
+
+interface ValidationRules {
+  [key: string]: ValidationRule;
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+const calculateAge = (dateOfBirth: string): number => {
+  if (!dateOfBirth) return 0;
+  const today = new Date();
+  const birth = new Date(dateOfBirth);
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDiff = today.getMonth() - birth.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+};
+
+// ============================================
+// CUSTOM HOOK
+// ============================================
+
+const useForm = (initialState: FormData) => {
+  const [formData, setFormData] = useState<FormData>(initialState);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
 
     // Clear existing errors
     if (errors[name]) {
-      setErrors(prev => {
+      setErrors((prev: Record<string, string>) => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
@@ -26,14 +72,14 @@ const useForm = (initialState) => {
     if (name === 'confirmPassword' || (name === 'password' && formData.confirmPassword)) {
       const password = name === 'password' ? value : formData.password;
       const confirmPassword = name === 'confirmPassword' ? value : formData.confirmPassword;
-      
+
       if (password && confirmPassword && password !== confirmPassword) {
-        setErrors(prev => ({
+        setErrors((prev: Record<string, string>) => ({
           ...prev,
           confirmPassword: 'Passwords do not match'
         }));
       } else if (password === confirmPassword) {
-        setErrors(prev => {
+        setErrors((prev: Record<string, string>) => {
           const newErrors = { ...prev };
           delete newErrors.confirmPassword;
           return newErrors;
@@ -44,17 +90,18 @@ const useForm = (initialState) => {
     // Update age when date of birth changes
     if (name === 'dateOfBirth' && value) {
       const age = calculateAge(value);
-      setFormData(prev => ({ ...prev, age }));
+      setFormData((prev: FormData) => ({ ...prev, age }));
     }
   };
 
-  const validate = (rules) => {
-    const newErrors = {};
+  const validate = (rules: ValidationRules): boolean => {
+    const newErrors: Record<string, string> = {};
 
     for (const [field, rule] of Object.entries(rules)) {
-      if (!formData[field]) {
+      const fieldValue = formData[field as keyof FormData];
+      if (!fieldValue) {
         newErrors[field] = rule.message || 'Field is required';
-      } else if (rule.pattern && !rule.pattern.test(formData[field])) {
+      } else if (rule.pattern && typeof fieldValue === 'string' && !rule.pattern.test(fieldValue)) {
         newErrors[field] = rule.error || 'Invalid format';
       }
     }
@@ -95,18 +142,6 @@ const Register: React.FC = () => {
     type: 'success' | 'error' | 'info';
     message: string;
   } | null>(null);
-
-  const calculateAge = (dateOfBirth: string) => {
-    if (!dateOfBirth) return 0;
-    const today = new Date();
-    const birth = new Date(dateOfBirth);
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -198,9 +233,10 @@ const Register: React.FC = () => {
       } else {
         throw new Error(result.message || 'Registration failed');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Registration error:', error);
-      if (error.name === 'AbortError') {
+      const err = error as Error & { name?: string };
+      if (err.name === 'AbortError') {
         setNotification({
           type: 'error',
           message: 'Request timed out. Please check your connection and try again.'
@@ -208,7 +244,7 @@ const Register: React.FC = () => {
       } else {
         setNotification({
           type: 'error',
-          message: error.message || 'Registration failed. Please try again later.'
+          message: err.message || 'Registration failed. Please try again later.'
         });
       }
     } finally {

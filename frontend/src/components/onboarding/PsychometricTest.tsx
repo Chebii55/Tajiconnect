@@ -106,10 +106,10 @@ const PsychometricTest = () => {
       
       // Create assessment if not exists
       if (!assessmentId) {
-        const assessment = await psychometricApi.createAssessment({ 
+        const assessment = await psychometricApi.createAssessment({
           user_id: userId,
           assessment_type: 'onboarding'
-        })
+        }) as { id: string }
         setAssessmentId(assessment.id)
       }
 
@@ -181,7 +181,7 @@ const PsychometricTest = () => {
     return categories
   }
 
-  const getPersonalityTraits = (results: ReturnType<typeof getResults>) => {
+  const _getPersonalityTraits = (results: ReturnType<typeof getResults>) => {
     const traits: string[] = []
 
     if (results.personality >= 4) traits.push("Highly collaborative")

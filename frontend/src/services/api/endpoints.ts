@@ -1,38 +1,263 @@
+/**
+ * API Endpoints Configuration
+ * Maps all backend microservice routes for the TajiConnect frontend
+ */
+
+const API_VERSION = '/api/v1';
+
 export const API_ENDPOINTS = {
-  // Psychometric Assessment
+  // ============================================
+  // AUTHENTICATION (User Service via Gateway)
+  // ============================================
+  AUTH: {
+    LOGIN: `${API_VERSION}/auth/login`,
+    REGISTER: `${API_VERSION}/auth/register`,
+    REFRESH: `${API_VERSION}/auth/refresh`,
+    LOGOUT: `${API_VERSION}/auth/logout`,
+    VERIFY_EMAIL: `${API_VERSION}/auth/verify-email`,
+    FORGOT_PASSWORD: `${API_VERSION}/auth/forgot-password`,
+    RESET_PASSWORD: `${API_VERSION}/auth/reset-password`,
+    CHANGE_PASSWORD: `${API_VERSION}/auth/change-password`,
+  },
+
+  // ============================================
+  // USER MANAGEMENT (User Service)
+  // ============================================
+  USERS: {
+    ME: `${API_VERSION}/users/me`,
+    PROFILE: `${API_VERSION}/users/me/profile`,
+    BY_ID: (userId: string) => `${API_VERSION}/users/${userId}`,
+    USER_PROFILE: (userId: string) => `${API_VERSION}/users/${userId}/profile`,
+    LIST: `${API_VERSION}/users`,
+  },
+
+  // ============================================
+  // ONBOARDING (User Service)
+  // ============================================
+  ONBOARDING: {
+    FLOW: `${API_VERSION}/onboarding/flow`,
+    STATUS: `${API_VERSION}/onboarding/status`,
+    COMPLETE_STEP: `${API_VERSION}/onboarding/step/complete`,
+    PROFILE_SETUP: `${API_VERSION}/onboarding/profile-setup`,
+    LEARNING_GOALS: `${API_VERSION}/onboarding/learning-goals`,
+    PREFERENCES: `${API_VERSION}/onboarding/preferences`,
+    NEXT_STEPS: `${API_VERSION}/onboarding/next-steps`,
+    SKIP_STEP: `${API_VERSION}/onboarding/skip-step`,
+  },
+
+  // ============================================
+  // ADMIN (User Service)
+  // ============================================
+  ADMIN: {
+    STATS: `${API_VERSION}/admin/stats`,
+    CHANGE_ROLE: (userId: string) => `${API_VERSION}/admin/${userId}/role`,
+    CHANGE_STATUS: (userId: string) => `${API_VERSION}/admin/${userId}/status`,
+    UPDATE_SUBSCRIPTION: (userId: string) => `${API_VERSION}/admin/${userId}/subscription`,
+    RECENT_REGISTRATIONS: `${API_VERSION}/admin/recent-registrations`,
+    SEARCH: `${API_VERSION}/admin/search`,
+  },
+
+  // ============================================
+  // COURSES (Course Service)
+  // ============================================
+  COURSES: {
+    LIST: `${API_VERSION}/courses`,
+    BY_ID: (courseId: string) => `${API_VERSION}/courses/${courseId}`,
+    CREATE: `${API_VERSION}/courses`,
+    UPDATE: (courseId: string) => `${API_VERSION}/courses/${courseId}`,
+    DELETE: (courseId: string) => `${API_VERSION}/courses/${courseId}`,
+  },
+
+  // ============================================
+  // GRADES (Course Service)
+  // ============================================
+  GRADES: {
+    LIST: `${API_VERSION}/grades`,
+    BY_ID: (gradeId: string) => `${API_VERSION}/grades/${gradeId}`,
+    CREATE: `${API_VERSION}/grades`,
+    UPDATE: (gradeId: string) => `${API_VERSION}/grades/${gradeId}`,
+    DELETE: (gradeId: string) => `${API_VERSION}/grades/${gradeId}`,
+    ADD_SUBJECT: (gradeId: string) => `${API_VERSION}/grades/${gradeId}/subjects`,
+    GET_SUBJECTS: (gradeId: string) => `${API_VERSION}/grades/${gradeId}/subjects`,
+    REMOVE_SUBJECT: (gradeId: string, subjectId: string) =>
+      `${API_VERSION}/grades/${gradeId}/subjects/${subjectId}`,
+  },
+
+  // ============================================
+  // SUBJECTS (Course Service)
+  // ============================================
+  SUBJECTS: {
+    LIST: `${API_VERSION}/subjects`,
+    BY_ID: (subjectId: string) => `${API_VERSION}/subjects/${subjectId}`,
+    CREATE: `${API_VERSION}/subjects`,
+    UPDATE: (subjectId: string) => `${API_VERSION}/subjects/${subjectId}`,
+    DELETE: (subjectId: string) => `${API_VERSION}/subjects/${subjectId}`,
+  },
+
+  // ============================================
+  // CONTENT (Content Service)
+  // ============================================
+  CONTENT: {
+    LIST: `${API_VERSION}/content`,
+    BY_ID: (contentId: string) => `${API_VERSION}/content/${contentId}`,
+    CREATE: `${API_VERSION}/content`,
+    UPLOAD: `${API_VERSION}/content/upload`,
+    UPDATE: (contentId: string) => `${API_VERSION}/content/${contentId}`,
+    DELETE: (contentId: string) => `${API_VERSION}/content/${contentId}`,
+    STREAM: (contentId: string) => `${API_VERSION}/content/${contentId}/stream`,
+  },
+
+  // ============================================
+  // NOTIFICATIONS (Notification Service)
+  // ============================================
+  NOTIFICATIONS: {
+    LIST: `${API_VERSION}/notifications`,
+    SEND: `${API_VERSION}/notifications/send`,
+    MARK_READ: `${API_VERSION}/notifications/mark-read`,
+    MARK_ALL_READ: `${API_VERSION}/notifications/mark-all-read`,
+    DELETE: (notificationId: string) => `${API_VERSION}/notifications/${notificationId}`,
+    SEND_EMAIL: `${API_VERSION}/notifications/email`,
+    SEND_SMS: `${API_VERSION}/notifications/sms`,
+    PREFERENCES: `${API_VERSION}/notifications/preferences`,
+    HEALTH: `${API_VERSION}/notifications/health`,
+  },
+
+  // ============================================
+  // PAYMENTS (Payment Service)
+  // ============================================
+  PAYMENTS: {
+    CREATE: `${API_VERSION}/payments/create`,
+    BY_ID: (paymentId: string) => `${API_VERSION}/payments/${paymentId}`,
+    LIST: `${API_VERSION}/payments`,
+    CONFIRM: (paymentId: string) => `${API_VERSION}/payments/${paymentId}/confirm`,
+    // M-Pesa specific
+    MPESA_B2C: `${API_VERSION}/payments/mpesa/b2c`,
+    MPESA_B2C_STATUS: (transferId: string) => `${API_VERSION}/payments/mpesa/b2c/${transferId}`,
+    MPESA_CALLBACK: `${API_VERSION}/payments/mpesa/callback`,
+    // Webhooks
+    PAYPAL_WEBHOOK: `${API_VERSION}/webhooks/paypal`,
+  },
+
+  // ============================================
+  // SUBSCRIPTIONS (Payment Service)
+  // ============================================
+  SUBSCRIPTIONS: {
+    CREATE: `${API_VERSION}/subscriptions`,
+    LIST: `${API_VERSION}/subscriptions`,
+    BY_ID: (subscriptionId: string) => `${API_VERSION}/subscriptions/${subscriptionId}`,
+  },
+
+  // ============================================
+  // AI SERVICES (AI Service)
+  // ============================================
+  AI: {
+    // Recommendations
+    RECOMMENDATIONS: {
+      COURSES: `${API_VERSION}/ai/recommendations/courses`,
+      BEHAVIOR: `${API_VERSION}/ai/recommendations/behavior`,
+      TRENDING: `${API_VERSION}/ai/recommendations/trending`,
+      SIMILAR: (courseId: string) => `${API_VERSION}/ai/recommendations/similar/${courseId}`,
+    },
+    // Content Analysis
+    ANALYZE_CONTENT: `${API_VERSION}/ai/analyze-content`,
+    PLAGIARISM_CHECK: `${API_VERSION}/ai/analyze-content/plagiarism`,
+    // Tutoring & Chat
+    CHAT: `${API_VERSION}/ai/chat`,
+    CHAT_MESSAGE: `${API_VERSION}/ai/chat/message`,
+    CHAT_HISTORY: (conversationId: string) => `${API_VERSION}/ai/chat/history/${conversationId}`,
+    LEARNING_PATH_GENERATE: `${API_VERSION}/ai/tutoring/learning-path`,
+    // Assessments
+    GENERATE_QUIZ: `${API_VERSION}/ai/generate-quiz`,
+    GENERATE_ASSESSMENT: `${API_VERSION}/ai/assessment/generate`,
+    // Psychometric
+    PSYCHOMETRIC_ASSESSMENT: `${API_VERSION}/ai/psychometric/assessment`,
+    // Learning Paths
+    LEARNING_PATHS: `${API_VERSION}/ai/learning-paths`,
+    // Skills
+    SKILLS_TRACK: `${API_VERSION}/ai/skills/track`,
+    // Analytics
+    ANALYTICS_PROGRESS: `${API_VERSION}/ai/analytics/progress`,
+  },
+
+  // ============================================
+  // PSYCHOMETRIC (Legacy/Frontend specific)
+  // ============================================
   PSYCHOMETRIC: {
-    CREATE_ASSESSMENT: '/api/v1/psychometric/assessments/',
-    GET_ASSESSMENT: (id: string) => `/api/v1/psychometric/assessments/${id}`,
-    SUBMIT_RESPONSES: '/api/v1/psychometric/responses/',
-    GET_RESULTS: (userId: string) => `/api/v1/psychometric/results/${userId}`,
-    ANALYZE: (userId: string) => `/api/v1/psychometric/analyze/${userId}`,
+    CREATE_ASSESSMENT: `${API_VERSION}/psychometric/assessments`,
+    GET_ASSESSMENT: (id: string) => `${API_VERSION}/psychometric/assessments/${id}`,
+    SUBMIT_RESPONSES: `${API_VERSION}/psychometric/responses`,
+    GET_RESULTS: (userId: string) => `${API_VERSION}/psychometric/results/${userId}`,
+    ANALYZE: (userId: string) => `${API_VERSION}/psychometric/analyze/${userId}`,
   },
 
-  // Learning Paths
+  // ============================================
+  // LEARNING PATHS
+  // ============================================
   LEARNING_PATHS: {
-    CREATE: '/api/v1/learning-paths/',
-    GET: (id: string) => `/api/v1/learning-paths/${id}`,
-    UPDATE: (id: string) => `/api/v1/learning-paths/${id}`,
-    GENERATE: (userId: string) => `/api/v1/learning-paths/generate/${userId}`,
-    GET_USER_PATHS: (userId: string) => `/api/v1/learning-paths/user/${userId}`,
-    CREATE_ADAPTATION: (id: string) => `/api/v1/learning-paths/${id}/adaptations`,
+    CREATE: `${API_VERSION}/learning-paths`,
+    GET: (id: string) => `${API_VERSION}/learning-paths/${id}`,
+    UPDATE: (id: string) => `${API_VERSION}/learning-paths/${id}`,
+    GENERATE: (userId: string) => `${API_VERSION}/learning-paths/generate/${userId}`,
+    GET_USER_PATHS: (userId: string) => `${API_VERSION}/learning-paths/user/${userId}`,
+    CREATE_ADAPTATION: (id: string) => `${API_VERSION}/learning-paths/${id}/adaptations`,
   },
 
-  // Skills Assessment
+  // ============================================
+  // SKILLS ASSESSMENT
+  // ============================================
   SKILLS: {
-    CREATE_ASSESSMENT: '/api/v1/skills/assessments/',
-    GET_ASSESSMENT: (id: string) => `/api/v1/skills/assessments/${id}`,
-    ANALYZE: (userId: string) => `/api/v1/skills/analyze/${userId}`,
-    GET_GAPS: (userId: string) => `/api/v1/skills/gaps/${userId}`,
-    GET_RECOMMENDATIONS: (userId: string) => `/api/v1/skills/recommendations/${userId}`,
+    CREATE_ASSESSMENT: `${API_VERSION}/skills/assessments`,
+    GET_ASSESSMENT: (id: string) => `${API_VERSION}/skills/assessments/${id}`,
+    ANALYZE: (userId: string) => `${API_VERSION}/skills/analyze/${userId}`,
+    GET_GAPS: (userId: string) => `${API_VERSION}/skills/gaps/${userId}`,
+    GET_RECOMMENDATIONS: (userId: string) => `${API_VERSION}/skills/recommendations/${userId}`,
   },
 
-  // Analytics & AI Tracking
+  // ============================================
+  // ANALYTICS (Analytics Service)
+  // ============================================
   ANALYTICS: {
-    LOG_INTERACTION: '/api/v1/analytics/interactions/',
-    GET_PREDICTIONS: (userId: string) => `/api/v1/analytics/predictions/${userId}`,
-    GET_RECOMMENDATIONS: '/api/v1/analytics/recommendations/',
-    GET_PERFORMANCE: (userId: string) => `/api/v1/analytics/performance/${userId}`,
-    SUBMIT_FEEDBACK: '/api/v1/analytics/feedback/',
+    EVENTS: `${API_VERSION}/analytics/events`,
+    DASHBOARD: `${API_VERSION}/analytics/dashboard`,
+    USERS: `${API_VERSION}/analytics/users`,
+    COURSES: `${API_VERSION}/analytics/courses`,
+    REPORTS: (reportType: string) => `${API_VERSION}/analytics/reports/${reportType}`,
+    // Legacy endpoints for frontend compatibility
+    LOG_INTERACTION: `${API_VERSION}/analytics/interactions`,
+    GET_PREDICTIONS: (userId: string) => `${API_VERSION}/analytics/predictions/${userId}`,
+    GET_RECOMMENDATIONS: `${API_VERSION}/analytics/recommendations`,
+    GET_PERFORMANCE: (userId: string) => `${API_VERSION}/analytics/performance/${userId}`,
+    SUBMIT_FEEDBACK: `${API_VERSION}/analytics/feedback`,
+  },
+
+  // ============================================
+  // GATEWAY
+  // ============================================
+  GATEWAY: {
+    SERVICES: `${API_VERSION}/gateway/services`,
+    HEALTH: `${API_VERSION}/gateway/health`,
   },
 } as const;
+
+// Export individual endpoint groups for convenience
+export const {
+  AUTH,
+  USERS,
+  ONBOARDING,
+  ADMIN,
+  COURSES,
+  GRADES,
+  SUBJECTS,
+  CONTENT,
+  NOTIFICATIONS,
+  PAYMENTS,
+  SUBSCRIPTIONS,
+  AI,
+  PSYCHOMETRIC,
+  LEARNING_PATHS,
+  SKILLS,
+  ANALYTICS,
+  GATEWAY,
+} = API_ENDPOINTS;
+
+export default API_ENDPOINTS;

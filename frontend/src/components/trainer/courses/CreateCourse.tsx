@@ -24,12 +24,15 @@ const CreateCourse: React.FC = () => {
     category: '',
     difficulty: 'Beginner' as 'Beginner' | 'Intermediate' | 'Advanced',
     duration: 0,
-    modules: [],
+    modules: [] as never[],
     isPublished: false,
     thumbnail: '',
     learningObjectives: [''],
     prerequisites: [''],
-    tags: ['']
+    tags: [''],
+    rating: 0,
+    enrolledStudents: 0,
+    completionRate: 0
   });
 
   const [currentStep, setCurrentStep] = useState(1);

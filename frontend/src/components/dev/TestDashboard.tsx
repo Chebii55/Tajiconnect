@@ -124,7 +124,7 @@ const TestDashboard: React.FC = () => {
 
   useEffect(() => {
     // Auto-run tests on component mount in development
-    if (process.env.REACT_APP_ENV === 'development') {
+    if (import.meta.env.DEV) {
       runTests();
     }
   }, []);

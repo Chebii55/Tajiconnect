@@ -1,87 +1,246 @@
-import axios from 'axios';
+/**
+ * Authentication Utilities
+ * Wrapper functions for the auth service for easy use in components
+ */
 
-const apiClient = axios.create({
-  baseURL: 'http://localhost:3000',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+import authService from '../services/api/auth';
+import type {
+  User,
+  UserRole,
+  LoginRequest,
+  RegisterRequest,
+  LoginResponse,
+  RegisterResponse,
+} from '../services/api/auth';
 
-export const loginUser = async (email: string, password: string) => {
-  try {
-    const response = await apiClient.get(`/auth/login?email=${email}`);
-    const user = response.data[0]; // Assuming the first user is returned
+// ============================================
+// LOGIN & REGISTRATION
+// ============================================
 
-    if (!user || user.password !== password) {
-      throw new Error('Invalid credentials');
-    }
-
-    // Simulate a token response
-    const mockTokens = {
-      accessToken: 'mock-access-token-' + Date.now(),
-      refreshToken: 'mock-refresh-token-' + Date.now()
-    };
-
-    // Store authentication data
-    localStorage.setItem('accessToken', mockTokens.accessToken);
-    localStorage.setItem('refreshToken', mockTokens.refreshToken);
-    localStorage.setItem('user', JSON.stringify(user));
-
-    return user;
-  } catch (error) {
-    throw error;
-  }
+/**
+ * Login user with email and password
+ * @returns Login response with user and tokens
+ */
+export const loginUser = async (
+  email: string,
+  password: string
+): Promise<{ success: true; user: User; response: LoginResponse }> => {
+  const response = await authService.login({ email, password });
+  return {
+    success: true,
+    user: response.user,
+    response,
+  };
 };
 
-export const registerUser = async (data: any) => {
-  try {
-    const response = await apiClient.post('/auth/register', data);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+/**
+ * Register a new user
+ * @returns Registration response
+ */
+export const registerUser = async (
+  data: RegisterRequest
+): Promise<{
+  success: true;
+  user: User;
+  verificationRequired: boolean;
+  nextSteps: string[];
+}> => {
+  const response = await authService.register(data);
+  return {
+    success: true,
+    user: response.user,
+    verificationRequired: response.verification_required,
+    nextSteps: response.next_steps,
+  };
 };
 
-export const fetchUserData = async (userId: string) => {
-  try {
-    const response = await apiClient.get(`/users/${userId}/profile`);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+/**
+ * Verify email with token
+ */
+export const verifyEmail = async (token: string) => {
+  return authService.verifyEmail(token);
 };
 
-// Authentication utility functions
+// ============================================
+// PASSWORD MANAGEMENT
+// ============================================
 
-export const logout = () => {
-  // Clear all authentication data
-  localStorage.removeItem('accessToken');
-  localStorage.removeItem('refreshToken');
-  localStorage.removeItem('user');
-  
-  // Redirect to landing page
+/**
+ * Request password reset email
+ */
+export const forgotPassword = async (email: string) => {
+  return authService.forgotPassword(email);
+};
+
+/**
+ * Reset password with token
+ */
+export const resetPassword = async (token: string, newPassword: string) => {
+  return authService.resetPassword(token, newPassword);
+};
+
+/**
+ * Change password for authenticated user
+ */
+export const changePassword = async (currentPassword: string, newPassword: string) => {
+  return authService.changePassword(currentPassword, newPassword);
+};
+
+// ============================================
+// LOGOUT
+// ============================================
+
+/**
+ * Logout user and clear all auth data
+ */
+export const logout = async (): Promise<void> => {
+  await authService.logout();
+  // Redirect to home page
   window.location.href = '/';
 };
 
+/**
+ * Logout without redirect (for programmatic use)
+ */
+export const logoutSilent = async (): Promise<void> => {
+  await authService.logout();
+};
+
+// ============================================
+// AUTH STATE CHECKS
+// ============================================
+
+/**
+ * Check if user is authenticated
+ */
 export const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem('accessToken');
-  const user = localStorage.getItem('user');
-  return !!(token && user);
+  return authService.isAuthenticated();
 };
 
-export const getCurrentUser = () => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    try {
-      return JSON.parse(user);
-    } catch {
-      return null;
-    }
+/**
+ * Get current user from local storage
+ */
+export const getCurrentUser = (): User | null => {
+  return authService.getCurrentUser();
+};
+
+/**
+ * Get current user's ID
+ */
+export const getUserId = (): string | null => {
+  const user = authService.getCurrentUser();
+  return user?.id || null;
+};
+
+/**
+ * Get current user's role
+ */
+export const getUserRole = (): UserRole | null => {
+  return authService.getUserRole();
+};
+
+/**
+ * Check if user has a specific role
+ */
+export const hasRole = (role: UserRole): boolean => {
+  return authService.hasRole(role);
+};
+
+/**
+ * Check if user is admin
+ */
+export const isAdmin = (): boolean => {
+  return authService.isAdmin();
+};
+
+// ============================================
+// TOKEN MANAGEMENT
+// ============================================
+
+/**
+ * Get access token
+ */
+export const getAccessToken = (): string | null => {
+  return authService.getAccessToken();
+};
+
+/**
+ * Get refresh token
+ */
+export const getRefreshToken = (): string | null => {
+  return authService.getRefreshToken();
+};
+
+/**
+ * Refresh the access token
+ */
+export const refreshToken = async () => {
+  return authService.refreshToken();
+};
+
+// ============================================
+// USER DATA MANAGEMENT
+// ============================================
+
+/**
+ * Fetch current user data from API (validates token)
+ */
+export const fetchCurrentUser = async (): Promise<User> => {
+  return authService.getCurrentUserFromAPI();
+};
+
+/**
+ * Update stored user data locally
+ */
+export const updateStoredUser = (updates: Partial<User>): void => {
+  authService.updateStoredUser(updates);
+};
+
+/**
+ * Clear all auth data without API call
+ */
+export const clearAuth = (): void => {
+  authService.clearAuth();
+};
+
+// ============================================
+// ROUTE PROTECTION HELPERS
+// ============================================
+
+/**
+ * Check if current route requires authentication
+ */
+export const requiresAuth = (pathname: string): boolean => {
+  const publicPaths = [
+    '/',
+    '/login',
+    '/register',
+    '/trainer/login',
+    '/forgot-password',
+    '/reset-password',
+    '/verify-email',
+    '/privacy',
+    '/terms',
+    '/cookies',
+  ];
+
+  return !publicPaths.some((path) => pathname === path || pathname.startsWith(path + '/'));
+};
+
+/**
+ * Get redirect path after login based on user role
+ */
+export const getLoginRedirectPath = (user: User): string => {
+  switch (user.role) {
+    case 'admin':
+      return '/admin/dashboard';
+    case 'instructor':
+      return '/trainer';
+    case 'student':
+    default:
+      return '/student/dashboard';
   }
-  return null;
 };
 
-export const getUserRole = (): string | null => {
-  const user = getCurrentUser();
-  return user?.role || null;
-};
+// Re-export types for convenience
+export type { User, UserRole, LoginRequest, RegisterRequest, LoginResponse, RegisterResponse };

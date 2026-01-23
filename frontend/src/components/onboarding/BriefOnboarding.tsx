@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, ArrowLeft, CheckCircle, User, GraduationCap, Target, Loader } from 'lucide-react'
+import { ArrowRight, ArrowLeft, CheckCircle, User, Target, Loader } from 'lucide-react'
 
 interface OnboardingData {
   firstName: string

@@ -4,24 +4,20 @@ import RecommendationCard from '../ui/RecommendationCard';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import LazyComponent from '../ui/LazyComponent';
 import { useDebounce } from '../../hooks/usePerformance';
-import { Lightbulb, RefreshCw, Search } from 'lucide-react';
+import { Lightbulb, RefreshCw } from 'lucide-react';
 
 const Recommendations: React.FC = () => {
   const { recommendations, isLoading, error, refreshRecommendations } = useRecommendations();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 300);
 
   const filteredRecommendations = useCallback(() => {
     if (!debouncedSearch) return recommendations;
-    return recommendations.filter(rec => 
+    return recommendations.filter(rec =>
       rec.reasoning.explanation.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
       rec.content_type.toLowerCase().includes(debouncedSearch.toLowerCase())
     );
   }, [recommendations, debouncedSearch]);
-
-  const handleRefresh = useCallback(() => {
-    refreshRecommendations();
-  }, [refreshRecommendations]);
 
   return (
     <div className="p-6 bg-neutral-light dark:bg-darkMode-bg min-h-screen">

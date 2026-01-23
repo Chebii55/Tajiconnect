@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { skillsApi } from '../../services/api/skills'
 import type { SkillGap } from '../../services/api/types'
 import { handleApiError } from '../../utils/errorHandler'
-import LoadingSpinner from '../ui/LoadingSpinner'
 import SkillGapAnalysis from '../ui/SkillGapAnalysis'
 import SkillRecommendations from '../ui/SkillRecommendations'
 
@@ -170,31 +169,14 @@ export default function SkillsAssessment() {
         skillsApi.getSkillGaps(userId),
         skillsApi.getRecommendations(userId)
       ])
-      
-      setSkillGaps(gaps)
-      setRecommendations(recs)
-    } catch (err: any) {
-      setAnalysisError(handleApiError(err))
+
+      setSkillGaps(gaps as SkillGap[])
+      setRecommendations(recs as unknown[])
+    } catch (err) {
+      const error = err as { code?: string; message?: string };
+      setAnalysisError(error.message || 'Failed to load skill analysis')
     } finally {
       setIsAnalyzing(false)
-    }
-  }
-
-  const submitSkillAssessment = async (skillCode: string, assessmentData: any) => {
-    try {
-      await skillsApi.createAssessment({
-        user_id: userId,
-        skill_code: skillCode,
-        assessment_data: assessmentData
-      })
-      
-      // Trigger AI analysis after assessment
-      await skillsApi.analyzeSkills(userId)
-      
-      // Reload skill analysis
-      await loadSkillAnalysis()
-    } catch (err: any) {
-      setAnalysisError(handleApiError(err))
     }
   }
 

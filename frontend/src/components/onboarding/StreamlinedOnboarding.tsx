@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { UserCheck, ArrowRight, ArrowLeft, Upload, Shield, AlertCircle } from 'lucide-react'
+import { ArrowRight, ArrowLeft } from 'lucide-react'
 import { useOnboarding } from '../../contexts/OnboardingContext'
 import LegalDocumentModal from '../legal/LegalDocumentModal'
 import { TERMS_OF_SERVICE, PRIVACY_POLICY } from '../../constants/legalDocuments'
 
 const StreamlinedOnboarding = () => {
   const navigate = useNavigate()
-  const { data, updateData, nextStep } = useOnboarding()
+  const { data, updateData } = useOnboarding()
   const [currentStep, setCurrentStep] = useState(1)
   const [showLegalModal, setShowLegalModal] = useState(false)
   const [legalDocument, setLegalDocument] = useState<'terms' | 'privacy'>('terms')
@@ -64,7 +64,7 @@ const StreamlinedOnboarding = () => {
       })
 
       if (response.ok) {
-        const result = await response.json()
+        await response.json()
         updateData({ isComplete: true })
         localStorage.setItem('onboardingComplete', 'true')
         navigate('/student/dashboard')
@@ -365,8 +365,8 @@ const StreamlinedOnboarding = () => {
         <LegalDocumentModal
           isOpen={showLegalModal}
           onClose={() => setShowLegalModal(false)}
-          document={legalDocument === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY}
-          title={legalDocument === 'terms' ? 'Terms of Service' : 'Privacy Policy'}
+          document={legalDocument}
+          content={legalDocument === 'terms' ? TERMS_OF_SERVICE : PRIVACY_POLICY}
         />
       )}
     </div>

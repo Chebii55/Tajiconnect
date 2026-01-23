@@ -9,7 +9,7 @@ interface LazyLoadOptions {
 export const useLazyLoad = (options: LazyLoadOptions = {}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   const { threshold = 0.1, rootMargin = '50px', triggerOnce = true } = options;
 
@@ -70,7 +70,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     const duration = endTime - renderStart.current;
     setRenderTime(duration);
     
-    if (process.env.REACT_APP_DEBUG === 'true') {
+    if (import.meta.env.VITE_DEBUG === 'true') {
       console.log(`${componentName} render time: ${duration}ms`);
     }
   });

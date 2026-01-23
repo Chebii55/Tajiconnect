@@ -4,7 +4,7 @@ import { Eye, EyeOff, Mail, Lock, LogIn, AlertCircle, CheckCircle, Loader, Gradu
 import { useTheme } from '../../contexts/ThemeContext';
 
 const TrainerLogin: React.FC = () => {
-  const { theme } = useTheme();
+  const { } = useTheme();
   const [formData, setFormData] = useState({
     email: '',
     password: ''

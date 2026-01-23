@@ -1,9 +1,10 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { isAuthenticated, getUserRole } from '../../utils/auth';
+import type { UserRole } from '../../utils/auth';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: 'student' | 'trainer' | 'admin';
+  requiredRole?: UserRole | 'trainer'; // 'trainer' is alias for 'instructor'
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
@@ -17,14 +18,24 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole 
   // If role is required and doesn't match, redirect appropriately
   if (requiredRole) {
     const userRole = getUserRole();
-    if (userRole !== requiredRole) {
+
+    // Normalize role - 'trainer' maps to 'instructor'
+    const normalizedRequiredRole = requiredRole === 'trainer' ? 'instructor' : requiredRole;
+    const normalizedUserRole = userRole === 'instructor' ? 'instructor' : userRole;
+
+    if (normalizedUserRole !== normalizedRequiredRole) {
       // Redirect to appropriate dashboard based on user's actual role
-      if (userRole === 'student') {
-        return <Navigate to="/student/dashboard" replace />;
-      } else if (userRole === 'trainer') {
-        return <Navigate to="/trainer/dashboard" replace />;
-      } else {
-        return <Navigate to="/login" replace />;
+      switch (userRole) {
+        case 'student':
+          return <Navigate to="/student/dashboard" replace />;
+        case 'instructor':
+          return <Navigate to="/trainer" replace />;
+        case 'admin':
+          return <Navigate to="/admin/dashboard" replace />;
+        case 'moderator':
+          return <Navigate to="/admin/dashboard" replace />;
+        default:
+          return <Navigate to="/login" replace />;
       }
     }
   }

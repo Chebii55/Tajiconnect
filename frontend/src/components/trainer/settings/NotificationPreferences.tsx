@@ -161,7 +161,7 @@ const NotificationPreferences: React.FC = () => {
                       <label className="relative inline-flex items-center cursor-pointer ml-4">
                         <input
                           type="checkbox"
-                          checked={preferences[category.id as keyof typeof preferences][setting.key as keyof typeof preferences.email]}
+                          checked={(preferences[category.id as keyof typeof preferences] as Record<string, boolean>)[setting.key] ?? false}
                           onChange={(e) => handlePreferenceChange(category.id, setting.key, e.target.checked)}
                           className="sr-only peer"
                         />

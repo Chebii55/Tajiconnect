@@ -29,7 +29,7 @@ const PerformanceMonitor: React.FC = () => {
     setCacheStats(cacheManager.getStats());
   };
 
-  if (process.env.REACT_APP_ENV !== 'development') {
+  if (!import.meta.env.DEV) {
     return null;
   }
 

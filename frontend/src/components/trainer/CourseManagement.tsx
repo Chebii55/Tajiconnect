@@ -31,8 +31,11 @@ const CourseManagement: React.FC = () => {
     category: '',
     difficulty: 'Beginner' as 'Beginner' | 'Intermediate' | 'Advanced',
     duration: 0,
-    modules: [],
-    isPublished: false
+    modules: [] as never[],
+    isPublished: false,
+    rating: 0,
+    enrolledStudents: 0,
+    completionRate: 0
   });
 
   const [newModule, setNewModule] = useState({
@@ -55,7 +58,10 @@ const CourseManagement: React.FC = () => {
         difficulty: 'Beginner',
         duration: 0,
         modules: [],
-        isPublished: false
+        isPublished: false,
+        rating: 0,
+        enrolledStudents: 0,
+        completionRate: 0
       });
       setShowCreateModal(false);
     }

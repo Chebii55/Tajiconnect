@@ -31,7 +31,8 @@ import {
   Users,
   GraduationCap,
   Handshake,
-  Shield
+  Shield,
+  MessageSquare
 } from 'lucide-react'
 
 interface DropdownItem {

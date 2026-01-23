@@ -416,7 +416,7 @@ export const router = createBrowserRouter([
       },
 
       // Development Routes (only in development)
-      ...(process.env.REACT_APP_ENV === 'development' ? [
+      ...(import.meta.env.DEV ? [
         { path: '/dev/test', element: <TestDashboard /> }
       ] : [])
     ]

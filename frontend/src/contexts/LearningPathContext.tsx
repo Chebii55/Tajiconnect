@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import type { LearningPath } from '../services/api/types';
 import { learningPathsApi } from '../services/api/learningPaths';
 import { handleApiError } from '../utils/errorHandler';

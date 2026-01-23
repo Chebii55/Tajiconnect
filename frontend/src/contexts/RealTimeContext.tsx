@@ -1,12 +1,31 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, useCallback, useRef, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { useWebSocket } from '../hooks/useWebSocket';
+import type { ConnectionStatus, WebSocketMessage } from '../hooks/useWebSocket';
 import { useRecommendations } from './RecommendationsContext';
+import { getUserId } from '../utils/auth';
+
+// ============================================
+// TYPE DEFINITIONS
+// ============================================
 
 interface RealTimeContextType {
   isConnected: boolean;
-  connectionStatus: string;
-  sendMessage: (message: any) => boolean;
+  connectionStatus: ConnectionStatus;
+  sendMessage: (message: unknown) => boolean;
+  subscribeToChannel: (channel: string) => void;
+  unsubscribeFromChannel: (channel: string) => void;
+  lastMessage: WebSocketMessage | null;
+  reconnectAttempts: number;
 }
+
+interface RealTimeProviderProps {
+  children: ReactNode;
+}
+
+// ============================================
+// CONTEXT
+// ============================================
 
 const RealTimeContext = createContext<RealTimeContextType | undefined>(undefined);
 
@@ -18,59 +37,130 @@ export const useRealTime = () => {
   return context;
 };
 
-interface RealTimeProviderProps {
-  children: ReactNode;
-}
+// ============================================
+// PROVIDER COMPONENT
+// ============================================
 
 export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) => {
   const { refreshRecommendations } = useRecommendations();
-  
-  const userId = localStorage.getItem('user_id') || 'temp_user';
-  const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:8000/ws';
+  const subscribedChannels = useRef<Set<string>>(new Set());
 
-  const { isConnected, connectionStatus, sendMessage } = useWebSocket(
+  // Get user ID from auth utilities
+  const userId = getUserId() || 'anonymous';
+
+  // Use Vite environment variables
+  const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
+
+  // Message handler
+  const handleMessage = useCallback((message: WebSocketMessage) => {
+    switch (message.type) {
+      case 'recommendation_update':
+        refreshRecommendations();
+        break;
+      case 'adaptation_trigger':
+        console.log('Adaptation triggered:', message.data);
+        // Could dispatch to a notification system
+        break;
+      case 'performance_alert':
+        console.log('Performance alert:', message.data);
+        break;
+      case 'learning_milestone':
+        console.log('Milestone achieved:', message.data);
+        break;
+      case 'course_update':
+        console.log('Course update:', message.data);
+        break;
+      case 'notification':
+        console.log('Notification received:', message.data);
+        break;
+      case 'subscription_update':
+        console.log('Subscription update:', message.data);
+        break;
+      case 'pong':
+        // Keep-alive response
+        break;
+      default:
+        console.log('Unknown message type:', message.type);
+    }
+  }, [refreshRecommendations]);
+
+  const {
+    isConnected,
+    connectionStatus,
+    sendMessage,
+    lastMessage,
+    reconnectAttempts
+  } = useWebSocket(
     `${wsUrl}/user/${userId}`,
     {
-      onMessage: (message) => {
-        switch (message.type) {
-          case 'recommendation_update':
-            refreshRecommendations();
-            break;
-          case 'adaptation_trigger':
-            // Show adaptation notification
-            console.log('Adaptation triggered:', message.data);
-            break;
-          case 'performance_alert':
-            // Show performance alert
-            console.log('Performance alert:', message.data);
-            break;
-          case 'learning_milestone':
-            // Show milestone achievement
-            console.log('Milestone achieved:', message.data);
-            break;
-          default:
-            console.log('Unknown message type:', message.type);
-        }
-      },
+      onMessage: handleMessage,
       onConnect: () => {
         console.log('Real-time connection established');
-        // Send user identification
-        sendMessage({
-          type: 'user_connect',
-          user_id: userId,
-          timestamp: new Date().toISOString()
+        // Re-subscribe to all channels on reconnection
+        subscribedChannels.current.forEach(channel => {
+          sendMessage({
+            type: 'subscribe',
+            channel,
+            user_id: userId,
+            timestamp: new Date().toISOString()
+          });
         });
       },
       onDisconnect: () => {
         console.log('Real-time connection lost');
-      }
+      },
+      onError: (error) => {
+        console.error('WebSocket error:', error);
+      },
+      autoConnect: true,
+      includeToken: true
     }
   );
+
+  // Send user identification when connected
+  useEffect(() => {
+    if (isConnected && userId !== 'anonymous') {
+      sendMessage({
+        type: 'user_connect',
+        user_id: userId,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }, [isConnected, userId, sendMessage]);
+
+  // Channel subscription management
+  const subscribeToChannel = useCallback((channel: string) => {
+    subscribedChannels.current.add(channel);
+    if (isConnected) {
+      sendMessage({
+        type: 'subscribe',
+        channel,
+        user_id: userId,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }, [isConnected, sendMessage, userId]);
+
+  const unsubscribeFromChannel = useCallback((channel: string) => {
+    subscribedChannels.current.delete(channel);
+    if (isConnected) {
+      sendMessage({
+        type: 'unsubscribe',
+        channel,
+        user_id: userId,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }, [isConnected, sendMessage, userId]);
 
   const value: RealTimeContextType = {
     isConnected,
     connectionStatus,
-    sendMessage
+    sendMessage,
+    subscribeToChannel,
+    unsubscribeFromChannel,
+    lastMessage,
+    reconnectAttempts
   };
 
   return (

@@ -1,8 +1,22 @@
 import { useState, useEffect } from 'react'
 import { Save, User, BookOpen, Heart, Award } from 'lucide-react'
 
+interface ProfileData {
+  educationLevel: string;
+  interests: string[];
+  hobbies: string[];
+  talents: string[];
+  phone: string;
+  gender: string;
+}
+
+interface Notification {
+  type: 'success' | 'error';
+  message: string;
+}
+
 const ProfileSettings = () => {
-  const [profileData, setProfileData] = useState({
+  const [profileData, setProfileData] = useState<ProfileData>({
     educationLevel: '',
     interests: [],
     hobbies: [],
@@ -11,7 +25,7 @@ const ProfileSettings = () => {
     gender: ''
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [notification, setNotification] = useState(null)
+  const [notification, setNotification] = useState<Notification | null>(null)
 
   useEffect(() => {
     loadUserProfile()
@@ -37,13 +51,13 @@ const ProfileSettings = () => {
     }
   }
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: keyof ProfileData, value: string) => {
     setProfileData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleArrayChange = (field, value, checked) => {
+  const handleArrayChange = (field: 'interests' | 'hobbies' | 'talents', value: string, checked: boolean) => {
     const currentArray = profileData[field] || []
-    const newArray = checked 
+    const newArray = checked
       ? [...currentArray, value]
       : currentArray.filter(item => item !== value)
     setProfileData(prev => ({ ...prev, [field]: newArray }))
