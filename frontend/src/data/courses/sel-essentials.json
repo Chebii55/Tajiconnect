@@ -1,0 +1,1242 @@
+{
+  "id": "sel-essentials",
+  "title": "Social-Emotional Learning (SEL) Essentials",
+  "description": "Build resilience, empathy, and emotional intelligence through evidence-based SEL practices aligned with CBC. Develop essential life skills for personal and professional success.",
+  "thumbnail": "heart",
+  "instructor": "Grace Wanjiru",
+  "instructorAvatar": "GW",
+  "category": "SEL Foundation",
+  "level": "Beginner",
+  "totalDuration": 18,
+  "learningOutcomes": [
+    "Develop emotional self-awareness and understand your feelings",
+    "Build healthy relationships and communication skills",
+    "Learn stress management and resilience techniques",
+    "Practice empathy and perspective-taking",
+    "Make responsible decisions using ethical frameworks"
+  ],
+  "prerequisites": [
+    "None - This course is designed for all learners"
+  ],
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Understanding Self-Awareness",
+      "description": "Discover who you are by exploring your emotions, strengths, and values. Self-awareness is the foundation of emotional intelligence.",
+      "duration": 6,
+      "lessons": [
+        {
+          "id": "lesson-1-1",
+          "title": "Introduction to Social-Emotional Learning",
+          "description": "Learn what SEL is and why it matters for your personal and academic success.",
+          "duration": 25,
+          "objectives": [
+            "Define Social-Emotional Learning (SEL)",
+            "Understand the five core SEL competencies",
+            "Recognize how SEL impacts daily life"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What is Social-Emotional Learning?"
+            },
+            {
+              "type": "text",
+              "content": "Social-Emotional Learning (SEL) is the process through which we understand and manage our emotions, set and achieve positive goals, feel and show empathy for others, establish and maintain positive relationships, and make responsible decisions."
+            },
+            {
+              "type": "highlight",
+              "content": "SEL skills are just as important as academic skills for success in school, work, and life."
+            },
+            {
+              "type": "heading",
+              "content": "The Five Core SEL Competencies"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Self-Awareness: Knowing your emotions, strengths, and values",
+                "Self-Management: Managing your emotions and behaviors effectively",
+                "Social Awareness: Understanding others' perspectives and showing empathy",
+                "Relationship Skills: Building and maintaining healthy relationships",
+                "Responsible Decision-Making: Making ethical, constructive choices"
+              ]
+            },
+            {
+              "type": "text",
+              "content": "Throughout this course, you'll develop skills in each of these areas. These competencies are interconnected - as you strengthen one, you naturally improve others."
+            },
+            {
+              "type": "quote",
+              "content": "The greatest discovery of all time is that a person can change their future by merely changing their attitude. - Oprah Winfrey"
+            },
+            {
+              "type": "heading",
+              "content": "Why SEL Matters"
+            },
+            {
+              "type": "text",
+              "content": "Research shows that students who develop strong SEL skills perform better academically, have fewer behavioral problems, experience less emotional distress, and are more likely to succeed in their careers. SEL isn't just about feelings - it's about building the foundation for a successful life."
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-2",
+          "title": "Identifying Your Emotions",
+          "description": "Learn to recognize and name your emotions accurately for better self-understanding.",
+          "duration": 30,
+          "objectives": [
+            "Identify primary and secondary emotions",
+            "Recognize physical signs of different emotions",
+            "Develop an emotional vocabulary"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "The Importance of Naming Emotions"
+            },
+            {
+              "type": "text",
+              "content": "When we can accurately identify what we're feeling, we gain power over our emotional responses. Research shows that simply naming an emotion can reduce its intensity - a technique called 'affect labeling.'"
+            },
+            {
+              "type": "heading",
+              "content": "Primary Emotions"
+            },
+            {
+              "type": "text",
+              "content": "Primary emotions are our initial, instinctive reactions to situations. They include:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Joy - feeling happy, pleased, or content",
+                "Sadness - feeling down, disappointed, or grieving",
+                "Fear - feeling scared, anxious, or worried",
+                "Anger - feeling frustrated, annoyed, or furious",
+                "Surprise - feeling startled or amazed",
+                "Disgust - feeling repulsed or disapproving"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Physical Signs of Emotions"
+            },
+            {
+              "type": "text",
+              "content": "Our bodies give us clues about our emotions. Learning to read these signals helps us identify feelings early:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Anger: Clenched jaw, tight fists, racing heart, feeling hot",
+                "Fear: Butterflies in stomach, sweaty palms, rapid breathing",
+                "Sadness: Heaviness in chest, low energy, tears forming",
+                "Joy: Lightness, relaxed muscles, smiling naturally"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Practice: Throughout today, pause three times and ask yourself: 'What am I feeling right now? Where do I feel it in my body?'"
+            },
+            {
+              "type": "heading",
+              "content": "Building Your Emotional Vocabulary"
+            },
+            {
+              "type": "text",
+              "content": "Instead of just saying 'I feel bad,' try to be more specific. Are you feeling disappointed? Frustrated? Anxious? Overwhelmed? The more precise you can be, the better you can address your emotional needs."
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-3",
+          "title": "Understanding Your Strengths",
+          "description": "Discover your unique abilities and learn how to leverage them for success.",
+          "duration": 30,
+          "objectives": [
+            "Identify personal strengths and talents",
+            "Understand how strengths connect to values",
+            "Learn to apply strengths in daily life"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What Are Personal Strengths?"
+            },
+            {
+              "type": "text",
+              "content": "Personal strengths are the positive qualities and abilities that come naturally to you. They're the things you do well, often without much effort. When you use your strengths, you feel energized and engaged."
+            },
+            {
+              "type": "heading",
+              "content": "Categories of Strengths"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Intellectual Strengths: Curiosity, creativity, critical thinking, love of learning",
+                "Emotional Strengths: Resilience, optimism, emotional intelligence",
+                "Social Strengths: Leadership, teamwork, communication, empathy",
+                "Character Strengths: Honesty, perseverance, courage, kindness"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Everyone has unique strengths. Your combination of strengths is what makes you special."
+            },
+            {
+              "type": "heading",
+              "content": "Discovering Your Strengths"
+            },
+            {
+              "type": "text",
+              "content": "Ask yourself these questions to identify your strengths:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "What activities make time fly by?",
+                "What do others compliment you on?",
+                "What challenges do you enjoy tackling?",
+                "When do you feel most confident?",
+                "What would you do even if you weren't paid?"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Using Your Strengths"
+            },
+            {
+              "type": "text",
+              "content": "Once you know your strengths, look for opportunities to use them. If you're naturally creative, volunteer to design posters for school events. If you're a good listener, be the friend others turn to. Using your strengths daily leads to greater happiness and success."
+            }
+          ]
+        },
+        {
+          "id": "lesson-1-4",
+          "title": "Values and Self-Reflection",
+          "description": "Explore your core values and learn practices for ongoing self-reflection.",
+          "duration": 30,
+          "objectives": [
+            "Identify personal core values",
+            "Understand how values guide decisions",
+            "Develop a self-reflection practice"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What Are Values?"
+            },
+            {
+              "type": "text",
+              "content": "Values are the principles that matter most to you. They guide your decisions, shape your behavior, and define what you stand for. When your actions align with your values, you feel authentic and fulfilled."
+            },
+            {
+              "type": "heading",
+              "content": "Common Core Values"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Family and relationships",
+                "Education and growth",
+                "Honesty and integrity",
+                "Creativity and self-expression",
+                "Service to others",
+                "Health and wellness",
+                "Success and achievement",
+                "Freedom and independence"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Values in Action"
+            },
+            {
+              "type": "text",
+              "content": "When you face difficult decisions, your values can guide you. If honesty is a core value, you'll choose to tell the truth even when it's hard. If family is important, you'll prioritize time with loved ones."
+            },
+            {
+              "type": "highlight",
+              "content": "Conflict often arises when our values clash. Understanding your value hierarchy helps you navigate these moments."
+            },
+            {
+              "type": "heading",
+              "content": "The Practice of Self-Reflection"
+            },
+            {
+              "type": "text",
+              "content": "Self-reflection is the habit of examining your thoughts, feelings, and behaviors. It's how you learn from experiences and grow as a person."
+            },
+            {
+              "type": "text",
+              "content": "Try these self-reflection techniques:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Daily journaling - Write for 5-10 minutes each day",
+                "End-of-day review - What went well? What could improve?",
+                "Weekly reflection - Review your goals and progress",
+                "Mindful moments - Pause throughout the day to check in with yourself"
+              ]
+            },
+            {
+              "type": "quote",
+              "content": "Knowing yourself is the beginning of all wisdom. - Aristotle"
+            }
+          ]
+        }
+      ],
+      "quiz": {
+        "id": "quiz-module-1",
+        "title": "Self-Awareness Check",
+        "description": "Test your understanding of self-awareness concepts from Module 1.",
+        "passingScore": 70,
+        "questions": [
+          {
+            "id": "q1-1",
+            "question": "Which of the following is NOT one of the five core SEL competencies?",
+            "type": "multiple_choice",
+            "options": [
+              "Self-Awareness",
+              "Academic Achievement",
+              "Relationship Skills",
+              "Responsible Decision-Making"
+            ],
+            "correctAnswer": "Academic Achievement",
+            "explanation": "The five core SEL competencies are Self-Awareness, Self-Management, Social Awareness, Relationship Skills, and Responsible Decision-Making. Academic Achievement is a result of developing SEL skills, not a competency itself."
+          },
+          {
+            "id": "q1-2",
+            "question": "What technique involves naming your emotions to reduce their intensity?",
+            "type": "multiple_choice",
+            "options": [
+              "Emotional suppression",
+              "Affect labeling",
+              "Cognitive distraction",
+              "Emotional avoidance"
+            ],
+            "correctAnswer": "Affect labeling",
+            "explanation": "Affect labeling is the research-backed technique of naming emotions to reduce their intensity and gain better control over emotional responses."
+          },
+          {
+            "id": "q1-3",
+            "question": "Physical signs like a clenched jaw, tight fists, and feeling hot typically indicate which emotion?",
+            "type": "multiple_choice",
+            "options": [
+              "Fear",
+              "Sadness",
+              "Anger",
+              "Surprise"
+            ],
+            "correctAnswer": "Anger",
+            "explanation": "These physical signs are commonly associated with anger. Recognizing these body signals helps us identify and manage our emotions early."
+          },
+          {
+            "id": "q1-4",
+            "question": "True or False: Personal strengths are fixed and cannot be developed over time.",
+            "type": "true_false",
+            "options": [
+              "True",
+              "False"
+            ],
+            "correctAnswer": "False",
+            "explanation": "While some strengths come naturally, all strengths can be developed and enhanced with practice and effort over time."
+          },
+          {
+            "id": "q1-5",
+            "question": "What should guide your decisions when facing difficult choices?",
+            "type": "multiple_choice",
+            "options": [
+              "What others expect of you",
+              "Your core values",
+              "What's easiest to do",
+              "Random chance"
+            ],
+            "correctAnswer": "Your core values",
+            "explanation": "Your core values serve as a compass for making decisions, especially difficult ones. When your actions align with your values, you feel authentic and at peace."
+          }
+        ]
+      },
+      "badge": {
+        "id": "badge-sel-foundation",
+        "name": "SEL Foundation",
+        "description": "Completed the Self-Awareness module and demonstrated understanding of SEL fundamentals.",
+        "icon": "foundation",
+        "points": 100,
+        "rarity": "common",
+        "requirement": {
+          "type": "module_completion",
+          "moduleId": "module-1"
+        }
+      }
+    },
+    {
+      "id": "module-2",
+      "title": "Empathy & Relationships",
+      "description": "Learn to understand others' perspectives, communicate effectively, and build meaningful connections.",
+      "duration": 6,
+      "lessons": [
+        {
+          "id": "lesson-2-1",
+          "title": "Understanding Empathy",
+          "description": "Learn what empathy is and how to develop this essential skill.",
+          "duration": 30,
+          "objectives": [
+            "Define empathy and distinguish it from sympathy",
+            "Understand the three types of empathy",
+            "Practice perspective-taking techniques"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What is Empathy?"
+            },
+            {
+              "type": "text",
+              "content": "Empathy is the ability to understand and share the feelings of another person. It's about putting yourself in someone else's shoes and seeing the world from their perspective. Unlike sympathy, which is feeling sorry for someone, empathy means feeling with them."
+            },
+            {
+              "type": "heading",
+              "content": "Three Types of Empathy"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Cognitive Empathy: Understanding what someone else is thinking or feeling",
+                "Emotional Empathy: Actually feeling what another person feels",
+                "Compassionate Empathy: Understanding and feeling, then being moved to help"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "True empathy combines all three types - understanding, feeling, and acting with compassion."
+            },
+            {
+              "type": "heading",
+              "content": "Developing Empathy"
+            },
+            {
+              "type": "text",
+              "content": "Empathy is a skill that can be developed with practice. Here are ways to strengthen your empathy:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Listen without planning your response",
+                "Ask questions to understand, not to judge",
+                "Imagine the other person's background and experiences",
+                "Pay attention to non-verbal cues",
+                "Read fiction - it helps you experience different perspectives"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Perspective-Taking Exercise"
+            },
+            {
+              "type": "text",
+              "content": "Think of someone you recently disagreed with. Now try to answer these questions from their perspective: What might they be feeling? What past experiences might shape their view? What do they need or want? What might they be afraid of?"
+            },
+            {
+              "type": "quote",
+              "content": "Empathy is seeing with the eyes of another, listening with the ears of another, and feeling with the heart of another. - Alfred Adler"
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-2",
+          "title": "Active Listening Skills",
+          "description": "Master the art of listening to build stronger connections.",
+          "duration": 30,
+          "objectives": [
+            "Understand the difference between hearing and listening",
+            "Learn and practice active listening techniques",
+            "Recognize and avoid common listening barriers"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "Hearing vs. Listening"
+            },
+            {
+              "type": "text",
+              "content": "Hearing is passive - it happens automatically when sound reaches our ears. Listening is active - it requires attention, understanding, and response. Most people think they're good listeners, but studies show we only remember 25-50% of what we hear."
+            },
+            {
+              "type": "heading",
+              "content": "The Components of Active Listening"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Pay Attention: Give your full focus, make eye contact, put away distractions",
+                "Show That You're Listening: Nod, use facial expressions, maintain open body language",
+                "Provide Feedback: Paraphrase what you heard, ask clarifying questions",
+                "Defer Judgment: Listen completely before forming opinions",
+                "Respond Appropriately: Be honest but respectful in your responses"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Active listening is a gift you give to others - it makes them feel valued and understood."
+            },
+            {
+              "type": "heading",
+              "content": "Common Listening Barriers"
+            },
+            {
+              "type": "text",
+              "content": "Watch out for these obstacles to effective listening:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Planning what to say next instead of listening",
+                "Judging or evaluating before understanding",
+                "Interrupting to share your own story",
+                "Being distracted by devices or environment",
+                "Assuming you already know what they'll say"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Reflective Listening Practice"
+            },
+            {
+              "type": "text",
+              "content": "Reflective listening means repeating back what you heard in your own words. For example: 'It sounds like you're feeling frustrated because...' or 'Let me make sure I understand - you're saying that...' This shows you're truly engaged and helps clarify understanding."
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-3",
+          "title": "Building Healthy Relationships",
+          "description": "Learn the foundations of meaningful, lasting relationships.",
+          "duration": 30,
+          "objectives": [
+            "Identify characteristics of healthy relationships",
+            "Learn communication skills for relationships",
+            "Understand boundaries and mutual respect"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What Makes a Relationship Healthy?"
+            },
+            {
+              "type": "text",
+              "content": "Healthy relationships - whether friendships, family ties, or romantic partnerships - share common characteristics that help them thrive and grow."
+            },
+            {
+              "type": "list",
+              "items": [
+                "Trust: Feeling secure that the other person has your best interests at heart",
+                "Respect: Valuing each other's opinions, boundaries, and independence",
+                "Honesty: Being truthful while remaining kind",
+                "Support: Encouraging each other's goals and being there in tough times",
+                "Equality: Both people's needs and opinions matter equally"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Communication in Relationships"
+            },
+            {
+              "type": "text",
+              "content": "Good communication is the lifeblood of healthy relationships. Key skills include:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Using 'I' statements instead of 'you' accusations",
+                "Expressing appreciation regularly",
+                "Addressing issues calmly before they escalate",
+                "Being willing to apologize and forgive",
+                "Checking in about each other's feelings"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "In healthy relationships, you can be yourself and feel accepted for who you are."
+            },
+            {
+              "type": "heading",
+              "content": "Setting Healthy Boundaries"
+            },
+            {
+              "type": "text",
+              "content": "Boundaries are the limits you set about how others can treat you. They're essential for healthy relationships. Examples include: 'I need some alone time after school,' 'I'm not comfortable with that joke,' or 'Please ask before borrowing my things.'"
+            },
+            {
+              "type": "text",
+              "content": "Setting boundaries isn't selfish - it's necessary for your wellbeing and the health of your relationships."
+            }
+          ]
+        },
+        {
+          "id": "lesson-2-4",
+          "title": "Conflict Resolution",
+          "description": "Learn strategies for resolving disagreements constructively.",
+          "duration": 30,
+          "objectives": [
+            "Understand that conflict is normal and can be healthy",
+            "Learn a step-by-step conflict resolution process",
+            "Practice de-escalation techniques"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "Understanding Conflict"
+            },
+            {
+              "type": "text",
+              "content": "Conflict is a natural part of any relationship. When two people care about something, they may disagree. The goal isn't to avoid conflict entirely, but to handle it in ways that strengthen rather than damage relationships."
+            },
+            {
+              "type": "heading",
+              "content": "Common Conflict Styles"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Avoiding: Ignoring the conflict (usually makes things worse)",
+                "Competing: Trying to 'win' at the other's expense",
+                "Accommodating: Always giving in to keep peace",
+                "Compromising: Both give up something to find middle ground",
+                "Collaborating: Working together to find a solution that meets everyone's needs"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Collaboration is usually the best approach - it turns conflict into an opportunity for growth."
+            },
+            {
+              "type": "heading",
+              "content": "Steps for Resolving Conflict"
+            },
+            {
+              "type": "list",
+              "items": [
+                "1. Cool down: Take a break if emotions are running high",
+                "2. Identify the real issue: What's this conflict really about?",
+                "3. Listen to understand: Hear the other person's perspective fully",
+                "4. Share your perspective: Use 'I' statements to express your feelings",
+                "5. Brainstorm solutions: Come up with multiple options together",
+                "6. Agree on a solution: Choose one that works for both",
+                "7. Follow up: Check back to make sure the solution is working"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "De-escalation Techniques"
+            },
+            {
+              "type": "text",
+              "content": "When a conflict is heating up, try these techniques to calm things down:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Lower your voice - speak softly and slowly",
+                "Take deep breaths to stay calm",
+                "Acknowledge the other person's feelings",
+                "Suggest taking a short break",
+                "Focus on the problem, not the person"
+              ]
+            }
+          ]
+        }
+      ],
+      "quiz": {
+        "id": "quiz-module-2",
+        "title": "Empathy Check",
+        "description": "Test your understanding of empathy and relationship skills from Module 2.",
+        "passingScore": 70,
+        "questions": [
+          {
+            "id": "q2-1",
+            "question": "What is the key difference between empathy and sympathy?",
+            "type": "multiple_choice",
+            "options": [
+              "Sympathy is feeling with someone, empathy is feeling sorry for them",
+              "Empathy is feeling with someone, sympathy is feeling sorry for them",
+              "They are the same thing",
+              "Empathy requires speaking, sympathy requires listening"
+            ],
+            "correctAnswer": "Empathy is feeling with someone, sympathy is feeling sorry for them",
+            "explanation": "Empathy means putting yourself in someone's shoes and feeling what they feel. Sympathy is feeling sorry for someone from a distance, without fully understanding their experience."
+          },
+          {
+            "id": "q2-2",
+            "question": "Which type of empathy involves understanding another person's perspective intellectually?",
+            "type": "multiple_choice",
+            "options": [
+              "Emotional empathy",
+              "Cognitive empathy",
+              "Compassionate empathy",
+              "Reflective empathy"
+            ],
+            "correctAnswer": "Cognitive empathy",
+            "explanation": "Cognitive empathy is the ability to understand what someone else is thinking or feeling from an intellectual standpoint, while emotional empathy involves actually feeling their emotions."
+          },
+          {
+            "id": "q2-3",
+            "question": "What percentage of what we hear do we typically remember?",
+            "type": "multiple_choice",
+            "options": [
+              "75-100%",
+              "50-75%",
+              "25-50%",
+              "10-25%"
+            ],
+            "correctAnswer": "25-50%",
+            "explanation": "Studies show we typically only remember 25-50% of what we hear, which highlights the importance of active listening to improve comprehension and retention."
+          },
+          {
+            "id": "q2-4",
+            "question": "Which conflict resolution style is generally the most effective?",
+            "type": "multiple_choice",
+            "options": [
+              "Avoiding",
+              "Competing",
+              "Compromising",
+              "Collaborating"
+            ],
+            "correctAnswer": "Collaborating",
+            "explanation": "Collaborating is usually the best approach because it involves working together to find a solution that meets everyone's needs, turning conflict into an opportunity for growth."
+          },
+          {
+            "id": "q2-5",
+            "question": "True or False: Setting boundaries in relationships is selfish.",
+            "type": "true_false",
+            "options": [
+              "True",
+              "False"
+            ],
+            "correctAnswer": "False",
+            "explanation": "Setting boundaries is not selfish - it's essential for your wellbeing and actually makes relationships healthier by establishing clear expectations and mutual respect."
+          }
+        ]
+      },
+      "badge": {
+        "id": "badge-sel-growth",
+        "name": "SEL Growth",
+        "description": "Mastered empathy and relationship skills, demonstrating growth in social-emotional learning.",
+        "icon": "growth",
+        "points": 200,
+        "rarity": "rare",
+        "requirement": {
+          "type": "module_completion",
+          "moduleId": "module-2"
+        }
+      }
+    },
+    {
+      "id": "module-3",
+      "title": "Resilience & Decision Making",
+      "description": "Build mental toughness, learn to manage stress, and develop a framework for making responsible decisions.",
+      "duration": 6,
+      "lessons": [
+        {
+          "id": "lesson-3-1",
+          "title": "Building Resilience",
+          "description": "Learn what resilience is and how to develop mental toughness.",
+          "duration": 30,
+          "objectives": [
+            "Define resilience and understand its importance",
+            "Identify factors that build resilience",
+            "Develop a growth mindset"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What is Resilience?"
+            },
+            {
+              "type": "text",
+              "content": "Resilience is the ability to bounce back from setbacks, adapt to change, and keep going in the face of adversity. It doesn't mean you won't experience difficulty or distress - resilient people still feel pain. What makes them resilient is how they respond to challenges."
+            },
+            {
+              "type": "highlight",
+              "content": "Resilience is not a trait you're born with - it's a set of skills you can learn and develop."
+            },
+            {
+              "type": "heading",
+              "content": "The Building Blocks of Resilience"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Strong relationships: Having people who support and believe in you",
+                "Self-confidence: Believing in your ability to handle challenges",
+                "Problem-solving skills: Being able to find solutions when faced with obstacles",
+                "Emotional regulation: Managing strong feelings effectively",
+                "Sense of purpose: Having goals and meaning in life"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Fixed vs. Growth Mindset"
+            },
+            {
+              "type": "text",
+              "content": "Your mindset significantly impacts your resilience. A fixed mindset believes abilities are set in stone - 'I'm just not good at math.' A growth mindset believes abilities can be developed through effort and learning - 'I can improve at math with practice.'"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Fixed: 'I failed, so I must not be smart'",
+                "Growth: 'I failed, so I need a different approach'",
+                "Fixed: 'This is too hard for me'",
+                "Growth: 'This is challenging, but I can learn'"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Developing Resilience"
+            },
+            {
+              "type": "text",
+              "content": "Start building resilience today with these practices: embrace challenges as opportunities to grow, learn from failures instead of being defeated by them, cultivate supportive relationships, take care of your physical health, and celebrate small wins along the way."
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-2",
+          "title": "Managing Stress",
+          "description": "Learn techniques for recognizing and managing stress effectively.",
+          "duration": 30,
+          "objectives": [
+            "Understand the stress response",
+            "Identify personal stress triggers",
+            "Learn practical stress management techniques"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "Understanding Stress"
+            },
+            {
+              "type": "text",
+              "content": "Stress is your body's natural response to challenges or threats. In small doses, stress can be helpful - it keeps you alert and motivated. But chronic stress can harm your mental and physical health. Learning to manage stress is essential for wellbeing."
+            },
+            {
+              "type": "heading",
+              "content": "The Stress Response"
+            },
+            {
+              "type": "text",
+              "content": "When you perceive a threat, your body releases stress hormones like cortisol and adrenaline. This 'fight or flight' response was designed to help us survive physical dangers, but it also activates for modern stressors like exams or social pressure."
+            },
+            {
+              "type": "list",
+              "items": [
+                "Physical signs: Rapid heartbeat, tense muscles, headaches, fatigue",
+                "Emotional signs: Anxiety, irritability, feeling overwhelmed",
+                "Behavioral signs: Sleep problems, changes in appetite, withdrawal",
+                "Cognitive signs: Racing thoughts, difficulty concentrating"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Stress Management Techniques"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Deep breathing: Slow, deep breaths activate your body's relaxation response",
+                "Physical exercise: Movement releases tension and boosts mood",
+                "Time management: Breaking tasks into smaller steps reduces overwhelm",
+                "Mindfulness: Staying present instead of worrying about future",
+                "Social support: Talking to someone you trust"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Try the 4-7-8 technique: Breathe in for 4 seconds, hold for 7 seconds, breathe out for 8 seconds. Repeat 3-4 times."
+            },
+            {
+              "type": "heading",
+              "content": "Creating a Stress Management Plan"
+            },
+            {
+              "type": "text",
+              "content": "Identify your personal stress triggers and the techniques that work best for you. Have a go-to list of stress relievers ready before you need them. Prevention is often easier than cure - maintain healthy habits even when you're not stressed."
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-3",
+          "title": "Responsible Decision Making",
+          "description": "Develop a framework for making ethical, constructive decisions.",
+          "duration": 30,
+          "objectives": [
+            "Understand the components of responsible decision-making",
+            "Learn a step-by-step decision-making process",
+            "Consider ethics and consequences in decisions"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "What is Responsible Decision Making?"
+            },
+            {
+              "type": "text",
+              "content": "Responsible decision-making means making choices that consider ethics, safety, social norms, and the wellbeing of self and others. It involves evaluating consequences and taking responsibility for outcomes."
+            },
+            {
+              "type": "heading",
+              "content": "Factors That Influence Decisions"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Emotions: How we feel can cloud or enhance judgment",
+                "Peer pressure: What others think or want us to do",
+                "Past experiences: What's worked or failed before",
+                "Values: What we believe is important",
+                "Information: What we know about the situation"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "The DECIDE Model"
+            },
+            {
+              "type": "list",
+              "items": [
+                "D - Define the problem or decision clearly",
+                "E - Explore all possible options",
+                "C - Consider the consequences of each option",
+                "I - Identify your values and how they apply",
+                "D - Decide on the best option",
+                "E - Evaluate the results after taking action"
+              ]
+            },
+            {
+              "type": "highlight",
+              "content": "Before a big decision, ask: 'How will I feel about this choice tomorrow? Next month? Next year?'"
+            },
+            {
+              "type": "heading",
+              "content": "Ethical Considerations"
+            },
+            {
+              "type": "text",
+              "content": "When making decisions, consider: Is this fair to everyone involved? Is it honest? Would I be comfortable if everyone knew about this choice? Does it align with my values? Could it cause harm to anyone?"
+            },
+            {
+              "type": "text",
+              "content": "Taking time to think through decisions - especially important ones - leads to better outcomes and fewer regrets."
+            }
+          ]
+        },
+        {
+          "id": "lesson-3-4",
+          "title": "Goal Setting",
+          "description": "Learn to set and achieve meaningful goals.",
+          "duration": 30,
+          "objectives": [
+            "Understand the importance of goal setting",
+            "Learn to create SMART goals",
+            "Develop strategies for achieving goals"
+          ],
+          "content": [
+            {
+              "type": "heading",
+              "content": "Why Set Goals?"
+            },
+            {
+              "type": "text",
+              "content": "Goals give your life direction and purpose. They help you focus your energy, track your progress, and stay motivated. People who set goals are more likely to achieve what they want in life."
+            },
+            {
+              "type": "heading",
+              "content": "SMART Goals"
+            },
+            {
+              "type": "text",
+              "content": "Effective goals are SMART:"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Specific: Clear and well-defined (not vague)",
+                "Measurable: You can track progress and know when you've succeeded",
+                "Achievable: Challenging but realistic given your resources",
+                "Relevant: Aligned with your values and larger life goals",
+                "Time-bound: Has a deadline or timeframe"
+              ]
+            },
+            {
+              "type": "text",
+              "content": "Compare: 'I want to get better grades' vs. 'I will raise my math grade from B to A by the end of this term by studying 30 minutes daily and attending tutoring twice a week.'"
+            },
+            {
+              "type": "highlight",
+              "content": "Write your goals down! Written goals are significantly more likely to be achieved."
+            },
+            {
+              "type": "heading",
+              "content": "Strategies for Achieving Goals"
+            },
+            {
+              "type": "list",
+              "items": [
+                "Break big goals into smaller milestones",
+                "Create action plans with specific steps",
+                "Track your progress regularly",
+                "Anticipate obstacles and plan how to overcome them",
+                "Celebrate achievements along the way",
+                "Adjust your approach if something isn't working"
+              ]
+            },
+            {
+              "type": "heading",
+              "content": "Dealing with Setbacks"
+            },
+            {
+              "type": "text",
+              "content": "Setbacks are normal - they're not a sign that you should give up. When you face obstacles, remember your 'why' - the reason the goal matters to you. Use setbacks as learning opportunities, adjust your plan if needed, and keep moving forward."
+            },
+            {
+              "type": "quote",
+              "content": "A goal without a plan is just a wish. - Antoine de Saint-Exupery"
+            }
+          ]
+        }
+      ],
+      "quiz": {
+        "id": "quiz-module-3",
+        "title": "Resilience Check",
+        "description": "Test your understanding of resilience and decision-making from Module 3.",
+        "passingScore": 70,
+        "questions": [
+          {
+            "id": "q3-1",
+            "question": "True or False: Resilience is a trait you're either born with or not - it cannot be learned.",
+            "type": "true_false",
+            "options": [
+              "True",
+              "False"
+            ],
+            "correctAnswer": "False",
+            "explanation": "Resilience is not a fixed trait - it's a set of skills and behaviors that can be learned and developed over time through practice."
+          },
+          {
+            "id": "q3-2",
+            "question": "Which mindset believes that abilities can be developed through effort and learning?",
+            "type": "multiple_choice",
+            "options": [
+              "Fixed mindset",
+              "Growth mindset",
+              "Rigid mindset",
+              "Static mindset"
+            ],
+            "correctAnswer": "Growth mindset",
+            "explanation": "A growth mindset believes that abilities and intelligence can be developed through effort, good strategies, and input from others."
+          },
+          {
+            "id": "q3-3",
+            "question": "What does the 'S' in SMART goals stand for?",
+            "type": "multiple_choice",
+            "options": [
+              "Simple",
+              "Specific",
+              "Successful",
+              "Strategic"
+            ],
+            "correctAnswer": "Specific",
+            "explanation": "The 'S' in SMART goals stands for Specific - goals should be clear and well-defined, not vague or general."
+          },
+          {
+            "id": "q3-4",
+            "question": "Which of the following is NOT a component of the DECIDE model for decision making?",
+            "type": "multiple_choice",
+            "options": [
+              "Define the problem",
+              "Explore options",
+              "Ignore consequences",
+              "Evaluate results"
+            ],
+            "correctAnswer": "Ignore consequences",
+            "explanation": "The DECIDE model includes 'Consider the consequences' - not ignore them. Considering consequences is a crucial part of responsible decision-making."
+          },
+          {
+            "id": "q3-5",
+            "question": "What breathing technique was recommended for stress management (breathe in for 4, hold for 7, breathe out for 8)?",
+            "type": "multiple_choice",
+            "options": [
+              "Box breathing",
+              "4-7-8 technique",
+              "Diaphragmatic breathing",
+              "Alternate nostril breathing"
+            ],
+            "correctAnswer": "4-7-8 technique",
+            "explanation": "The 4-7-8 technique involves breathing in for 4 seconds, holding for 7 seconds, and breathing out for 8 seconds. It activates the body's relaxation response."
+          }
+        ]
+      },
+      "badge": {
+        "id": "badge-sel-mastery",
+        "name": "SEL Mastery",
+        "description": "Achieved mastery in Social-Emotional Learning by completing all modules and passing the final assessment.",
+        "icon": "mastery",
+        "points": 500,
+        "rarity": "epic",
+        "requirement": {
+          "type": "assessment_pass",
+          "minimumScore": 80
+        }
+      }
+    }
+  ],
+  "finalAssessment": {
+    "id": "final-assessment",
+    "title": "SEL Essentials Final Assessment",
+    "description": "Comprehensive assessment covering all SEL competencies. Score 80% or higher to earn your certificate.",
+    "passingScore": 80,
+    "timeLimit": 45,
+    "questions": [
+      {
+        "id": "final-1",
+        "question": "Which of the following best describes Social-Emotional Learning (SEL)?",
+        "type": "multiple_choice",
+        "options": [
+          "Learning about social media and technology",
+          "The process of developing emotional intelligence and relationship skills",
+          "A type of therapy for emotional problems",
+          "Academic learning in social studies"
+        ],
+        "correctAnswer": "The process of developing emotional intelligence and relationship skills",
+        "explanation": "SEL is the process through which we understand and manage emotions, develop empathy, establish relationships, and make responsible decisions."
+      },
+      {
+        "id": "final-2",
+        "question": "What are the five core SEL competencies?",
+        "type": "multiple_choice",
+        "options": [
+          "Reading, Writing, Math, Science, History",
+          "Self-Awareness, Self-Management, Social Awareness, Relationship Skills, Responsible Decision-Making",
+          "Empathy, Sympathy, Apathy, Telepathy, Antipathy",
+          "Thinking, Feeling, Acting, Reacting, Reflecting"
+        ],
+        "correctAnswer": "Self-Awareness, Self-Management, Social Awareness, Relationship Skills, Responsible Decision-Making",
+        "explanation": "These five competencies form the foundation of social-emotional learning and are interconnected skills that support overall wellbeing and success."
+      },
+      {
+        "id": "final-3",
+        "question": "True or False: Empathy means feeling sorry for someone from a distance.",
+        "type": "true_false",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": "False",
+        "explanation": "Empathy means feeling WITH someone - putting yourself in their shoes. Sympathy is feeling sorry for someone from a distance."
+      },
+      {
+        "id": "final-4",
+        "question": "Which active listening technique involves repeating back what you heard in your own words?",
+        "type": "multiple_choice",
+        "options": [
+          "Echo listening",
+          "Reflective listening",
+          "Passive listening",
+          "Critical listening"
+        ],
+        "correctAnswer": "Reflective listening",
+        "explanation": "Reflective listening involves paraphrasing what you heard to show understanding and clarify the speaker's message."
+      },
+      {
+        "id": "final-5",
+        "question": "What is the recommended approach when experiencing conflict?",
+        "type": "multiple_choice",
+        "options": [
+          "Avoid the person until they apologize",
+          "Try to win the argument at any cost",
+          "Collaborate to find a solution that works for everyone",
+          "Give in immediately to keep the peace"
+        ],
+        "correctAnswer": "Collaborate to find a solution that works for everyone",
+        "explanation": "Collaboration is the most effective conflict resolution style as it addresses everyone's needs and can strengthen relationships."
+      },
+      {
+        "id": "final-6",
+        "question": "Which of the following is a key characteristic of a growth mindset?",
+        "type": "multiple_choice",
+        "options": [
+          "Believing intelligence is fixed and cannot change",
+          "Avoiding challenges to prevent failure",
+          "Viewing failures as opportunities to learn",
+          "Giving up when things get difficult"
+        ],
+        "correctAnswer": "Viewing failures as opportunities to learn",
+        "explanation": "A growth mindset sees challenges and failures as opportunities for learning and development rather than evidence of fixed limitations."
+      },
+      {
+        "id": "final-7",
+        "question": "True or False: Setting boundaries in relationships is a sign of respect for yourself and others.",
+        "type": "true_false",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": "True",
+        "explanation": "Healthy boundaries establish clear expectations, protect wellbeing, and actually strengthen relationships by promoting mutual respect."
+      },
+      {
+        "id": "final-8",
+        "question": "In the DECIDE model for decision-making, what does the 'C' stand for?",
+        "type": "multiple_choice",
+        "options": [
+          "Choose quickly",
+          "Consider consequences",
+          "Create options",
+          "Communicate decisions"
+        ],
+        "correctAnswer": "Consider consequences",
+        "explanation": "The 'C' in DECIDE stands for 'Consider the consequences' - evaluating what might happen as a result of each option."
+      },
+      {
+        "id": "final-9",
+        "question": "Which of the following is NOT a building block of resilience?",
+        "type": "multiple_choice",
+        "options": [
+          "Strong relationships",
+          "Problem-solving skills",
+          "Avoiding all stressful situations",
+          "Sense of purpose"
+        ],
+        "correctAnswer": "Avoiding all stressful situations",
+        "explanation": "Resilience is built by facing challenges, not avoiding them. Strong relationships, problem-solving skills, and sense of purpose are all building blocks of resilience."
+      },
+      {
+        "id": "final-10",
+        "question": "What does SMART in SMART goals stand for?",
+        "type": "multiple_choice",
+        "options": [
+          "Simple, Meaningful, Accurate, Reasonable, Timely",
+          "Specific, Measurable, Achievable, Relevant, Time-bound",
+          "Strategic, Motivated, Active, Responsible, Thoughtful",
+          "Successful, Managed, Appropriate, Reliable, Targeted"
+        ],
+        "correctAnswer": "Specific, Measurable, Achievable, Relevant, Time-bound",
+        "explanation": "SMART goals are Specific, Measurable, Achievable, Relevant, and Time-bound - this framework helps create effective, actionable goals."
+      }
+    ]
+  },
+  "certificate": {
+    "id": "cert-sel-essentials",
+    "title": "SEL Essentials Certificate",
+    "description": "This certificate recognizes successful completion of the Social-Emotional Learning Essentials course, demonstrating proficiency in self-awareness, empathy, relationship skills, and responsible decision-making.",
+    "issuer": "TajiConnect Academy",
+    "requirement": {
+      "badges": ["badge-sel-foundation", "badge-sel-growth", "badge-sel-mastery"],
+      "finalAssessmentScore": 80
+    }
+  }
+}

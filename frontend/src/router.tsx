@@ -25,6 +25,7 @@ import Recommendations from './components/learning/Recommendations';
 import CourseSearch from './components/learning/CourseSearch';
 import LearningPath from './components/learning/LearningPath';
 import MilestoneTracker from './components/learning/MilestoneTracker';
+import CourseLearning from './components/learning/course-player/CourseLearning';
 
 // Assessments
 import SkillsAssessment from './components/assessments/SkillsAssessment';
@@ -145,15 +146,23 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ) 
       },
-      { 
-        path: '/student/courses', 
+      {
+        path: '/student/courses',
         element: (
           <ProtectedRoute requiredRole="student">
             <Courses />
           </ProtectedRoute>
-        ) 
+        )
       },
-      { 
+      {
+        path: '/student/courses/:courseId',
+        element: (
+          <ProtectedRoute requiredRole="student">
+            <CourseLearning />
+          </ProtectedRoute>
+        )
+      },
+      {
         path: '/student/courses/my-courses', 
         element: (
           <ProtectedRoute requiredRole="student">
