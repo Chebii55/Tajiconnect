@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Rocket, Lightbulb, Target, Search } from 'lucide-react'
-import JobsSidebar from '../JobsSidebar'
 
 interface Job {
   id: number
@@ -237,11 +236,7 @@ const PersonalizedJobs = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
-      <div className="flex">
-        <JobsSidebar />
-        <div className="flex-1 ml-6">
-
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-20 h-20 bg-primary-dark dark:bg-primary rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -496,8 +491,6 @@ const PersonalizedJobs = () => {
             </button>
           </div>
         )}
-          </div>
-        </div>
       </div>
     </div>
   )

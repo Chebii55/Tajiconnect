@@ -11,7 +11,7 @@ import {
   Calendar,
   Award
 } from 'lucide-react'
-import CareerSidebar from '../CareerSidebar'
+
 import { useCareerAssessment, type RoadmapPhase } from '../../hooks/useCareerAssessment'
 
 interface Roadmap {
@@ -162,8 +162,8 @@ const PersonalizedRoadmap = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
+          
+          <div>
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -180,8 +180,8 @@ const PersonalizedRoadmap = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
+          
+          <div>
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="text-center">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Roadmap Not Found</h1>
@@ -205,8 +205,8 @@ const PersonalizedRoadmap = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
-        <CareerSidebar />
-        <div className="flex-1 ml-6">
+        
+        <div>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Header */}
             <div className="mb-8">

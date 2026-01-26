@@ -26,16 +26,14 @@ import CourseSearch from './components/learning/CourseSearch';
 import LearningPath from './components/learning/LearningPath';
 import MilestoneTracker from './components/learning/MilestoneTracker';
 
-// Assessments - All exist
-import AssessmentsCenter from './components/assessments/AssessmentsCenter';
+// Assessments
 import SkillsAssessment from './components/assessments/SkillsAssessment';
 import PsychometricDashboard from './components/assessments/PsychometricDashboard';
 import PersonalityTest from './components/assessments/PersonalityTest';
 import AssessmentResults from './components/assessments/AssessmentResults';
 
-// Progress - All exist
+// Progress
 import Analytics from './components/progress/Analytics';
-import PerformanceReports from './components/progress/PerformanceReports';
 import GoalTracking from './components/progress/GoalTracking';
 import TimeSpentAnalytics from './components/progress/TimeSpentAnalytics';
 
@@ -46,19 +44,17 @@ import CareerPathways from './components/career/CareerPathways';
 import SkillsGapAnalysis from './components/career/SkillsGapAnalysis';
 import PersonalizedRoadmap from './components/career/PersonalizedRoadmap';
 
-// Jobs - All exist
-import JobsDashboard from './components/jobs/JobsDashboard';
+// Jobs
 import PersonalizedJobs from './components/jobs/PersonalizedJobs';
 import GeneralJobs from './components/jobs/GeneralJobs';
 import JobMatchingQuiz from './components/jobs/JobMatchingQuiz';
 import SalaryInsights from './components/jobs/SalaryInsights';
 import ApplicationsTracker from './components/jobs/ApplicationsTracker';
 
-// Achievements - All exist
+// Achievements
 import Achievements from './components/achievements/Achievements';
 import Badges from './components/achievements/Badges';
 import Certificates from './components/achievements/Certificates';
-import Leaderboard from './components/achievements/Leaderboard';
 
 // Legal - All exist
 import PrivacyPolicy from './components/legal/PrivacyPolicy';
@@ -199,15 +195,11 @@ export const router = createBrowserRouter([
       },
 
       // Assessments (Protected)
-      { 
-        path: '/student/assessments', 
-        element: (
-          <ProtectedRoute requiredRole="student">
-            <AssessmentsCenter />
-          </ProtectedRoute>
-        ) 
+      {
+        path: '/student/assessments',
+        element: <Navigate to="/student/assessments/skills" replace />
       },
-      { 
+      {
         path: '/student/assessments/skills', 
         element: (
           <ProtectedRoute requiredRole="student">
@@ -241,23 +233,15 @@ export const router = createBrowserRouter([
       },
 
       // Progress (Protected)
-      { 
-        path: '/student/progress/analytics', 
+      {
+        path: '/student/progress/analytics',
         element: (
           <ProtectedRoute requiredRole="student">
             <Analytics />
           </ProtectedRoute>
-        ) 
+        )
       },
-      { 
-        path: '/student/progress/reports', 
-        element: (
-          <ProtectedRoute requiredRole="student">
-            <PerformanceReports />
-          </ProtectedRoute>
-        ) 
-      },
-      { 
+      {
         path: '/student/progress/goals', 
         element: (
           <ProtectedRoute requiredRole="student">
@@ -317,15 +301,11 @@ export const router = createBrowserRouter([
       },
 
       // Jobs (Protected)
-      { 
-        path: '/student/jobs', 
-        element: (
-          <ProtectedRoute requiredRole="student">
-            <JobsDashboard />
-          </ProtectedRoute>
-        ) 
+      {
+        path: '/student/jobs',
+        element: <Navigate to="/student/jobs/personalized" replace />
       },
-      { 
+      {
         path: '/student/jobs/personalized', 
         element: (
           <ProtectedRoute requiredRole="student">
@@ -383,21 +363,13 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ) 
       },
-      { 
-        path: '/student/certificates', 
+      {
+        path: '/student/certificates',
         element: (
           <ProtectedRoute requiredRole="student">
             <Certificates />
           </ProtectedRoute>
-        ) 
-      },
-      { 
-        path: '/student/achievements/leaderboard', 
-        element: (
-          <ProtectedRoute requiredRole="student">
-            <Leaderboard />
-          </ProtectedRoute>
-        ) 
+        )
       },
 
       // Legal

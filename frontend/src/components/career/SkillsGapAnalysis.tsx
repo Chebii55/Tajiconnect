@@ -8,7 +8,7 @@ import {
   BarChart3,
   BookOpen
 } from 'lucide-react'
-import CareerSidebar from '../CareerSidebar'
+
 
 interface Skill {
   id: number
@@ -291,8 +291,8 @@ const SkillsGapAnalysis = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
+          
+          <div>
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="text-center mb-8">
                 <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -361,8 +361,8 @@ const SkillsGapAnalysis = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
+          
+          <div>
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {/* Header */}
               <div className="mb-8">
@@ -595,8 +595,8 @@ const SkillsGapAnalysis = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
-        <CareerSidebar />
-        <div className="flex-1 ml-6">
+        
+        <div>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="mb-8">
               <button

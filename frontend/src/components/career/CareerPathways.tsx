@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { Briefcase } from 'lucide-react'
-import CareerSidebar from '../CareerSidebar'
+
 
 interface CareerPath {
   id: number
@@ -79,8 +79,8 @@ const CareerPathways = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
+          
+          <div>
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="mb-8">
                 <button
@@ -113,8 +113,8 @@ const CareerPathways = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="flex">
-        <CareerSidebar />
-        <div className="flex-1 ml-6">
+        
+        <div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">

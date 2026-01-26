@@ -93,8 +93,8 @@ const mockNotifications: Notification[] = [
     message: 'Your weekly learning report is ready. You\'ve completed 3.2 hours of learning this week!',
     timestamp: '2025-01-13T08:00:00Z',
     read: true,
-    actionUrl: '/student/progress/reports',
-    actionText: 'View Report',
+    actionUrl: '/student/progress/analytics',
+    actionText: 'View Analytics',
     priority: 'low',
     category: 'Reports'
   }

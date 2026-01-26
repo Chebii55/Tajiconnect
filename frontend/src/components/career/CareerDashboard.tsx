@@ -11,8 +11,6 @@ import {
   Rocket,
   Zap
 } from 'lucide-react'
-import CareerSidebar from '../CareerSidebar'
-
 const CareerDashboard = () => {
   const studentName = "John Doe" // Mock data - would come from auth context
 
@@ -134,10 +132,6 @@ const CareerDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="flex">
-        <CareerSidebar />
-        <div className="flex-1 ml-6">
-
       {/* Header */}
       <div className="bg-primary-dark py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -319,9 +313,7 @@ const CareerDashboard = () => {
             </div>
           </div>
         </div>
-          </main>
-        </div>
-      </div>
+      </main>
     </div>
   )
 }

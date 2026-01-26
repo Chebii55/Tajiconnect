@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Target, Brain, Loader2 } from 'lucide-react'
-import CareerSidebar from '../CareerSidebar'
 import { useCareerAssessment, type AssessmentAnswers, type CareerRecommendation } from '../../hooks/useCareerAssessment'
 import { useCareerPaths } from '../../hooks/useCareerPaths'
 
@@ -184,10 +183,7 @@ const CareerAssessment = () => {
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="text-center mb-8">
                 <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
                   <Brain className="w-10 h-10 text-white" />
@@ -323,8 +319,6 @@ const CareerAssessment = () => {
                   </button>
                 </div>
               )}
-            </div>
-          </div>
         </div>
       </div>
     )
@@ -334,35 +328,30 @@ const CareerAssessment = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        <div className="flex">
-          <CareerSidebar />
-          <div className="flex-1 ml-6">
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-              <div className="text-center">
-                <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                  <Loader2 className="w-10 h-10 text-white animate-spin" />
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <div className="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+              <Loader2 className="w-10 h-10 text-white animate-spin" />
+            </div>
+            <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
+              AI is Analyzing Your Responses...
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto mb-8">
+              Our AI is generating personalized career recommendations and custom learning roadmaps just for you
+            </p>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-blue-600 rounded-full animate-pulse mr-3"></div>
+                  <span className="text-gray-700 dark:text-gray-300">Analyzing your interests and skills...</span>
                 </div>
-                <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
-                  AI is Analyzing Your Responses...
-                </h1>
-                <p className="text-gray-600 dark:text-gray-300 text-xl max-w-3xl mx-auto mb-8">
-                  Our AI is generating personalized career recommendations and custom learning roadmaps just for you
-                </p>
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 max-w-md mx-auto">
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <div className="w-4 h-4 bg-blue-600 rounded-full animate-pulse mr-3"></div>
-                      <span className="text-gray-700 dark:text-gray-300">Analyzing your interests and skills...</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-4 h-4 bg-green-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '0.5s' }}></div>
-                      <span className="text-gray-700 dark:text-gray-300">Matching with career opportunities...</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-4 h-4 bg-purple-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '1s' }}></div>
-                      <span className="text-gray-700 dark:text-gray-300">Creating personalized roadmaps...</span>
-                    </div>
-                  </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-green-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '0.5s' }}></div>
+                  <span className="text-gray-700 dark:text-gray-300">Matching with career opportunities...</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-purple-600 rounded-full animate-pulse mr-3" style={{ animationDelay: '1s' }}></div>
+                  <span className="text-gray-700 dark:text-gray-300">Creating personalized roadmaps...</span>
                 </div>
               </div>
             </div>
@@ -377,128 +366,123 @@ const CareerAssessment = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="flex">
-        <CareerSidebar />
-        <div className="flex-1 ml-6">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                <span className="text-3xl">🧭</span>
-              </div>
-              <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-3">
-                Career Assessment
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
-                Answer these questions to discover careers that match your interests, skills, and values
-              </p>
-
-              {/* Progress Bar */}
-              <div className="mt-8">
-                <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
-                  <div
-                    className="bg-blue-600 h-3 rounded-full transition-all duration-500 shadow-sm"
-                    style={{ width: `${progress}%` }}
-                  ></div>
-                </div>
-                <p className="text-center text-sm font-medium text-[#2C857A] mt-3">
-                  Question {currentQuestion + 1} of {questions.length}
-                </p>
-              </div>
-            </div>
-
-            {/* Question Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
-              <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-8 text-center leading-relaxed">
-                {currentQ.question}
-              </h2>
-
-              <div className="space-y-4">
-                {/* Multiple Choice */}
-                {currentQ.type === 'multiple-choice' && currentQ.options?.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswer(option)}
-                    className="w-full text-left p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 group"
-                  >
-                    <span className="text-base font-medium text-[#333333] group-hover:text-primary-dark dark:text-darkMode-link transition-colors">
-                      {option}
-                    </span>
-                  </button>
-                ))}
-
-                {/* Scale */}
-                {currentQ.type === 'scale' && (
-                  <div className="space-y-6">
-                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
-                      <span>{currentQ.scaleLabel?.min}</span>
-                      <span>{currentQ.scaleLabel?.max}</span>
-                    </div>
-                    <div className="flex justify-between space-x-2">
-                      {[1, 2, 3, 4, 5].map((value) => (
-                        <button
-                          key={value}
-                          onClick={() => handleAnswer(value)}
-                          className="flex-1 h-16 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 flex items-center justify-center font-bold text-lg text-[#333333] hover:text-primary-dark dark:text-darkMode-link"
-                        >
-                          {value}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Checkbox */}
-                {currentQ.type === 'checkbox' && (
-                  <div className="space-y-4">
-                    {currentQ.options?.map((option, index) => (
-                      <label key={index} className="flex items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 cursor-pointer transition-all duration-300">
-                        <input
-                          type="checkbox"
-                          className="h-5 w-5 text-primary focus:ring-[#3DAEDB] border-gray-300 rounded mr-4"
-                          onChange={(e) => {
-                            const currentAnswers = (answers[currentQ.id] as string[]) || []
-                            if (e.target.checked) {
-                              handleAnswer([...currentAnswers, option])
-                            } else {
-                              handleAnswer(currentAnswers.filter((a: string) => a !== option))
-                            }
-                          }}
-                        />
-                        <span className="text-base font-medium text-[#333333] dark:text-gray-300">{option}</span>
-                      </label>
-                    ))}
-                    <button
-                      onClick={() => handleAnswer(answers[currentQ.id] || [])}
-                      className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold w-full mt-6"
-                    >
-                      Continue
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* Navigation */}
-              {currentQ.type !== 'checkbox' && (
-                <div className="flex justify-between mt-8">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentQuestion === 0}
-                    className={`py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
-                      currentQuestion === 0
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'border-2 border-[#1C3D6E] text-primary-dark dark:text-darkMode-link hover:bg-[#1C3D6E] hover:text-white'
-                    }`}
-                  >
-                    Previous
-                  </button>
-                  <span className="text-sm text-gray-600 dark:text-gray-300 self-center">
-                    {currentQuestion + 1} of {questions.length}
-                  </span>
-                </div>
-              )}
-            </div>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <span className="text-3xl">🧭</span>
           </div>
+          <h1 className="text-4xl font-bold text-primary-dark dark:text-darkMode-link mb-3">
+            Career Assessment
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
+            Answer these questions to discover careers that match your interests, skills, and values
+          </p>
+
+          {/* Progress Bar */}
+          <div className="mt-8">
+            <div className="w-full bg-[#F2F2F2] rounded-full h-3 shadow-inner">
+              <div
+                className="bg-blue-600 h-3 rounded-full transition-all duration-500 shadow-sm"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <p className="text-center text-sm font-medium text-[#2C857A] mt-3">
+              Question {currentQuestion + 1} of {questions.length}
+            </p>
+          </div>
+        </div>
+
+        {/* Question Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border-0 p-8 hover:shadow-2xl transition-all duration-300">
+          <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link mb-8 text-center leading-relaxed">
+            {currentQ.question}
+          </h2>
+
+          <div className="space-y-4">
+            {/* Multiple Choice */}
+            {currentQ.type === 'multiple-choice' && currentQ.options?.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswer(option)}
+                className="w-full text-left p-6 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 group"
+              >
+                <span className="text-base font-medium text-[#333333] group-hover:text-primary-dark dark:text-darkMode-link transition-colors">
+                  {option}
+                </span>
+              </button>
+            ))}
+
+            {/* Scale */}
+            {currentQ.type === 'scale' && (
+              <div className="space-y-6">
+                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300">
+                  <span>{currentQ.scaleLabel?.min}</span>
+                  <span>{currentQ.scaleLabel?.max}</span>
+                </div>
+                <div className="flex justify-between space-x-2">
+                  {[1, 2, 3, 4, 5].map((value) => (
+                    <button
+                      key={value}
+                      onClick={() => handleAnswer(value)}
+                      className="flex-1 h-16 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 focus:outline-none focus:ring-2 focus:ring-[#3DAEDB] focus:border-[#3DAEDB] transition-all duration-300 flex items-center justify-center font-bold text-lg text-[#333333] hover:text-primary-dark dark:text-darkMode-link"
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Checkbox */}
+            {currentQ.type === 'checkbox' && (
+              <div className="space-y-4">
+                {currentQ.options?.map((option, index) => (
+                  <label key={index} className="flex items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-[#3DAEDB] hover:bg-primary/5 cursor-pointer transition-all duration-300">
+                    <input
+                      type="checkbox"
+                      className="h-5 w-5 text-primary focus:ring-[#3DAEDB] border-gray-300 rounded mr-4"
+                      onChange={(e) => {
+                        const currentAnswers = (answers[currentQ.id] as string[]) || []
+                        if (e.target.checked) {
+                          handleAnswer([...currentAnswers, option])
+                        } else {
+                          handleAnswer(currentAnswers.filter((a: string) => a !== option))
+                        }
+                      }}
+                    />
+                    <span className="text-base font-medium text-[#333333] dark:text-gray-300">{option}</span>
+                  </label>
+                ))}
+                <button
+                  onClick={() => handleAnswer(answers[currentQ.id] || [])}
+                  className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold w-full mt-6"
+                >
+                  Continue
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation */}
+          {currentQ.type !== 'checkbox' && (
+            <div className="flex justify-between mt-8">
+              <button
+                onClick={handlePrevious}
+                disabled={currentQuestion === 0}
+                className={`py-3 px-6 rounded-xl font-semibold transition-all duration-300 ${
+                  currentQuestion === 0
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'border-2 border-[#1C3D6E] text-primary-dark dark:text-darkMode-link hover:bg-[#1C3D6E] hover:text-white'
+                }`}
+              >
+                Previous
+              </button>
+              <span className="text-sm text-gray-600 dark:text-gray-300 self-center">
+                {currentQuestion + 1} of {questions.length}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>
