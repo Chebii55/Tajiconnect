@@ -1,209 +1,80 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Menu, X } from 'lucide-react';
-import type { Course, CourseView, CourseState } from '../../../types/course';
-import { useCourseProgress } from '../../../hooks/useCourseProgress';
-import CourseOverview from './CourseOverview';
-import CourseProgress from './CourseProgress';
-import LessonViewer from './LessonViewer';
-import ModuleQuiz from './ModuleQuiz';
-import FinalAssessment from './FinalAssessment';
-import BadgeAwardModal from './BadgeAwardModal';
-import CertificateAwardModal from './CertificateAwardModal';
-
-// Import course data
-import selEssentialsData from '../../../data/courses/sel-essentials.json';
-
-const courseData: Record<string, Course> = {
-  'sel-essentials': selEssentialsData as Course,
-  '2': selEssentialsData as Course, // Also allow access via ID "2" which matches the Courses.tsx mock
-};
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { BookOpen, FileText, ArrowLeft, ExternalLink, CheckCircle } from 'lucide-react';
+import { courseService } from '../../../services/api/courses';
+import { userService } from '../../../services/api/user';
+import type { Course, Content } from '../../../services/api/courses';
+import type { CourseEnrollment } from '../../../services/api/user';
+import { getUserId } from '../../../utils/auth';
 
 const CourseLearning: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const navigate = useNavigate();
   const [course, setCourse] = useState<Course | null>(null);
-  const [courseState, setCourseState] = useState<CourseState>({
-    view: 'overview',
-    selectedModuleIndex: 0,
-    selectedLessonIndex: 0,
-  });
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [contentItems, setContentItems] = useState<Content[]>([]);
+  const [enrollment, setEnrollment] = useState<CourseEnrollment | null>(null);
+  const [enrolling, setEnrolling] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Load course data
   useEffect(() => {
-    if (courseId && courseData[courseId]) {
-      setCourse(courseData[courseId]);
-    }
+    const loadCourse = async () => {
+      if (!courseId) return;
+      try {
+        setLoading(true);
+        setError(null);
+        const [courseData, contentData] = await Promise.all([
+          courseService.getCourseById(courseId),
+          courseService.getContentByCourse(courseId),
+        ]);
+        setCourse(courseData);
+        setContentItems(contentData);
+
+        const userId = getUserId();
+        if (userId) {
+          try {
+            const existing = await userService.getUserCourse(userId, courseId);
+            setEnrollment(existing);
+          } catch {
+            setEnrollment(null);
+          }
+        }
+      } catch (err: any) {
+        console.error('Failed to load course:', err);
+        setError(err?.message || 'Unable to load course');
+        setCourse(null);
+        setContentItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCourse();
   }, [courseId]);
 
-  // Use course progress hook
-  const {
-    progress,
-    loading,
-    newBadge,
-    showCertificate,
-    completeLesson,
-    setCurrentLesson,
-    recordQuizScore,
-    recordFinalScore,
-    checkBadgeEligibility,
-    checkFinalBadgeEligibility,
-    checkCertificateEligibility,
-    clearNewBadge,
-    clearCertificateNotification,
-    calculateOverallProgress,
-    isModuleComplete,
-    isQuizUnlocked,
-    isFinalUnlocked,
-  } = useCourseProgress(courseId || '', course);
-
-  const overallProgress = calculateOverallProgress();
-
-  // Navigation handlers
-  const handleSelectOverview = useCallback(() => {
-    setCourseState(prev => ({ ...prev, view: 'overview' }));
-  }, []);
-
-  const handleSelectLesson = useCallback((moduleIndex: number, lessonIndex: number) => {
-    if (!course) return;
-    const lesson = course.modules[moduleIndex].lessons[lessonIndex];
-    const module = course.modules[moduleIndex];
-    setCurrentLesson(lesson.id, module.id);
-    setCourseState({
-      view: 'lesson',
-      selectedModuleIndex: moduleIndex,
-      selectedLessonIndex: lessonIndex,
-    });
-    setMobileMenuOpen(false);
-  }, [course, setCurrentLesson]);
-
-  const handleSelectQuiz = useCallback((moduleIndex: number) => {
-    setCourseState({
-      view: 'quiz',
-      selectedModuleIndex: moduleIndex,
-      selectedLessonIndex: 0,
-    });
-    setMobileMenuOpen(false);
-  }, []);
-
-  const handleSelectFinal = useCallback(() => {
-    setCourseState(prev => ({
-      ...prev,
-      view: 'final-assessment',
-    }));
-    setMobileMenuOpen(false);
-  }, []);
-
-  const handleStartLearning = useCallback(() => {
-    handleSelectLesson(0, 0);
-  }, [handleSelectLesson]);
-
-  const handleContinueLearning = useCallback(() => {
-    if (!course || !progress) return;
-
-    // Find the first incomplete lesson
-    for (let mi = 0; mi < course.modules.length; mi++) {
-      const module = course.modules[mi];
-      for (let li = 0; li < module.lessons.length; li++) {
-        if (!progress.completedLessons.includes(module.lessons[li].id)) {
-          handleSelectLesson(mi, li);
-          return;
-        }
-      }
-      // Check if quiz needs to be taken
-      if (!progress.quizScores[module.quiz.id] || progress.quizScores[module.quiz.id] < module.quiz.passingScore) {
-        if (isQuizUnlocked(module.id)) {
-          handleSelectQuiz(mi);
-          return;
-        }
-      }
-    }
-
-    // All modules done, go to final if unlocked
-    if (isFinalUnlocked() && (!progress.finalScore || progress.finalScore < course.finalAssessment.passingScore)) {
-      handleSelectFinal();
+  const handleEnroll = async () => {
+    if (!courseId) return;
+    const userId = getUserId();
+    if (!userId) {
+      setError('User not authenticated');
       return;
     }
-
-    // Default to overview
-    handleSelectOverview();
-  }, [course, progress, handleSelectLesson, handleSelectQuiz, handleSelectFinal, handleSelectOverview, isQuizUnlocked, isFinalUnlocked]);
-
-  // Lesson navigation
-  const handleLessonComplete = useCallback(() => {
-    if (!course) return;
-    const lesson = course.modules[courseState.selectedModuleIndex].lessons[courseState.selectedLessonIndex];
-    completeLesson(lesson.id);
-  }, [course, courseState, completeLesson]);
-
-  const handleLessonPrevious = useCallback(() => {
-    if (courseState.selectedLessonIndex > 0) {
-      handleSelectLesson(courseState.selectedModuleIndex, courseState.selectedLessonIndex - 1);
-    } else if (courseState.selectedModuleIndex > 0 && course) {
-      const prevModuleIndex = courseState.selectedModuleIndex - 1;
-      const prevModule = course.modules[prevModuleIndex];
-      handleSelectLesson(prevModuleIndex, prevModule.lessons.length - 1);
+    try {
+      setEnrolling(true);
+      const created = await userService.createEnrollment(userId, {
+        course_id: courseId,
+        status: 'enrolled',
+        progress_percent: 0,
+        source: 'course_detail',
+      });
+      setEnrollment(created);
+    } catch (err: any) {
+      setError(err?.message || 'Failed to enroll');
+    } finally {
+      setEnrolling(false);
     }
-  }, [courseState, course, handleSelectLesson]);
+  };
 
-  const handleLessonNext = useCallback(() => {
-    if (!course) return;
-    const module = course.modules[courseState.selectedModuleIndex];
-
-    if (courseState.selectedLessonIndex < module.lessons.length - 1) {
-      handleSelectLesson(courseState.selectedModuleIndex, courseState.selectedLessonIndex + 1);
-    } else if (isQuizUnlocked(module.id)) {
-      // Go to quiz after last lesson
-      handleSelectQuiz(courseState.selectedModuleIndex);
-    }
-  }, [course, courseState, handleSelectLesson, handleSelectQuiz, isQuizUnlocked]);
-
-  // Quiz handlers
-  const handleQuizSubmit = useCallback((score: number) => {
-    if (!course) return;
-    const module = course.modules[courseState.selectedModuleIndex];
-    recordQuizScore(module.quiz.id, score);
-
-    // Check badge eligibility after recording score
-    setTimeout(() => {
-      checkBadgeEligibility(module.id);
-    }, 500);
-  }, [course, courseState, recordQuizScore, checkBadgeEligibility]);
-
-  const handleQuizContinue = useCallback(() => {
-    if (!course) return;
-
-    // Move to next module or final assessment
-    if (courseState.selectedModuleIndex < course.modules.length - 1) {
-      handleSelectLesson(courseState.selectedModuleIndex + 1, 0);
-    } else if (isFinalUnlocked()) {
-      handleSelectFinal();
-    } else {
-      handleSelectOverview();
-    }
-  }, [course, courseState, handleSelectLesson, handleSelectFinal, handleSelectOverview, isFinalUnlocked]);
-
-  // Final assessment handlers
-  const handleFinalSubmit = useCallback((score: number) => {
-    recordFinalScore(score);
-
-    // Check final badge and certificate eligibility
-    setTimeout(() => {
-      checkFinalBadgeEligibility();
-      setTimeout(() => {
-        checkCertificateEligibility();
-      }, 1000);
-    }, 500);
-  }, [recordFinalScore, checkFinalBadgeEligibility, checkCertificateEligibility]);
-
-  const handleFinalComplete = useCallback(() => {
-    // Certificate modal will show automatically via showCertificate state
-  }, []);
-
-  // Loading state
-  if (loading || !course || !progress) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg flex items-center justify-center">
         <div className="text-center">
@@ -214,16 +85,15 @@ const CourseLearning: React.FC = () => {
     );
   }
 
-  // Course not found
-  if (!courseData[courseId || '']) {
+  if (error || !course) {
     return (
       <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg flex items-center justify-center">
-        <div className="text-center">
+        <div className="text-center max-w-lg">
           <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-2">
-            Course Not Found
+            Course Unavailable
           </h2>
-          <p className="text-gray-600 dark:text-darkMode-textSecondary mb-4">
-            The course you're looking for doesn't exist.
+          <p className="text-gray-600 dark:text-darkMode-textSecondary mb-6">
+            {error || 'We could not load this course.'}
           </p>
           <Link
             to="/student/courses"
@@ -237,199 +107,115 @@ const CourseLearning: React.FC = () => {
     );
   }
 
-  const currentModule = course.modules[courseState.selectedModuleIndex];
-  const currentLesson = currentModule?.lessons[courseState.selectedLessonIndex];
-
-  // Check navigation state
-  const hasPreviousLesson = courseState.selectedLessonIndex > 0 || courseState.selectedModuleIndex > 0;
-  const hasNextLesson =
-    courseState.selectedLessonIndex < currentModule.lessons.length - 1 ||
-    courseState.selectedModuleIndex < course.modules.length - 1;
-
   return (
     <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg">
-      {/* Header */}
-      <header className="bg-white dark:bg-darkMode-surface border-b border-gray-200 dark:border-darkMode-border sticky top-0 z-20">
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/student/courses"
-              className="flex items-center gap-2 text-gray-600 dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-link transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Back to Courses</span>
-            </Link>
-            <div className="hidden md:block h-6 w-px bg-gray-300 dark:bg-darkMode-border" />
-            <h1 className="hidden md:block text-lg font-semibold text-primary-dark dark:text-darkMode-text truncate max-w-md">
-              {course.title}
-            </h1>
-          </div>
+      <div className="max-w-5xl mx-auto px-4 py-10">
+        <div className="flex items-center gap-3 mb-6">
+          <Link
+            to="/student/courses"
+            className="flex items-center gap-2 text-gray-600 dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-link transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Back to Courses
+          </Link>
+        </div>
 
-          <div className="flex items-center gap-3">
-            {/* Progress indicator */}
-            <div className="hidden sm:flex items-center gap-2">
-              <div className="w-32 bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
-                <div
-                  className="bg-primary dark:bg-darkMode-link h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${overallProgress}%` }}
-                />
-              </div>
-              <span className="text-sm font-medium text-gray-600 dark:text-darkMode-textSecondary">
-                {overallProgress}%
-              </span>
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6 mb-8">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-text mb-2">
+                {course.title}
+              </h1>
+              <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">
+                {course.description || 'No description provided.'}
+              </p>
             </div>
-
-            {/* Mobile menu toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-surfaceHover transition-colors"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-gray-600 dark:text-darkMode-textSecondary" />
-              ) : (
-                <Menu className="w-6 h-6 text-gray-600 dark:text-darkMode-textSecondary" />
-              )}
-            </button>
-
-            {/* Desktop sidebar toggle */}
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="hidden lg:block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-darkMode-surfaceHover transition-colors"
-            >
-              <Menu className="w-5 h-5 text-gray-600 dark:text-darkMode-textSecondary" />
-            </button>
+            <div className="flex flex-col items-end gap-2">
+              <span className="px-3 py-1 rounded-full text-xs font-medium bg-info/10 dark:bg-darkMode-link/20 text-info dark:text-darkMode-link">
+                {course.status}
+              </span>
+              <button
+                onClick={handleEnroll}
+                disabled={Boolean(enrollment) || enrolling}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  enrollment
+                    ? 'bg-success/10 text-success dark:bg-darkMode-success/20 dark:text-darkMode-success cursor-not-allowed'
+                    : 'bg-primary-dark text-white hover:bg-primary dark:bg-darkMode-navbar dark:hover:bg-darkMode-surface'
+                }`}
+              >
+                {enrollment ? (
+                  <span className="inline-flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Enrolled
+                  </span>
+                ) : enrolling ? (
+                  'Enrolling...'
+                ) : (
+                  'Enroll'
+                )}
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-neutral-dark/70 dark:text-darkMode-textMuted mt-4">
+            <span>Created {new Date(course.created_at).toLocaleDateString()}</span>
+            {course.updated_at ? (
+              <span>Updated {new Date(course.updated_at).toLocaleDateString()}</span>
+            ) : null}
           </div>
         </div>
-      </header>
 
-      <div className="flex">
-        {/* Sidebar - Desktop */}
-        <aside
-          className={`hidden lg:block transition-all duration-300 ${
-            sidebarOpen ? 'w-80' : 'w-0 overflow-hidden'
-          }`}
-        >
-          <div className="sticky top-[57px] h-[calc(100vh-57px)] overflow-y-auto p-4">
-            <CourseProgress
-              course={course}
-              progress={progress}
-              overallProgress={overallProgress}
-              selectedModuleIndex={courseState.selectedModuleIndex}
-              selectedLessonIndex={courseState.selectedLessonIndex}
-              onSelectLesson={handleSelectLesson}
-              onSelectQuiz={handleSelectQuiz}
-              onSelectFinal={handleSelectFinal}
-              onSelectOverview={handleSelectOverview}
-              isQuizUnlocked={isQuizUnlocked}
-              isFinalUnlocked={isFinalUnlocked}
-              isModuleComplete={isModuleComplete}
-              currentView={courseState.view}
-            />
+        <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <BookOpen className="w-5 h-5 text-primary" />
+            <h2 className="text-xl font-semibold text-primary-dark dark:text-darkMode-text">
+              Course Content
+            </h2>
           </div>
-        </aside>
 
-        {/* Sidebar - Mobile */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden fixed inset-0 z-30">
-            <div
-              className="absolute inset-0 bg-black/50"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-            <div className="absolute right-0 top-0 bottom-0 w-80 bg-neutral-light dark:bg-darkMode-bg overflow-y-auto">
-              <div className="p-4">
-                <CourseProgress
-                  course={course}
-                  progress={progress}
-                  overallProgress={overallProgress}
-                  selectedModuleIndex={courseState.selectedModuleIndex}
-                  selectedLessonIndex={courseState.selectedLessonIndex}
-                  onSelectLesson={handleSelectLesson}
-                  onSelectQuiz={handleSelectQuiz}
-                  onSelectFinal={handleSelectFinal}
-                  onSelectOverview={handleSelectOverview}
-                  isQuizUnlocked={isQuizUnlocked}
-                  isFinalUnlocked={isFinalUnlocked}
-                  isModuleComplete={isModuleComplete}
-                  currentView={courseState.view}
-                />
-              </div>
+          {contentItems.length === 0 ? (
+            <div className="text-center py-10">
+              <FileText className="w-14 h-14 text-gray-400 dark:text-darkMode-textMuted mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-neutral-dark dark:text-darkMode-text mb-2">
+                No lessons yet
+              </h3>
+              <p className="text-neutral-dark/80 dark:text-darkMode-textSecondary">
+                This course doesn&apos;t have content published yet.
+              </p>
             </div>
-          </div>
-        )}
-
-        {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 min-h-[calc(100vh-57px)]">
-          {courseState.view === 'overview' && (
-            <CourseOverview
-              course={course}
-              progress={progress}
-              overallProgress={overallProgress}
-              onStartLearning={handleStartLearning}
-              onContinueLearning={handleContinueLearning}
-            />
+          ) : (
+            <div className="space-y-4">
+              {contentItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="border border-gray-200 dark:border-darkMode-border rounded-lg p-4 flex items-start justify-between gap-4"
+                >
+                  <div>
+                    <h3 className="text-lg font-semibold text-primary-dark dark:text-darkMode-text">
+                      {item.title}
+                    </h3>
+                    {item.description ? (
+                      <p className="text-sm text-neutral-dark/80 dark:text-darkMode-textSecondary mt-1">
+                        {item.description}
+                      </p>
+                    ) : null}
+                    <p className="text-xs text-neutral-dark/60 dark:text-darkMode-textMuted mt-2">
+                      Type: {item.content_type} • Status: {item.status}
+                    </p>
+                  </div>
+                  <a
+                    href={courseService.getContentStreamUrl(item.id)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-primary dark:text-darkMode-link hover:text-primary-dark dark:hover:text-darkMode-linkHover"
+                  >
+                    View <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
+              ))}
+            </div>
           )}
-
-          {courseState.view === 'lesson' && currentLesson && (
-            <LessonViewer
-              lesson={currentLesson}
-              module={currentModule}
-              lessonIndex={courseState.selectedLessonIndex}
-              moduleIndex={courseState.selectedModuleIndex}
-              totalLessonsInModule={currentModule.lessons.length}
-              isCompleted={progress.completedLessons.includes(currentLesson.id)}
-              onComplete={handleLessonComplete}
-              onPrevious={handleLessonPrevious}
-              onNext={handleLessonNext}
-              hasPrevious={hasPreviousLesson}
-              hasNext={hasNextLesson || isQuizUnlocked(currentModule.id)}
-            />
-          )}
-
-          {courseState.view === 'quiz' && (
-            <ModuleQuiz
-              module={currentModule}
-              moduleIndex={courseState.selectedModuleIndex}
-              previousScore={progress.quizScores[currentModule.quiz.id]}
-              attempts={progress.quizAttempts[currentModule.quiz.id] || 0}
-              onSubmit={handleQuizSubmit}
-              onContinue={handleQuizContinue}
-              hasPassed={
-                (progress.quizScores[currentModule.quiz.id] || 0) >= currentModule.quiz.passingScore
-              }
-            />
-          )}
-
-          {courseState.view === 'final-assessment' && (
-            <FinalAssessment
-              assessment={course.finalAssessment}
-              course={course}
-              previousScore={progress.finalScore}
-              attempts={progress.finalAttempts}
-              onSubmit={handleFinalSubmit}
-              onComplete={handleFinalComplete}
-              hasPassed={
-                progress.finalScore !== null &&
-                progress.finalScore >= course.finalAssessment.passingScore
-              }
-            />
-          )}
-        </main>
+        </div>
       </div>
-
-      {/* Badge Award Modal */}
-      {newBadge && (
-        <BadgeAwardModal badge={newBadge} onClose={clearNewBadge} />
-      )}
-
-      {/* Certificate Award Modal */}
-      {showCertificate && progress.certificateEarnedAt && (
-        <CertificateAwardModal
-          certificate={course.certificate}
-          course={course}
-          earnedDate={progress.certificateEarnedAt}
-          onClose={clearCertificateNotification}
-        />
-      )}
     </div>
   );
 };

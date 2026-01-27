@@ -1,13 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { courseService } from '../../services/api/courses';
+import { userService } from '../../services/api/user';
 import type { Course, CourseStatus, Grade, Subject } from '../../services/api/courses';
+import type { CourseEnrollment } from '../../services/api/user';
+import { getUserId } from '../../utils/auth';
 import { BookOpen, Search, Filter, ChevronDown, Grid, List, Play } from 'lucide-react';
 
 const Courses: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [grades, setGrades] = useState<Grade[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [enrollments, setEnrollments] = useState<Record<string, CourseEnrollment>>({});
+  const [enrollingIds, setEnrollingIds] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +37,16 @@ const Courses: React.FC = () => {
         setCourses(courseData);
         setGrades(gradeData);
         setSubjects(subjectData);
+
+        const userId = getUserId();
+        if (userId) {
+          const userEnrollments = await userService.getUserCourses(userId, 0, 500);
+          const enrollmentMap: Record<string, CourseEnrollment> = {};
+          userEnrollments.forEach((enrollment) => {
+            enrollmentMap[enrollment.course_id] = enrollment;
+          });
+          setEnrollments(enrollmentMap);
+        }
       } catch (err: any) {
         console.error('Failed to load courses:', err);
         setError(err?.message || 'Course service unavailable');
@@ -43,6 +58,29 @@ const Courses: React.FC = () => {
 
     loadData();
   }, []);
+
+  const handleEnroll = async (courseId: string) => {
+    const userId = getUserId();
+    if (!userId) {
+      setError('User not authenticated');
+      return;
+    }
+    try {
+      setEnrollingIds((prev) => ({ ...prev, [courseId]: true }));
+      const enrollment = await userService.createEnrollment(userId, {
+        course_id: courseId,
+        status: 'enrolled',
+        progress_percent: 0,
+        source: 'courses_list',
+      });
+      setEnrollments((prev) => ({ ...prev, [courseId]: enrollment }));
+    } catch (err: any) {
+      console.error('Failed to enroll:', err);
+      setError(err?.message || 'Failed to enroll');
+    } finally {
+      setEnrollingIds((prev) => ({ ...prev, [courseId]: false }));
+    }
+  };
 
   const gradeMap = useMemo(() => {
     return new Map(grades.map((grade) => [String(grade.id), grade.name]));
@@ -243,6 +281,9 @@ const Courses: React.FC = () => {
           {filteredCourses.map((course) => {
             const gradeName = course.grade_id ? gradeMap.get(String(course.grade_id)) : null;
             const subjectName = course.subject_id ? subjectMap.get(String(course.subject_id)) : null;
+            const enrollment = enrollments[course.id];
+            const isEnrolled = Boolean(enrollment);
+            const isEnrolling = Boolean(enrollingIds[course.id]);
 
             return (
               <div
@@ -295,6 +336,17 @@ const Courses: React.FC = () => {
                       <Play className="w-4 h-4" />
                       <span>View Course</span>
                     </Link>
+                    <button
+                      onClick={() => handleEnroll(course.id)}
+                      disabled={isEnrolled || isEnrolling}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        isEnrolled
+                          ? 'bg-success/10 text-success dark:bg-darkMode-success/20 dark:text-darkMode-success cursor-not-allowed'
+                          : 'bg-primary-dark text-white hover:bg-primary dark:bg-darkMode-navbar dark:hover:bg-darkMode-surface'
+                      }`}
+                    >
+                      {isEnrolled ? 'Enrolled' : isEnrolling ? 'Enrolling...' : 'Enroll'}
+                    </button>
                   </div>
                 </div>
               </div>

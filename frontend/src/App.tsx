@@ -17,6 +17,7 @@ function App() {
             <LearningPathProvider>
               <RealTimeProvider>
                 <RouterProvider router={router} />
+                {/* <PerformanceMonitor /> */}
               </RealTimeProvider>
             </LearningPathProvider>
           </RecommendationsProvider>
