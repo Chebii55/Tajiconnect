@@ -43,6 +43,23 @@ export interface TrendingRequest {
   time_window_days?: number;
 }
 
+export interface TrendingCourse {
+  course_id: string;
+  trend_score: number;
+  view_count: number;
+  enrollment_count: number;
+  completion_count: number;
+  rating_avg?: number | null;
+  growth_rate: number;
+}
+
+export interface TrendingCoursesResponse {
+  trending_courses: TrendingCourse[];
+  time_window_days: number;
+  total_count: number;
+  generated_at?: string;
+}
+
 // ============================================
 // TYPE DEFINITIONS - LEARNING PATHS
 // ============================================
@@ -222,8 +239,8 @@ class AIService {
   /**
    * Get trending courses
    */
-  async getTrendingCourses(limit = 10, timeWindowDays = 7): Promise<CourseRecommendation[]> {
-    return apiClient.post<CourseRecommendation[]>(
+  async getTrendingCourses(limit = 10, timeWindowDays = 7): Promise<TrendingCoursesResponse> {
+    return apiClient.post<TrendingCoursesResponse>(
       AI.RECOMMENDATIONS.TRENDING,
       { limit, time_window_days: timeWindowDays }
     );

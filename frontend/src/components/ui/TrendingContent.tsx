@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { analyticsApi } from '../../services/api/analytics';
+import { aiService } from '../../services/api/ai';
 import { handleApiError } from '../../utils/errorHandler';
-import { TrendingUp, Eye, Clock, Users } from 'lucide-react';
+import { TrendingUp, Clock, Star } from 'lucide-react';
 
-interface TrendingContent {
-  content_id: string;
+interface TrendingItem {
+  id: string;
   title: string;
-  content_type: string;
-  view_count: number;
-  engagement_rate: number;
-  trending_score: number;
-  category: string;
+  contentType: string;
+  trendingScore: number;
+  estimatedDuration?: number;
+  difficultyLevel?: string;
 }
 
 const TrendingContent: React.FC = () => {
-  const [trendingItems, setTrendingItems] = useState<TrendingContent[]>([]);
+  const [trendingItems, setTrendingItems] = useState<TrendingItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,38 +26,32 @@ const TrendingContent: React.FC = () => {
     setError(null);
 
     try {
-      // Mock trending content - in real implementation, this would come from analytics API
-      const mockTrending: TrendingContent[] = [
-        {
-          content_id: 'trend_1',
-          title: 'Advanced Python Concepts',
-          content_type: 'lesson',
-          view_count: 1250,
-          engagement_rate: 0.85,
-          trending_score: 95,
-          category: 'Programming'
-        },
-        {
-          content_id: 'trend_2',
-          title: 'Data Visualization Masterclass',
-          content_type: 'practice',
-          view_count: 890,
-          engagement_rate: 0.78,
-          trending_score: 88,
-          category: 'Data Science'
-        },
-        {
-          content_id: 'trend_3',
-          title: 'Machine Learning Fundamentals',
-          content_type: 'assessment',
-          view_count: 675,
-          engagement_rate: 0.92,
-          trending_score: 82,
-          category: 'AI/ML'
-        }
-      ];
+      const response = await aiService.getTrendingCourses(6, 7);
+      const trendingList = Array.isArray(response)
+        ? response
+        : response.trending_courses ?? [];
 
-      setTrendingItems(mockTrending);
+      const mapped: TrendingItem[] = trendingList.map((item: any) => {
+        if ('score' in item) {
+          return {
+            id: item.course_id,
+            title: item.title,
+            contentType: 'course',
+            trendingScore: Math.round(item.score * 100),
+            estimatedDuration: item.estimated_duration,
+            difficultyLevel: item.difficulty_level,
+          };
+        }
+
+        return {
+          id: item.course_id,
+          title: `Course ${item.course_id}`,
+          contentType: 'course',
+          trendingScore: Math.round(item.trend_score ?? 0),
+        };
+      });
+
+      setTrendingItems(mapped);
     } catch (err: any) {
       setError(handleApiError(err));
     } finally {
@@ -68,16 +61,14 @@ const TrendingContent: React.FC = () => {
 
   const getContentIcon = (type: string) => {
     switch (type) {
-      case 'lesson': return '📚';
-      case 'practice': return '🔧';
-      case 'assessment': return '📝';
+      case 'course': return '📚';
       default: return '📄';
     }
   };
 
   const getTrendingColor = (score: number) => {
-    if (score >= 90) return 'text-red-600 bg-red-100';
-    if (score >= 80) return 'text-orange-600 bg-orange-100';
+    if (score >= 100) return 'text-red-600 bg-red-100';
+    if (score >= 60) return 'text-orange-600 bg-orange-100';
     return 'text-blue-600 bg-blue-100';
   };
 
@@ -110,6 +101,21 @@ const TrendingContent: React.FC = () => {
     );
   }
 
+  if (!trendingItems.length) {
+    return (
+      <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow p-6 text-center">
+        <TrendingUp className="w-10 h-10 mx-auto text-gray-400 mb-3" />
+        <p className="text-gray-600 dark:text-gray-400">No trending content yet.</p>
+        <button
+          onClick={loadTrendingContent}
+          className="mt-4 text-primary hover:text-primary-dark text-sm font-medium"
+        >
+          Refresh
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -122,9 +128,9 @@ const TrendingContent: React.FC = () => {
       <div className="p-6">
         <div className="space-y-4">
           {trendingItems.map((item, index) => (
-            <div key={item.content_id} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
+            <div key={item.id} className="flex items-center gap-4 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
               <div className="flex items-center gap-2">
-                <span className="text-2xl">{getContentIcon(item.content_type)}</span>
+                <span className="text-2xl">{getContentIcon(item.contentType)}</span>
                 <div className="text-sm font-bold text-primary">#{index + 1}</div>
               </div>
 
@@ -134,22 +140,26 @@ const TrendingContent: React.FC = () => {
                 </h4>
                 <div className="flex items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-1">
-                    <Eye className="w-3 h-3" />
-                    {item.view_count.toLocaleString()} views
+                    <Star className="w-3 h-3" />
+                    Score {item.trendingScore}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="w-3 h-3" />
-                    {Math.round(item.engagement_rate * 100)}% engagement
-                  </span>
-                  <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
-                    {item.category}
-                  </span>
+                  {item.estimatedDuration ? (
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      {item.estimatedDuration} hrs
+                    </span>
+                  ) : null}
+                  {item.difficultyLevel ? (
+                    <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded capitalize">
+                      {item.difficultyLevel}
+                    </span>
+                  ) : null}
                 </div>
               </div>
 
               <div className="text-right">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTrendingColor(item.trending_score)}`}>
-                  {item.trending_score}% hot
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTrendingColor(item.trendingScore)}`}>
+                  {item.trendingScore} hot
                 </span>
               </div>
             </div>

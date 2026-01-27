@@ -50,6 +50,10 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
 
   // Use Vite environment variables
   const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
+  const normalizedWsUrl = wsUrl.replace(/\/+$/, '');
+  const socketUrl = normalizedWsUrl.endsWith('/ws')
+    ? normalizedWsUrl
+    : `${normalizedWsUrl}/ws`;
 
   // Message handler
   const handleMessage = useCallback((message: WebSocketMessage) => {
@@ -85,7 +89,7 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
     lastMessage,
     reconnectAttempts
   } = useWebSocket(
-    `${wsUrl}/user/${userId}`,
+    socketUrl,
     {
       onMessage: handleMessage,
       onConnect: () => {
@@ -106,7 +110,7 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
         console.error('WebSocket error:', error);
       },
       autoConnect: true,
-      includeToken: true
+      includeToken: false
     }
   );
 

@@ -61,13 +61,12 @@ const Courses: React.FC = () => {
   const loadCourses = async () => {
     try {
       setLoading(true);
+      setError(null);
       const response = await courseService.getCourses(0, 50);
       setCourses(response.items);
-      setError(null);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to load courses:', err);
-      setError('Failed to load courses. Using sample data.');
-      // Fallback to sample data if API fails
+      setError(`Backend error: ${err.message || 'Course service unavailable'}`);
       setCourses([]);
     } finally {
       setLoading(false);
@@ -82,11 +81,13 @@ const Courses: React.FC = () => {
     
     try {
       setLoading(true);
+      setError(null);
       const response = await courseService.searchCourses(query);
       setCourses(response.items);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Search failed:', err);
-      setError('Search failed');
+      setError(`Search failed: ${err.message || 'Service unavailable'}`);
+      setCourses([]);
     } finally {
       setLoading(false);
     }
