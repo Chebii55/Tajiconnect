@@ -4,6 +4,17 @@ import type { ContentRecommendation, PerformanceMetrics } from './types';
 import { cacheManager, CACHE_KEYS, CACHE_TTL } from '../../utils/cache';
 
 export const analyticsApi = {
+  getProgressSummary: async (userId: string, windowDays = 30) => {
+    return apiClient.get(API_ENDPOINTS.ANALYTICS.USER_PROGRESS_SUMMARY(userId), {
+      window_days: windowDays,
+    });
+  },
+
+  getTimeSeries: async (userId: string, windowDays = 30) => {
+    return apiClient.get(API_ENDPOINTS.ANALYTICS.USER_TIME_SERIES(userId), {
+      window_days: windowDays,
+    });
+  },
   // Get personalized recommendations with caching
   getRecommendations: async (userId: string, limit = 10): Promise<{
     recommendations: ContentRecommendation[];

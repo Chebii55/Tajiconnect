@@ -90,6 +90,89 @@ export interface UpdateEnrollmentRequest {
   source?: string;
 }
 
+export type GoalStatus = 'active' | 'completed' | 'paused' | 'overdue';
+export type GoalPriority = 'low' | 'medium' | 'high';
+export type GoalCategory = 'learning' | 'skill' | 'career' | 'personal';
+export type GoalType = 'hours' | 'courses' | 'assessments' | 'skills' | 'streak' | 'custom';
+
+export interface GoalMilestone {
+  id: string;
+  goal_id: string;
+  title: string;
+  target_value: number;
+  completed: boolean;
+  completed_date?: string;
+  reward?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Goal {
+  id: string;
+  user_id: string;
+  title: string;
+  description?: string;
+  category: GoalCategory;
+  type: GoalType;
+  status: GoalStatus;
+  priority: GoalPriority;
+  target_value: number;
+  current_value: number;
+  unit: string;
+  start_date: string;
+  target_date: string;
+  completed_date?: string;
+  tags?: string[];
+  is_public: boolean;
+  reward?: string;
+  milestones: GoalMilestone[];
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GoalCreate {
+  title: string;
+  description?: string;
+  category: GoalCategory;
+  type: GoalType;
+  status?: GoalStatus;
+  priority?: GoalPriority;
+  target_value: number;
+  current_value?: number;
+  unit: string;
+  start_date: string;
+  target_date: string;
+  completed_date?: string;
+  tags?: string[];
+  is_public?: boolean;
+  reward?: string;
+  milestones?: Omit<GoalMilestone, 'id' | 'goal_id' | 'created_at' | 'updated_at'>[];
+}
+
+export interface GoalUpdate extends Partial<GoalCreate> {}
+
+export interface Achievement {
+  id: string;
+  user_id: string;
+  title: string;
+  description?: string;
+  category?: string;
+  earned_at: string;
+  metadata?: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AchievementCreate {
+  title: string;
+  description?: string;
+  category?: string;
+  earned_at?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface AchievementUpdate extends Partial<AchievementCreate> {}
+
 export interface UpdateProfileRequest {
   bio?: string;
   avatar_url?: string;
@@ -207,6 +290,49 @@ class UserService {
       file,
       onProgress
     );
+  }
+
+  // ============================================
+  // GOALS & ACHIEVEMENTS
+  // ============================================
+
+  async getUserGoals(userId: string): Promise<Goal[]> {
+    return apiClient.get<Goal[]>(USERS.GOALS(userId));
+  }
+
+  async createUserGoal(userId: string, data: GoalCreate): Promise<Goal> {
+    return apiClient.post<Goal>(USERS.GOALS(userId), data);
+  }
+
+  async updateUserGoal(userId: string, goalId: string, data: GoalUpdate): Promise<Goal> {
+    return apiClient.put<Goal>(USERS.GOAL(userId, goalId), data);
+  }
+
+  async deleteUserGoal(userId: string, goalId: string): Promise<{ message: string }> {
+    return apiClient.delete<{ message: string }>(USERS.GOAL(userId, goalId));
+  }
+
+  async getUserAchievements(userId: string): Promise<Achievement[]> {
+    return apiClient.get<Achievement[]>(USERS.ACHIEVEMENTS(userId));
+  }
+
+  async createUserAchievement(userId: string, data: AchievementCreate): Promise<Achievement> {
+    return apiClient.post<Achievement>(USERS.ACHIEVEMENTS(userId), data);
+  }
+
+  async updateUserAchievement(
+    userId: string,
+    achievementId: string,
+    data: AchievementUpdate
+  ): Promise<Achievement> {
+    return apiClient.put<Achievement>(USERS.ACHIEVEMENT(userId, achievementId), data);
+  }
+
+  async deleteUserAchievement(
+    userId: string,
+    achievementId: string
+  ): Promise<{ message: string }> {
+    return apiClient.delete<{ message: string }>(USERS.ACHIEVEMENT(userId, achievementId));
   }
 
   // ============================================

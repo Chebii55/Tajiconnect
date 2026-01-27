@@ -31,7 +31,8 @@ const Settings: React.FC = () => {
     first_name: '',
     last_name: '',
     email: '',
-    phone: ''
+    phone: '',
+    bio: ''
   });
 
   useEffect(() => {
@@ -43,7 +44,8 @@ const Settings: React.FC = () => {
         first_name: currentUser.first_name || '',
         last_name: currentUser.last_name || '',
         email: currentUser.email || '',
-        phone: currentUser.phone || ''
+        phone: currentUser.phone || '',
+        bio: currentUser.bio || ''
       });
     }
   }, []);
@@ -108,7 +110,8 @@ const Settings: React.FC = () => {
           first_name: profileData.first_name,
           last_name: profileData.last_name,
           email: profileData.email,
-          phone: profileData.phone
+          phone: profileData.phone,
+          bio: profileData.bio
         };
         authService.updateStoredUser(updatedUser);
         setUser(updatedUser);
@@ -225,6 +228,8 @@ const Settings: React.FC = () => {
         </label>
         <textarea
           rows={3}
+          value={profileData.bio}
+          onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
           placeholder="Tell us about yourself..."
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
         />

@@ -31,6 +31,11 @@ export const API_ENDPOINTS = {
     LIST: `${API_VERSION}/users`,
     COURSES: (userId: string) => `${API_VERSION}/users/${userId}/courses`,
     COURSE: (userId: string, courseId: string) => `${API_VERSION}/users/${userId}/courses/${courseId}`,
+    GOALS: (userId: string) => `${API_VERSION}/users/${userId}/goals`,
+    GOAL: (userId: string, goalId: string) => `${API_VERSION}/users/${userId}/goals/${goalId}`,
+    ACHIEVEMENTS: (userId: string) => `${API_VERSION}/users/${userId}/achievements`,
+    ACHIEVEMENT: (userId: string, achievementId: string) =>
+      `${API_VERSION}/users/${userId}/achievements/${achievementId}`,
   },
 
   // ============================================
@@ -229,6 +234,8 @@ export const API_ENDPOINTS = {
     USERS: `${API_VERSION}/analytics/users`,
     COURSES: `${API_VERSION}/analytics/courses`,
     REPORTS: (reportType: string) => `${API_VERSION}/analytics/reports/${reportType}`,
+    USER_PROGRESS_SUMMARY: (userId: string) => `${API_VERSION}/analytics/users/${userId}/progress-summary`,
+    USER_TIME_SERIES: (userId: string) => `${API_VERSION}/analytics/users/${userId}/time-series`,
     // Legacy endpoints for frontend compatibility
     LOG_INTERACTION: `${API_VERSION}/analytics/interactions`,
     GET_PREDICTIONS: (userId: string) => `${API_VERSION}/analytics/predictions/${userId}`,
