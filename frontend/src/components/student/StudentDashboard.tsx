@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   Clock,
   Trophy,
@@ -16,9 +17,6 @@ import {
   Lightbulb,
   Leaf,
   Shield,
-  Search,
-  Bell,
-  MessageSquare,
   Plus,
   BarChart3,
   TrendingUp,
@@ -26,6 +24,7 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { useRecommendations } from '../../contexts/RecommendationsContext'
+import { authService } from '../../services/api/auth'
 import RecommendationCard from '../ui/RecommendationCard'
 import PerformanceWidget from '../ui/PerformanceWidget'
 import LoadingSpinner from '../ui/LoadingSpinner'
@@ -35,9 +34,52 @@ import RealTimeNotifications from '../ui/RealTimeNotifications'
 
 const StudentDashboard = () => {
   const { recommendations, performance, isLoading, error, refreshRecommendations } = useRecommendations()
-  
-  // Mock student data
-  const studentName = "Amara Wanjiku"
+  const [user, setUser] = useState(null)
+  const [dashboardData, setDashboardData] = useState({
+    recentCourses: [],
+    stats: {
+      coursesCompleted: 0,
+      hoursLearned: 0,
+      streak: 0,
+      points: 0
+    }
+  })
+
+  useEffect(() => {
+    // Get user data
+    const currentUser = authService.getCurrentUser()
+    setUser(currentUser)
+
+    // Mock dashboard data (replace with API call)
+    setDashboardData({
+      recentCourses: [
+        {
+          id: 1,
+          title: "Global Citizenship & Human Rights",
+          progress: 75,
+          nextLesson: "Climate Justice & Advocacy",
+          category: "GCED Core",
+          timeRemaining: "2 hours"
+        },
+        {
+          id: 2,
+          title: "Sustainable Development Goals",
+          progress: 45,
+          nextLesson: "SDG Implementation Strategies",
+          category: "Sustainability",
+          timeRemaining: "1.5 hours"
+        }
+      ],
+      stats: {
+        coursesCompleted: 3,
+        hoursLearned: 24,
+        streak: 7,
+        points: 1250
+      }
+    })
+  }, [])
+
+  const studentName = user ? `${user.first_name} ${user.last_name}` : "Student"
   
   const recentCourses = [
     {
