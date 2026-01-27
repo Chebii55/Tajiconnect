@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
+import { authService } from '../services/api/auth'
 import {
   Sun,
   Moon,
@@ -14,7 +15,21 @@ import MainSidebar from './MainSidebar'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [userInitials, setUserInitials] = useState('')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { theme, toggleTheme } = useTheme()
+
+  useEffect(() => {
+    const user = authService.getCurrentUser()
+    if (user) {
+      setIsLoggedIn(true)
+      const initials = `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase()
+      setUserInitials(initials || 'U')
+    } else {
+      setIsLoggedIn(false)
+      setUserInitials('')
+    }
+  }, [])
 
   return (
     <>
@@ -81,14 +96,16 @@ const Navbar = () => {
               </Link>
 
               {/* Profile */}
-              <Link
-                to="/student/profile"
-                className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
-              >
-                <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  S
-                </div>
-              </Link>
+              {isLoggedIn && (
+                <Link
+                  to="/student/profile"
+                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
+                >
+                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    {userInitials}
+                  </div>
+                </Link>
+              )}
             </div>
           </div>
         </div>

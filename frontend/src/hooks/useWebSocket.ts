@@ -78,6 +78,19 @@ export const useWebSocket = (
   const reconnectTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isManualDisconnect = useRef(false);
 
+  // Early return if WebSocket is disabled
+  if (!WS_ENABLED) {
+    return {
+      isConnected: false,
+      connectionStatus: 'disconnected',
+      lastMessage: null,
+      sendMessage: () => false,
+      connect: () => {},
+      disconnect: () => {},
+      reconnectAttempts: 0,
+    };
+  }
+
   // Build WebSocket URL with token if needed
   const getWebSocketUrl = useCallback((): string => {
     if (!includeToken) return url;

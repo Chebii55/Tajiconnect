@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ArrowLeft, CheckCircle, User, Target, Loader } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
+import { onboardingService } from '../../services/api/onboarding'
 
 interface OnboardingData {
   firstName: string
@@ -109,26 +110,26 @@ const BriefOnboarding = () => {
   const handleSubmit = async () => {
     setIsSubmitting(true)
     try {
-      const userId = localStorage.getItem('userId') || Date.now().toString()
       const age = calculateAge(data.dateOfBirth)
       
-      const response = await fetch('/api/onboarding/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          ...data, 
-          userId,
-          age,
-          isComplete: true 
-        })
+      // Complete onboarding with all required data in one call
+      await onboardingService.completeStep('profile_setup', {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        date_of_birth: data.dateOfBirth,
+        age: age,
+        education_level: data.educationLevel || 'bachelor',
+        skill_level: 'beginner', // Add required skill level
+        interests: data.interests || [],
+        career_goals: data.careerGoals || '',
+        terms_accepted: data.termsAccepted,
+        privacy_accepted: data.privacyAccepted,
+        completed_at: new Date().toISOString()
       })
 
-      if (response.ok) {
-        localStorage.setItem('onboardingComplete', 'true')
-        navigate('/student/dashboard')
-      } else {
-        throw new Error('Failed to complete onboarding')
-      }
+      localStorage.setItem('onboardingComplete', 'true')
+      navigate('/student/dashboard')
     } catch (error) {
       console.error('Onboarding failed:', error)
       alert('Failed to complete onboarding. Please try again.')
@@ -319,7 +320,7 @@ const BriefOnboarding = () => {
           <button
             onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
             disabled={currentStep === 1}
-            className="flex items-center px-4 py-2 text-gray-600 disabled:opacity-50"
+            className="flex items-center px-4 py-2 text-gray-600 dark:text-darkMode-textSecondary disabled:opacity-50 hover:text-gray-800 dark:hover:text-darkMode-text"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
@@ -329,7 +330,7 @@ const BriefOnboarding = () => {
             {currentStep === 2 && (
               <button
                 onClick={handleSkip}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-gray-600 dark:text-darkMode-textSecondary hover:text-gray-800 dark:hover:text-darkMode-text"
               >
                 Skip
               </button>
