@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { analyticsApi } from '../../services/api/analytics';
 import { handleApiError } from '../../utils/errorHandler';
 import { Settings, Zap, Target, Brain } from 'lucide-react';
+import { getUserId } from '../../utils/auth';
 
 interface AdaptiveSettings {
   difficulty_auto_adjust: boolean;
@@ -22,12 +23,14 @@ const DifficultyAdjuster: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastAdaptation, setLastAdaptation] = useState<string | null>(null);
 
-  const userId = localStorage.getItem('user_id') || 'temp_user';
+  const userId = getUserId();
 
   const handleSettingChange = async (key: keyof AdaptiveSettings, value: any) => {
     setSettings(prev => ({ ...prev, [key]: value }));
     
     // Log the preference change
+    if (!userId) return;
+
     try {
       await analyticsApi.logInteraction({
         user_id: userId,
@@ -43,6 +46,10 @@ const DifficultyAdjuster: React.FC = () => {
   const triggerAdaptation = async () => {
     setIsLoading(true);
     try {
+      if (!userId) {
+        setIsLoading(false);
+        return;
+      }
       // In real implementation, this would trigger AI adaptation
       await analyticsApi.logInteraction({
         user_id: userId,

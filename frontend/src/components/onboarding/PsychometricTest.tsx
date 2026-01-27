@@ -4,6 +4,7 @@ import { psychometricApi } from '../../services/api/psychometric'
 import type { UserProfile } from '../../services/api/types'
 import { handleApiError } from '../../utils/errorHandler'
 import LoadingSpinner from '../ui/LoadingSpinner'
+import { getUserId } from '../../utils/auth'
 
 interface PsychometricQuestion {
   id: number
@@ -128,8 +129,11 @@ const PsychometricTest = () => {
     setError(null)
     
     try {
-      // Get user ID from localStorage or context
-      const userId = localStorage.getItem('user_id') || 'temp_user'
+      const userId = getUserId()
+      if (!userId) {
+        setError('Please sign in to submit the assessment.')
+        return
+      }
       
       const assessment = await psychometricApi.createAssessment({
         user_id: userId,

@@ -1,260 +1,202 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { skillsApi } from '../../services/api/skills'
-import type { SkillGap } from '../../services/api/types'
 import { handleApiError } from '../../utils/errorHandler'
-import SkillGapAnalysis from '../ui/SkillGapAnalysis'
-import SkillRecommendations from '../ui/SkillRecommendations'
+import { getUserId } from '../../utils/auth'
 
-interface Skill {
+interface TaxonomySkill {
   id: string
-  name: string
-  category: 'technical' | 'soft' | 'creative' | 'analytical' | 'language'
-  description: string
-  level: 0 | 1 | 2 | 3 | 4 | 5 // 0: Not assessed, 1: Beginner, 2: Novice, 3: Intermediate, 4: Advanced, 5: Expert
-  assessmentType: 'quiz' | 'practical' | 'portfolio' | 'simulation'
-  questions: number
-  duration: string
-  lastAssessed?: string
-  certificateAvailable: boolean
-  industryDemand: 'low' | 'medium' | 'high'
-  trending: boolean
+  skill_code: string
+  skill_name: string
+  description?: string
+  category: string
+  subcategory?: string
+  parent_skill_id?: string
+  skill_level: number
+  assessment_criteria?: {
+    assessment_methods?: string[]
+    success_threshold?: number
+    [key: string]: unknown
+  }
+  language: string
+  is_active: boolean
+  created_at: string
 }
 
-// interface SkillQuestion {
-//   id: string
-//   text: string
-//   type: 'multiple_choice' | 'code' | 'practical' | 'drag_drop'
-//   options?: string[]
-//   correctAnswer?: string
-//   code?: string
-//   difficulty: 'easy' | 'medium' | 'hard'
-//   points: number
-// }
+interface UserSkillAssessment {
+  id: string
+  user_id: string
+  skill_id: string
+  proficiency_level: number
+  confidence_level: number
+  assessment_method: string
+  assessment_source?: string
+  evidence_data?: Record<string, unknown>
+  previous_level?: number
+  improvement_rate?: number
+  assessed_at: string
+  expires_at?: string
+}
 
+const categoryIconMap: Record<string, string> = {
+  vocabulary: '🧠',
+  grammar: '📚',
+  conversation: '💬',
+  cultural: '🌍',
+  pronunciation: '🗣️',
+  listening: '🎧',
+  reading: '📖',
+  writing: '✍️',
+}
 
-const mockSkills: Skill[] = [
-  {
-    id: 'python',
-    name: 'Python Programming',
-    category: 'technical',
-    description: 'Core Python programming concepts, syntax, and problem-solving',
-    level: 3,
-    assessmentType: 'quiz',
-    questions: 25,
-    duration: '45 minutes',
-    lastAssessed: '2025-01-10',
-    certificateAvailable: true,
-    industryDemand: 'high',
-    trending: true
-  },
-  {
-    id: 'data-analysis',
-    name: 'Data Analysis',
-    category: 'analytical',
-    description: 'Statistical analysis, data interpretation, and visualization skills',
-    level: 2,
-    assessmentType: 'practical',
-    questions: 15,
-    duration: '60 minutes',
-    lastAssessed: '2025-01-08',
-    certificateAvailable: true,
-    industryDemand: 'high',
-    trending: true
-  },
-  {
-    id: 'communication',
-    name: 'Communication Skills',
-    category: 'soft',
-    description: 'Written and verbal communication effectiveness',
-    level: 4,
-    assessmentType: 'simulation',
-    questions: 20,
-    duration: '30 minutes',
-    lastAssessed: '2025-01-05',
-    certificateAvailable: false,
-    industryDemand: 'high',
-    trending: false
-  },
-  {
-    id: 'javascript',
-    name: 'JavaScript Development',
-    category: 'technical',
-    description: 'Modern JavaScript, ES6+, and web development fundamentals',
-    level: 0,
-    assessmentType: 'practical',
-    questions: 20,
-    duration: '50 minutes',
-    certificateAvailable: true,
-    industryDemand: 'high',
-    trending: true
-  },
-  {
-    id: 'design-thinking',
-    name: 'Design Thinking',
-    category: 'creative',
-    description: 'Human-centered design process and creative problem solving',
-    level: 1,
-    assessmentType: 'portfolio',
-    questions: 10,
-    duration: '40 minutes',
-    lastAssessed: '2024-12-20',
-    certificateAvailable: true,
-    industryDemand: 'medium',
-    trending: true
-  },
-  {
-    id: 'project-management',
-    name: 'Project Management',
-    category: 'soft',
-    description: 'Planning, execution, and delivery of projects effectively',
-    level: 0,
-    assessmentType: 'simulation',
-    questions: 30,
-    duration: '55 minutes',
-    certificateAvailable: true,
-    industryDemand: 'high',
-    trending: false
-  }
-]
-
-/*
-const mockQuestions: SkillQuestion[] = [
-  {
-    id: 'py1',
-    text: 'What is the output of the following Python code?\n\nprint([i**2 for i in range(5)])',
-    type: 'multiple_choice',
-    options: ['[0, 1, 4, 9, 16]', '[1, 4, 9, 16, 25]', '[0, 1, 2, 3, 4]', 'Error'],
-    correctAnswer: '[0, 1, 4, 9, 16]',
-    difficulty: 'medium',
-    points: 10
-  },
-  {
-    id: 'py2',
-    text: 'Complete the function to find the maximum value in a list:',
-    type: 'code',
-    code: 'def find_max(numbers):\n    # Your code here\n    pass',
-    difficulty: 'easy',
-    points: 15
-  }
-]
-*/
+const categoryLabel = (category: string) =>
+  category.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase())
 
 export default function SkillsAssessment() {
-  const [skills] = useState<Skill[]>(mockSkills)
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null)
-  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [skills, setSkills] = useState<TaxonomySkill[]>([])
+  const [assessments, setAssessments] = useState<UserSkillAssessment[]>([])
+  const [selectedSkill, setSelectedSkill] = useState<TaxonomySkill | null>(null)
   const [isAssessing, setIsAssessing] = useState(false)
-  const [filter, setFilter] = useState<'all' | Skill['category'] | 'trending' | 'not_assessed'>('all')
-  const [sortBy, setSortBy] = useState<'name' | 'level' | 'demand' | 'recent'>('name')
-  
-  // AI Integration State
-  const [skillGaps, setSkillGaps] = useState<SkillGap[]>([])
-  const [recommendations, setRecommendations] = useState<any[]>([])
-  const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [analysisError, setAnalysisError] = useState<string | null>(null)
+  const [filter, setFilter] = useState<'all' | string>('all')
+  const [sortBy, setSortBy] = useState<'name' | 'proficiency' | 'recent' | 'category'>('name')
+  const [proficiencyInput, setProficiencyInput] = useState(0)
+  const [confidenceInput, setConfidenceInput] = useState(0.5)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const userId = localStorage.getItem('user_id') || 'temp_user'
+  const userId = getUserId()
 
-  // Load skill gaps and recommendations on component mount
+  const assessmentMap = useMemo(() => {
+    return new Map(assessments.map((assessment) => [assessment.skill_id, assessment]))
+  }, [assessments])
+
+  const categories = useMemo(() => {
+    const unique = new Set(skills.map((skill) => skill.category))
+    return Array.from(unique).sort()
+  }, [skills])
+
   useEffect(() => {
-    loadSkillAnalysis()
-  }, [])
-
-  const loadSkillAnalysis = async () => {
-    setIsAnalyzing(true)
-    setAnalysisError(null)
-    
-    try {
-      await skillsApi.getUserAssessments(userId)
-      setSkillGaps([])
-      setRecommendations([])
-    } catch (err) {
-      const error = err as { code?: string; message?: string };
-      setAnalysisError(error.message || 'Failed to load skill analysis')
-    } finally {
-      setIsAnalyzing(false)
+    if (!userId) {
+      setError('Please sign in to view your skills assessments.')
+      return
     }
-  }
 
-  const getLevelColor = (level: number) => {
-    switch (level) {
-      case 0: return 'bg-gray-100 text-gray-800'
-      case 1: return 'bg-red-100 text-red-800'
-      case 2: return 'bg-yellow-100 text-yellow-800'
-      case 3: return 'bg-blue-100 text-blue-800'
-      case 4: return 'bg-purple-100 text-purple-800'
-      case 5: return 'bg-green-100 text-green-800'
-    }
-  }
+    const loadSkills = async () => {
+      setIsLoading(true)
+      setError(null)
 
-  const getLevelText = (level: number) => {
-    switch (level) {
-      case 0: return 'Not Assessed'
-      case 1: return 'Beginner'
-      case 2: return 'Novice'
-      case 3: return 'Intermediate'
-      case 4: return 'Advanced'
-      case 5: return 'Expert'
-    }
-  }
+      try {
+        const [taxonomyResponse, assessmentResponse] = await Promise.all([
+          skillsApi.getTaxonomy(),
+          skillsApi.getUserAssessments(userId),
+        ])
 
-  const getCategoryIcon = (category: Skill['category']) => {
-    switch (category) {
-      case 'technical': return '💻'
-      case 'soft': return '🤝'
-      case 'creative': return '🎨'
-      case 'analytical': return '📊'
-      case 'language': return '🗣️'
-    }
-  }
-
-  const getDemandColor = (demand: Skill['industryDemand']) => {
-    switch (demand) {
-      case 'high': return 'text-red-600'
-      case 'medium': return 'text-yellow-600'
-      case 'low': return 'text-green-600'
-    }
-  }
-
-  const getAssessmentTypeIcon = (type: Skill['assessmentType']) => {
-    switch (type) {
-      case 'quiz': return '📝'
-      case 'practical': return '🔧'
-      case 'portfolio': return '📁'
-      case 'simulation': return '🎮'
-      default: return '💻'
-    }
-  }
-
-  const filteredSkills = skills
-    .filter(skill => {
-      if (filter === 'all') return true
-      if (filter === 'trending') return skill.trending
-      if (filter === 'not_assessed') return skill.level === 0
-      return skill.category === filter
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'level': return b.level - a.level
-        case 'demand': return b.industryDemand.localeCompare(a.industryDemand)
-        case 'recent': {
-          const aDate = a.lastAssessed ? new Date(a.lastAssessed).getTime() : 0
-          const bDate = b.lastAssessed ? new Date(b.lastAssessed).getTime() : 0
-          return bDate - aDate
-        }
-        default: return a.name.localeCompare(b.name)
+        setSkills(Array.isArray(taxonomyResponse.skills) ? taxonomyResponse.skills : [])
+        setAssessments(Array.isArray(assessmentResponse) ? assessmentResponse : [])
+      } catch (err: any) {
+        setError(handleApiError(err))
+      } finally {
+        setIsLoading(false)
       }
-    })
+    }
 
-  const assessedSkills = skills.filter(s => s.level > 0)
-  const averageLevel = assessedSkills.length > 0
-    ? assessedSkills.reduce((sum, s) => sum + s.level, 0) / assessedSkills.length
-    : 0
+    loadSkills()
+  }, [userId])
 
-  const startAssessment = (skill: Skill) => {
+  useEffect(() => {
+    if (!selectedSkill) return
+    const assessment = assessmentMap.get(selectedSkill.id)
+    setProficiencyInput(assessment?.proficiency_level ?? 0)
+    setConfidenceInput(assessment?.confidence_level ?? 0.5)
+  }, [selectedSkill, assessmentMap])
+
+  const filteredSkills = useMemo(() => {
+    return skills
+      .filter((skill) => (filter === 'all' ? true : skill.category === filter))
+      .sort((a, b) => {
+        if (sortBy === 'category') return a.category.localeCompare(b.category)
+        if (sortBy === 'proficiency') {
+          const aScore = assessmentMap.get(a.id)?.proficiency_level ?? -1
+          const bScore = assessmentMap.get(b.id)?.proficiency_level ?? -1
+          return bScore - aScore
+        }
+        if (sortBy === 'recent') {
+          const aDate = assessmentMap.get(a.id)?.assessed_at
+          const bDate = assessmentMap.get(b.id)?.assessed_at
+          return (bDate ? new Date(bDate).getTime() : 0) - (aDate ? new Date(aDate).getTime() : 0)
+        }
+        return a.skill_name.localeCompare(b.skill_name)
+      })
+  }, [skills, filter, sortBy, assessmentMap])
+
+  const assessedSkills = useMemo(() => {
+    return skills.filter((skill) => assessmentMap.has(skill.id))
+  }, [skills, assessmentMap])
+
+  const averageProficiency = useMemo(() => {
+    if (assessments.length === 0) return 0
+    const total = assessments.reduce((sum, assessment) => sum + assessment.proficiency_level, 0)
+    return total / assessments.length
+  }, [assessments])
+
+  const startAssessment = (skill: TaxonomySkill) => {
     setSelectedSkill(skill)
-    setCurrentQuestion(0)
     setIsAssessing(true)
+  }
+
+  const submitAssessment = async () => {
+    if (!userId || !selectedSkill) return
+
+    setIsSaving(true)
+    setError(null)
+
+    try {
+      await skillsApi.upsertAssessment(userId, selectedSkill.id, {
+        user_id: userId,
+        skill_id: selectedSkill.id,
+        proficiency_level: Number(proficiencyInput),
+        confidence_level: Number(confidenceInput),
+        assessment_method: 'self_reported',
+        assessment_source: 'self_assessment',
+      })
+
+      const updatedAssessments = await skillsApi.getUserAssessments(userId)
+      setAssessments(Array.isArray(updatedAssessments) ? updatedAssessments : [])
+      setIsAssessing(false)
+      setSelectedSkill(null)
+    } catch (err: any) {
+      setError(handleApiError(err))
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const renderAssessmentDetails = (skill: TaxonomySkill) => {
+    const assessment = assessmentMap.get(skill.id)
+    if (!assessment) {
+      return <span className="text-sm text-gray-500 dark:text-gray-400">Not assessed yet</span>
+    }
+
+    return (
+      <div className="space-y-1 text-sm text-gray-600 dark:text-gray-300">
+        <div className="flex justify-between">
+          <span>Proficiency</span>
+          <span className="font-semibold">{Math.round(assessment.proficiency_level)}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Confidence</span>
+          <span className="font-semibold">{Math.round(assessment.confidence_level * 100)}%</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Method</span>
+          <span className="font-medium capitalize">{assessment.assessment_method.replace(/_/g, ' ')}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Assessed</span>
+          <span>{new Date(assessment.assessed_at).toLocaleDateString()}</span>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -262,7 +204,6 @@ export default function SkillsAssessment() {
       <div className="max-w-6xl mx-auto">
         {!isAssessing ? (
           <>
-            {/* Header */}
             <div className="mb-8">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-primary-dark rounded-xl flex items-center justify-center">
@@ -270,58 +211,61 @@ export default function SkillsAssessment() {
                 </div>
                 <div>
                   <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Skills Assessment</h1>
-                  <p className="text-gray-600 dark:text-gray-300">Evaluate and track your professional skills</p>
+                  <p className="text-gray-600 dark:text-gray-300">Track your skill proficiency with real assessments</p>
                 </div>
               </div>
 
-              {/* Skills Progress Notification */}
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-green-600">📈</span>
-                  <div>
-                    <p className="text-green-800 font-medium">Skill Level Improved!</p>
-                    <p className="text-green-700 text-sm">
-                      Your Python Programming skill has advanced to Intermediate level. Keep practicing to reach Advanced!
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Overview Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-secondary">{assessedSkills.length}</div>
+                  <div className="text-2xl font-bold text-secondary">{skills.length}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Skills Available</div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
+                  <div className="text-2xl font-bold text-primary">{assessedSkills.length}</div>
                   <div className="text-sm text-gray-600 dark:text-gray-300">Skills Assessed</div>
                 </div>
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-primary">{averageLevel.toFixed(1)}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Average Level</div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-forest-sage">{skills.filter(s => s.trending).length}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Trending Skills</div>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 text-center">
-                  <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{skills.filter(s => s.certificateAvailable).length}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300">Certifiable</div>
+                  <div className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">
+                    {assessments.length > 0 ? `${Math.round(averageProficiency)}%` : '—'}
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Average Proficiency</div>
                 </div>
               </div>
             </div>
 
-            {/* Filters and Sort */}
+            {error && (
+              <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-red-600">⚠️</span>
+                  <h3 className="text-red-800 dark:text-red-200 font-semibold">Assessment Error</h3>
+                </div>
+                <p className="text-red-600 dark:text-red-300 text-sm">{error}</p>
+              </div>
+            )}
+
             <div className="flex flex-wrap gap-4 justify-between mb-6">
               <div className="flex flex-wrap gap-2">
-                {['all', 'technical', 'soft', 'creative', 'analytical', 'trending', 'not_assessed'].map((filterOption) => (
+                <button
+                  onClick={() => setFilter('all')}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
+                    filter === 'all'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark bg-white'
+                  }`}
+                >
+                  All
+                </button>
+                {categories.map((category) => (
                   <button
-                    key={filterOption}
-                    onClick={() => setFilter(filterOption as typeof filter)}
+                    key={category}
+                    onClick={() => setFilter(category)}
                     className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
-                      filter === filterOption
+                      filter === category
                         ? 'bg-primary text-white'
-                        : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark dark:text-darkMode-link bg-white'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-primary-dark bg-white'
                     }`}
                   >
-                    {filterOption.replace('_', ' ')}
+                    {categoryLabel(category)}
                   </button>
                 ))}
               </div>
@@ -332,252 +276,142 @@ export default function SkillsAssessment() {
                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="name">Sort by Name</option>
-                <option value="level">Sort by Level</option>
-                <option value="demand">Sort by Demand</option>
+                <option value="proficiency">Sort by Proficiency</option>
                 <option value="recent">Sort by Recent</option>
+                <option value="category">Sort by Category</option>
               </select>
             </div>
 
-            {/* AI Analysis Section */}
-            {(skillGaps.length > 0 || recommendations.length > 0 || isAnalyzing) && (
-              <div className="mb-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <SkillGapAnalysis skillGaps={skillGaps} isLoading={isAnalyzing} />
-                <SkillRecommendations 
-                  recommendations={recommendations} 
-                  isLoading={isAnalyzing}
-                  onStartLearning={(skillName) => {
-                    // Find and start assessment for recommended skill
-                    const skill = skills.find(s => s.name.toLowerCase().includes(skillName.toLowerCase()));
-                    if (skill) {
-                      setSelectedSkill(skill);
-                      setIsAssessing(true);
-                    }
-                  }}
-                />
+            {isLoading ? (
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center text-gray-600 dark:text-gray-300">
+                Loading skills from the AI service...
               </div>
-            )}
-
-            {analysisError && (
-              <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-red-600">⚠️</span>
-                  <h3 className="text-red-800 dark:text-red-200 font-semibold">AI Analysis Error</h3>
-                </div>
-                <p className="text-red-600 dark:text-red-300 text-sm mb-3">{analysisError}</p>
-                <button
-                  onClick={loadSkillAnalysis}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
-                >
-                  Retry Analysis
-                </button>
+            ) : filteredSkills.length === 0 ? (
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center text-gray-600 dark:text-gray-300">
+                No skills are available yet. Please check back once the skills taxonomy is populated.
               </div>
-            )}
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredSkills.map((skill) => {
+                  const assessment = assessmentMap.get(skill.id)
+                  const assessmentMethods = Array.isArray(skill.assessment_criteria?.assessment_methods)
+                    ? skill.assessment_criteria?.assessment_methods.join(', ')
+                    : null
 
-            {/* Skills Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredSkills.map((skill) => (
-                <div key={skill.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border-0 hover:shadow-xl transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-3xl">{getCategoryIcon(skill.category)}</span>
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">{skill.name}</h3>
-                            {skill.trending && (
-                              <span className="text-orange-500 text-sm">🔥</span>
-                            )}
+                  return (
+                    <div
+                      key={skill.id}
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border-0 hover:shadow-xl transition-shadow"
+                    >
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center gap-3">
+                            <span className="text-3xl">{categoryIconMap[skill.category] || '📘'}</span>
+                            <div>
+                              <h3 className="font-bold text-primary-dark dark:text-darkMode-link text-lg">
+                                {skill.skill_name}
+                              </h3>
+                              <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                                {categoryLabel(skill.category)} · Level {skill.skill_level}
+                              </span>
+                            </div>
                           </div>
-                          <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${getLevelColor(skill.level)}`}>
-                            {getLevelText(skill.level)}
-                          </span>
+                        </div>
+
+                        {skill.description && (
+                          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{skill.description}</p>
+                        )}
+
+                        {renderAssessmentDetails(skill)}
+
+                        {assessmentMethods && (
+                          <div className="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                            Assessment methods: {assessmentMethods}
+                          </div>
+                        )}
+
+                        <div className="mt-5">
+                          <button
+                            onClick={() => startAssessment(skill)}
+                            className="btn-primary w-full"
+                          >
+                            {assessment ? 'Update Assessment' : 'Start Assessment'}
+                          </button>
                         </div>
                       </div>
-                      {skill.certificateAvailable && (
-                        <span className="text-yellow-500 text-xl">🏆</span>
-                      )}
                     </div>
-
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">{skill.description}</p>
-
-                    <div className="space-y-2 text-sm text-gray-500 mb-4">
-                      <div className="flex justify-between">
-                        <span>Assessment Type:</span>
-                        <span className="flex items-center gap-1">
-                          {getAssessmentTypeIcon(skill.assessmentType)}
-                          {skill.assessmentType}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Duration:</span>
-                        <span>{skill.duration}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Questions:</span>
-                        <span>{skill.questions}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Industry Demand:</span>
-                        <span className={`font-medium ${getDemandColor(skill.industryDemand)}`}>
-                          {skill.industryDemand}
-                        </span>
-                      </div>
-                      {skill.lastAssessed && (
-                        <div className="flex justify-between">
-                          <span>Last Assessed:</span>
-                          <span>{new Date(skill.lastAssessed).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                    </div>
-
-                    {skill.level > 0 ? (
-                      <div className="space-y-2">
-                        <button
-                          onClick={() => startAssessment(skill)}
-                          className="btn-primary w-full"
-                        >
-                          Reassess Skill
-                        </button>
-                        <button className="w-full border border-gray-300 text-gray-600 dark:text-gray-300 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                          View Results
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => startAssessment(skill)}
-                        className="btn-primary w-full"
-                      >
-                        Start Assessment
-                      </button>
-                    )}
-
-                    {skill.level >= 3 && skill.certificateAvailable && (
-                      <div className="mt-2">
-                        <button className="w-full bg-yellow-100 border border-yellow-300 text-yellow-800 py-2 px-4 rounded-lg font-medium hover:bg-yellow-200 transition-colors">
-                          🏆 Earn Certificate
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Skills Development Recommendations */}
-            <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Skill Development Recommendations</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <h3 className="font-bold text-red-800 mb-2">🎯 Priority Skills</h3>
-                  <p className="text-red-700 text-sm">
-                    Focus on JavaScript Development and Project Management - both are in high demand and complement your existing skills.
-                  </p>
-                </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h3 className="font-bold text-blue-800 mb-2">📈 Trending Skills</h3>
-                  <p className="text-blue-700 text-sm">
-                    Stay current with trending skills like Python, Data Analysis, and Design Thinking to remain competitive.
-                  </p>
-                </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <h3 className="font-bold text-green-800 mb-2">🏆 Certification Ready</h3>
-                  <p className="text-green-700 text-sm">
-                    Your Communication Skills are at Advanced level - consider earning a certificate to showcase your expertise.
-                  </p>
-                </div>
+                  )
+                })}
               </div>
-            </div>
+            )}
           </>
         ) : (
-          /* Assessment Interface */
-          <div className="max-w-4xl mx-auto">
-            {/* Assessment Header */}
-            <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary-dark rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold">{currentQuestion + 1}</span>
-                  </div>
-                  <div>
-                    <h1 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">{selectedSkill?.name} Assessment</h1>
-                    <p className="text-gray-600 dark:text-gray-300">Question {currentQuestion + 1} of {selectedSkill?.questions}</p>
-                  </div>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+              <div className="flex items-start justify-between mb-6">
+                <div>
+                  <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-link">
+                    {selectedSkill?.skill_name}
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    Provide your current proficiency and confidence for this skill.
+                  </p>
                 </div>
                 <button
-                  onClick={() => setIsAssessing(false)}
+                  onClick={() => {
+                    setIsAssessing(false)
+                    setSelectedSkill(null)
+                  }}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   ✕
                 </button>
               </div>
 
-              {/* Progress Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-primary-dark h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${((currentQuestion + 1) / (selectedSkill?.questions || 1)) * 100}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Question Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6">
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="bg-primary/10 text-primary-dark dark:text-darkMode-link px-3 py-1 rounded-full text-sm font-medium">
-                    {selectedSkill?.assessmentType}
-                  </span>
-                  <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
-                    10 points
-                  </span>
-                </div>
-                <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">
-                  What is the output of the following Python code?
-                </h2>
-                <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm mb-4">
-                  print([i**2 for i in range(5)])
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {['[0, 1, 4, 9, 16]', '[1, 4, 9, 16, 25]', '[0, 1, 2, 3, 4]', 'Error'].map((option, index) => (
-                  <button
-                    key={index}
-                    className="w-full text-left p-4 rounded-lg border-2 border-gray-200 hover:border-primary hover:bg-primary/5 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-4 h-4 rounded-full border-2 border-gray-300" />
-                      <span className="text-gray-800">{option}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Navigation */}
-            <div className="flex justify-between">
-              <button
-                disabled={currentQuestion === 0}
-                className="px-6 py-3 border border-gray-300 text-gray-600 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-
-              <button className="btn-primary px-6 py-3">
-                {currentQuestion === (selectedSkill?.questions || 1) - 1 ? 'Complete Assessment' : 'Next Question'}
-              </button>
-            </div>
-
-            {/* Assessment Tips */}
-            <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <div className="flex items-start gap-2">
-                <span className="text-blue-600">💡</span>
+              <div className="space-y-6">
                 <div>
-                  <p className="text-blue-800 text-sm font-medium">Assessment Tip</p>
-                  <p className="text-blue-700 text-sm">
-                    Take your time and read each question carefully. You can't go back once you submit an answer.
-                  </p>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Proficiency level: {Math.round(proficiencyInput)}%
+                  </label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={1}
+                    value={proficiencyInput}
+                    onChange={(e) => setProficiencyInput(Number(e.target.value))}
+                    className="w-full"
+                  />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Confidence level: {Math.round(confidenceInput * 100)}%
+                  </label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.05}
+                    value={confidenceInput}
+                    onChange={(e) => setConfidenceInput(Number(e.target.value))}
+                    className="w-full"
+                  />
+                </div>
+
+                {error && (
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 text-sm text-red-700 dark:text-red-300">
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  onClick={submitAssessment}
+                  className="btn-primary w-full"
+                  disabled={isSaving}
+                >
+                  {isSaving ? 'Saving...' : 'Save Assessment'}
+                </button>
               </div>
             </div>
           </div>

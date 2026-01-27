@@ -212,9 +212,12 @@ export const API_ENDPOINTS = {
   // SKILLS ASSESSMENT (AI Service)
   // ============================================
   SKILLS: {
+    TAXONOMY: `${API_VERSION}/ai/skills/taxonomy`,
     CREATE_ASSESSMENT: `${API_VERSION}/ai/skills/assessments`,
     GET_ASSESSMENT: (id: string) => `${API_VERSION}/ai/skills/assessments/${id}`,
     GET_USER_ASSESSMENTS: (userId: string) => `${API_VERSION}/ai/skills/users/${userId}/assessments`,
+    UPSERT_ASSESSMENT: (userId: string, skillId: string) =>
+      `${API_VERSION}/ai/skills/users/${userId}/skills/${skillId}/upsert`,
   },
 
   // ============================================

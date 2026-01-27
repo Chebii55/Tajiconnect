@@ -1,306 +1,322 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Brain, TrendingUp, Target, Lightbulb } from 'lucide-react'
+import { psychometricApi } from '../../services/api/psychometric'
 import { skillsApi } from '../../services/api/skills'
 import { handleApiError } from '../../utils/errorHandler'
-import { Brain, TrendingUp, Target, Lightbulb } from 'lucide-react'
+import { getUserId } from '../../utils/auth'
 
-interface ResultCategory {
-  name: string
-  score: number
-  description: string
-  strengths: string[]
-  recommendations: string[]
-}
-
-interface AssessmentResult {
+interface PsychometricAssessmentResponse {
   id: string
-  title: string
-  completedDate: string
-  overallScore: number
-  categories: ResultCategory[]
-  careerMatches: string[]
-  nextSteps: string[]
+  user_id: string
+  assessment_type: string
+  version: string
+  raw_responses: Record<string, unknown>
+  motivation_score: Record<string, unknown>
+  capability_assessment: Record<string, unknown>
+  learning_preferences: Record<string, unknown>
+  behavioral_profile: Record<string, unknown>
+  learner_archetype: string
+  archetype_confidence: number
+  completed_at: string
+  processing_version: string
 }
 
-const mockResult: AssessmentResult = {
-  id: 'psych-1',
-  title: 'Career Aptitude Assessment',
-  completedDate: '2025-01-15',
-  overallScore: 85,
-  categories: [
-    {
-      name: 'Analytical Thinking',
-      score: 92,
-      description: 'Your ability to break down complex problems and find logical solutions',
-      strengths: ['Data analysis', 'Pattern recognition', 'Logical reasoning'],
-      recommendations: ['Consider roles in data science', 'Explore programming opportunities', 'Develop statistical skills']
-    },
-    {
-      name: 'Creative Problem Solving',
-      score: 78,
-      description: 'Your capacity for innovative thinking and creative approaches',
-      strengths: ['Brainstorming', 'Out-of-box thinking', 'Design thinking'],
-      recommendations: ['Try UX/UI design courses', 'Explore creative industries', 'Practice design challenges']
-    },
-    {
-      name: 'Communication',
-      score: 85,
-      description: 'Your ability to convey ideas clearly and work with others',
-      strengths: ['Written communication', 'Presentation skills', 'Active listening'],
-      recommendations: ['Consider leadership roles', 'Practice public speaking', 'Join debate or presentation clubs']
-    }
-  ],
-  careerMatches: [
-    'Data Scientist',
-    'Software Engineer',
-    'Product Manager',
-    'Business Analyst',
-    'UX Designer'
-  ],
-  nextSteps: [
-    'Complete the Technical Skills Assessment',
-    'Explore recommended career paths',
-    'Begin learning Python programming',
-    'Connect with industry professionals'
-  ]
+interface TaxonomySkill {
+  id: string
+  skill_name: string
+  category: string
+  language: string
 }
+
+interface UserSkillAssessment {
+  id: string
+  user_id: string
+  skill_id: string
+  proficiency_level: number
+  confidence_level: number
+  assessment_method: string
+  assessed_at: string
+}
+
+const getPrimaryPreference = (preferences: Record<string, unknown>) => {
+  const entries = Object.entries(preferences || {})
+    .filter(([, value]) => typeof value === 'number') as Array<[string, number]>
+  if (entries.length === 0) return null
+  entries.sort((a, b) => b[1] - a[1])
+  return entries[0]?.[0] || null
+}
+
+const formatLabel = (value?: string) =>
+  value ? value.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '—'
 
 export default function AssessmentResults() {
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
-  const [showShareModal, setShowShareModal] = useState(false)
-  const [_aiAnalysis, setAiAnalysis] = useState<unknown>(null)
-  const [_isAnalyzing, setIsAnalyzing] = useState(false)
-  const [_analysisError, setAnalysisError] = useState<string | null>(null)
+  const [profile, setProfile] = useState<PsychometricAssessmentResponse | null>(null)
+  const [skills, setSkills] = useState<TaxonomySkill[]>([])
+  const [skillAssessments, setSkillAssessments] = useState<UserSkillAssessment[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const userId = localStorage.getItem('user_id') || 'temp_user'
+  const userId = getUserId()
 
   useEffect(() => {
-    loadAiAnalysis()
-  }, [])
-
-  const loadAiAnalysis = async () => {
-    setIsAnalyzing(true)
-    setAnalysisError(null)
-    
-    try {
-      const analysis = await skillsApi.analyzeSkills(userId)
-      setAiAnalysis(analysis)
-    } catch (err: any) {
-      setAnalysisError(handleApiError(err))
-    } finally {
-      setIsAnalyzing(false)
+    if (!userId) {
+      setError('Please sign in to view assessment results.')
+      return
     }
-  }
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-secondary dark:text-green-400'
-    if (score >= 60) return 'text-primary dark:text-blue-400'
-    return 'text-orange-500 dark:text-orange-400'
-  }
+    const loadResults = async () => {
+      setIsLoading(true)
+      setError(null)
 
-  const getScoreBackground = (score: number) => {
-    if (score >= 80) return 'bg-[#4A9E3D] dark:bg-green-500'
-    if (score >= 60) return 'bg-primary dark:bg-blue-500'
-    return 'bg-orange-500 dark:bg-orange-500'
-  }
+      const [profileResult, taxonomyResult, assessmentResult] = await Promise.allSettled([
+        psychometricApi.getLatestAssessment(userId),
+        skillsApi.getTaxonomy(),
+        skillsApi.getUserAssessments(userId),
+      ])
+
+      if (profileResult.status === 'fulfilled') {
+        setProfile(profileResult.value)
+      } else {
+        setProfile(null)
+      }
+
+      if (taxonomyResult.status === 'fulfilled') {
+        setSkills(Array.isArray(taxonomyResult.value.skills) ? taxonomyResult.value.skills : [])
+      } else {
+        setSkills([])
+      }
+
+      if (assessmentResult.status === 'fulfilled') {
+        setSkillAssessments(Array.isArray(assessmentResult.value) ? assessmentResult.value : [])
+      } else {
+        setSkillAssessments([])
+      }
+
+      if (profileResult.status === 'rejected') {
+        setError(handleApiError(profileResult.reason))
+      }
+
+      if (taxonomyResult.status === 'rejected' || assessmentResult.status === 'rejected') {
+        setError((prev) => prev || handleApiError(taxonomyResult.status === 'rejected' ? taxonomyResult.reason : assessmentResult.reason))
+      }
+
+      setIsLoading(false)
+    }
+
+    loadResults()
+  }, [userId])
+
+  const assessmentMap = useMemo(() => {
+    return new Map(skills.map((skill) => [skill.id, skill]))
+  }, [skills])
+
+  const assessedSkills = useMemo(() => {
+    return skillAssessments.map((assessment) => ({
+      assessment,
+      skill: assessmentMap.get(assessment.skill_id),
+    }))
+  }, [skillAssessments, assessmentMap])
+
+  const averageProficiency = useMemo(() => {
+    if (skillAssessments.length === 0) return null
+    const total = skillAssessments.reduce((sum, assessment) => sum + assessment.proficiency_level, 0)
+    return total / skillAssessments.length
+  }, [skillAssessments])
+
+  const primaryPreference = profile ? getPrimaryPreference(profile.learning_preferences) : null
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-primary-dark rounded-xl flex items-center justify-center">
-                <span className="text-3xl">🎯</span>
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">{mockResult.title}</h1>
-                <p className="text-gray-600 dark:text-gray-300">Completed on {new Date(mockResult.completedDate).toLocaleDateString()}</p>
-              </div>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 bg-primary-dark rounded-xl flex items-center justify-center">
+              <span className="text-3xl">🎯</span>
             </div>
-            <div className="text-right">
-              <div className="text-4xl font-bold text-secondary dark:text-green-400">{mockResult.overallScore}%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">Overall Score</div>
+            <div>
+              <h1 className="text-3xl font-bold text-primary-dark dark:text-darkMode-link">Assessment Results</h1>
+              <p className="text-gray-600 dark:text-gray-300">Your latest psychometric and skills insights</p>
             </div>
           </div>
 
-          {/* Success Notification */}
-          <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-2">
-              <span className="text-green-600 dark:text-green-400">🎉</span>
-              <div>
-                <p className="text-green-800 dark:text-green-300 font-medium">Excellent Performance!</p>
-                <p className="text-green-700 dark:text-green-300 text-sm">
-                  Your assessment results show strong potential in analytical and communication skills.
-                </p>
-              </div>
+          {isLoading && (
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-gray-600 dark:text-gray-300">
+              Loading assessment data from the AI service...
             </div>
-          </div>
+          )}
+
+          {error && (
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-red-600">⚠️</span>
+                <h3 className="text-red-800 dark:text-red-200 font-semibold">Assessment Error</h3>
+              </div>
+              <p className="text-red-600 dark:text-red-300 text-sm">{error}</p>
+            </div>
+          )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Category Scores */}
-          <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-6">Category Breakdown</h2>
-              <div className="space-y-4">
-                {mockResult.categories.map((category, index) => (
-                  <div
-                    key={index}
-                    className={`p-4 rounded-lg border cursor-pointer transition-colors ${
-                      selectedCategory === index
-                        ? 'border-[#4A9E3D] dark:border-green-500 bg-[#4A9E3D]/5 dark:bg-green-900/20'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-[#3DAEDB] dark:hover:border-blue-500 hover:bg-primary/5 dark:hover:bg-blue-900/20'
-                    }`}
-                    onClick={() => setSelectedCategory(selectedCategory === index ? null : index)}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-primary-dark dark:text-darkMode-link">{category.name}</h3>
-                      <span className={`text-xl font-bold ${getScoreColor(category.score)}`}>
-                        {category.score}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mb-2">
-                      <div
-                        className={`h-2 rounded-full ${getScoreBackground(category.score)}`}
-                        style={{ width: `${category.score}%` }}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{category.description}</p>
+        {!isLoading && !profile && skillAssessments.length === 0 && !error && (
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center text-gray-600 dark:text-gray-300">
+            No assessment results are available yet. Complete a psychometric or skills assessment to see insights here.
+          </div>
+        )}
 
-                    {selectedCategory === index && (
-                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <h4 className="font-medium text-primary-dark dark:text-darkMode-link mb-2">Strengths</h4>
-                            <ul className="space-y-1">
-                              {category.strengths.map((strength, idx) => (
-                                <li key={idx} className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
-                                  <span className="text-secondary dark:text-green-400">✓</span>
-                                  {strength}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div>
-                            <h4 className="font-medium text-primary-dark dark:text-darkMode-link mb-2">Recommendations</h4>
-                            <ul className="space-y-1">
-                              {category.recommendations.map((rec, idx) => (
-                                <li key={idx} className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
-                                  <span className="text-primary dark:text-blue-400">→</span>
-                                  {rec}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Psychometric Summary</h2>
+              {profile ? (
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-4">
+                    <div className="flex-1 min-w-[200px] bg-gray-50 dark:bg-gray-900/40 rounded-lg p-4">
+                      <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Learner Archetype</p>
+                      <p className="text-lg font-semibold text-primary-dark dark:text-darkMode-link">
+                        {formatLabel(profile.learner_archetype)}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        Confidence: {Math.round(profile.archetype_confidence * 100)}%
+                      </p>
+                    </div>
+                    <div className="flex-1 min-w-[200px] bg-gray-50 dark:bg-gray-900/40 rounded-lg p-4">
+                      <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Primary Learning Style</p>
+                      <p className="text-lg font-semibold text-primary-dark dark:text-darkMode-link">
+                        {primaryPreference ? formatLabel(primaryPreference) : 'Not provided'}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        Assessment type: {formatLabel(profile.assessment_type)}
+                      </p>
+                    </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-start gap-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/50 rounded-lg p-4">
+                      <Brain className="text-blue-600 dark:text-blue-400" />
+                      <div>
+                        <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">Motivation</p>
+                        <p className="text-xs text-blue-700 dark:text-blue-300">
+                          {JSON.stringify(profile.motivation_score)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 rounded-lg p-4">
+                      <TrendingUp className="text-green-600 dark:text-green-400" />
+                      <div>
+                        <p className="text-sm text-green-800 dark:text-green-300 font-medium">Capability</p>
+                        <p className="text-xs text-green-700 dark:text-green-300">
+                          {JSON.stringify(profile.capability_assessment)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700/50 rounded-lg p-4">
+                      <Target className="text-orange-600 dark:text-orange-400" />
+                      <div>
+                        <p className="text-sm text-orange-800 dark:text-orange-300 font-medium">Behavioral Profile</p>
+                        <p className="text-xs text-orange-700 dark:text-orange-300">
+                          {JSON.stringify(profile.behavioral_profile)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700/50 rounded-lg p-4">
+                      <Lightbulb className="text-purple-600 dark:text-purple-400" />
+                      <div>
+                        <p className="text-sm text-purple-800 dark:text-purple-300 font-medium">Learning Preferences</p>
+                        <p className="text-xs text-purple-700 dark:text-purple-300">
+                          {JSON.stringify(profile.learning_preferences)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Completed on {new Date(profile.completed_at).toLocaleString()}
+                  </p>
+                </div>
+              ) : (
+                <p className="text-gray-600 dark:text-gray-300">
+                  No psychometric assessment results yet. Complete the psychometric assessment to populate this section.
+                </p>
+              )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-4">
-              <button
-                onClick={() => setShowShareModal(true)}
-                className="btn-primary flex-1"
-              >
-                Share Results
-              </button>
-              <button className="flex-1 border border-[#1C3D6E] dark:border-[#3DAEDB] text-primary-dark dark:text-darkMode-link py-3 px-6 rounded-lg font-medium hover:bg-[#1C3D6E] dark:hover:bg-primary hover:text-white dark:hover:text-gray-900 transition-colors">
-                Download Report
-              </button>
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-link mb-4">Skills Assessment Summary</h2>
+              {assessedSkills.length === 0 ? (
+                <p className="text-gray-600 dark:text-gray-300">
+                  No skills have been assessed yet. Start a skills assessment to see proficiency levels here.
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300">
+                    <span>Average proficiency</span>
+                    <span className="font-semibold text-primary-dark dark:text-darkMode-link">
+                      {averageProficiency ? `${Math.round(averageProficiency)}%` : '—'}
+                    </span>
+                  </div>
+                  <div className="space-y-3">
+                    {assessedSkills.map(({ assessment, skill }) => (
+                      <div key={assessment.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div>
+                            <p className="font-semibold text-primary-dark dark:text-darkMode-link">
+                              {skill?.skill_name || assessment.skill_id}
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              {skill ? formatLabel(skill.category) : 'Uncategorized'} · {skill?.language || '—'}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-semibold text-primary-dark dark:text-darkMode-link">
+                              {Math.round(assessment.proficiency_level)}%
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              Confidence {Math.round(assessment.confidence_level * 100)}%
+                            </p>
+                          </div>
+                        </div>
+                        <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                          Assessed on {new Date(assessment.assessed_at).toLocaleDateString()} · Method: {formatLabel(assessment.assessment_method)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Career Matches & Next Steps */}
           <div className="space-y-6">
-            {/* Career Matches */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Top Career Matches</h3>
-              <div className="space-y-3">
-                {mockResult.careerMatches.map((career, index) => (
-                  <div key={index} className="flex items-center gap-3 p-3 bg-[#4A9E3D]/5 dark:bg-green-900/20 rounded-lg">
-                    <div className="w-6 h-6 bg-[#4A9E3D] text-white rounded-full flex items-center justify-center text-xs font-bold">
-                      {index + 1}
-                    </div>
-                    <span className="text-primary-dark dark:text-darkMode-link font-medium">{career}</span>
-                  </div>
-                ))}
-              </div>
-              <button className="w-full mt-4 bg-[#4A9E3D] dark:bg-green-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-[#2F6B29] dark:hover:bg-green-700 transition-colors">
-                Explore Career Paths
-              </button>
+              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Next Steps</h3>
+              <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">•</span>
+                  Complete additional skills assessments to build a richer profile.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">•</span>
+                  Review your learning path recommendations for targeted practice.
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary">•</span>
+                  Schedule periodic psychometric assessments to track progress.
+                </li>
+              </ul>
             </div>
 
-            {/* Next Steps */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Recommended Next Steps</h3>
-              <div className="space-y-3">
-                {mockResult.nextSteps.map((step, index) => (
-                  <div key={index} className="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <div className="w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
-                      {index + 1}
-                    </div>
-                    <span className="text-gray-700 dark:text-gray-300 text-sm">{step}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Assessment Feedback */}
             <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/50 rounded-lg p-4">
               <div className="flex items-start gap-2">
                 <span className="text-blue-600 dark:text-blue-400">💡</span>
                 <div>
-                  <p className="text-blue-800 dark:text-blue-300 font-medium text-sm">Want to improve your scores?</p>
+                  <p className="text-blue-800 dark:text-blue-300 font-medium text-sm">Need stronger insights?</p>
                   <p className="text-blue-700 dark:text-blue-300 text-sm">
-                    Consider taking additional skill assessments or exploring our learning modules to strengthen weaker areas.
+                    Finish the skills and psychometric assessments to unlock personalized recommendations.
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Share Modal */}
-        {showShareModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full">
-              <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-link mb-4">Share Your Results</h3>
-              <div className="space-y-3">
-                <button className="w-full flex items-center justify-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-gray-100">
-                  <span>📧</span>
-                  <span>Share via Email</span>
-                </button>
-                <button className="w-full flex items-center justify-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-gray-100">
-                  <span>🔗</span>
-                  <span>Copy Link</span>
-                </button>
-                <button className="w-full flex items-center justify-center gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-900 dark:text-gray-100">
-                  <span>💼</span>
-                  <span>Share on LinkedIn</span>
-                </button>
-              </div>
-              <div className="flex gap-3 mt-6">
-                <button
-                  onClick={() => setShowShareModal(false)}
-                  className="flex-1 border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => setShowShareModal(false)}
-                  className="flex-1 bg-[#1C3D6E] dark:bg-primary text-white dark:text-gray-900 py-2 px-4 rounded-lg font-medium hover:bg-[#1C3D6E]/90 dark:hover:bg-primary/90 transition-colors"
-                >
-                  Share
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )

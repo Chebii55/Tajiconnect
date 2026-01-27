@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { GeneratedLearningPath, LearningPath } from '../services/api/types';
 import { learningPathsApi } from '../services/api/learningPaths';
 import { handleApiError } from '../utils/errorHandler';
+import { getUserId } from '../utils/auth';
 
 interface LearningPathContextType {
   userPaths: LearningPath[];
@@ -35,13 +36,22 @@ export const LearningPathProvider: React.FC<LearningPathProviderProps> = ({ chil
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = localStorage.getItem('user_id') || 'temp_user';
+  const resolveUserId = () => {
+    const userId = getUserId();
+    if (!userId) {
+      setError('Please sign in to access learning paths.');
+      return null;
+    }
+    return userId;
+  };
 
   const generatePath = async (preferences?: any): Promise<GeneratedLearningPath | null> => {
     setIsLoading(true);
     setError(null);
 
     try {
+      const userId = resolveUserId();
+      if (!userId) return null;
       const path = await learningPathsApi.generatePath(userId, preferences);
       return path;
     } catch (err: any) {
@@ -57,6 +67,8 @@ export const LearningPathProvider: React.FC<LearningPathProviderProps> = ({ chil
     setError(null);
 
     try {
+      const userId = resolveUserId();
+      if (!userId) return;
       const paths = await learningPathsApi.getUserPaths(userId);
       setUserPaths(paths);
       
@@ -94,7 +106,9 @@ export const LearningPathProvider: React.FC<LearningPathProviderProps> = ({ chil
   };
 
   useEffect(() => {
-    getUserPaths();
+    if (resolveUserId()) {
+      getUserPaths();
+    }
   }, []);
 
   const value: LearningPathContextType = {

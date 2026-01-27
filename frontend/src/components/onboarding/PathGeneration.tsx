@@ -5,6 +5,7 @@ import type { GeneratedLearningPath } from '../../services/api/types';
 import { handleApiError } from '../../utils/errorHandler';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import { Clock, BookOpen, Target, ChevronRight } from 'lucide-react';
+import { getUserId } from '../../utils/auth';
 
 const PathGeneration: React.FC = () => {
   const navigate = useNavigate();
@@ -21,7 +22,11 @@ const PathGeneration: React.FC = () => {
     setError(null);
 
     try {
-      const userId = localStorage.getItem('user_id') || 'temp_user';
+      const userId = getUserId();
+      if (!userId) {
+        setError('Please sign in to generate a learning path.');
+        return;
+      }
       const path = await learningPathsApi.generatePath(userId, {
         focus_areas: ['grammar', 'vocabulary', 'communication'],
         max_duration_weeks: 16

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { analyticsApi } from '../../services/api/analytics';
 import { handleApiError } from '../../utils/errorHandler';
 import { TrendingUp, Target, Clock, Award, BarChart3 } from 'lucide-react';
+import { getUserId } from '../../utils/auth';
 
 interface ProgressData {
   overall_progress: number;
@@ -18,7 +19,7 @@ const ProgressTracker: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = localStorage.getItem('user_id') || 'temp_user';
+  const userId = getUserId();
 
   useEffect(() => {
     loadProgressData();
@@ -29,6 +30,11 @@ const ProgressTracker: React.FC = () => {
     setError(null);
 
     try {
+      if (!userId) {
+        setError('Please sign in to view progress data.');
+        setIsLoading(false);
+        return;
+      }
       const performance = await analyticsApi.getPerformance(userId);
       
       // Transform performance data to progress data
