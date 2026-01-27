@@ -43,7 +43,7 @@ const Layout: React.FC = () => {
                   <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-linkedin-in"></i></a>
                 </div>
                 <p className="text-forest-light dark:text-darkMode-textMuted text-xs mt-3">
-                  © 2024 TajiConnect. All rights reserved.
+                  © {new Date().getFullYear()} TajiConnect. All rights reserved.
                 </p>
               </div>
             </div>

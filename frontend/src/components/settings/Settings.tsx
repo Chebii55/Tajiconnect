@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { authService } from '../../services/api/auth';
+import type { User as UserType } from '../../services/api/auth';
 import {
   Settings as SettingsIcon,
   User,
@@ -24,6 +26,38 @@ import {
 const Settings: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState('profile');
+  const [user, setUser] = useState<UserType | null>(null);
+  const [profileData, setProfileData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: ''
+  });
+
+  useEffect(() => {
+    // Get current user data
+    const currentUser = authService.getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
+      setProfileData({
+        first_name: currentUser.first_name || '',
+        last_name: currentUser.last_name || '',
+        email: currentUser.email || '',
+        phone: currentUser.phone || ''
+      });
+    }
+  }, []);
+
+  const getUserInitials = () => {
+    if (!user) return 'U';
+    return `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase() || 'U';
+  };
+
+  const formatMemberSince = () => {
+    if (!user?.created_at) return 'Recently joined';
+    const date = new Date(user.created_at);
+    return `Member since ${date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
+  };
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
     pushNotifications: true,
@@ -65,10 +99,28 @@ const Settings: React.FC = () => {
 
   const handleSaveSettings = async () => {
     setSaveStatus('saving');
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setSaveStatus('saved');
-    setTimeout(() => setSaveStatus('idle'), 2000);
+    try {
+      // Update user profile data (you can add API call here)
+      // For now, just update local storage
+      if (user) {
+        const updatedUser = {
+          ...user,
+          first_name: profileData.first_name,
+          last_name: profileData.last_name,
+          email: profileData.email,
+          phone: profileData.phone
+        };
+        authService.updateStoredUser(updatedUser);
+        setUser(updatedUser);
+      }
+      
+      setSaveStatus('saved');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 2000);
+    }
   };
 
   const handlePasswordChange = (field: string, value: string) => {
@@ -92,16 +144,18 @@ const Settings: React.FC = () => {
       <div className="flex items-center space-x-6">
         <div className="relative">
           <div className="w-24 h-24 bg-primary-dark rounded-full flex items-center justify-center text-white text-2xl font-bold">
-            JD
+            {getUserInitials()}
           </div>
           <button className="absolute bottom-0 right-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white hover:bg-primary-dark transition-colors">
             <User className="w-4 h-4" />
           </button>
         </div>
         <div>
-          <h3 className="text-xl font-semibold text-primary-dark dark:text-darkMode-link">John Doe</h3>
-          <p className="text-gray-600 dark:text-gray-300">john.doe@example.com</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Member since November 2024</p>
+          <h3 className="text-xl font-semibold text-primary-dark dark:text-darkMode-link">
+            {user ? `${user.first_name} ${user.last_name}` : 'Loading...'}
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300">{user?.email || 'Loading...'}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{formatMemberSince()}</p>
         </div>
       </div>
 
@@ -112,7 +166,8 @@ const Settings: React.FC = () => {
           </label>
           <input
             type="text"
-            defaultValue="John"
+            value={profileData.first_name}
+            onChange={(e) => setProfileData(prev => ({ ...prev, first_name: e.target.value }))}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
           />
         </div>
@@ -122,29 +177,45 @@ const Settings: React.FC = () => {
           </label>
           <input
             type="text"
-            defaultValue="Doe"
+            value={profileData.last_name}
+            onChange={(e) => setProfileData(prev => ({ ...prev, last_name: e.target.value }))}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Email Address
+            Email
           </label>
           <input
             type="email"
-            defaultValue="john.doe@example.com"
+            value={profileData.email}
+            onChange={(e) => setProfileData(prev => ({ ...prev, email: e.target.value }))}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
           />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Phone Number
+            Phone
           </label>
           <input
             type="tel"
-            defaultValue="+1 (555) 123-4567"
+            value={profileData.phone}
+            onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
           />
+        </div>
+      </div>
+
+      {/* Account Status */}
+      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+        <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">Account Status</h4>
+        <div className="flex items-center space-x-4">
+          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            {user?.status || 'Active'}
+          </span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Role: {user?.role || 'Student'}
+          </span>
         </div>
       </div>
 
@@ -154,57 +225,9 @@ const Settings: React.FC = () => {
         </label>
         <textarea
           rows={3}
-          defaultValue="Passionate learner exploring web development and data science. Always excited to take on new challenges and grow my skills."
+          placeholder="Tell us about yourself..."
           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
         />
-      </div>
-
-      <div className="border-t border-gray-200 dark:border-gray-600 pt-6">
-        <h4 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-4">Change Password</h4>
-        <button
-          onClick={() => setShowPasswordFields(!showPasswordFields)}
-          className="mb-4 text-primary hover:text-[#2A9BC8] transition-colors"
-        >
-          {showPasswordFields ? 'Cancel Password Change' : 'Change Password'}
-        </button>
-
-        {showPasswordFields && (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Current Password
-              </label>
-              <input
-                type="password"
-                value={passwordData.currentPassword}
-                onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                New Password
-              </label>
-              <input
-                type="password"
-                value={passwordData.newPassword}
-                onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Confirm New Password
-              </label>
-              <input
-                type="password"
-                value={passwordData.confirmPassword}
-                onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
@@ -334,6 +357,54 @@ const Settings: React.FC = () => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="border-t border-gray-200 dark:border-gray-600 pt-6">
+        <h4 className="text-lg font-semibold text-primary-dark dark:text-darkMode-link mb-4">Change Password</h4>
+        <button
+          onClick={() => setShowPasswordFields(!showPasswordFields)}
+          className="mb-4 text-primary hover:text-[#2A9BC8] transition-colors"
+        >
+          {showPasswordFields ? 'Cancel Password Change' : 'Change Password'}
+        </button>
+
+        {showPasswordFields && (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Current Password
+              </label>
+              <input
+                type="password"
+                value={passwordData.currentPassword}
+                onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                New Password
+              </label>
+              <input
+                type="password"
+                value={passwordData.newPassword}
+                onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                value={passwordData.confirmPassword}
+                onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
