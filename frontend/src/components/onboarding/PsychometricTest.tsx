@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { psychometricApi } from '../../services/api/psychometric'
-import type { PsychometricResponse, UserProfile } from '../../services/api/types'
+import type { UserProfile } from '../../services/api/types'
 import { handleApiError } from '../../utils/errorHandler'
 import LoadingSpinner from '../ui/LoadingSpinner'
 
@@ -20,7 +20,7 @@ const PsychometricTest = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [analysisResults, setAnalysisResults] = useState<UserProfile | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [assessmentId, setAssessmentId] = useState<string | null>(null)
+  const [, setAssessmentId] = useState<string | null>(null)
 
   const questions: PsychometricQuestion[] = [
     {
@@ -96,6 +96,33 @@ const PsychometricTest = () => {
     }
   }
 
+  const getPrimaryStyle = (preferences: Record<string, number>) => {
+    const entries = Object.entries(preferences || {});
+    if (entries.length === 0) return 'mixed';
+    const [primary] = entries.sort((a, b) => b[1] - a[1]);
+    return primary[0];
+  };
+
+  const mapAssessmentToProfile = (assessment: any): UserProfile => {
+    const learningPreferences = assessment.learning_preferences || {};
+    return {
+      user_id: assessment.user_id,
+      learner_archetype: assessment.learner_archetype,
+      learning_preferences: {
+        primary_style: getPrimaryStyle(learningPreferences),
+        content_format_preferences: Object.keys(learningPreferences),
+        difficulty_preference: assessment.capability_assessment?.skill_level || 'mixed',
+      },
+      motivation_score: {
+        intrinsic_motivation: assessment.motivation_score?.intrinsic || 0,
+        extrinsic_motivation: assessment.motivation_score?.extrinsic || 0,
+        engagement_prediction: assessment.behavioral_profile?.consistency_potential || 0,
+        persistence_score: assessment.behavioral_profile?.consistency_potential || 0,
+      },
+      skill_gaps: [],
+    };
+  };
+
   const submitAssessment = async (finalAnswers: Record<number, number>) => {
     setIsAnalyzing(true)
     setError(null)
@@ -104,30 +131,13 @@ const PsychometricTest = () => {
       // Get user ID from localStorage or context
       const userId = localStorage.getItem('user_id') || 'temp_user'
       
-      // Create assessment if not exists
-      if (!assessmentId) {
-        const assessment = await psychometricApi.createAssessment({
-          user_id: userId,
-          assessment_type: 'onboarding'
-        }) as { id: string }
-        setAssessmentId(assessment.id)
-      }
-
-      // Submit responses
-      const responses: PsychometricResponse[] = Object.entries(finalAnswers).map(([questionId, value]) => ({
-        question_id: parseInt(questionId),
-        response_value: value,
-        response_time_ms: Date.now() // Simple timestamp
-      }))
-
-      await psychometricApi.submitResponses({
-        assessment_id: assessmentId!,
-        responses
-      })
-
-      // Trigger AI analysis
-      const results = await psychometricApi.analyzeUser(userId)
-      setAnalysisResults(results)
+      const assessment = await psychometricApi.createAssessment({
+        user_id: userId,
+        assessment_type: 'onboarding',
+        raw_responses: finalAnswers,
+      }) as { id: string }
+      setAssessmentId(assessment.id)
+      setAnalysisResults(mapAssessmentToProfile(assessment))
       setShowResults(true)
       
     } catch (err: any) {

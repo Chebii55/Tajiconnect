@@ -13,21 +13,20 @@ import { AI, ANALYTICS } from './endpoints';
 
 export interface CourseRecommendation {
   course_id: string;
-  title: string;
-  description?: string;
   score: number;
-  reason: string;
-  estimated_duration: number;
-  difficulty_level?: 'beginner' | 'intermediate' | 'advanced';
-  match_factors?: string[];
+  rank: number;
+  explanation?: string;
+  algorithm?: string;
+  metadata?: Record<string, unknown>;
 }
 
 export interface RecommendationRequest {
   user_id: string;
   limit?: number;
-  include_enrolled?: boolean;
-  filter_by_grade?: number;
-  filter_by_subject?: number;
+  exclude_enrolled?: boolean;
+  categories?: string[];
+  difficulty_level?: 'beginner' | 'intermediate' | 'advanced';
+  algorithm?: 'collaborative' | 'content-based' | 'hybrid';
 }
 
 export interface BehaviorTrackRequest {
@@ -220,20 +219,18 @@ class AIService {
    * Get personalized course recommendations
    */
   async getCourseRecommendations(request: RecommendationRequest): Promise<CourseRecommendation[]> {
-    return apiClient.post<CourseRecommendation[]>(
-      AI.RECOMMENDATIONS.COURSES,
-      request
-    );
+    const response = await apiClient.post<{
+      recommendations: CourseRecommendation[];
+    }>(AI.RECOMMENDATIONS.COURSES, request);
+    return response.recommendations || [];
   }
 
   /**
    * Track user behavior for better recommendations
    */
   async trackBehavior(request: BehaviorTrackRequest): Promise<{ success: boolean }> {
-    return apiClient.post<{ success: boolean }>(
-      AI.RECOMMENDATIONS.BEHAVIOR,
-      request
-    );
+    await apiClient.post(AI.RECOMMENDATIONS.BEHAVIOR, request);
+    return { success: true };
   }
 
   /**
@@ -250,9 +247,10 @@ class AIService {
    * Get similar courses
    */
   async getSimilarCourses(courseId: string): Promise<CourseRecommendation[]> {
-    return apiClient.get<CourseRecommendation[]>(
+    const response = await apiClient.get<{ similar_courses: CourseRecommendation[] }>(
       AI.RECOMMENDATIONS.SIMILAR(courseId)
     );
+    return response.similar_courses || [];
   }
 
   // ============================================
@@ -359,10 +357,9 @@ class AIService {
     skillId: string,
     progress: number
   ): Promise<{ success: boolean }> {
-    return apiClient.post<{ success: boolean }>(AI.SKILLS_TRACK, {
-      user_id: userId,
-      skill_id: skillId,
-      progress,
+    return apiClient.post<{ success: boolean }>(AI.SKILLS_TRACK(userId, skillId), {
+      current_level: progress,
+      target_level: progress,
     });
   }
 

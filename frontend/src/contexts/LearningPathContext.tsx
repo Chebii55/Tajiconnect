@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import type { LearningPath } from '../services/api/types';
+import type { GeneratedLearningPath, LearningPath } from '../services/api/types';
 import { learningPathsApi } from '../services/api/learningPaths';
 import { handleApiError } from '../utils/errorHandler';
 
@@ -9,7 +9,7 @@ interface LearningPathContextType {
   currentPath: LearningPath | null;
   isLoading: boolean;
   error: string | null;
-  generatePath: (preferences?: any) => Promise<LearningPath | null>;
+  generatePath: (preferences?: any) => Promise<GeneratedLearningPath | null>;
   getUserPaths: () => Promise<void>;
   setCurrentPath: (pathId: string) => void;
   createAdaptation: (pathId: string, adaptationData: any) => Promise<void>;
@@ -37,13 +37,12 @@ export const LearningPathProvider: React.FC<LearningPathProviderProps> = ({ chil
 
   const userId = localStorage.getItem('user_id') || 'temp_user';
 
-  const generatePath = async (preferences?: any): Promise<LearningPath | null> => {
+  const generatePath = async (preferences?: any): Promise<GeneratedLearningPath | null> => {
     setIsLoading(true);
     setError(null);
 
     try {
       const path = await learningPathsApi.generatePath(userId, preferences);
-      setUserPaths(prev => [path, ...prev]);
       return path;
     } catch (err: any) {
       setError(handleApiError(err));

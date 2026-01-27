@@ -5,7 +5,7 @@
 
 import { apiClient } from './client';
 import { LEARNING_PATHS, AI } from './endpoints';
-import type { LearningPath } from './types';
+import type { GeneratedLearningPath, LearningPath, LearningPathModule } from './types';
 
 export interface GeneratePathPreferences {
   focus_areas?: string[];
@@ -23,10 +23,22 @@ export const learningPathsApi = {
   /**
    * Generate AI learning path for a user
    */
-  generatePath: async (userId: string, preferences?: GeneratePathPreferences): Promise<LearningPath> => {
-    return apiClient.post<LearningPath>(LEARNING_PATHS.GENERATE(userId), {
-      preferences,
-      constraints: preferences,
+  generatePath: async (
+    userId: string,
+    preferences?: GeneratePathPreferences
+  ): Promise<GeneratedLearningPath> => {
+    const goal =
+      preferences?.focus_areas && preferences.focus_areas.length > 0
+        ? `Focus on ${preferences.focus_areas.join(', ')}`
+        : 'Personalized learning path';
+
+    return apiClient.post<GeneratedLearningPath>(AI.LEARNING_PATH_GENERATE, {
+      user_id: userId,
+      goal,
+      current_skill_level: preferences?.skill_level,
+      available_time_hours_per_week: preferences?.available_hours_per_week,
+      target_completion_weeks: preferences?.max_duration_weeks,
+      preferred_topics: preferences?.focus_areas,
     });
   },
 
@@ -40,11 +52,12 @@ export const learningPathsApi = {
       skill_level?: 'beginner' | 'intermediate' | 'advanced';
       available_hours_per_week?: number;
     }
-  ): Promise<LearningPath> => {
-    return apiClient.post<LearningPath>(AI.LEARNING_PATH_GENERATE, {
+  ): Promise<GeneratedLearningPath> => {
+    return apiClient.post<GeneratedLearningPath>(AI.LEARNING_PATH_GENERATE, {
       user_id: userId,
       goal,
-      ...options,
+      current_skill_level: options?.skill_level,
+      available_time_hours_per_week: options?.available_hours_per_week,
     });
   },
 
@@ -56,6 +69,13 @@ export const learningPathsApi = {
   },
 
   /**
+   * Get the active learning path for a user
+   */
+  getActivePath: async (userId: string): Promise<LearningPath> => {
+    return apiClient.get<LearningPath>(LEARNING_PATHS.GET_ACTIVE_PATH(userId));
+  },
+
+  /**
    * Get a specific learning path by ID
    */
   getPath: async (id: string): Promise<LearningPath> => {
@@ -63,10 +83,24 @@ export const learningPathsApi = {
   },
 
   /**
+   * Get modules for a learning path
+   */
+  getPathModules: async (pathId: string): Promise<LearningPathModule[]> => {
+    return apiClient.get<LearningPathModule[]>(LEARNING_PATHS.GET_MODULES(pathId));
+  },
+
+  /**
    * Update a learning path
    */
   updatePath: async (id: string, data: Partial<LearningPath>): Promise<LearningPath> => {
     return apiClient.put<LearningPath>(LEARNING_PATHS.UPDATE(id), data);
+  },
+
+  /**
+   * Update a learning path module
+   */
+  updateModule: async (moduleId: string, data: Partial<LearningPathModule>): Promise<LearningPathModule> => {
+    return apiClient.put<LearningPathModule>(LEARNING_PATHS.UPDATE_MODULE(moduleId), data);
   },
 
   /**

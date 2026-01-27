@@ -59,6 +59,37 @@ export interface UpdateUserRequest {
   phone?: string;
 }
 
+export type EnrollmentStatus = 'enrolled' | 'in_progress' | 'completed' | 'dropped';
+
+export interface CourseEnrollment {
+  id: string;
+  user_id: string;
+  course_id: string;
+  status: EnrollmentStatus;
+  progress_percent: number;
+  enrolled_at: string;
+  last_accessed_at?: string;
+  completed_at?: string;
+  source?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateEnrollmentRequest {
+  course_id: string;
+  status?: EnrollmentStatus;
+  progress_percent?: number;
+  source?: string;
+}
+
+export interface UpdateEnrollmentRequest {
+  status?: EnrollmentStatus;
+  progress_percent?: number;
+  last_accessed_at?: string;
+  completed_at?: string;
+  source?: string;
+}
+
 export interface UpdateProfileRequest {
   bio?: string;
   avatar_url?: string;
@@ -218,6 +249,49 @@ class UserService {
    */
   async getUserProfile(userId: string): Promise<UserProfile> {
     return apiClient.get<UserProfile>(USERS.USER_PROFILE(userId));
+  }
+
+  // ============================================
+  // ENROLLMENTS (User-centric)
+  // ============================================
+
+  /**
+   * Get a user's enrolled courses
+   */
+  async getUserCourses(userId: string, skip = 0, limit = 100): Promise<CourseEnrollment[]> {
+    return apiClient.get<CourseEnrollment[]>(USERS.COURSES(userId), { skip, limit });
+  }
+
+  /**
+   * Get a specific course enrollment for a user
+   */
+  async getUserCourse(userId: string, courseId: string): Promise<CourseEnrollment> {
+    return apiClient.get<CourseEnrollment>(USERS.COURSE(userId, courseId));
+  }
+
+  /**
+   * Enroll a user in a course
+   */
+  async createEnrollment(userId: string, data: CreateEnrollmentRequest): Promise<CourseEnrollment> {
+    return apiClient.post<CourseEnrollment>(USERS.COURSES(userId), data);
+  }
+
+  /**
+   * Update a user's enrollment
+   */
+  async updateEnrollment(
+    userId: string,
+    courseId: string,
+    data: UpdateEnrollmentRequest
+  ): Promise<CourseEnrollment> {
+    return apiClient.put<CourseEnrollment>(USERS.COURSE(userId, courseId), data);
+  }
+
+  /**
+   * Remove a user's enrollment
+   */
+  async deleteEnrollment(userId: string, courseId: string): Promise<void> {
+    await apiClient.delete(USERS.COURSE(userId, courseId));
   }
 
   // ============================================

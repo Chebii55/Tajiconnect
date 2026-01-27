@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { learningPathsApi } from '../../services/api/learningPaths';
-import type { LearningPath } from '../../services/api/types';
+import type { GeneratedLearningPath } from '../../services/api/types';
 import { handleApiError } from '../../utils/errorHandler';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import { Clock, BookOpen, Target, ChevronRight } from 'lucide-react';
@@ -9,7 +9,7 @@ import { Clock, BookOpen, Target, ChevronRight } from 'lucide-react';
 const PathGeneration: React.FC = () => {
   const navigate = useNavigate();
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedPath, setGeneratedPath] = useState<LearningPath | null>(null);
+  const [generatedPath, setGeneratedPath] = useState<GeneratedLearningPath | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -98,29 +98,29 @@ const PathGeneration: React.FC = () => {
         {/* Path Overview */}
         <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-bold text-primary-dark dark:text-darkMode-text mb-4">
-            {generatedPath.title}
+            {generatedPath.path_name}
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
-            {generatedPath.description}
+            {generatedPath.goal}
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
               <span className="text-sm">
-                {generatedPath.estimated_duration_weeks} weeks
+                {generatedPath.estimated_total_hours} hours
               </span>
             </div>
             <div className="flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-primary" />
               <span className="text-sm capitalize">
-                {generatedPath.difficulty_level}
+                {generatedPath.difficulty_progression}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-primary" />
               <span className="text-sm">
-                {generatedPath.modules.length} modules
+                {generatedPath.total_courses} courses
               </span>
             </div>
           </div>
@@ -131,24 +131,24 @@ const PathGeneration: React.FC = () => {
           <h3 className="text-xl font-bold text-primary-dark dark:text-darkMode-text">
             Learning Modules
           </h3>
-          {generatedPath.modules.map((module, index) => (
-            <div key={module.id} className="bg-white dark:bg-darkMode-surface rounded-lg shadow p-4">
+          {generatedPath.recommended_courses.map((course, index) => (
+            <div key={course.course_id} className="bg-white dark:bg-darkMode-surface rounded-lg shadow p-4">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <span className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold">
-                      {index + 1}
+                      {course.position || index + 1}
                     </span>
                     <h4 className="font-semibold text-primary-dark dark:text-darkMode-text">
-                      {module.title}
+                      {course.title}
                     </h4>
                   </div>
                   <div className="ml-11">
                     <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      {module.estimated_duration_hours} hours • Difficulty: {module.difficulty_score}/100
+                      {course.estimated_duration_hours} hours • Difficulty: {course.difficulty_level}
                     </p>
                     <div className="text-xs text-gray-500">
-                      {module.lessons.length} lessons
+                      {course.rationale}
                     </div>
                   </div>
                 </div>

@@ -31,30 +31,74 @@ export interface SkillGap {
   priority: number;
 }
 
-// Learning Path
+// Learning Paths (AI service)
+export type LearningPathStatus = 'active' | 'paused' | 'completed' | 'abandoned';
+export type ModuleStatus = 'not_started' | 'in_progress' | 'completed' | 'skipped';
+
 export interface LearningPath {
   id: string;
-  title: string;
-  description: string;
+  user_id: string;
+  path_name: string;
+  description?: string;
+  target_language: string;
   estimated_duration_weeks: number;
+  total_modules: number;
+  total_estimated_hours: number;
+  status: LearningPathStatus;
+  current_module_index: number;
+  completion_percentage: number;
+  adaptation_count: number;
+  last_adapted_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LearningPathModule {
+  id: string;
+  learning_path_id: string;
+  sequence_order: number;
+  module_type: string;
+  title: string;
+  description?: string;
+  learning_objectives: string[];
   difficulty_level: DifficultyLevel;
-  modules: LearningModule[];
-}
-
-export interface LearningModule {
-  id: string;
-  title: string;
-  order_index: number;
-  estimated_duration_hours: number;
-  difficulty_score: number;
-  lessons: Lesson[];
-}
-
-export interface Lesson {
-  id: string;
-  title: string;
-  content_type: ContentType;
+  prerequisites?: string[];
+  course_id?: string;
+  lesson_id?: string;
+  assessment_id?: string;
   estimated_duration_minutes: number;
+  estimated_difficulty_score: number;
+  recommended_study_time?: string;
+  recommended_session_length?: number;
+  status: ModuleStatus;
+  started_at?: string;
+  completed_at?: string;
+  attempts_count: number;
+  best_score?: number;
+  time_spent_minutes: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GeneratedLearningPath {
+  user_id: string;
+  path_name: string;
+  goal: string;
+  recommended_courses: GeneratedLearningPathCourse[];
+  total_courses: number;
+  estimated_total_hours: number;
+  difficulty_progression: string;
+  created_at: string;
+}
+
+export interface GeneratedLearningPathCourse {
+  course_id: string;
+  position: number;
+  title: string;
+  difficulty_level: string;
+  estimated_duration_hours: number;
+  prerequisites: string[];
+  rationale: string;
 }
 
 // Recommendations

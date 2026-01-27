@@ -5,7 +5,6 @@
 
 import { apiClient } from './client';
 import { COURSES, GRADES, SUBJECTS, CONTENT } from './endpoints';
-import type { PaginatedResponse } from './user';
 
 // ============================================
 // TYPE DEFINITIONS - COURSES
@@ -148,8 +147,8 @@ class CourseService {
   /**
    * Get all courses with pagination
    */
-  async getCourses(skip = 0, limit = 100): Promise<PaginatedResponse<Course>> {
-    return apiClient.get<PaginatedResponse<Course>>(COURSES.LIST, { skip, limit });
+  async getCourses(skip = 0, limit = 100): Promise<Course[]> {
+    return apiClient.get<Course[]>(COURSES.LIST, { skip, limit });
   }
 
   /**
@@ -183,8 +182,8 @@ class CourseService {
   /**
    * Get courses by grade
    */
-  async getCoursesByGrade(gradeId: number, skip = 0, limit = 100): Promise<PaginatedResponse<Course>> {
-    return apiClient.get<PaginatedResponse<Course>>(COURSES.LIST, {
+  async getCoursesByGrade(gradeId: number, skip = 0, limit = 100): Promise<Course[]> {
+    return apiClient.get<Course[]>(COURSES.LIST, {
       grade_id: gradeId,
       skip,
       limit,
@@ -194,8 +193,8 @@ class CourseService {
   /**
    * Get courses by subject
    */
-  async getCoursesBySubject(subjectId: number, skip = 0, limit = 100): Promise<PaginatedResponse<Course>> {
-    return apiClient.get<PaginatedResponse<Course>>(COURSES.LIST, {
+  async getCoursesBySubject(subjectId: number, skip = 0, limit = 100): Promise<Course[]> {
+    return apiClient.get<Course[]>(COURSES.LIST, {
       subject_id: subjectId,
       skip,
       limit,
@@ -205,12 +204,14 @@ class CourseService {
   /**
    * Search courses
    */
-  async searchCourses(query: string, skip = 0, limit = 100): Promise<PaginatedResponse<Course>> {
-    return apiClient.get<PaginatedResponse<Course>>(COURSES.LIST, {
-      search: query,
-      skip,
-      limit,
-    });
+  async searchCourses(query: string, skip = 0, limit = 100): Promise<Course[]> {
+    const courses = await this.getCourses(skip, limit);
+    const normalized = query.trim().toLowerCase();
+    if (!normalized) return courses;
+    return courses.filter(course =>
+      course.title.toLowerCase().includes(normalized) ||
+      (course.description || '').toLowerCase().includes(normalized)
+    );
   }
 
   // ============================================
@@ -319,8 +320,8 @@ class CourseService {
   /**
    * Get all content with filters
    */
-  async getContent(params?: ContentListParams): Promise<PaginatedResponse<Content>> {
-    return apiClient.get<PaginatedResponse<Content>>(
+  async getContent(params?: ContentListParams): Promise<Content[]> {
+    return apiClient.get<Content[]>(
       CONTENT.LIST,
       params as Record<string, unknown>
     );
@@ -382,8 +383,7 @@ class CourseService {
    * Get content for a course
    */
   async getContentByCourse(courseId: string): Promise<Content[]> {
-    const response = await this.getContent({ course_id: courseId });
-    return response.items;
+    return this.getContent({ course_id: courseId });
   }
 }
 

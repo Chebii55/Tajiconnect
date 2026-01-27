@@ -29,6 +29,8 @@ export const API_ENDPOINTS = {
     BY_ID: (userId: string) => `${API_VERSION}/users/${userId}`,
     USER_PROFILE: (userId: string) => `${API_VERSION}/users/${userId}/profile`,
     LIST: `${API_VERSION}/users`,
+    COURSES: (userId: string) => `${API_VERSION}/users/${userId}/courses`,
+    COURSE: (userId: string, courseId: string) => `${API_VERSION}/users/${userId}/courses/${courseId}`,
   },
 
   // ============================================
@@ -170,47 +172,49 @@ export const API_ENDPOINTS = {
     GENERATE_QUIZ: `${API_VERSION}/ai/generate-quiz`,
     GENERATE_ASSESSMENT: `${API_VERSION}/ai/assessment/generate`,
     // Psychometric
-    PSYCHOMETRIC_ASSESSMENT: `${API_VERSION}/ai/psychometric/assessment`,
+    PSYCHOMETRIC_ASSESSMENT: `${API_VERSION}/ai/psychometric/assessments`,
     // Learning Paths
     LEARNING_PATHS: `${API_VERSION}/ai/learning-paths`,
     // Skills
-    SKILLS_TRACK: `${API_VERSION}/ai/skills/track`,
+    SKILLS_TRACK: (userId: string, skillId: string) =>
+      `${API_VERSION}/ai/skills/users/${userId}/skills/${skillId}/upsert`,
     // Analytics
     ANALYTICS_PROGRESS: `${API_VERSION}/ai/analytics/progress`,
   },
 
   // ============================================
-  // PSYCHOMETRIC (Legacy/Frontend specific)
+  // PSYCHOMETRIC (AI Service)
   // ============================================
   PSYCHOMETRIC: {
-    CREATE_ASSESSMENT: `${API_VERSION}/psychometric/assessments`,
-    GET_ASSESSMENT: (id: string) => `${API_VERSION}/psychometric/assessments/${id}`,
-    SUBMIT_RESPONSES: `${API_VERSION}/psychometric/responses`,
-    GET_RESULTS: (userId: string) => `${API_VERSION}/psychometric/results/${userId}`,
-    ANALYZE: (userId: string) => `${API_VERSION}/psychometric/analyze/${userId}`,
+    CREATE_ASSESSMENT: `${API_VERSION}/ai/psychometric/assessments`,
+    GET_ASSESSMENT: (id: string) => `${API_VERSION}/ai/psychometric/assessments/${id}`,
+    GET_USER_ASSESSMENTS: (userId: string) => `${API_VERSION}/ai/psychometric/users/${userId}/assessments`,
+    GET_LATEST: (userId: string) => `${API_VERSION}/ai/psychometric/users/${userId}/assessments/latest`,
+    UPDATE_ASSESSMENT: (id: string) => `${API_VERSION}/ai/psychometric/assessments/${id}`,
   },
 
   // ============================================
-  // LEARNING PATHS
+  // LEARNING PATHS (AI Service)
   // ============================================
   LEARNING_PATHS: {
-    CREATE: `${API_VERSION}/learning-paths`,
-    GET: (id: string) => `${API_VERSION}/learning-paths/${id}`,
-    UPDATE: (id: string) => `${API_VERSION}/learning-paths/${id}`,
-    GENERATE: (userId: string) => `${API_VERSION}/learning-paths/generate/${userId}`,
-    GET_USER_PATHS: (userId: string) => `${API_VERSION}/learning-paths/user/${userId}`,
-    CREATE_ADAPTATION: (id: string) => `${API_VERSION}/learning-paths/${id}/adaptations`,
+    CREATE: `${API_VERSION}/ai/learning-paths`,
+    GET: (id: string) => `${API_VERSION}/ai/learning-paths/${id}`,
+    UPDATE: (id: string) => `${API_VERSION}/ai/learning-paths/${id}`,
+    GET_USER_PATHS: (userId: string) => `${API_VERSION}/ai/learning-paths/users/${userId}/paths`,
+    GET_ACTIVE_PATH: (userId: string) => `${API_VERSION}/ai/learning-paths/users/${userId}/active`,
+    GET_MODULES: (pathId: string) => `${API_VERSION}/ai/learning-paths/${pathId}/modules`,
+    GET_CURRENT_MODULE: (pathId: string) => `${API_VERSION}/ai/learning-paths/${pathId}/modules/current`,
+    UPDATE_MODULE: (moduleId: string) => `${API_VERSION}/ai/learning-paths/modules/${moduleId}`,
+    CREATE_ADAPTATION: (id: string) => `${API_VERSION}/ai/learning-paths/${id}/adaptations`,
   },
 
   // ============================================
-  // SKILLS ASSESSMENT
+  // SKILLS ASSESSMENT (AI Service)
   // ============================================
   SKILLS: {
-    CREATE_ASSESSMENT: `${API_VERSION}/skills/assessments`,
-    GET_ASSESSMENT: (id: string) => `${API_VERSION}/skills/assessments/${id}`,
-    ANALYZE: (userId: string) => `${API_VERSION}/skills/analyze/${userId}`,
-    GET_GAPS: (userId: string) => `${API_VERSION}/skills/gaps/${userId}`,
-    GET_RECOMMENDATIONS: (userId: string) => `${API_VERSION}/skills/recommendations/${userId}`,
+    CREATE_ASSESSMENT: `${API_VERSION}/ai/skills/assessments`,
+    GET_ASSESSMENT: (id: string) => `${API_VERSION}/ai/skills/assessments/${id}`,
+    GET_USER_ASSESSMENTS: (userId: string) => `${API_VERSION}/ai/skills/users/${userId}/assessments`,
   },
 
   // ============================================

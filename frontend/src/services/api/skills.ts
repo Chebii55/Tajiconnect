@@ -1,6 +1,5 @@
 import { apiClient } from './client';
 import { API_ENDPOINTS } from './endpoints';
-import type { SkillGap } from './types';
 
 export const skillsApi = {
   // Create skill assessment
@@ -17,18 +16,8 @@ export const skillsApi = {
     return apiClient.get(API_ENDPOINTS.SKILLS.GET_ASSESSMENT(id));
   },
 
-  // Analyze user skills with AI
-  analyzeSkills: async (userId: string) => {
-    return apiClient.post(API_ENDPOINTS.SKILLS.ANALYZE(userId));
-  },
-
-  // Get skill gaps
-  getSkillGaps: async (userId: string): Promise<SkillGap[]> => {
-    return apiClient.get(API_ENDPOINTS.SKILLS.GET_GAPS(userId));
-  },
-
-  // Get skill recommendations
-  getRecommendations: async (userId: string) => {
-    return apiClient.post(API_ENDPOINTS.SKILLS.GET_RECOMMENDATIONS(userId));
+  // Get assessments for a user
+  getUserAssessments: async (userId: string) => {
+    return apiClient.get(API_ENDPOINTS.SKILLS.GET_USER_ASSESSMENTS(userId));
   },
 };

@@ -165,13 +165,9 @@ export default function SkillsAssessment() {
     setAnalysisError(null)
     
     try {
-      const [gaps, recs] = await Promise.all([
-        skillsApi.getSkillGaps(userId),
-        skillsApi.getRecommendations(userId)
-      ])
-
-      setSkillGaps(gaps as SkillGap[])
-      setRecommendations(recs as unknown[])
+      await skillsApi.getUserAssessments(userId)
+      setSkillGaps([])
+      setRecommendations([])
     } catch (err) {
       const error = err as { code?: string; message?: string };
       setAnalysisError(error.message || 'Failed to load skill analysis')

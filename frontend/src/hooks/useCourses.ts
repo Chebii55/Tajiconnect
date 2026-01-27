@@ -33,7 +33,7 @@ export const useCourses = (): UseCoursesReturn => {
       setLoading(true);
       setError(null);
       const response = await courseService.getCourses(0, 100);
-      setCourses(response.items);
+      setCourses(response);
     } catch (err) {
       console.error('Failed to load courses:', err);
       setError('Failed to load courses');
@@ -48,7 +48,7 @@ export const useCourses = (): UseCoursesReturn => {
       setLoading(true);
       setError(null);
       const response = await courseService.searchCourses(query);
-      setCourses(response.items);
+      setCourses(response);
     } catch (err) {
       console.error('Search failed:', err);
       setError('Search failed');
@@ -62,7 +62,7 @@ export const useCourses = (): UseCoursesReturn => {
       setLoading(true);
       setError(null);
       const response = await courseService.getCoursesByGrade(gradeId);
-      setCourses(response.items);
+      setCourses(response);
     } catch (err) {
       console.error('Failed to load courses by grade:', err);
       setError('Failed to load courses by grade');
@@ -76,7 +76,7 @@ export const useCourses = (): UseCoursesReturn => {
       setLoading(true);
       setError(null);
       const response = await courseService.getCoursesBySubject(subjectId);
-      setCourses(response.items);
+      setCourses(response);
     } catch (err) {
       console.error('Failed to load courses by subject:', err);
       setError('Failed to load courses by subject');

@@ -10,7 +10,7 @@ import { getCurrentUser } from '../utils/auth';
 
 interface ContentRecommendation {
   content_id: string;
-  title: string;
+  title?: string;
   content_type: string;
   recommendation_type: string;
   relevance_score: number;
@@ -19,8 +19,6 @@ interface ContentRecommendation {
     explanation: string;
     primary_factors: string[];
   };
-  estimated_duration?: number;
-  difficulty_level?: string;
 }
 
 interface PerformanceMetrics {
@@ -102,20 +100,24 @@ export const RecommendationsProvider: React.FC<{ children: React.ReactNode }> = 
       });
 
       // Transform course recommendations to content recommendations format
-      const contentRecs: ContentRecommendation[] = courseRecs.map((rec) => ({
-        content_id: rec.course_id,
-        title: rec.title,
-        content_type: 'course',
-        recommendation_type: 'next_lesson',
-        relevance_score: rec.score,
-        engagement_prediction: rec.score * 0.9,
-        reasoning: {
-          explanation: rec.reason,
-          primary_factors: rec.match_factors || ['personalized'],
-        },
-        estimated_duration: rec.estimated_duration,
-        difficulty_level: rec.difficulty_level,
-      }));
+      const contentRecs: ContentRecommendation[] = courseRecs.map((rec) => {
+        const metadata = rec.metadata || {};
+        const primaryFactors = Array.isArray((metadata as any).match_factors)
+          ? (metadata as any).match_factors
+          : [];
+
+        return {
+          content_id: rec.course_id,
+          content_type: 'course',
+          recommendation_type: 'next_lesson',
+          relevance_score: rec.score,
+          engagement_prediction: rec.score * 0.9,
+          reasoning: {
+            explanation: rec.explanation || '',
+            primary_factors: primaryFactors,
+          },
+        };
+      });
 
       setRecommendations(contentRecs);
       setCourseRecommendations(courseRecs);
