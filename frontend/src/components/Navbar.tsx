@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 import { authService } from '../services/api/auth'
 import {
@@ -9,15 +9,20 @@ import {
   Bell,
   Search,
   Menu,
-  X
+  X,
+  LogOut,
+  User,
+  ChevronDown
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [userInitials, setUserInitials] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const user = authService.getCurrentUser()
@@ -30,6 +35,31 @@ const Navbar = () => {
       setUserInitials('')
     }
   }, [])
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isProfileDropdownOpen) {
+        setIsProfileDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isProfileDropdownOpen])
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout()
+      navigate('/login')
+    } catch (error) {
+      console.error('Logout failed:', error)
+      // Still navigate to login even if logout fails
+      navigate('/login')
+    }
+  }
 
   return (
     <>
@@ -86,25 +116,71 @@ const Navbar = () => {
                 )}
               </button>
 
-              {/* Settings */}
-              <Link
-                to="/settings"
-                className="p-2 text-neutral-dark dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover rounded-lg transition-colors duration-200"
-                title="Settings"
-              >
-                <Settings className="w-5 h-5" />
-              </Link>
-
               {/* Profile */}
               {isLoggedIn && (
-                <Link
-                  to="/student/profile"
-                  className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
-                >
-                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                    {userInitials}
-                  </div>
-                </Link>
+                <div className="relative">
+                  <button
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
+                  >
+                    <div className="w-8 h-8 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      {userInitials}
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-gray-500 dark:text-darkMode-textMuted" />
+                  </button>
+
+                  {isProfileDropdownOpen && (
+                    <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-darkMode-surface rounded-xl shadow-xl border border-gray-100 dark:border-darkMode-border z-50 overflow-hidden">
+                      
+
+                      {/* Menu Items */}
+                      <div className="py-2">
+                        <Link
+                          to="/student/profile"
+                          className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-darkMode-text hover:bg-primary/5 dark:hover:bg-darkMode-surfaceHover transition-colors group"
+                          onClick={() => setIsProfileDropdownOpen(false)}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mr-3 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30 transition-colors">
+                            <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Profile</p>
+                            <p className="text-xs text-gray-500 dark:text-darkMode-textMuted">View your profile</p>
+                          </div>
+                        </Link>
+                        
+                        <Link
+                          to="/settings"
+                          className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-darkMode-text hover:bg-primary/5 dark:hover:bg-darkMode-surfaceHover transition-colors group"
+                          onClick={() => setIsProfileDropdownOpen(false)}
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center mr-3 group-hover:bg-gray-100 dark:group-hover:bg-gray-700 transition-colors">
+                            <Settings className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Settings</p>
+                            <p className="text-xs text-gray-500 dark:text-darkMode-textMuted">Preferences & privacy</p>
+                          </div>
+                        </Link>
+                      </div>
+
+                      {/* Logout Section */}
+                      <div className="border-t border-gray-100 dark:border-darkMode-border">
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors group"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center mr-3 group-hover:bg-red-100 dark:group-hover:bg-red-900/30 transition-colors">
+                            <LogOut className="w-4 h-4 text-red-600 dark:text-red-400" />
+                          </div>
+                          <div>
+                            <p className="font-medium">Logout</p>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>
