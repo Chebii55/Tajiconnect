@@ -93,7 +93,6 @@ export const useWebSocket = (
   // Connect to WebSocket
   const connect = useCallback(() => {
     if (!WS_ENABLED) {
-      console.log('WebSocket is disabled');
       return;
     }
 
@@ -114,7 +113,6 @@ export const useWebSocket = (
         reconnectAttempts.current = 0;
         setReconnectCount(0);
         onConnect?.();
-        console.log('WebSocket connected');
       };
 
       ws.current.onmessage = (event) => {
@@ -131,7 +129,6 @@ export const useWebSocket = (
         setIsConnected(false);
         setConnectionStatus('disconnected');
         onDisconnect?.();
-        console.log('WebSocket disconnected:', event.code, event.reason);
 
         // Attempt reconnection if not manually disconnected
         if (!isManualDisconnect.current && reconnectAttempts.current < maxReconnectAttempts) {
@@ -140,7 +137,6 @@ export const useWebSocket = (
           setConnectionStatus('reconnecting');
 
           reconnectTimeout.current = setTimeout(() => {
-            console.log(`Reconnecting... attempt ${reconnectAttempts.current}/${maxReconnectAttempts}`);
             connect();
           }, reconnectInterval);
         }

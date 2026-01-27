@@ -19,8 +19,7 @@ const CookiePolicy: React.FC = () => {
   };
 
   const savePreferences = () => {
-    // Here you would typically save the preferences to localStorage or send to server
-    console.log('Cookie preferences saved:', cookiePreferences);
+    // TODO: Save preferences to localStorage or send to server
     // Show success notification
     alert('Cookie preferences saved successfully!');
   };

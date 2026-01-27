@@ -50,8 +50,7 @@ const ChatView: React.FC = () => {
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      // Handle sending message
-      console.log('Sending message:', message);
+      // TODO: Send message via API
       setMessage('');
     }
   };

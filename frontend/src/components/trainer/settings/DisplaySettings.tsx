@@ -36,8 +36,7 @@ const DisplaySettings: React.FC = () => {
   };
 
   const handleSave = () => {
-    // Save settings logic here
-    console.log('Saving display settings:', settings);
+    // TODO: Save settings via API
     setHasChanges(false);
   };
 

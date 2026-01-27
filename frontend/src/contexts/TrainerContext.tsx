@@ -360,9 +360,9 @@ export const TrainerProvider: React.FC<{ children: React.ReactNode }> = ({ child
     };
   };
 
-  const sendMessage = (learnerIds: string[], message: string) => {
-    // Mock implementation
-    console.log('Sending message to learners:', learnerIds, message);
+  const sendMessage = (_learnerIds: string[], _message: string) => {
+    // Mock implementation - send message to learners
+    // TODO: Replace with actual API call
   };
 
   const refreshData = () => {

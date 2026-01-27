@@ -48,8 +48,7 @@ const Announcements: React.FC = () => {
   ];
 
   const handleSendAnnouncement = () => {
-    // Handle sending announcement
-    console.log('Sending announcement:', announcement);
+    // TODO: Send announcement via API
     setShowCreateModal(false);
     setAnnouncement({
       title: '',

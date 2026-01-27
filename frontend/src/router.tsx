@@ -82,8 +82,6 @@ import TrainerSettings from './components/trainer/TrainerSettings';
 // Settings
 import Settings from './components/settings/Settings';
 
-// Development Components (only in development)
-import TestDashboard from './components/dev/TestDashboard';
 
 export const router = createBrowserRouter([
   {
@@ -396,10 +394,6 @@ export const router = createBrowserRouter([
         ) 
       },
 
-      // Development Routes (only in development)
-      ...(import.meta.env.DEV ? [
-        { path: '/dev/test', element: <TestDashboard /> }
-      ] : [])
     ]
   },
   

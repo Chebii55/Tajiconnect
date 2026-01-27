@@ -112,8 +112,6 @@ export const testApiIntegration = async () => {
     const testUserId = 'test_user_integration';
     
     // These would be actual API calls in real testing
-    console.log('Testing API integration for user:', testUserId);
-    
     // Mock successful tests
     results.psychometric = true;
     results.learningPaths = true;

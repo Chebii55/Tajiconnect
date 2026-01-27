@@ -115,7 +115,6 @@ const Login: React.FC = () => {
         }
       } catch {
         // If onboarding check fails, redirect to default path
-        console.warn('Could not check onboarding status');
       }
 
       setTimeout(() => {

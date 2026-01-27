@@ -55,8 +55,7 @@ const NotificationPreferences: React.FC = () => {
   };
 
   const handleSave = () => {
-    // Save preferences logic here
-    console.log('Saving preferences:', preferences);
+    // TODO: Save preferences via API
     setHasChanges(false);
   };
 

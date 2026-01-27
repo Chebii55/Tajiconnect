@@ -132,9 +132,8 @@ export default function FeedbackSystem() {
     })
   }
 
-  const handleVote = (id: string) => {
-    // Handle voting logic
-    console.log('Voted for feedback:', id)
+  const handleVote = (_id: string) => {
+    // TODO: Handle voting logic via API
   }
 
   return (

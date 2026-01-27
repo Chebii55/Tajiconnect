@@ -58,29 +58,23 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
         refreshRecommendations();
         break;
       case 'adaptation_trigger':
-        console.log('Adaptation triggered:', message.data);
         // Could dispatch to a notification system
         break;
       case 'performance_alert':
-        console.log('Performance alert:', message.data);
         break;
       case 'learning_milestone':
-        console.log('Milestone achieved:', message.data);
         break;
       case 'course_update':
-        console.log('Course update:', message.data);
         break;
       case 'notification':
-        console.log('Notification received:', message.data);
         break;
       case 'subscription_update':
-        console.log('Subscription update:', message.data);
         break;
       case 'pong':
         // Keep-alive response
         break;
       default:
-        console.log('Unknown message type:', message.type);
+        break;
     }
   }, [refreshRecommendations]);
 
@@ -95,7 +89,6 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
     {
       onMessage: handleMessage,
       onConnect: () => {
-        console.log('Real-time connection established');
         // Re-subscribe to all channels on reconnection
         subscribedChannels.current.forEach(channel => {
           sendMessage({
@@ -107,7 +100,7 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
         });
       },
       onDisconnect: () => {
-        console.log('Real-time connection lost');
+        // Connection lost - will attempt reconnection automatically
       },
       onError: (error) => {
         console.error('WebSocket error:', error);

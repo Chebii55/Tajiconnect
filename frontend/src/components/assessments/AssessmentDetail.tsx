@@ -45,8 +45,7 @@ const mockQuestions: Question[] = [
   }
 ]
 
-export default function AssessmentDetail({ assessmentId }: AssessmentDetailProps) {
-  console.log('Assessment ID:', assessmentId);
+export default function AssessmentDetail({ assessmentId: _assessmentId }: AssessmentDetailProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<string, string | number>>({})
   const [showFeedback, setShowFeedback] = useState(false)

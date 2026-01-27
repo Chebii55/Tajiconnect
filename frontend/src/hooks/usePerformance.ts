@@ -61,7 +61,7 @@ export const useDebounce = <T>(value: T, delay: number): T => {
 };
 
 // Performance monitoring hook
-export const usePerformanceMonitor = (componentName: string) => {
+export const usePerformanceMonitor = (_componentName: string) => {
   const renderStart = useRef<number>(Date.now());
   const [renderTime, setRenderTime] = useState<number>(0);
 
@@ -70,9 +70,7 @@ export const usePerformanceMonitor = (componentName: string) => {
     const duration = endTime - renderStart.current;
     setRenderTime(duration);
     
-    if (import.meta.env.VITE_DEBUG === 'true') {
-      console.log(`${componentName} render time: ${duration}ms`);
-    }
+    // Performance data available via renderTime return value
   });
 
   return { renderTime };
