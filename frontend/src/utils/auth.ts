@@ -228,9 +228,17 @@ export const requiresAuth = (pathname: string): boolean => {
 };
 
 /**
- * Get redirect path after login based on user role
+ * Get redirect path after login based on user role and onboarding status
  */
 export const getLoginRedirectPath = (user: User): string => {
+  // Check if onboarding is completed
+  const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
+  
+  // If onboarding is not complete, redirect to onboarding
+  if (!onboardingComplete && user.role === 'student') {
+    return '/onboarding';
+  }
+
   switch (user.role) {
     case 'admin':
       return '/admin/dashboard';

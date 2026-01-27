@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { courseService } from '../../services/api/courses';
+import type { Course } from '../../services/api/courses';
 import {
   BookOpen,
   Search,
@@ -48,6 +50,47 @@ interface Course {
 const Courses: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    try {
+      setLoading(true);
+      const response = await courseService.getCourses(0, 50);
+      setCourses(response.items);
+      setError(null);
+    } catch (err) {
+      console.error('Failed to load courses:', err);
+      setError('Failed to load courses. Using sample data.');
+      // Fallback to sample data if API fails
+      setCourses([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = async (query: string) => {
+    if (!query.trim()) {
+      loadCourses();
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      const response = await courseService.searchCourses(query);
+      setCourses(response.items);
+    } catch (err) {
+      console.error('Search failed:', err);
+      setError('Search failed');
+    } finally {
+      setLoading(false);
+    }
+  };
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [selectedPrice, setSelectedPrice] = useState('all');
   const [sortBy, setSortBy] = useState('popular');

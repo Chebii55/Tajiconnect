@@ -38,6 +38,13 @@ const BriefOnboarding = () => {
 
   // Initialize form with data from registration
   useEffect(() => {
+    // Check if onboarding is already completed
+    const onboardingComplete = localStorage.getItem('onboardingComplete') === 'true';
+    if (onboardingComplete) {
+      navigate('/student/dashboard', { replace: true });
+      return;
+    }
+
     const firstName = localStorage.getItem('userFirstName') || ''
     const lastName = localStorage.getItem('userLastName') || ''
     const email = localStorage.getItem('userEmail') || ''
@@ -53,7 +60,7 @@ const BriefOnboarding = () => {
         age: dateOfBirth ? calculateAge(dateOfBirth) : 0
       }))
     }
-  }, [])
+  }, [navigate])
 
   const updateData = (updates: Partial<OnboardingData>) => {
     setData(prev => ({ ...prev, ...updates }))
