@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   BookOpen,
@@ -30,79 +30,60 @@ interface Course {
 
 const MyCourses: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'in-progress' | 'completed'>('all');
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const mockCourses: Course[] = [
-    {
-      id: '1',
-      title: 'Global Citizenship & Human Rights Foundations',
-      description: 'Develop understanding of human rights principles and your role as a global citizen',
-      category: 'GCED Core',
-      progress: 100,
-      totalHours: 24,
-      completedHours: 24,
-      status: 'completed',
-      lastAccessed: '2 days ago',
-      instructor: 'Dr. Amina Hassan',
-      rating: 4.9,
-      thumbnail: '🌍',
-      skills: ['Human Rights', 'Global Citizenship', 'Social Justice'],
-      hrbaScore: 95
-    },
-    {
-      id: '2',
-      title: 'Social-Emotional Learning (SEL) Essentials',
-      description: 'Build resilience, empathy, and emotional intelligence through evidence-based SEL practices',
-      category: 'SEL Foundation',
-      progress: 75,
-      totalHours: 18,
-      completedHours: 13.5,
-      status: 'in-progress',
-      lastAccessed: 'Yesterday',
-      nextLesson: 'Empathy Circle Practice',
-      instructor: 'Grace Wanjiru',
-      rating: 4.8,
-      thumbnail: '❤️',
-      skills: ['Emotional Intelligence', 'Resilience', 'Empathy'],
-      hrbaScore: 82
-    },
-    {
-      id: '3',
-      title: 'Climate Justice & Environmental Action',
-      description: 'Understand climate change impacts and develop environmental advocacy skills',
-      category: 'Environmental Stewardship',
-      progress: 45,
-      totalHours: 30,
-      completedHours: 13.5,
-      status: 'in-progress',
-      lastAccessed: '3 days ago',
-      nextLesson: 'Community Climate Action Planning',
-      instructor: 'Dr. James Kinyanjui',
-      rating: 4.7,
-      thumbnail: '🌱',
-      skills: ['Climate Science', 'Environmental Advocacy', 'Sustainability'],
-      hrbaScore: 78
-    },
-    {
-      id: '4',
-      title: 'Digital Citizenship & AI Ethics',
-      description: 'Navigate the digital world responsibly and understand AI impacts',
-      category: 'Digital Citizenship',
-      progress: 20,
-      totalHours: 22,
-      completedHours: 4.4,
-      status: 'in-progress',
-      lastAccessed: '1 week ago',
-      nextLesson: 'Understanding AI Bias',
-      instructor: 'Tech4Good Kenya Team',
-      rating: 4.6,
-      thumbnail: '🛡️',
-      skills: ['Digital Literacy', 'AI Ethics', 'Online Safety'],
-      hrbaScore: 65
+  useEffect(() => {
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      // TODO: Replace with actual API call when endpoint is available
+      throw new Error('Course endpoint not implemented');
+    } catch (err: any) {
+      console.error('Failed to load courses:', err);
+      setError(`Failed to load courses: ${err.message}`);
+      setCourses([]);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  const filteredCourses = mockCourses.filter(course => {
+  const filteredCourses = courses.filter(course => {
     if (activeTab === 'all') return true;
+    return course.status === activeTab;
+  });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
+          <button 
+            onClick={loadCourses}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
     return course.status === activeTab;
   });
 
@@ -198,9 +179,9 @@ const MyCourses: React.FC = () => {
         <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg dark:shadow-dark mb-8">
           <div className="flex border-b border-gray-200 dark:border-darkMode-border">
             {[
-              { key: 'all', label: 'All Courses', count: mockCourses.length },
-              { key: 'in-progress', label: 'In Progress', count: mockCourses.filter(c => c.status === 'in-progress').length },
-              { key: 'completed', label: 'Completed', count: mockCourses.filter(c => c.status === 'completed').length }
+              { key: 'all', label: 'All Courses', count: courses.length },
+              { key: 'in-progress', label: 'In Progress', count: courses.filter(c => c.status === 'in-progress').length },
+              { key: 'completed', label: 'Completed', count: courses.filter(c => c.status === 'completed').length }
             ].map(({ key, label, count }) => (
               <button
                 key={key}

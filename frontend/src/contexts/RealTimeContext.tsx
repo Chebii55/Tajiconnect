@@ -44,9 +44,14 @@ export const useRealTime = () => {
 export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) => {
   const { refreshRecommendations } = useRecommendations();
   const subscribedChannels = useRef<Set<string>>(new Set());
+  const sendMessageRef = useRef<(message: unknown) => boolean>(() => false);
 
   // Get user ID from auth utilities
   const userId = getUserId() || 'anonymous';
+  const userIdRef = useRef(userId);
+  useEffect(() => {
+    userIdRef.current = userId;
+  }, [userId]);
 
   // Use Vite environment variables
   const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:8000/ws';
@@ -82,6 +87,27 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
     }
   }, [refreshRecommendations]);
 
+  const handleConnect = useCallback(() => {
+    console.log('Real-time connection established');
+    // Re-subscribe to all channels on reconnection
+    subscribedChannels.current.forEach(channel => {
+      sendMessageRef.current({
+        type: 'subscribe',
+        channel,
+        user_id: userIdRef.current,
+        timestamp: new Date().toISOString()
+      });
+    });
+  }, []);
+
+  const handleDisconnect = useCallback(() => {
+    console.log('Real-time connection lost');
+  }, []);
+
+  const handleError = useCallback((error: Event) => {
+    console.error('WebSocket error:', error);
+  }, []);
+
   const {
     isConnected,
     connectionStatus,
@@ -92,27 +118,17 @@ export const RealTimeProvider: React.FC<RealTimeProviderProps> = ({ children }) 
     socketUrl,
     {
       onMessage: handleMessage,
-      onConnect: () => {
-        // Re-subscribe to all channels on reconnection
-        subscribedChannels.current.forEach(channel => {
-          sendMessage({
-            type: 'subscribe',
-            channel,
-            user_id: userId,
-            timestamp: new Date().toISOString()
-          });
-        });
-      },
-      onDisconnect: () => {
-        // Connection lost - will attempt reconnection automatically
-      },
-      onError: (error) => {
-        console.error('WebSocket error:', error);
-      },
+      onConnect: handleConnect,
+      onDisconnect: handleDisconnect,
+      onError: handleError,
       autoConnect: true,
       includeToken: false
     }
   );
+
+  useEffect(() => {
+    sendMessageRef.current = sendMessage;
+  }, [sendMessage]);
 
   // Send user identification when connected
   useEffect(() => {
