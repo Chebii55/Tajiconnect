@@ -84,8 +84,6 @@ const MyCourses: React.FC = () => {
       </div>
     );
   }
-    return course.status === activeTab;
-  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
