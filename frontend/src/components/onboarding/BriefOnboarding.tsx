@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ArrowLeft, CheckCircle, User, Target, Loader } from 'lucide-react'
+import { useTheme } from '../../contexts/ThemeContext'
 
 interface OnboardingData {
   firstName: string
@@ -142,9 +143,9 @@ const BriefOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <User className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Basic Information</h2>
-              <p className="text-gray-600 mt-2">Tell us about yourself to get started</p>
+              <User className="mx-auto h-12 w-12 text-primary dark:text-darkMode-link mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-darkMode-text">Basic Information</h2>
+              <p className="text-gray-600 dark:text-darkMode-textSecondary mt-2">Tell us about yourself to get started</p>
             </div>
             
             <div className="space-y-4">
@@ -154,7 +155,7 @@ const BriefOnboarding = () => {
                   placeholder="First Name"
                   value={data.firstName}
                   onChange={(e) => updateData({ firstName: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
                 <input
@@ -162,7 +163,7 @@ const BriefOnboarding = () => {
                   placeholder="Last Name"
                   value={data.lastName}
                   onChange={(e) => updateData({ lastName: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
               </div>
@@ -172,7 +173,7 @@ const BriefOnboarding = () => {
                 placeholder="Email Address"
                 value={data.email}
                 onChange={(e) => updateData({ email: e.target.value })}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text placeholder-gray-500 dark:placeholder-gray-400"
                 required
               />
               
@@ -180,7 +181,7 @@ const BriefOnboarding = () => {
                 type="date"
                 value={data.dateOfBirth}
                 onChange={(e) => updateData({ dateOfBirth: e.target.value })}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text"
                 required
               />
             </div>
@@ -191,20 +192,20 @@ const BriefOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <Target className="mx-auto h-12 w-12 text-blue-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Your Interests</h2>
-              <p className="text-gray-600 mt-2">Help us personalize your experience (optional)</p>
+              <Target className="mx-auto h-12 w-12 text-primary dark:text-darkMode-link mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-darkMode-text">Your Interests</h2>
+              <p className="text-gray-600 dark:text-darkMode-textSecondary mt-2">Help us personalize your experience (optional)</p>
             </div>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-darkMode-textSecondary mb-2">
                   Education Level (Optional)
                 </label>
                 <select
                   value={data.educationLevel}
                   onChange={(e) => updateData({ educationLevel: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text"
                 >
                   <option value="">Select your education level</option>
                   <option value="high-school">High School</option>
@@ -216,7 +217,7 @@ const BriefOnboarding = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-darkMode-textSecondary mb-2">
                   Areas of Interest (Optional)
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -226,23 +227,23 @@ const BriefOnboarding = () => {
                         type="checkbox"
                         checked={data.interests?.includes(interest)}
                         onChange={(e) => handleArrayChange('interests', interest, e.target.checked)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 dark:border-darkMode-border text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                       />
-                      <span className="text-sm text-gray-700">{interest}</span>
+                      <span className="text-sm text-gray-700 dark:text-darkMode-textSecondary">{interest}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-darkMode-textSecondary mb-2">
                   Career Goals (Optional)
                 </label>
                 <textarea
                   placeholder="What are your career aspirations?"
                   value={data.careerGoals}
                   onChange={(e) => updateData({ careerGoals: e.target.value })}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 dark:border-darkMode-border rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-darkMode-focus bg-white dark:bg-darkMode-surfaceHover text-gray-900 dark:text-darkMode-text placeholder-gray-500 dark:placeholder-gray-400"
                   rows={3}
                 />
               </div>
@@ -254,9 +255,9 @@ const BriefOnboarding = () => {
         return (
           <div className="space-y-6">
             <div className="text-center">
-              <CheckCircle className="mx-auto h-12 w-12 text-green-600 mb-4" />
-              <h2 className="text-2xl font-bold text-gray-900">Terms & Privacy</h2>
-              <p className="text-gray-600 mt-2">Please review and accept our terms</p>
+              <CheckCircle className="mx-auto h-12 w-12 text-success dark:text-darkMode-success mb-4" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-darkMode-text">Terms & Privacy</h2>
+              <p className="text-gray-600 dark:text-darkMode-textSecondary mt-2">Please review and accept our terms</p>
             </div>
             
             <div className="space-y-4">
@@ -265,11 +266,11 @@ const BriefOnboarding = () => {
                   type="checkbox"
                   checked={data.termsAccepted}
                   onChange={(e) => updateData({ termsAccepted: e.target.checked })}
-                  className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="mt-1 rounded border-gray-300 dark:border-darkMode-border text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                   required
                 />
-                <span className="text-sm text-gray-700">
-                  I agree to the <button className="text-blue-600 underline">Terms of Service</button>
+                <span className="text-sm text-gray-700 dark:text-darkMode-textSecondary">
+                  I agree to the <button className="text-primary dark:text-darkMode-link underline">Terms of Service</button>
                 </span>
               </label>
               
@@ -278,11 +279,11 @@ const BriefOnboarding = () => {
                   type="checkbox"
                   checked={data.privacyAccepted}
                   onChange={(e) => updateData({ privacyAccepted: e.target.checked })}
-                  className="mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="mt-1 rounded border-gray-300 dark:border-darkMode-border text-primary dark:text-darkMode-link focus:ring-primary dark:focus:ring-darkMode-focus"
                   required
                 />
-                <span className="text-sm text-gray-700">
-                  I agree to the <button className="text-blue-600 underline">Privacy Policy</button>
+                <span className="text-sm text-gray-700 dark:text-darkMode-textSecondary">
+                  I agree to the <button className="text-primary dark:text-darkMode-link underline">Privacy Policy</button>
                 </span>
               </label>
             </div>
@@ -295,17 +296,17 @@ const BriefOnboarding = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg flex items-center justify-center p-4">
+      <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-xl p-8 w-full max-w-md border dark:border-darkMode-border">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between text-sm text-gray-500 mb-2">
             <span>Step {currentStep} of {totalSteps}</span>
             <span>{Math.round((currentStep / totalSteps) * 100)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 dark:bg-darkMode-border rounded-full h-2">
             <div 
-              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+              className="bg-primary dark:bg-darkMode-link h-2 rounded-full transition-all duration-300"
               style={{ width: `${(currentStep / totalSteps) * 100}%` }}
             />
           </div>
@@ -337,7 +338,7 @@ const BriefOnboarding = () => {
             <button
               onClick={handleNext}
               disabled={!validateStep(currentStep) || isSubmitting}
-              className="flex items-center px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+              className="flex items-center px-6 py-2 bg-primary dark:bg-darkMode-link text-white rounded-lg hover:bg-primary-dark dark:hover:bg-darkMode-linkHover disabled:opacity-50"
             >
               {isSubmitting ? (
                 <Loader className="w-4 h-4 mr-2 animate-spin" />
