@@ -8,7 +8,7 @@ import {
   RotateCcw,
   ArrowRight,
 } from 'lucide-react';
-import { Module, Quiz } from '../../../types/course';
+import type { Module, Quiz } from '../../../types/course';
 import QuizQuestion from './QuizQuestion';
 
 interface ModuleQuizProps {

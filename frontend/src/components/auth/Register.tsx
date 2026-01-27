@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Calendar, UserPlus, AlertCircle, CheckCircle, Loader, Shield } from 'lucide-react';
+import { authService } from '../../services/api/auth';
 
 // ============================================
 // TYPE DEFINITIONS
@@ -183,70 +184,39 @@ const Register: React.FC = () => {
     setNotification(null);
 
     try {
-      // Create user account via API with timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-          dateOfBirth: formData.dateOfBirth,
-          age: calculateAge(formData.dateOfBirth),
-          role: 'student',
-          termsAccepted: formData.agreeToTerms,
-          newsletterOptIn: formData.agreeToMarketing,
-          createdAt: new Date().toISOString()
-        }),
-        signal: controller.signal
+      // Use the auth service for registration
+      const response = await authService.register({
+        email: formData.email,
+        password: formData.password,
+        confirm_password: formData.confirmPassword,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: undefined // Optional field
       });
 
-      clearTimeout(timeoutId);
+      // Store user info for onboarding
+      localStorage.setItem('userId', response.user?.id || Date.now().toString());
+      localStorage.setItem('userEmail', response.user?.email || formData.email);
+      localStorage.setItem('userName', `${response.user?.first_name || formData.firstName} ${response.user?.last_name || formData.lastName}`);
+      localStorage.setItem('userFirstName', response.user?.first_name || formData.firstName);
+      localStorage.setItem('userLastName', response.user?.last_name || formData.lastName);
+      localStorage.setItem('userDateOfBirth', formData.dateOfBirth);
+      
+      setNotification({
+        type: 'success',
+        message: 'Account created successfully! Starting your onboarding...'
+      });
 
-      let result;
-      try {
-        const text = await response.text();
-        result = text ? JSON.parse(text) : {};
-      } catch (jsonError) {
-        console.error('JSON parsing error:', jsonError);
-        throw new Error('Server response was invalid. Please try again.');
-      }
-
-      if (response.ok) {
-        // Store user info for onboarding
-        localStorage.setItem('userId', result.user?.id || Date.now().toString());
-        localStorage.setItem('userEmail', result.user?.email || formData.email);
-        localStorage.setItem('userName', result.user?.name || `${formData.firstName} ${formData.lastName}`);
-        
-        setNotification({
-          type: 'success',
-          message: 'Account created successfully! Starting your onboarding...'
-        });
-
-        setTimeout(() => {
-          navigate('/onboarding', { replace: true });
-        }, 1500);
-      } else {
-        throw new Error(result.message || 'Registration failed');
-      }
+      setTimeout(() => {
+        navigate('/onboarding', { replace: true });
+      }, 1500);
     } catch (error: unknown) {
       console.error('Registration error:', error);
-      const err = error as Error & { name?: string };
-      if (err.name === 'AbortError') {
-        setNotification({
-          type: 'error',
-          message: 'Request timed out. Please check your connection and try again.'
-        });
-      } else {
-        setNotification({
-          type: 'error',
-          message: err.message || 'Registration failed. Please try again later.'
-        });
-      }
+      const err = error as Error;
+      setNotification({
+        type: 'error',
+        message: err.message || 'Registration failed. Please try again later.'
+      });
     } finally {
       setIsLoading(false);
     }

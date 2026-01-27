@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { CourseProgress, Course, Badge } from '../types/course';
+import type { CourseProgress, Course, Badge } from '../types/course';
 
 const STORAGE_KEY_PREFIX = 'course_progress_';
 

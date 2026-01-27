@@ -7,7 +7,7 @@ import {
   Target,
   BookOpen,
 } from 'lucide-react';
-import { Lesson, Module } from '../../../types/course';
+import type { Lesson, Module } from '../../../types/course';
 
 interface LessonViewerProps {
   lesson: Lesson;

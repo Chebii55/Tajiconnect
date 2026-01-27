@@ -10,7 +10,7 @@ import {
   ChevronRight,
   Heart,
 } from 'lucide-react';
-import { Course, CourseProgress } from '../../../types/course';
+import type { Course, CourseProgress } from '../../../types/course';
 
 interface CourseOverviewProps {
   course: Course;

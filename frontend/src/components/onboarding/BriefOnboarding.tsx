@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ArrowLeft, CheckCircle, User, Target, Loader } from 'lucide-react'
 
@@ -33,6 +33,25 @@ const BriefOnboarding = () => {
   })
 
   const totalSteps = 3
+
+  // Initialize form with data from registration
+  useEffect(() => {
+    const firstName = localStorage.getItem('userFirstName') || ''
+    const lastName = localStorage.getItem('userLastName') || ''
+    const email = localStorage.getItem('userEmail') || ''
+    const dateOfBirth = localStorage.getItem('userDateOfBirth') || ''
+    
+    if (firstName || lastName || email || dateOfBirth) {
+      setData(prev => ({
+        ...prev,
+        firstName,
+        lastName,
+        email,
+        dateOfBirth,
+        age: dateOfBirth ? calculateAge(dateOfBirth) : 0
+      }))
+    }
+  }, [])
 
   const updateData = (updates: Partial<OnboardingData>) => {
     setData(prev => ({ ...prev, ...updates }))

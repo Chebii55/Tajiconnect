@@ -9,7 +9,7 @@ import {
   Trophy,
   AlertTriangle,
 } from 'lucide-react';
-import { Quiz, Course } from '../../../types/course';
+import type { Quiz, Course } from '../../../types/course';
 import QuizQuestion from './QuizQuestion';
 
 interface FinalAssessmentProps {

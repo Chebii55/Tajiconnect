@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Award, Download, Share2, GraduationCap, CheckCircle, ExternalLink } from 'lucide-react';
-import { Certificate, Course } from '../../../types/course';
+import type { Certificate, Course } from '../../../types/course';
 import { Link } from 'react-router-dom';
 
 interface CertificateAwardModalProps {

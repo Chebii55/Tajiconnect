@@ -10,7 +10,7 @@ import {
   ChevronRight,
   Trophy,
 } from 'lucide-react';
-import { Course, CourseProgress as CourseProgressType } from '../../../types/course';
+import type { Course, CourseProgress as CourseProgressType } from '../../../types/course';
 
 interface CourseProgressProps {
   course: Course;

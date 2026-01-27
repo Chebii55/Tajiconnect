@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Award, Star, Sparkles } from 'lucide-react';
-import { Badge } from '../../../types/course';
+import type { Badge } from '../../../types/course';
 
 interface BadgeAwardModalProps {
   badge: Badge;

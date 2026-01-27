@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckCircle, XCircle, Circle } from 'lucide-react';
-import { QuizQuestion as QuizQuestionType } from '../../../types/course';
+import type { QuizQuestion as QuizQuestionType } from '../../../types/course';
 
 interface QuizQuestionProps {
   question: QuizQuestionType;

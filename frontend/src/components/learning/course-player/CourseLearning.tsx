@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Menu, X } from 'lucide-react';
-import { Course, CourseView, CourseState } from '../../../types/course';
+import type { Course, CourseView, CourseState } from '../../../types/course';
 import { useCourseProgress } from '../../../hooks/useCourseProgress';
 import CourseOverview from './CourseOverview';
 import CourseProgress from './CourseProgress';
