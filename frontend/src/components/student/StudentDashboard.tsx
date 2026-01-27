@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react'
 import { BookOpen, Activity, AlertCircle } from 'lucide-react'
 import { authService } from '../../services/api/auth'
+import { courseService } from '../../services/api/courses'
+import { apiClient } from '../../services/api/client'
+import { API_ENDPOINTS } from '../../services/api/endpoints'
 
 const StudentDashboard = () => {
   const [user, setUser] = useState(null)
   const [analyticsData, setAnalyticsData] = useState(null)
   const [contentData, setContentData] = useState(null)
+  const [courseData, setCourseData] = useState(null)
+  const [courseError, setCourseError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -17,14 +22,22 @@ const StudentDashboard = () => {
       try {
         setLoading(true)
         
-        // Use working endpoints only
         const [analytics, content] = await Promise.all([
-          fetch('http://localhost:8000/api/v1/analytics/dashboard').then(r => r.json()).catch(() => null),
-          fetch('http://localhost:8000/api/v1/content').then(r => r.json()).catch(() => null)
+          apiClient.get(API_ENDPOINTS.ANALYTICS.DASHBOARD, { window_days: 30 }).catch(() => null),
+          courseService.getContent({ limit: 5 }).catch(() => null),
         ])
 
         setAnalyticsData(analytics)
         setContentData(content)
+
+        try {
+          const courses = await courseService.getCourses(0, 5)
+          setCourseData(courses)
+          setCourseError(null)
+        } catch (err: any) {
+          setCourseData(null)
+          setCourseError(err?.message || 'Server Error (500)')
+        }
       } catch (err) {
         setError('Failed to load dashboard data')
       } finally {
@@ -46,7 +59,7 @@ const StudentDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-darkMode-background">
+    <div className="min-h-screen bg-neutral-light dark:bg-darkMode-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -92,11 +105,24 @@ const StudentDashboard = () => {
 
           <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow p-6">
             <div className="flex items-center">
-              <AlertCircle className="w-8 h-8 text-red-500" />
+              <AlertCircle className={`w-8 h-8 ${courseError ? 'text-red-500' : 'text-green-500'}`} />
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-900 dark:text-darkMode-text">Courses</h3>
-                <p className="text-sm text-red-600">Server Error (500)</p>
-                <p className="text-xs text-gray-500 mt-1">Enum mismatch issue</p>
+                {courseError ? (
+                  <>
+                    <p className="text-sm text-red-600">Server Error (500)</p>
+                    <p className="text-xs text-gray-500 mt-1">{courseError}</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-green-600">Available</p>
+                    {courseData && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {courseData.length} course(s) loaded
+                      </p>
+                    )}
+                  </>
+                )}
               </div>
             </div>
           </div>
