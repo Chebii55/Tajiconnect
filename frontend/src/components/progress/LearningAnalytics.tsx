@@ -62,8 +62,8 @@ export default function LearningAnalytics() {
         const [series, summaryResponse, assessmentsResponse, taxonomyResponse] = await Promise.all([
           analyticsApi.getTimeSeries(userId, windowDays),
           analyticsApi.getProgressSummary(userId, windowDays),
-          skillsApi.getUserAssessments(userId),
-          skillsApi.getTaxonomy(),
+          skillsApi.getUserAssessments(userId) as Promise<SkillAssessment[]>,
+          skillsApi.getTaxonomy() as Promise<{ skills: SkillTaxonomy[] }>,
         ])
 
         setTimeSeries((series as { points?: TimeSeriesPoint[] }).points || [])

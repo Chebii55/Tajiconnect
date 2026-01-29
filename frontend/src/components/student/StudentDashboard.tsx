@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react'
 import { BookOpen, Activity, AlertCircle } from 'lucide-react'
 import { authService } from '../../services/api/auth'
+import type { User } from '../../services/api/auth'
 import { courseService } from '../../services/api/courses'
+import type { Course, Content } from '../../services/api/courses'
 import { apiClient } from '../../services/api/client'
 import { API_ENDPOINTS } from '../../services/api/endpoints'
 
 const StudentDashboard = () => {
-  const [user, setUser] = useState(null)
-  const [analyticsData, setAnalyticsData] = useState(null)
-  const [contentData, setContentData] = useState(null)
-  const [courseData, setCourseData] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [analyticsData, setAnalyticsData] = useState<unknown>(null)
+  const [contentData, setContentData] = useState<Content[] | null>(null)
+  const [courseData, setCourseData] = useState<Course[] | null>(null)
   const [courseError, setCourseError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser()
@@ -79,7 +81,7 @@ const StudentDashboard = () => {
               <div className="ml-4">
                 <h3 className="font-semibold text-gray-900 dark:text-darkMode-text">Analytics</h3>
                 <p className="text-sm text-green-600">Available</p>
-                {analyticsData && (
+                {analyticsData !== null && (
                   <p className="text-xs text-gray-500 mt-1">
                     {JSON.stringify(analyticsData).length} bytes loaded
                   </p>
@@ -134,7 +136,7 @@ const StudentDashboard = () => {
             <h3 className="text-lg font-semibold text-gray-900 dark:text-darkMode-text mb-4">
               Analytics Data
             </h3>
-            {analyticsData ? (
+            {analyticsData !== null ? (
               <pre className="text-sm text-gray-600 dark:text-darkMode-textMuted overflow-auto">
                 {JSON.stringify(analyticsData, null, 2)}
               </pre>

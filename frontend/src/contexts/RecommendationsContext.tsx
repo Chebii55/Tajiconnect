@@ -161,8 +161,22 @@ export const RecommendationsProvider: React.FC<{ children: React.ReactNode }> = 
   // Fetch trending courses
   const fetchTrendingCourses = useCallback(async (limit = 10) => {
     try {
-      const trending = await aiService.getTrendingCourses(limit);
-      setTrendingCourses(trending);
+      const response = await aiService.getTrendingCourses(limit);
+      // Transform TrendingCourse to CourseRecommendation format
+      const transformedCourses: CourseRecommendation[] = response.trending_courses.map((course, index) => ({
+        course_id: course.course_id,
+        score: course.trend_score,
+        rank: index + 1,
+        explanation: `Trending with ${course.enrollment_count} enrollments`,
+        metadata: {
+          view_count: course.view_count,
+          enrollment_count: course.enrollment_count,
+          completion_count: course.completion_count,
+          rating_avg: course.rating_avg,
+          growth_rate: course.growth_rate,
+        },
+      }));
+      setTrendingCourses(transformedCourses);
     } catch (err) {
       console.error('Error fetching trending courses:', err);
     }

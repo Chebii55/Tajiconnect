@@ -33,27 +33,19 @@ export const mockUserProfile: UserProfile = {
 
 export const mockLearningPath: LearningPath = {
   id: 'path_123',
-  title: 'AI-Generated Python Mastery Path',
+  user_id: 'test_user_123',
+  path_name: 'AI-Generated Python Mastery Path',
   description: 'Personalized learning journey for Python programming',
+  target_language: 'python',
   estimated_duration_weeks: 12,
-  difficulty_level: 'intermediate',
-  modules: [
-    {
-      id: 'module_1',
-      title: 'Python Fundamentals',
-      order_index: 1,
-      estimated_duration_hours: 8,
-      difficulty_score: 45,
-      lessons: [
-        {
-          id: 'lesson_1',
-          title: 'Variables and Data Types',
-          content_type: 'lesson',
-          estimated_duration_minutes: 30
-        }
-      ]
-    }
-  ]
+  total_modules: 1,
+  total_estimated_hours: 8,
+  status: 'active',
+  current_module_index: 0,
+  completion_percentage: 0,
+  adaptation_count: 0,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
 };
 
 export const mockRecommendations: ContentRecommendation[] = [

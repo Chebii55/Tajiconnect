@@ -87,8 +87,8 @@ export default function SkillsAssessment() {
 
       try {
         const [taxonomyResponse, assessmentResponse] = await Promise.all([
-          skillsApi.getTaxonomy(),
-          skillsApi.getUserAssessments(userId),
+          skillsApi.getTaxonomy() as Promise<{ skills: TaxonomySkill[] }>,
+          skillsApi.getUserAssessments(userId) as Promise<UserSkillAssessment[]>,
         ])
 
         setSkills(Array.isArray(taxonomyResponse.skills) ? taxonomyResponse.skills : [])

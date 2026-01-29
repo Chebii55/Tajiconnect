@@ -4,21 +4,10 @@ import { psychometricApi } from '../../services/api/psychometric'
 import { skillsApi } from '../../services/api/skills'
 import { handleApiError } from '../../utils/errorHandler'
 import { getUserId } from '../../utils/auth'
+import type { UserProfile } from '../../services/api/types'
 
-interface PsychometricAssessmentResponse {
-  id: string
-  user_id: string
-  assessment_type: string
-  version: string
-  raw_responses: Record<string, unknown>
-  motivation_score: Record<string, unknown>
-  capability_assessment: Record<string, unknown>
-  learning_preferences: Record<string, unknown>
-  behavioral_profile: Record<string, unknown>
-  learner_archetype: string
-  archetype_confidence: number
-  completed_at: string
-  processing_version: string
+interface TaxonomyResponse {
+  skills: TaxonomySkill[]
 }
 
 interface TaxonomySkill {
@@ -50,7 +39,7 @@ const formatLabel = (value?: string) =>
   value ? value.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase()) : '—'
 
 export default function AssessmentResults() {
-  const [profile, setProfile] = useState<PsychometricAssessmentResponse | null>(null)
+  const [profile, setProfile] = useState<UserProfile | null>(null)
   const [skills, setSkills] = useState<TaxonomySkill[]>([])
   const [skillAssessments, setSkillAssessments] = useState<UserSkillAssessment[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -70,8 +59,8 @@ export default function AssessmentResults() {
 
       const [profileResult, taxonomyResult, assessmentResult] = await Promise.allSettled([
         psychometricApi.getLatestAssessment(userId),
-        skillsApi.getTaxonomy(),
-        skillsApi.getUserAssessments(userId),
+        skillsApi.getTaxonomy() as Promise<TaxonomyResponse>,
+        skillsApi.getUserAssessments(userId) as Promise<UserSkillAssessment[]>,
       ])
 
       if (profileResult.status === 'fulfilled') {
@@ -81,13 +70,15 @@ export default function AssessmentResults() {
       }
 
       if (taxonomyResult.status === 'fulfilled') {
-        setSkills(Array.isArray(taxonomyResult.value.skills) ? taxonomyResult.value.skills : [])
+        const taxonomyData = taxonomyResult.value as TaxonomyResponse
+        setSkills(Array.isArray(taxonomyData.skills) ? taxonomyData.skills : [])
       } else {
         setSkills([])
       }
 
       if (assessmentResult.status === 'fulfilled') {
-        setSkillAssessments(Array.isArray(assessmentResult.value) ? assessmentResult.value : [])
+        const assessmentData = assessmentResult.value as UserSkillAssessment[]
+        setSkillAssessments(Array.isArray(assessmentData) ? assessmentData : [])
       } else {
         setSkillAssessments([])
       }
@@ -97,7 +88,10 @@ export default function AssessmentResults() {
       }
 
       if (taxonomyResult.status === 'rejected' || assessmentResult.status === 'rejected') {
-        setError((prev) => prev || handleApiError(taxonomyResult.status === 'rejected' ? taxonomyResult.reason : assessmentResult.reason))
+        const rejectedResult = taxonomyResult.status === 'rejected' ? taxonomyResult : assessmentResult
+        if (rejectedResult.status === 'rejected') {
+          setError((prev) => prev || handleApiError(rejectedResult.reason))
+        }
       }
 
       setIsLoading(false)
@@ -175,16 +169,16 @@ export default function AssessmentResults() {
                         {formatLabel(profile.learner_archetype)}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Confidence: {Math.round(profile.archetype_confidence * 100)}%
+                        User ID: {profile.user_id}
                       </p>
                     </div>
                     <div className="flex-1 min-w-[200px] bg-gray-50 dark:bg-gray-900/40 rounded-lg p-4">
                       <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Primary Learning Style</p>
                       <p className="text-lg font-semibold text-primary-dark dark:text-darkMode-link">
-                        {primaryPreference ? formatLabel(primaryPreference) : 'Not provided'}
+                        {profile.learning_preferences?.primary_style ? formatLabel(profile.learning_preferences.primary_style) : 'Not provided'}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Assessment type: {formatLabel(profile.assessment_type)}
+                        Difficulty: {formatLabel(profile.learning_preferences?.difficulty_preference)}
                       </p>
                     </div>
                   </div>
@@ -193,27 +187,27 @@ export default function AssessmentResults() {
                     <div className="flex items-start gap-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/50 rounded-lg p-4">
                       <Brain className="text-blue-600 dark:text-blue-400" />
                       <div>
-                        <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">Motivation</p>
+                        <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">Motivation Score</p>
                         <p className="text-xs text-blue-700 dark:text-blue-300">
-                          {JSON.stringify(profile.motivation_score)}
+                          Intrinsic: {Math.round((profile.motivation_score?.intrinsic_motivation || 0) * 100)}%
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 rounded-lg p-4">
                       <TrendingUp className="text-green-600 dark:text-green-400" />
                       <div>
-                        <p className="text-sm text-green-800 dark:text-green-300 font-medium">Capability</p>
+                        <p className="text-sm text-green-800 dark:text-green-300 font-medium">Engagement</p>
                         <p className="text-xs text-green-700 dark:text-green-300">
-                          {JSON.stringify(profile.capability_assessment)}
+                          Prediction: {Math.round((profile.motivation_score?.engagement_prediction || 0) * 100)}%
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700/50 rounded-lg p-4">
                       <Target className="text-orange-600 dark:text-orange-400" />
                       <div>
-                        <p className="text-sm text-orange-800 dark:text-orange-300 font-medium">Behavioral Profile</p>
+                        <p className="text-sm text-orange-800 dark:text-orange-300 font-medium">Skill Gaps</p>
                         <p className="text-xs text-orange-700 dark:text-orange-300">
-                          {JSON.stringify(profile.behavioral_profile)}
+                          {profile.skill_gaps?.length || 0} areas identified
                         </p>
                       </div>
                     </div>
@@ -222,14 +216,14 @@ export default function AssessmentResults() {
                       <div>
                         <p className="text-sm text-purple-800 dark:text-purple-300 font-medium">Learning Preferences</p>
                         <p className="text-xs text-purple-700 dark:text-purple-300">
-                          {JSON.stringify(profile.learning_preferences)}
+                          {profile.learning_preferences?.content_format_preferences?.join(', ') || 'Not specified'}
                         </p>
                       </div>
                     </div>
                   </div>
 
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Completed on {new Date(profile.completed_at).toLocaleString()}
+                    Persistence Score: {Math.round((profile.motivation_score?.persistence_score || 0) * 100)}%
                   </p>
                 </div>
               ) : (

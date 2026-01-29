@@ -43,7 +43,7 @@ const PathGeneration: React.FC = () => {
   const acceptPath = () => {
     // Store the accepted path and navigate to dashboard
     if (generatedPath) {
-      localStorage.setItem('current_learning_path', generatedPath.id);
+      localStorage.setItem('current_learning_path', generatedPath.path_name);
       navigate('/student/dashboard');
     }
   };

@@ -45,7 +45,7 @@ const Settings: React.FC = () => {
         last_name: currentUser.last_name || '',
         email: currentUser.email || '',
         phone: currentUser.phone || '',
-        bio: currentUser.bio || ''
+        bio: ''
       });
     }
   }, []);

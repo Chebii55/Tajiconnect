@@ -97,28 +97,35 @@ const PsychometricTest = () => {
     }
   }
 
-  const getPrimaryStyle = (preferences: Record<string, number>) => {
+  const getPrimaryStyle = (preferences: Record<string, number>): 'visual' | 'auditory' | 'kinesthetic' | 'mixed' => {
     const entries = Object.entries(preferences || {});
     if (entries.length === 0) return 'mixed';
     const [primary] = entries.sort((a, b) => b[1] - a[1]);
-    return primary[0];
+    const style = primary[0];
+    if (style === 'visual' || style === 'auditory' || style === 'kinesthetic') {
+      return style;
+    }
+    return 'mixed';
   };
 
-  const mapAssessmentToProfile = (assessment: any): UserProfile => {
-    const learningPreferences = assessment.learning_preferences || {};
+  const mapAssessmentToProfile = (assessment: Record<string, unknown>): UserProfile => {
+    const learningPreferences = (assessment.learning_preferences as Record<string, number>) || {};
+    const motivationScore = assessment.motivation_score as Record<string, number> | undefined;
+    const behavioralProfile = assessment.behavioral_profile as Record<string, number> | undefined;
+    const capabilityAssessment = assessment.capability_assessment as Record<string, string> | undefined;
     return {
-      user_id: assessment.user_id,
-      learner_archetype: assessment.learner_archetype,
+      user_id: assessment.user_id as string,
+      learner_archetype: assessment.learner_archetype as 'structured_learner' | 'cultural_explorer' | 'casual_learner' | 'conversational_learner',
       learning_preferences: {
         primary_style: getPrimaryStyle(learningPreferences),
         content_format_preferences: Object.keys(learningPreferences),
-        difficulty_preference: assessment.capability_assessment?.skill_level || 'mixed',
+        difficulty_preference: capabilityAssessment?.skill_level || 'mixed',
       },
       motivation_score: {
-        intrinsic_motivation: assessment.motivation_score?.intrinsic || 0,
-        extrinsic_motivation: assessment.motivation_score?.extrinsic || 0,
-        engagement_prediction: assessment.behavioral_profile?.consistency_potential || 0,
-        persistence_score: assessment.behavioral_profile?.consistency_potential || 0,
+        intrinsic_motivation: motivationScore?.intrinsic || 0,
+        extrinsic_motivation: motivationScore?.extrinsic || 0,
+        engagement_prediction: behavioralProfile?.consistency_potential || 0,
+        persistence_score: behavioralProfile?.consistency_potential || 0,
       },
       skill_gaps: [],
     };
