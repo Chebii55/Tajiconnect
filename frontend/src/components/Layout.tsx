@@ -1,12 +1,19 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { GraduationCap } from 'lucide-react';
 import Navbar from './Navbar';
 import MainSidebar from './MainSidebar';
 import { isAuthenticated } from '../utils/auth';
 
+// Public routes where sidebar should not show
+const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password'];
+
 const Layout: React.FC = () => {
-  const authenticated = isAuthenticated();
+  const location = useLocation();
+  const isPublicRoute = PUBLIC_ROUTES.some(route => location.pathname.startsWith(route));
+
+  // Don't show sidebar on public routes even if there's stale auth data
+  const authenticated = !isPublicRoute && isAuthenticated();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-mist dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">

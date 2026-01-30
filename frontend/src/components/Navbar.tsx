@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 import { authService } from '../services/api/auth'
 import {
@@ -16,6 +16,9 @@ import {
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
 
+// Public routes where user UI should not show
+const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password']
+
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
@@ -23,10 +26,24 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Check if current route is a public route
+  const isPublicRoute = PUBLIC_ROUTES.some(route => location.pathname.startsWith(route))
 
   useEffect(() => {
+    // On public routes, always treat as logged out
+    if (isPublicRoute) {
+      setIsLoggedIn(false)
+      setUserInitials('')
+      return
+    }
+
     const user = authService.getCurrentUser()
-    if (user) {
+    const token = authService.getAccessToken()
+
+    // Only consider logged in if both user and token exist
+    if (user && token) {
       setIsLoggedIn(true)
       const initials = `${user.first_name?.[0] || ''}${user.last_name?.[0] || ''}`.toUpperCase()
       setUserInitials(initials || 'U')
@@ -34,7 +51,7 @@ const Navbar = () => {
       setIsLoggedIn(false)
       setUserInitials('')
     }
-  }, [])
+  }, [location.pathname, isPublicRoute])
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -52,11 +69,18 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+      // Clear local state immediately
+      setIsLoggedIn(false)
+      setUserInitials('')
+      setIsProfileDropdownOpen(false)
+
       await authService.logout()
-      navigate('/login')
     } catch (error) {
       console.error('Logout failed:', error)
-      // Still navigate to login even if logout fails
+      // Ensure auth is cleared even if API call fails
+      authService.clearAuth()
+    } finally {
+      // Always navigate to login
       navigate('/login')
     }
   }
