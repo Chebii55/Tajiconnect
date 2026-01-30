@@ -5,18 +5,22 @@ import Navbar from './Navbar';
 import MainSidebar from './MainSidebar';
 import { isAuthenticated } from '../utils/auth';
 
-// Public routes where sidebar and footer should not show
+// Public routes where sidebar should not show
 const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password'];
+
+// Routes where the main footer should be hidden (they have their own footer/links)
+const HIDE_FOOTER_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password', '/privacy', '/terms', '/cookies', '/support', '/contact'];
 
 const Layout: React.FC = () => {
   const location = useLocation();
   const isPublicRoute = PUBLIC_ROUTES.some(route => location.pathname.startsWith(route));
+  const hideFooter = HIDE_FOOTER_ROUTES.some(route => location.pathname.startsWith(route));
 
   // Don't show sidebar on public routes even if there's stale auth data
   const authenticated = !isPublicRoute && isAuthenticated();
 
-  // Hide footer on public auth routes (login has its own footer)
-  const showFooter = !isPublicRoute;
+  // Hide footer on auth routes and legal pages (they have their own footers)
+  const showFooter = !hideFooter;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-mist dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
