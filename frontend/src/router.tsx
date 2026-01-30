@@ -61,6 +61,7 @@ import Certificates from './components/achievements/Certificates';
 import PrivacyPolicy from './components/legal/PrivacyPolicy';
 import TermsOfService from './components/legal/TermsOfService';
 import CookiePolicy from './components/legal/CookiePolicy';
+import Support from './components/legal/Support';
 
 // Authentication - All exist
 import Login from './components/auth/Login';
@@ -383,6 +384,8 @@ export const router = createBrowserRouter([
       { path: '/privacy', element: <PrivacyPolicy /> },
       { path: '/terms', element: <TermsOfService /> },
       { path: '/cookies', element: <CookiePolicy /> },
+      { path: '/support', element: <Support /> },
+      { path: '/contact', element: <Support /> },
 
       // Settings (Protected)
       { 

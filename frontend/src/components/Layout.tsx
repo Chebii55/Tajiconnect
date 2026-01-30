@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import MainSidebar from './MainSidebar';
 import { isAuthenticated } from '../utils/auth';
 
-// Public routes where sidebar should not show
+// Public routes where sidebar and footer should not show
 const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password'];
 
 const Layout: React.FC = () => {
@@ -14,6 +14,9 @@ const Layout: React.FC = () => {
 
   // Don't show sidebar on public routes even if there's stale auth data
   const authenticated = !isPublicRoute && isAuthenticated();
+
+  // Hide footer on public auth routes (login has its own footer)
+  const showFooter = !isPublicRoute;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-mist dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
@@ -35,31 +38,33 @@ const Layout: React.FC = () => {
             <Outlet />
           </main>
 
-          {/* Footer */}
-          <footer className="bg-primary-dark dark:bg-darkMode-navbar text-white mt-12">
-            <div className="container mx-auto px-4 py-8">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="w-7 h-7 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-lg flex items-center justify-center">
-                    <GraduationCap className="w-4 h-4 text-white" />
+          {/* Footer - hidden on public auth routes */}
+          {showFooter && (
+            <footer className="bg-primary-dark dark:bg-darkMode-navbar text-white mt-12">
+              <div className="container mx-auto px-4 py-8">
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <div className="w-7 h-7 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-lg flex items-center justify-center">
+                      <GraduationCap className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-base font-bold text-white dark:text-darkMode-text">TajiConnect</span>
                   </div>
-                  <span className="text-base font-bold text-white dark:text-darkMode-text">TajiConnect</span>
+                  <p className="text-neutral-light dark:text-darkMode-textSecondary text-xs">
+                    Your personalized learning and career guidance platform
+                  </p>
+                  <div className="flex justify-center gap-4 mt-3">
+                    <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-facebook-f"></i></a>
+                    <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-twitter"></i></a>
+                    <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-instagram"></i></a>
+                    <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-linkedin-in"></i></a>
+                  </div>
+                  <p className="text-forest-light dark:text-darkMode-textMuted text-xs mt-3">
+                    © {new Date().getFullYear()} TajiConnect. All rights reserved.
+                  </p>
                 </div>
-                <p className="text-neutral-light dark:text-darkMode-textSecondary text-xs">
-                  Your personalized learning and career guidance platform
-                </p>
-                <div className="flex justify-center gap-4 mt-3">
-                  <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-facebook-f"></i></a>
-                  <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-twitter"></i></a>
-                  <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-instagram"></i></a>
-                  <a href="#" className="text-neutral-light dark:text-darkMode-textMuted hover:text-accent-gold dark:hover:text-darkMode-accent transition-colors"><i className="fab fa-linkedin-in"></i></a>
-                </div>
-                <p className="text-forest-light dark:text-darkMode-textMuted text-xs mt-3">
-                  © {new Date().getFullYear()} TajiConnect. All rights reserved.
-                </p>
               </div>
-            </div>
-          </footer>
+            </footer>
+          )}
         </div>
       </div>
     </div>
