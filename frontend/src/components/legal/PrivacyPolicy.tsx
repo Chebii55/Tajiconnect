@@ -68,7 +68,7 @@ const PrivacyPolicy: React.FC = () => {
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-primary-dark dark:text-white mb-4">2. How We Use Your Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 dark:bg-[#262d3d] p-6 rounded-lg border dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-[#1a1f2e] p-6 rounded-lg border dark:border-gray-600">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Educational Services</h3>
                     <ul className="text-sm text-neutral-dark/80 dark:text-gray-300 space-y-1">
                       <li>• Personalized learning recommendations</li>
@@ -77,7 +77,7 @@ const PrivacyPolicy: React.FC = () => {
                       <li>• Career guidance and job matching</li>
                     </ul>
                   </div>
-                  <div className="bg-gray-50 dark:bg-[#262d3d] p-6 rounded-lg border dark:border-gray-600">
+                  <div className="bg-gray-50 dark:bg-[#1a1f2e] p-6 rounded-lg border dark:border-gray-600">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Platform Improvement</h3>
                     <ul className="text-sm text-neutral-dark/80 dark:text-gray-300 space-y-1">
                       <li>• Enhance user experience</li>
@@ -109,17 +109,17 @@ const PrivacyPolicy: React.FC = () => {
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-primary-dark dark:text-white mb-4">4. Data Security</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <div className="text-2xl mb-2">🔐</div>
                     <h3 className="font-semibold mb-2 dark:text-white">Encryption</h3>
                     <p className="text-sm text-neutral-dark/70 dark:text-gray-400">All data is encrypted in transit and at rest</p>
                   </div>
-                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <div className="text-2xl mb-2">🏢</div>
                     <h3 className="font-semibold mb-2 dark:text-white">Secure Servers</h3>
                     <p className="text-sm text-neutral-dark/70 dark:text-gray-400">Hosted on industry-standard secure infrastructure</p>
                   </div>
-                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="text-center p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <div className="text-2xl mb-2">👥</div>
                     <h3 className="font-semibold mb-2 dark:text-white">Limited Access</h3>
                     <p className="text-sm text-neutral-dark/70 dark:text-gray-400">Only authorized personnel have access to your data</p>
@@ -156,11 +156,11 @@ const PrivacyPolicy: React.FC = () => {
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <h3 className="font-semibold mb-2 dark:text-white">Essential Cookies</h3>
                     <p className="text-sm text-neutral-dark/70 dark:text-gray-400">Required for basic platform functionality</p>
                   </div>
-                  <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <h3 className="font-semibold mb-2 dark:text-white">Analytics Cookies</h3>
                     <p className="text-sm text-neutral-dark/70 dark:text-gray-400">Help us understand usage patterns (opt-out available)</p>
                   </div>
@@ -196,7 +196,7 @@ const PrivacyPolicy: React.FC = () => {
 
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-primary-dark dark:text-white mb-4">10. Contact Us</h2>
-                <div className="bg-gray-50 dark:bg-[#262d3d] p-6 rounded-lg border dark:border-gray-600">
+                <div className="bg-gray-50 dark:bg-[#1a1f2e] p-6 rounded-lg border dark:border-gray-600">
                   <p className="text-neutral-dark/80 dark:text-gray-300 mb-4">
                     If you have questions about this privacy policy or want to exercise your rights:
                   </p>

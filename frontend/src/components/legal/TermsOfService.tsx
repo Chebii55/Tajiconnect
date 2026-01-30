@@ -118,7 +118,7 @@ const TermsOfService: React.FC = () => {
                 </ul>
 
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">3.2 Content Standards</h3>
-                <div className="bg-gray-50 dark:bg-[#262d3d] p-6 rounded-lg border dark:border-gray-600">
+                <div className="bg-gray-50 dark:bg-[#1a1f2e] p-6 rounded-lg border dark:border-gray-700/50">
                   <p className="text-neutral-dark/80 dark:text-gray-300 mb-3">All user-generated content must:</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <ul className="text-sm text-neutral-dark/80 dark:text-gray-300 space-y-2">
@@ -162,7 +162,7 @@ const TermsOfService: React.FC = () => {
 
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3">5.1 Free and Premium Services</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-[#262d3d]">
+                  <div className="p-4 border border-gray-200 dark:border-gray-700/50 rounded-lg bg-white dark:bg-[#1a1f2e]">
                     <h4 className="font-semibold mb-2 dark:text-white">Free Tier</h4>
                     <ul className="text-sm text-neutral-dark/80 dark:text-gray-300 space-y-1">
                       <li>• Basic course access</li>
@@ -240,7 +240,7 @@ const TermsOfService: React.FC = () => {
 
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-primary-dark dark:text-white mb-4">10. Contact Information</h2>
-                <div className="bg-gray-50 dark:bg-[#262d3d] p-6 rounded-lg border dark:border-gray-600">
+                <div className="bg-gray-50 dark:bg-[#1a1f2e] p-6 rounded-lg border dark:border-gray-700/50">
                   <p className="text-neutral-dark/80 dark:text-gray-300 mb-4">
                     For questions about these Terms of Service or to report violations:
                   </p>
