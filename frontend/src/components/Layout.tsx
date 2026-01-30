@@ -3,15 +3,20 @@ import { Outlet } from 'react-router-dom';
 import { GraduationCap } from 'lucide-react';
 import Navbar from './Navbar';
 import MainSidebar from './MainSidebar';
+import { isAuthenticated } from '../utils/auth';
 
 const Layout: React.FC = () => {
+  const authenticated = isAuthenticated();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-mist dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
       <div className="flex">
-        {/* Sidebar - hidden on mobile, shown on lg screens */}
-        <div className="hidden lg:block">
-          <MainSidebar />
-        </div>
+        {/* Sidebar - hidden on mobile and when not authenticated, shown on lg screens when authenticated */}
+        {authenticated && (
+          <div className="hidden lg:block">
+            <MainSidebar />
+          </div>
+        )}
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-h-screen">

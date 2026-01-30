@@ -66,19 +66,21 @@ const Navbar = () => {
       <nav className="bg-neutral-white dark:bg-darkMode-navbar shadow-sm dark:shadow-dark sticky top-0 z-[100] border-b border-border-light dark:border-darkMode-border">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-14">
-            {/* Mobile menu button */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg text-forest-sage dark:text-darkMode-textMuted hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
+            {/* Mobile menu button - only show when authenticated */}
+            {isLoggedIn && (
+              <div className="lg:hidden">
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 rounded-lg text-forest-sage dark:text-darkMode-textMuted hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
+                >
+                  {isMobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
+              </div>
+            )}
 
             {/* Search Bar */}
             <div className="flex-1 max-w-xl mx-4">
@@ -131,7 +133,7 @@ const Navbar = () => {
 
                   {isProfileDropdownOpen && (
                     <div className="absolute right-0 mt-3 w-56 bg-white dark:bg-darkMode-surface rounded-xl shadow-xl border border-gray-100 dark:border-darkMode-border z-50 overflow-hidden">
-                      
+
 
                       {/* Menu Items */}
                       <div className="py-2">
@@ -148,7 +150,7 @@ const Navbar = () => {
                             <p className="text-xs text-gray-500 dark:text-darkMode-textMuted">View your profile</p>
                           </div>
                         </Link>
-                        
+
                         <Link
                           to="/settings"
                           className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-darkMode-text hover:bg-primary/5 dark:hover:bg-darkMode-surfaceHover transition-colors group"
@@ -187,8 +189,8 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Sidebar Overlay */}
-      {isMobileMenuOpen && (
+      {/* Mobile Sidebar Overlay - only show when authenticated */}
+      {isLoggedIn && isMobileMenuOpen && (
         <>
           <div
             className="fixed inset-0 bg-black/50 z-[140] lg:hidden"
