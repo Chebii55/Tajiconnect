@@ -12,8 +12,7 @@ import {
   X,
   LogOut,
   User,
-  ChevronDown,
-  GraduationCap
+  ChevronDown
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
 
@@ -109,11 +108,16 @@ const Navbar = () => {
 
             {/* Logo (public routes) or Search Bar (authenticated) */}
             {isPublicRoute ? (
-              <Link to="/" className="flex items-center gap-2">
-                <div className="w-9 h-9 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-lg flex items-center justify-center">
-                  <GraduationCap className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold text-primary-dark dark:text-darkMode-text">
+              <Link to="/" className="flex items-center space-x-2">
+                <img
+                  src="/zoomed-logo.png"
+                  alt="TajiConnect"
+                  className="h-8 w-auto"
+                />
+                <span
+                  className="text-lg font-bold bg-gradient-to-r from-primary-dark to-primary dark:from-darkMode-progress dark:to-darkMode-accent bg-clip-text text-transparent"
+                  style={{ fontFamily: 'Poppins, sans-serif' }}
+                >
                   TajiConnect
                 </span>
               </Link>
