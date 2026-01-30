@@ -18,6 +18,8 @@ export const API_ENDPOINTS = {
     FORGOT_PASSWORD: `${API_VERSION}/auth/forgot-password`,
     RESET_PASSWORD: `${API_VERSION}/auth/reset-password`,
     CHANGE_PASSWORD: `${API_VERSION}/auth/change-password`,
+    // Google OAuth
+    GOOGLE_CALLBACK: `${API_VERSION}/auth/google/callback`,
   },
 
   // ============================================

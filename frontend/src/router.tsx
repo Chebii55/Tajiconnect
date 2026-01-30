@@ -67,6 +67,7 @@ import Support from './components/legal/Support';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import TrainerLogin from './components/auth/TrainerLogin';
+import GoogleCallback from './components/auth/GoogleCallback';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 // Trainer Components
@@ -94,6 +95,7 @@ export const router = createBrowserRouter([
       // Authentication routes (public)
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
+      { path: '/auth/google/callback', element: <GoogleCallback /> },
       { path: '/trainer/login', element: <TrainerLogin /> },
 
       // Onboarding - Streamlined single flow

@@ -96,6 +96,15 @@ export interface MessageResponse {
   message: string;
 }
 
+export interface GoogleAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+  user: User;
+  is_new_user?: boolean;
+}
+
 // ============================================
 // AUTH SERVICE CLASS
 // ============================================
@@ -199,6 +208,44 @@ class AuthService {
     const user = await apiClient.get<User>(USERS.ME);
     this.setUser(user);
     return user;
+  }
+
+  // ============================================
+  // GOOGLE OAUTH
+  // ============================================
+
+  /**
+   * Initiate Google OAuth login - redirects to Google
+   */
+  googleLogin(): void {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const redirectUri = `${apiUrl}/api/v1/auth/google/callback`;
+    const scope = 'email profile openid';
+
+    const googleAuthUrl =
+      `https://accounts.google.com/o/oauth2/v2/auth?` +
+      `client_id=${clientId}&` +
+      `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+      `response_type=code&` +
+      `scope=${encodeURIComponent(scope)}&` +
+      `access_type=offline&` +
+      `prompt=consent`;
+
+    window.location.href = googleAuthUrl;
+  }
+
+  /**
+   * Handle Google OAuth callback with authorization code
+   */
+  async handleGoogleCallback(code: string): Promise<GoogleAuthResponse> {
+    const response = await apiClient.post<GoogleAuthResponse>(AUTH.GOOGLE_CALLBACK, { code });
+
+    // Store tokens and user data
+    this.setTokens(response.access_token, response.refresh_token);
+    this.setUser(response.user);
+
+    return response;
   }
 
   // ============================================
