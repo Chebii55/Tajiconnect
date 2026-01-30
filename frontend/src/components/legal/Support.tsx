@@ -172,7 +172,7 @@ const Support: React.FC = () => {
                 <BookOpen className="w-5 h-5 text-primary dark:text-emerald-400" />
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Help Resources</h3>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <Link
                   to="/privacy"
                   className="p-4 bg-white dark:bg-[#1e2433] rounded-lg shadow dark:shadow-black/20 dark:border dark:border-gray-700/50 hover:shadow-md transition-shadow"
@@ -186,6 +186,13 @@ const Support: React.FC = () => {
                 >
                   <p className="font-medium text-gray-900 dark:text-white">Terms of Service</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Usage guidelines</p>
+                </Link>
+                <Link
+                  to="/cookies"
+                  className="p-4 bg-white dark:bg-[#1e2433] rounded-lg shadow dark:shadow-black/20 dark:border dark:border-gray-700/50 hover:shadow-md transition-shadow"
+                >
+                  <p className="font-medium text-gray-900 dark:text-white">Cookie Policy</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">How we use cookies</p>
                 </Link>
               </div>
             </div>
