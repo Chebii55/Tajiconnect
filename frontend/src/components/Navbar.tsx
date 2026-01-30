@@ -12,7 +12,8 @@ import {
   X,
   LogOut,
   User,
-  ChevronDown
+  ChevronDown,
+  GraduationCap
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
 
@@ -106,28 +107,41 @@ const Navbar = () => {
               </div>
             )}
 
-            {/* Search Bar */}
-            <div className="flex-1 max-w-xl mx-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-forest-sage dark:text-darkMode-textMuted" />
-                <input
-                  type="text"
-                  placeholder="Search courses, jobs, resources..."
-                  className="w-full pl-10 pr-4 py-2 bg-neutral-light dark:bg-darkMode-bg border border-border-light dark:border-darkMode-border rounded-lg text-sm text-neutral-dark dark:text-darkMode-text placeholder-forest-sage dark:placeholder-darkMode-textMuted focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-darkMode-accent/50 focus:border-primary dark:focus:border-darkMode-accent transition-all"
-                />
+            {/* Logo (public routes) or Search Bar (authenticated) */}
+            {isPublicRoute ? (
+              <Link to="/" className="flex items-center gap-2">
+                <div className="w-9 h-9 bg-gradient-to-r from-primary to-primary-light dark:from-darkMode-progress dark:to-darkMode-success rounded-lg flex items-center justify-center">
+                  <GraduationCap className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-xl font-bold text-primary-dark dark:text-darkMode-text">
+                  TajiConnect
+                </span>
+              </Link>
+            ) : (
+              <div className="flex-1 max-w-xl mx-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-forest-sage dark:text-darkMode-textMuted" />
+                  <input
+                    type="text"
+                    placeholder="Search courses, jobs, resources..."
+                    className="w-full pl-10 pr-4 py-2 bg-neutral-light dark:bg-darkMode-bg border border-border-light dark:border-darkMode-border rounded-lg text-sm text-neutral-dark dark:text-darkMode-text placeholder-forest-sage dark:placeholder-darkMode-textMuted focus:outline-none focus:ring-2 focus:ring-primary/50 dark:focus:ring-darkMode-accent/50 focus:border-primary dark:focus:border-darkMode-accent transition-all"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Right side actions */}
             <div className="flex items-center space-x-2">
-              {/* Notifications */}
-              <button
-                className="p-2 text-neutral-dark dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover rounded-lg transition-colors duration-200 relative"
-                title="Notifications"
-              >
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-accent-coral dark:bg-darkMode-error rounded-full"></span>
-              </button>
+              {/* Notifications - only show when logged in */}
+              {isLoggedIn && (
+                <button
+                  className="p-2 text-neutral-dark dark:text-darkMode-textSecondary hover:text-primary dark:hover:text-darkMode-accent hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover rounded-lg transition-colors duration-200 relative"
+                  title="Notifications"
+                >
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-accent-coral dark:bg-darkMode-error rounded-full"></span>
+                </button>
+              )}
 
               {/* Theme Toggle */}
               <button
