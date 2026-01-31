@@ -105,15 +105,6 @@ export interface MessageResponse {
   message: string;
 }
 
-export interface GoogleAuthResponse {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  user: User;
-  is_new_user?: boolean;
-}
-
 // ============================================
 // AUTH SERVICE CLASS
 // ============================================

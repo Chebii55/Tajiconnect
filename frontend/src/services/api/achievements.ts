@@ -33,7 +33,10 @@ export interface AchievementCatalogParams {
 
 class AchievementCatalogService {
   async list(params?: AchievementCatalogParams): Promise<AchievementDefinition[]> {
-    return apiClient.get<AchievementDefinition[]>(API_ENDPOINTS.ACHIEVEMENTS.LIST, params);
+    return apiClient.get<AchievementDefinition[]>(
+      API_ENDPOINTS.ACHIEVEMENTS.LIST,
+      params as Record<string, unknown> | undefined
+    );
   }
 
   async getById(id: string): Promise<AchievementDefinition> {
