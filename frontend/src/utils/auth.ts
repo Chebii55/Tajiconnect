@@ -216,6 +216,7 @@ export const requiresAuth = (pathname: string): boolean => {
     '/login',
     '/register',
     '/trainer/login',
+    '/auth/google/callback',
     '/forgot-password',
     '/reset-password',
     '/verify-email',

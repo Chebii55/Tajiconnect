@@ -45,6 +45,15 @@ export interface LoginResponse {
   user: User;
 }
 
+export interface GoogleAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+  user: User;
+  is_new_user: boolean;
+}
+
 export interface RegisterRequest {
   email: string;
   password: string;
@@ -121,6 +130,21 @@ class AuthService {
     const response = await apiClient.post<LoginResponse>(AUTH.LOGIN, credentials);
 
     // Store tokens and user data
+    this.setTokens(response.access_token, response.refresh_token);
+    this.setUser(response.user);
+
+    return response;
+  }
+
+  /**
+   * Complete Google OAuth by exchanging the authorization code
+   */
+  async googleCallback(code: string, redirectUri?: string): Promise<GoogleAuthResponse> {
+    const response = await apiClient.post<GoogleAuthResponse>(AUTH.GOOGLE_CALLBACK, {
+      code,
+      redirect_uri: redirectUri,
+    });
+
     this.setTokens(response.access_token, response.refresh_token);
     this.setUser(response.user);
 

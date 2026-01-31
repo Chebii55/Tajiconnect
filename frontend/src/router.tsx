@@ -97,6 +97,7 @@ export const router = createBrowserRouter([
       { path: '/register', element: <Register /> },
       { path: '/auth/google/callback', element: <GoogleCallback /> },
       { path: '/trainer/login', element: <TrainerLogin /> },
+      { path: '/auth/google/callback', element: <GoogleCallback /> },
 
       // Onboarding - Streamlined single flow
       { path: '/onboarding', element: <BriefOnboarding /> },
