@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTheme } from '../contexts/ThemeContext'
 import { authService } from '../services/api/auth'
@@ -24,6 +24,7 @@ const Navbar = () => {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false)
   const [userInitials, setUserInitials] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const profileMenuRef = useRef<HTMLDivElement>(null)
   const { theme, toggleTheme } = useTheme()
   const navigate = useNavigate()
   const location = useLocation()
@@ -56,7 +57,11 @@ const Navbar = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (isProfileDropdownOpen) {
+      if (
+        isProfileDropdownOpen &&
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
         setIsProfileDropdownOpen(false)
       }
     }
@@ -162,7 +167,7 @@ const Navbar = () => {
 
               {/* Profile */}
               {isLoggedIn && (
-                <div className="relative">
+                <div className="relative" ref={profileMenuRef}>
                   <button
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     className="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-primary/10 dark:hover:bg-darkMode-surfaceHover transition-colors duration-200"
