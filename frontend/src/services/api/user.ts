@@ -154,10 +154,22 @@ export interface GoalUpdate extends Partial<GoalCreate> {}
 export interface Achievement {
   id: string;
   user_id: string;
+  achievement_id?: string;
   title: string;
   description?: string;
   category?: string;
+  achievement_type?: string;
+  issuer?: string;
+  status?: string;
   earned_at: string;
+  expires_at?: string;
+  credential_id?: string;
+  verification_url?: string;
+  share_url?: string;
+  progress?: number;
+  requirements?: string[];
+  skills_validated?: string[];
+  is_public?: boolean;
   metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
@@ -167,7 +179,19 @@ export interface AchievementCreate {
   title: string;
   description?: string;
   category?: string;
+  achievement_id?: string;
+  achievement_type?: string;
+  issuer?: string;
+  status?: string;
   earned_at?: string;
+  expires_at?: string;
+  credential_id?: string;
+  verification_url?: string;
+  share_url?: string;
+  progress?: number;
+  requirements?: string[];
+  skills_validated?: string[];
+  is_public?: boolean;
   metadata?: Record<string, unknown>;
 }
 
@@ -314,6 +338,10 @@ class UserService {
 
   async getUserAchievements(userId: string): Promise<Achievement[]> {
     return apiClient.get<Achievement[]>(USERS.ACHIEVEMENTS(userId));
+  }
+
+  async getMyAchievements(): Promise<Achievement[]> {
+    return apiClient.get<Achievement[]>(USERS.ME_ACHIEVEMENTS);
   }
 
   async createUserAchievement(userId: string, data: AchievementCreate): Promise<Achievement> {

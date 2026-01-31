@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   USERS: {
     ME: `${API_VERSION}/users/me`,
     PROFILE: `${API_VERSION}/users/me/profile`,
+    ME_ACHIEVEMENTS: `${API_VERSION}/users/me/achievements`,
     BY_ID: (userId: string) => `${API_VERSION}/users/${userId}`,
     USER_PROFILE: (userId: string) => `${API_VERSION}/users/${userId}/profile`,
     LIST: `${API_VERSION}/users`,
@@ -38,6 +39,14 @@ export const API_ENDPOINTS = {
     ACHIEVEMENTS: (userId: string) => `${API_VERSION}/users/${userId}/achievements`,
     ACHIEVEMENT: (userId: string, achievementId: string) =>
       `${API_VERSION}/users/${userId}/achievements/${achievementId}`,
+  },
+
+  // ============================================
+  // ACHIEVEMENTS (Catalog)
+  // ============================================
+  ACHIEVEMENTS: {
+    LIST: `${API_VERSION}/achievements`,
+    BY_ID: (achievementId: string) => `${API_VERSION}/achievements/${achievementId}`,
   },
 
   // ============================================

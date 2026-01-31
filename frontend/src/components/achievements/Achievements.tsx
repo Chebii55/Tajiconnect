@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   Target,
   Trophy,
@@ -7,6 +7,10 @@ import {
   Award,
   Sparkles
 } from 'lucide-react'
+import { achievementCatalogService } from '../../services/api/achievements'
+import { userService } from '../../services/api/user'
+import type { Achievement as UserAchievement } from '../../services/api/user'
+import type { AchievementDefinition } from '../../services/api/achievements'
 
 interface Achievement {
   id: string
@@ -35,140 +39,173 @@ interface Badge {
   earned: boolean
 }
 
-const mockAchievements: Achievement[] = [
-  {
-    id: '1',
-    title: 'First Steps',
-    description: 'Complete your first course',
-    icon: <Target className="w-6 h-6" />,
-    category: 'milestone',
-    rarity: 'common',
-    points: 100,
-    progress: 1,
-    total: 1,
-    unlocked: true,
-    unlockedDate: '2025-01-10',
-    requirements: ['Complete any course']
-  },
-  {
-    id: '2',
-    title: 'Assessment Master',
-    description: 'Score above 80% in all assessments',
-    icon: <Trophy className="w-6 h-6" />,
-    category: 'performance',
-    rarity: 'rare',
-    points: 500,
-    progress: 3,
-    total: 5,
-    unlocked: false,
-    requirements: ['Score 80%+ on 5 different assessments']
-  },
-  {
-    id: '3',
-    title: 'Week Warrior',
-    description: 'Learn for 7 consecutive days',
-    icon: <Flame className="w-6 h-6" />,
-    category: 'consistency',
-    rarity: 'epic',
-    points: 750,
-    progress: 7,
-    total: 7,
-    unlocked: true,
-    unlockedDate: '2025-01-15',
-    requirements: ['Maintain 7-day learning streak']
-  },
-  {
-    id: '4',
-    title: 'Code Ninja',
-    description: 'Master 10 programming skills',
-    icon: '⚔️',
-    category: 'skill',
-    rarity: 'legendary',
-    points: 1500,
-    progress: 3,
-    total: 10,
-    unlocked: false,
-    requirements: ['Reach advanced level in 10 programming skills']
-  },
-  {
-    id: '5',
-    title: 'Speed Learner',
-    description: 'Complete 3 courses in one month',
-    icon: '⚡',
-    category: 'performance',
-    rarity: 'rare',
-    points: 600,
-    progress: 2,
-    total: 3,
-    unlocked: false,
-    requirements: ['Complete 3 courses within 30 days']
-  },
-  {
-    id: '6',
-    title: 'Knowledge Sharer',
-    description: 'Help 5 fellow learners',
-    icon: '🤝',
-    category: 'social',
-    rarity: 'epic',
-    points: 800,
-    progress: 1,
-    total: 5,
-    unlocked: false,
-    requirements: ['Provide help to 5 different learners']
+const categoryIcon = (category?: string) => {
+  switch (category) {
+    case 'milestone':
+      return <Target className="w-6 h-6" />
+    case 'performance':
+      return <Trophy className="w-6 h-6" />
+    case 'consistency':
+      return <Flame className="w-6 h-6" />
+    case 'skill':
+      return <Award className="w-6 h-6" />
+    case 'social':
+      return <Sparkles className="w-6 h-6" />
+    default:
+      return <Sparkles className="w-6 h-6" />
   }
-]
+}
 
-const mockBadges: Badge[] = [
-  {
-    id: '1',
-    name: 'Python Explorer',
-    description: 'Programming proficiency in Python',
-    icon: '🐍',
-    level: 3,
-    maxLevel: 5,
-    category: 'Programming',
-    progress: 78,
-    earned: true
-  },
-  {
-    id: '2',
-    name: 'Data Detective',
-    description: 'Data analysis and visualization skills',
-    icon: '🔍',
-    level: 2,
-    maxLevel: 5,
-    category: 'Data Science',
-    progress: 45,
-    earned: true
-  },
-  {
-    id: '3',
-    name: 'Design Guru',
-    description: 'UI/UX design capabilities',
-    icon: <Palette className="w-6 h-6" />,
-    level: 1,
-    maxLevel: 5,
-    category: 'Design',
-    progress: 25,
-    earned: true
-  },
-  {
-    id: '4',
-    name: 'Algorithm Master',
-    description: 'Advanced problem-solving skills',
-    icon: '🧠',
-    level: 0,
-    maxLevel: 5,
-    category: 'Computer Science',
-    progress: 15,
-    earned: false
+const normalizeCategory = (category?: string): Achievement['category'] => {
+  switch (category) {
+    case 'milestone':
+    case 'performance':
+    case 'consistency':
+    case 'skill':
+    case 'social':
+      return category
+    default:
+      return 'milestone'
   }
-]
+}
+
+const normalizeRarity = (value?: string): Achievement['rarity'] => {
+  switch (value) {
+    case 'common':
+    case 'rare':
+    case 'epic':
+    case 'legendary':
+      return value
+    default:
+      return 'common'
+  }
+}
+
+const toBadgeLevel = (progress?: number, earned?: boolean): number => {
+  if (typeof progress === 'number') {
+    return Math.min(5, Math.max(0, Math.floor(progress / 20)))
+  }
+  return earned ? 1 : 0
+}
 
 export default function Achievements() {
   const [activeTab, setActiveTab] = useState<'achievements' | 'badges'>('achievements')
   const [filter, setFilter] = useState<'all' | Achievement['category']>('all')
   const [showUnlockedOnly, setShowUnlockedOnly] = useState(false)
+  const [catalog, setCatalog] = useState<AchievementDefinition[]>([])
+  const [earned, setEarned] = useState<UserAchievement[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+    const loadAchievements = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const [catalogData, earnedData] = await Promise.all([
+          achievementCatalogService.list(),
+          userService.getMyAchievements()
+        ])
+        if (!isMounted) return
+        setCatalog(catalogData)
+        setEarned(earnedData)
+      } catch (err) {
+        console.error('Failed to load achievements:', err)
+        if (!isMounted) return
+        setError('Unable to load achievements right now.')
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadAchievements()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const achievements: Achievement[] = useMemo(() => {
+    const earnedById = new Map<string, UserAchievement>()
+    const earnedByTitle = new Map<string, UserAchievement>()
+
+    earned.forEach((item) => {
+      if (item.achievement_id) {
+        earnedById.set(item.achievement_id, item)
+      }
+      earnedByTitle.set(item.title, item)
+    })
+
+    const mapped = catalog.map((item) => {
+      const match = (item.id && earnedById.get(item.id)) || earnedByTitle.get(item.title)
+      const progress = match?.progress ?? (match?.status === 'earned' ? 100 : 0)
+      const total = 100
+      const requirements =
+        (match?.requirements as string[]) ||
+        ((item.criteria as { requirements?: string[] })?.requirements ?? [])
+      const rarity = normalizeRarity((item.metadata as { rarity?: string })?.rarity)
+      const points = (item.metadata as { points?: number })?.points ?? 0
+
+      return {
+        id: item.id,
+        title: item.title,
+        description: item.description || '',
+        icon: categoryIcon(item.category),
+        category: normalizeCategory(item.category),
+        rarity,
+        points,
+        progress,
+        total,
+        unlocked: Boolean(match) || progress >= total,
+        unlockedDate: match?.earned_at,
+        requirements,
+      }
+    })
+
+    const unmatchedEarned = earned.filter(
+      (item) => !catalog.some((catalogItem) => catalogItem.id === item.achievement_id)
+    )
+
+    unmatchedEarned.forEach((item) => {
+      mapped.push({
+        id: item.id,
+        title: item.title,
+        description: item.description || '',
+        icon: categoryIcon(item.category),
+        category: normalizeCategory(item.category),
+        rarity: normalizeRarity((item.metadata as { rarity?: string })?.rarity),
+        points: (item.metadata as { points?: number })?.points ?? 0,
+        progress: item.progress ?? 100,
+        total: 100,
+        unlocked: true,
+        unlockedDate: item.earned_at,
+        requirements: item.requirements || [],
+      })
+    })
+
+    return mapped
+  }, [catalog, earned])
+
+  const badges: Badge[] = useMemo(() => {
+    return earned
+      .filter((item) => item.achievement_type === 'badge')
+      .map((item) => {
+        const progress = item.progress ?? (item.status === 'earned' ? 100 : 0)
+        return {
+          id: item.id,
+          name: item.title,
+          description: item.description || '',
+          icon: categoryIcon(item.category) || <Palette className="w-6 h-6" />,
+          level: toBadgeLevel(progress, item.status === 'earned'),
+          maxLevel: 5,
+          category: item.category || 'General',
+          progress,
+          earned: item.status === 'earned',
+        }
+      })
+  }, [earned])
 
   const getRarityColor = (rarity: Achievement['rarity']) => {
     switch (rarity) {
@@ -212,17 +249,37 @@ export default function Achievements() {
     }
   }
 
-  const filteredAchievements = mockAchievements.filter(achievement => {
+  const filteredAchievements = achievements.filter(achievement => {
     const categoryMatch = filter === 'all' || achievement.category === filter
     const unlockedMatch = !showUnlockedOnly || achievement.unlocked
     return categoryMatch && unlockedMatch
   })
 
-  const totalPoints = mockAchievements
+  const totalPoints = achievements
     .filter(a => a.unlocked)
     .reduce((sum, achievement) => sum + achievement.points, 0)
 
-  const unlockedCount = mockAchievements.filter(a => a.unlocked).length
+  const unlockedCount = achievements.filter(a => a.unlocked).length
+
+  if (loading) {
+    return (
+      <div className="p-6">
+        <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-6 text-center">
+          <p className="text-gray-600 dark:text-darkMode-textSecondary">Loading achievements...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="p-6">
+        <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-6 text-center">
+          <p className="text-red-600 dark:text-darkMode-error">{error}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg p-6">
@@ -263,7 +320,7 @@ export default function Achievements() {
               <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Achievements</div>
             </div>
             <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-forest-sage dark:text-darkMode-progress">{mockBadges.filter(b => b.earned).length}</div>
+              <div className="text-2xl font-bold text-forest-sage dark:text-darkMode-progress">{badges.filter(b => b.earned).length}</div>
               <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Badges Earned</div>
             </div>
             <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
@@ -410,7 +467,7 @@ export default function Achievements() {
         {activeTab === 'badges' && (
           <div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockBadges.map((badge) => (
+              {badges.map((badge) => (
                 <div
                   key={badge.id}
                   className={`bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 border-2 transition-all hover:shadow-xl ${

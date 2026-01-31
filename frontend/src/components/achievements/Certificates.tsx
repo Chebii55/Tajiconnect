@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GraduationCap, PartyPopper, FileText, Award, CheckSquare, Rocket, Link, Mail, Briefcase, Smartphone, X, Plus, Shield } from 'lucide-react'
+import { userService } from '../../services/api/user'
+import type { Achievement as UserAchievement } from '../../services/api/user'
 
 interface Certificate {
   id: string
@@ -31,114 +33,115 @@ interface DigitalBadge {
   shareUrl: string
 }
 
-const mockCertificates: Certificate[] = [
-  {
-    id: '1',
-    title: 'Python Programming Fundamentals',
-    issuer: 'TajiConnect Academy',
-    type: 'course_completion',
-    earnedDate: '2025-01-10',
-    credentialId: 'TC-PY-2025-001547',
-    skillsValidated: ['Python Basics', 'Data Types', 'Control Structures', 'Functions'],
-    verificationUrl: 'https://verify.tajiconnect.com/certificates/TC-PY-2025-001547',
-    status: 'earned',
-    shareCount: 12,
-    downloadCount: 3
-  },
-  {
-    id: '2',
-    title: 'Data Analysis Expert',
-    issuer: 'TajiConnect Academy',
-    type: 'skill_mastery',
-    earnedDate: '2025-01-08',
-    expiryDate: '2026-01-08',
-    credentialId: 'TC-DA-2025-000892',
-    skillsValidated: ['Data Visualization', 'Statistical Analysis', 'Excel Advanced', 'SQL Queries'],
-    verificationUrl: 'https://verify.tajiconnect.com/certificates/TC-DA-2025-000892',
-    status: 'earned',
-    shareCount: 25,
-    downloadCount: 8
-  },
-  {
-    id: '3',
-    title: 'Web Development Bootcamp',
-    issuer: 'TajiConnect Academy',
-    type: 'course_completion',
-    earnedDate: '',
-    credentialId: '',
-    skillsValidated: ['HTML5', 'CSS3', 'JavaScript', 'React', 'Node.js'],
-    verificationUrl: '',
-    status: 'in_progress',
-    progress: 65,
-    requirements: [
-      'Complete HTML & CSS modules',
-      'Build 3 JavaScript projects',
-      'Pass React assessment (80%+)',
-      'Deploy final project'
-    ],
-    shareCount: 0,
-    downloadCount: 0
-  },
-  {
-    id: '4',
-    title: 'Career Readiness Assessment',
-    issuer: 'Industry Partners',
-    type: 'assessment',
-    earnedDate: '2024-12-15',
-    expiryDate: '2025-12-15',
-    credentialId: 'IP-CRA-2024-003421',
-    skillsValidated: ['Communication', 'Problem Solving', 'Teamwork', 'Time Management'],
-    verificationUrl: 'https://verify.industrypartners.com/IP-CRA-2024-003421',
-    status: 'expired',
-    shareCount: 5,
-    downloadCount: 2
+const normalizeCertificateType = (value?: string): Certificate['type'] => {
+  switch (value) {
+    case 'course_completion':
+    case 'skill_mastery':
+    case 'assessment':
+    case 'project':
+      return value
+    default:
+      return 'course_completion'
   }
-]
+}
 
-const mockDigitalBadges: DigitalBadge[] = [
-  {
-    id: '1',
-    name: 'Python Developer',
-    description: 'Demonstrated proficiency in Python programming language',
-    issuer: 'TajiConnect Academy',
-    image: 'python',
-    earnedDate: '2025-01-10',
-    skills: ['Python', 'OOP', 'Data Structures'],
-    verificationUrl: 'https://verify.tajiconnect.com/badges/py-dev-001547',
-    blockchain: true,
-    shareUrl: 'https://badge.tajiconnect.com/share/py-dev-001547'
-  },
-  {
-    id: '2',
-    name: 'Data Analyst',
-    description: 'Skilled in data analysis and visualization techniques',
-    issuer: 'TajiConnect Academy',
-    image: 'chart',
-    earnedDate: '2025-01-08',
-    skills: ['Data Analysis', 'Visualization', 'Statistics'],
-    verificationUrl: 'https://verify.tajiconnect.com/badges/da-001892',
-    blockchain: true,
-    shareUrl: 'https://badge.tajiconnect.com/share/da-001892'
-  },
-  {
-    id: '3',
-    name: 'Problem Solver',
-    description: 'Excellence in analytical thinking and problem resolution',
-    issuer: 'Industry Partners',
-    image: 'brain',
-    earnedDate: '2024-12-15',
-    skills: ['Critical Thinking', 'Analysis', 'Solution Design'],
-    verificationUrl: 'https://verify.industrypartners.com/badges/ps-003421',
-    blockchain: false,
-    shareUrl: 'https://badge.industrypartners.com/share/ps-003421'
+const normalizeStatus = (value?: string, expiresAt?: string): Certificate['status'] => {
+  if (value === 'in_progress' || value === 'expired') {
+    return value
   }
-]
+  if (expiresAt) {
+    const expiry = new Date(expiresAt)
+    if (!Number.isNaN(expiry.getTime()) && expiry.getTime() < Date.now()) {
+      return 'expired'
+    }
+  }
+  return 'earned'
+}
+
+const getBadgeImage = (category?: string): DigitalBadge['image'] => {
+  if (!category) return 'award'
+  const normalized = category.toLowerCase()
+  if (normalized.includes('python')) return 'python'
+  if (normalized.includes('data')) return 'chart'
+  if (normalized.includes('analysis') || normalized.includes('problem')) return 'brain'
+  return 'award'
+}
 
 export default function Certificates() {
   const [activeTab, setActiveTab] = useState<'certificates' | 'badges' | 'wallet'>('certificates')
   const [statusFilter, setStatusFilter] = useState<'all' | 'earned' | 'in_progress' | 'expired'>('all')
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null)
   const [showShareModal, setShowShareModal] = useState(false)
+  const [achievements, setAchievements] = useState<UserAchievement[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    let isMounted = true
+    const loadAchievements = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const data = await userService.getMyAchievements()
+        if (!isMounted) return
+        setAchievements(data)
+      } catch (err) {
+        console.error('Failed to load certificates:', err)
+        if (!isMounted) return
+        setError('Unable to load certificates right now.')
+      } finally {
+        if (isMounted) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadAchievements()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const certificates = useMemo<Certificate[]>(() => {
+    return achievements
+      .filter((item) => item.achievement_type !== 'badge')
+      .map((item) => {
+        const status = normalizeStatus(item.status, item.expires_at)
+        return {
+          id: item.id,
+          title: item.title,
+          issuer: item.issuer || 'TajiConnect',
+          type: normalizeCertificateType(item.achievement_type),
+          earnedDate: item.earned_at || '',
+          expiryDate: item.expires_at,
+          credentialId: item.credential_id || '',
+          skillsValidated: item.skills_validated || [],
+          verificationUrl: item.verification_url || '',
+          status,
+          progress: item.progress ?? (status === 'earned' ? 100 : undefined),
+          requirements: item.requirements,
+          shareCount: 0,
+          downloadCount: 0,
+        }
+      })
+  }, [achievements])
+
+  const digitalBadges = useMemo<DigitalBadge[]>(() => {
+    return achievements
+      .filter((item) => item.achievement_type === 'badge')
+      .map((item) => ({
+        id: item.id,
+        name: item.title,
+        description: item.description || '',
+        issuer: item.issuer || 'TajiConnect',
+        image: getBadgeImage(item.category),
+        earnedDate: item.earned_at || '',
+        skills: item.skills_validated || [],
+        verificationUrl: item.verification_url || '',
+        blockchain: Boolean(item.verification_url),
+        shareUrl: item.share_url || '',
+      }))
+  }, [achievements])
 
   const getStatusColor = (status: Certificate['status']) => {
     switch (status) {
@@ -157,13 +160,33 @@ export default function Certificates() {
     }
   }
 
-  const filteredCertificates = mockCertificates.filter(cert =>
+  const filteredCertificates = certificates.filter(cert =>
     statusFilter === 'all' || cert.status === statusFilter
   )
 
-  const earnedCount = mockCertificates.filter(c => c.status === 'earned').length
-  const inProgressCount = mockCertificates.filter(c => c.status === 'in_progress').length
-  const totalShares = mockCertificates.reduce((sum, c) => sum + c.shareCount, 0)
+  const earnedCount = certificates.filter(c => c.status === 'earned').length
+  const inProgressCount = certificates.filter(c => c.status === 'in_progress').length
+  const totalShares = certificates.reduce((sum, c) => sum + c.shareCount, 0)
+
+  if (loading) {
+    return (
+      <div className="p-6">
+        <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-6 text-center">
+          <p className="text-gray-600 dark:text-darkMode-textSecondary">Loading certificates...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="p-6">
+        <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-6 text-center">
+          <p className="text-red-600 dark:text-darkMode-error">{error}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-sage/10 dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg p-6">
@@ -200,7 +223,7 @@ export default function Certificates() {
               <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Certificates Earned</div>
             </div>
             <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
-              <div className="text-2xl font-bold text-primary-light dark:text-darkMode-link">{mockDigitalBadges.length}</div>
+              <div className="text-2xl font-bold text-primary-light dark:text-darkMode-link">{digitalBadges.length}</div>
               <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Digital Badges</div>
             </div>
             <div className="bg-white dark:bg-darkMode-surface rounded-lg shadow-sm p-4 text-center">
@@ -376,12 +399,13 @@ export default function Certificates() {
         {/* Digital Badges Tab */}
         {activeTab === 'badges' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockDigitalBadges.map((badge) => (
+            {digitalBadges.map((badge) => (
               <div key={badge.id} className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6 text-center">
                 <div className="text-6xl mb-4 flex justify-center text-primary-dark dark:text-darkMode-text">
                   {badge.image === 'python' && <FileText className="w-16 h-16" />}
                   {badge.image === 'chart' && <Award className="w-16 h-16" />}
                   {badge.image === 'brain' && <CheckSquare className="w-16 h-16" />}
+                  {badge.image === 'award' && <Award className="w-16 h-16" />}
                 </div>
                 <h3 className="font-bold text-primary-dark dark:text-darkMode-text text-lg mb-2">{badge.name}</h3>
                 <p className="text-gray-600 dark:text-darkMode-textSecondary text-sm mb-3">{badge.description}</p>
@@ -432,12 +456,12 @@ export default function Certificates() {
               <h2 className="text-xl font-bold text-primary-dark dark:text-darkMode-text mb-6">Digital Credential Wallet</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center p-4 bg-secondary/10 dark:bg-darkMode-success/10 rounded-lg">
-                  <div className="text-3xl font-bold text-secondary dark:text-darkMode-success">{earnedCount + mockDigitalBadges.length}</div>
+                  <div className="text-3xl font-bold text-secondary dark:text-darkMode-success">{earnedCount + digitalBadges.length}</div>
                   <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Total Credentials</div>
                 </div>
                 <div className="text-center p-4 bg-primary-light/10 dark:bg-darkMode-link/10 rounded-lg">
                   <div className="text-3xl font-bold text-primary-light dark:text-darkMode-link">
-                    {mockDigitalBadges.filter(b => b.blockchain).length}
+                    {digitalBadges.filter(b => b.blockchain).length}
                   </div>
                   <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">Blockchain Verified</div>
                 </div>
