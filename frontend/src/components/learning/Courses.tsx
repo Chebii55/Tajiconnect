@@ -180,7 +180,7 @@ const Courses: React.FC = () => {
                 placeholder="Search courses..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="input-modern focus-ring dark:bg-darkMode-surfaceHover dark:text-darkMode-text dark:border-darkMode-border"
+                className="input-modern focus-ring pl-10 dark:bg-darkMode-surfaceHover dark:text-darkMode-text dark:border-darkMode-border"
               />
             </div>
             <button

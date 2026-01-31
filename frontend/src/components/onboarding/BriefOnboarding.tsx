@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ArrowLeft, CheckCircle, User, Target, Loader } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { onboardingService } from '../../services/api/onboarding'
+import { authService } from '../../services/api/auth'
 
 interface OnboardingData {
   firstName: string
@@ -49,13 +50,18 @@ const BriefOnboarding = () => {
     const lastName = localStorage.getItem('userLastName') || ''
     const email = localStorage.getItem('userEmail') || ''
     const dateOfBirth = localStorage.getItem('userDateOfBirth') || ''
-    
-    if (firstName || lastName || email || dateOfBirth) {
+
+    const user = authService.getCurrentUser()
+    const resolvedFirstName = firstName || user?.first_name || ''
+    const resolvedLastName = lastName || user?.last_name || ''
+    const resolvedEmail = email || user?.email || ''
+
+    if (resolvedFirstName || resolvedLastName || resolvedEmail || dateOfBirth) {
       setData(prev => ({
         ...prev,
-        firstName,
-        lastName,
-        email,
+        firstName: resolvedFirstName,
+        lastName: resolvedLastName,
+        email: resolvedEmail,
         dateOfBirth,
         age: dateOfBirth ? calculateAge(dateOfBirth) : 0
       }))

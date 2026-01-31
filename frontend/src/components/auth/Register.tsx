@@ -15,8 +15,6 @@ interface FormData {
   confirmPassword: string;
   dateOfBirth: string;
   agreeToTerms: boolean;
-  agreeToMarketing: boolean;
-  age?: number;
 }
 
 interface ValidationRule {
@@ -88,11 +86,7 @@ const useForm = (initialState: FormData) => {
       }
     }
 
-    // Update age when date of birth changes
-    if (name === 'dateOfBirth' && value) {
-      const age = calculateAge(value);
-      setFormData((prev: FormData) => ({ ...prev, age }));
-    }
+    // Age is derived from dateOfBirth when needed
   };
 
   const validate = (rules: ValidationRules): boolean => {
@@ -133,8 +127,7 @@ const Register: React.FC = () => {
     password: '',
     confirmPassword: '',
     dateOfBirth: '',
-    agreeToTerms: false,
-    agreeToMarketing: false
+    agreeToTerms: false
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -145,6 +138,13 @@ const Register: React.FC = () => {
     type: 'success' | 'error' | 'info';
     message: string;
   } | null>(null);
+
+  const persistOnboardingDraft = () => {
+    localStorage.setItem('userEmail', formData.email);
+    localStorage.setItem('userFirstName', formData.firstName);
+    localStorage.setItem('userLastName', formData.lastName);
+    localStorage.setItem('userDateOfBirth', formData.dateOfBirth);
+  };
 
   const handleGoogleRegister = () => {
     setIsGoogleLoading(true);
@@ -160,7 +160,10 @@ const Register: React.FC = () => {
       firstName: { message: 'First name is required' },
       lastName: { message: 'Last name is required' },
       email: { pattern: /\S+@\S+\.\S+/, message: 'Email is required' },
-      password: { pattern: /.{6,}/, message: 'Password must be at least 6 characters' },
+      password: {
+        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+        message: 'Password must be at least 8 characters and include uppercase, lowercase, and a number'
+      },
       dateOfBirth: { message: 'Date of birth is required' }
     });
 
@@ -191,6 +194,7 @@ const Register: React.FC = () => {
 
     setIsLoading(true);
     setNotification(null);
+    persistOnboardingDraft();
 
     try {
       // Use the auth service for registration
@@ -200,7 +204,8 @@ const Register: React.FC = () => {
         confirm_password: formData.confirmPassword,
         first_name: formData.firstName,
         last_name: formData.lastName,
-        phone: undefined // Optional field
+        phone: undefined, // Optional field
+        terms_accepted: formData.agreeToTerms
       });
 
       // Store user info for onboarding
@@ -579,19 +584,6 @@ const Register: React.FC = () => {
                   </p>
                 )}
 
-                <div className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    id="agreeToMarketing"
-                    name="agreeToMarketing"
-                    checked={formData.agreeToMarketing}
-                    onChange={handleChange}
-                    className="mt-1 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary"
-                  />
-                  <label htmlFor="agreeToMarketing" className="text-sm text-gray-700 dark:text-gray-300">
-                    I would like to receive updates about new courses, features, and special offers (optional)
-                  </label>
-                </div>
               </div>
 
               {/* Submit Button */}

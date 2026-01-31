@@ -61,6 +61,8 @@ export interface RegisterRequest {
   first_name: string;
   last_name: string;
   phone?: string;
+  terms_accepted: boolean;
+  marketing_opt_in?: boolean;
 }
 
 export interface RegisterResponse {
