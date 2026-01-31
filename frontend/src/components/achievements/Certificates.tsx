@@ -33,6 +33,33 @@ interface DigitalBadge {
   shareUrl: string
 }
 
+interface ActivityItem {
+  id: string
+  title: string
+  detail: string
+  timestamp: number
+  type: 'earned' | 'shared' | 'verified'
+}
+
+const timeAgo = (value?: string) => {
+  if (!value) return ''
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  const diffMs = Date.now() - date.getTime()
+  const minutes = Math.floor(diffMs / 60000)
+  if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`
+  const days = Math.floor(hours / 24)
+  if (days < 7) return `${days} day${days === 1 ? '' : 's'} ago`
+  const weeks = Math.floor(days / 7)
+  if (weeks < 4) return `${weeks} week${weeks === 1 ? '' : 's'} ago`
+  const months = Math.floor(days / 30)
+  if (months < 12) return `${months} month${months === 1 ? '' : 's'} ago`
+  const years = Math.floor(days / 365)
+  return `${years} year${years === 1 ? '' : 's'} ago`
+}
+
 const normalizeCertificateType = (value?: string): Certificate['type'] => {
   switch (value) {
     case 'course_completion':
@@ -178,6 +205,54 @@ export default function Certificates() {
       .sort((a, b) => b.earnedAt - a.earnedAt)
     return earned[0]
   }, [certificates])
+
+  const recentActivity = useMemo<ActivityItem[]>(() => {
+    const items: ActivityItem[] = []
+
+    certificates
+      .filter(cert => cert.status === 'earned' && cert.earnedDate)
+      .forEach(cert => {
+        const earnedAt = cert.earnedDate ? new Date(cert.earnedDate).getTime() : 0
+        items.push({
+          id: `earned-${cert.id}`,
+          title: 'New certificate earned',
+          detail: `${cert.title}${timeAgo(cert.earnedDate) ? ` - ${timeAgo(cert.earnedDate)}` : ''}`,
+          timestamp: earnedAt,
+          type: 'earned',
+        })
+      })
+
+    certificates
+      .filter(cert => cert.status === 'earned' && cert.shareCount > 0 && cert.earnedDate)
+      .forEach(cert => {
+        const earnedAt = cert.earnedDate ? new Date(cert.earnedDate).getTime() : 0
+        items.push({
+          id: `shared-${cert.id}`,
+          title: 'Certificate shared',
+          detail: `${cert.title} shared${timeAgo(cert.earnedDate) ? ` - ${timeAgo(cert.earnedDate)}` : ''}`,
+          timestamp: earnedAt,
+          type: 'shared',
+        })
+      })
+
+    digitalBadges
+      .filter(badge => badge.verificationUrl && badge.earnedDate)
+      .forEach(badge => {
+        const verifiedAt = badge.earnedDate ? new Date(badge.earnedDate).getTime() : 0
+        items.push({
+          id: `verified-${badge.id}`,
+          title: 'Badge verified',
+          detail: `${badge.name} badge verified${timeAgo(badge.earnedDate) ? ` - ${timeAgo(badge.earnedDate)}` : ''}`,
+          timestamp: verifiedAt,
+          type: 'verified',
+        })
+      })
+
+    return items
+      .filter(item => item.timestamp > 0)
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 5)
+  }, [certificates, digitalBadges])
 
   if (loading) {
     return (
@@ -523,29 +598,45 @@ export default function Certificates() {
             {/* Recent Activity */}
             <div className="bg-white dark:bg-darkMode-surface rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-primary-dark dark:text-darkMode-text mb-4">Recent Activity</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-darkMode-success/10 rounded-lg">
-                  <Plus className="w-5 h-5 text-green-600 dark:text-darkMode-success" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-primary-dark dark:text-darkMode-text">New certificate earned</p>
-                    <p className="text-xs text-gray-600 dark:text-darkMode-textSecondary">Python Programming Fundamentals - 2 days ago</p>
-                  </div>
+              {recentActivity.length === 0 ? (
+                <div className="text-sm text-gray-600 dark:text-darkMode-textSecondary">
+                  No recent activity yet.
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-info/10 rounded-lg">
-                  <Link className="w-5 h-5 text-blue-600 dark:text-info" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-primary-dark dark:text-darkMode-text">Certificate shared</p>
-                    <p className="text-xs text-gray-600 dark:text-darkMode-textSecondary">Data Analysis Expert shared on LinkedIn - 5 days ago</p>
-                  </div>
+              ) : (
+                <div className="space-y-3">
+                  {recentActivity.map((item) => {
+                    const icon =
+                      item.type === 'earned' ? (
+                        <Plus className="w-5 h-5 text-green-600 dark:text-darkMode-success" />
+                      ) : item.type === 'shared' ? (
+                        <Link className="w-5 h-5 text-blue-600 dark:text-info" />
+                      ) : (
+                        <CheckSquare className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                      )
+
+                    const containerClass =
+                      item.type === 'earned'
+                        ? 'bg-green-50 dark:bg-darkMode-success/10'
+                        : item.type === 'shared'
+                        ? 'bg-blue-50 dark:bg-info/10'
+                        : 'bg-purple-50 dark:bg-purple-900/10'
+
+                    return (
+                      <div key={item.id} className={`flex items-center gap-3 p-3 rounded-lg ${containerClass}`}>
+                        {icon}
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-primary-dark dark:text-darkMode-text">
+                            {item.title}
+                          </p>
+                          <p className="text-xs text-gray-600 dark:text-darkMode-textSecondary">
+                            {item.detail}
+                          </p>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-purple-50 dark:bg-purple-900/10 rounded-lg">
-                  <CheckSquare className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-primary-dark dark:text-darkMode-text">Badge verified</p>
-                    <p className="text-xs text-gray-600 dark:text-darkMode-textSecondary">Python Developer badge blockchain verified - 1 week ago</p>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* Verification Feedback */}
