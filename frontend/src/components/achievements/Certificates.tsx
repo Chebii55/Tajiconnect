@@ -168,6 +168,17 @@ export default function Certificates() {
   const inProgressCount = certificates.filter(c => c.status === 'in_progress').length
   const totalShares = certificates.reduce((sum, c) => sum + c.shareCount, 0)
 
+  const latestEarnedCertificate = useMemo(() => {
+    const earned = certificates
+      .filter(cert => cert.status === 'earned')
+      .map(cert => ({
+        ...cert,
+        earnedAt: cert.earnedDate ? new Date(cert.earnedDate).getTime() : 0,
+      }))
+      .sort((a, b) => b.earnedAt - a.earnedAt)
+    return earned[0]
+  }, [certificates])
+
   if (loading) {
     return (
       <div className="p-6">
@@ -204,17 +215,19 @@ export default function Certificates() {
           </div>
 
           {/* New Certificate Notification */}
-          <div className="bg-green-50 dark:bg-darkMode-success/10 border border-green-200 dark:border-darkMode-success/30 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-2">
-              <PartyPopper className="w-5 h-5 text-green-600 dark:text-darkMode-success" />
-              <div>
-                <p className="text-green-800 dark:text-darkMode-success font-medium">New Certificate Earned!</p>
-                <p className="text-green-700 dark:text-darkMode-textSecondary text-sm">
-                  You've just earned the "Python Programming Fundamentals" certificate. Add it to your professional profile!
-                </p>
+          {latestEarnedCertificate && (
+            <div className="bg-green-50 dark:bg-darkMode-success/10 border border-green-200 dark:border-darkMode-success/30 rounded-lg p-4 mb-6">
+              <div className="flex items-center gap-2">
+                <PartyPopper className="w-5 h-5 text-green-600 dark:text-darkMode-success" />
+                <div>
+                  <p className="text-green-800 dark:text-darkMode-success font-medium">New Certificate Earned!</p>
+                  <p className="text-green-700 dark:text-darkMode-textSecondary text-sm">
+                    You've just earned the "{latestEarnedCertificate.title}" certificate. Add it to your professional profile!
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

@@ -261,6 +261,25 @@ export default function Achievements() {
 
   const unlockedCount = achievements.filter(a => a.unlocked).length
 
+  const latestUnlocked = useMemo(() => {
+    const unlocked = achievements
+      .filter(item => item.unlocked)
+      .map(item => ({
+        ...item,
+        unlockedAt: item.unlockedDate ? new Date(item.unlockedDate).getTime() : 0,
+      }))
+      .sort((a, b) => b.unlockedAt - a.unlockedAt)
+    return unlocked[0]
+  }, [achievements])
+
+  const badgeProgressTip = useMemo(() => {
+    const inProgress = badges
+      .filter(badge => !badge.earned)
+      .map(badge => ({ ...badge, progressValue: badge.progress ?? 0 }))
+      .sort((a, b) => b.progressValue - a.progressValue)
+    return inProgress[0]
+  }, [badges])
+
   if (loading) {
     return (
       <div className="p-6">
@@ -297,17 +316,19 @@ export default function Achievements() {
           </div>
 
           {/* Achievement Unlock Notification */}
-          <div className="bg-accent-goldLight/20 border border-accent-gold/30 rounded-lg p-4 mb-6 dark:bg-darkMode-accent/10 dark:border-darkMode-accent/30">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-6 h-6 text-accent-gold dark:text-darkMode-accent" />
-              <div>
-                <p className="text-yellow-800 dark:text-darkMode-accent font-medium">New Achievement Unlocked!</p>
-                <p className="text-yellow-700 dark:text-darkMode-textSecondary text-sm">
-                  "Week Warrior" - You've maintained a 7-day learning streak! Keep it up!
-                </p>
+          {latestUnlocked && (
+            <div className="bg-accent-goldLight/20 border border-accent-gold/30 rounded-lg p-4 mb-6 dark:bg-darkMode-accent/10 dark:border-darkMode-accent/30">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-6 h-6 text-accent-gold dark:text-darkMode-accent" />
+                <div>
+                  <p className="text-yellow-800 dark:text-darkMode-accent font-medium">New Achievement Unlocked!</p>
+                  <p className="text-yellow-700 dark:text-darkMode-textSecondary text-sm">
+                    "{latestUnlocked.title}"{latestUnlocked.description ? ` - ${latestUnlocked.description}` : ''}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Stats Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -536,17 +557,19 @@ export default function Achievements() {
             </div>
 
             {/* Badge Progress Feedback */}
-            <div className="mt-8 bg-blue-50 dark:bg-info/10 border border-blue-200 dark:border-info/30 rounded-lg p-4">
-              <div className="flex items-start gap-2">
-                <Target className="w-6 h-6 text-blue-600 dark:text-info" />
-                <div>
-                  <p className="text-blue-800 dark:text-info font-medium">Badge Progress Tip</p>
-                  <p className="text-blue-700 dark:text-darkMode-textSecondary text-sm">
-                    Focus on Algorithm Master badge by completing more computer science courses to unlock advanced problem-solving skills.
-                  </p>
+            {badgeProgressTip && (
+              <div className="mt-8 bg-blue-50 dark:bg-info/10 border border-blue-200 dark:border-info/30 rounded-lg p-4">
+                <div className="flex items-start gap-2">
+                  <Target className="w-6 h-6 text-blue-600 dark:text-info" />
+                  <div>
+                    <p className="text-blue-800 dark:text-info font-medium">Badge Progress Tip</p>
+                    <p className="text-blue-700 dark:text-darkMode-textSecondary text-sm">
+                      Focus on {badgeProgressTip.name} by completing more {badgeProgressTip.category.toLowerCase()} courses to unlock advanced skills.
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

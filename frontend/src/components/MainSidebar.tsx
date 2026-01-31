@@ -128,6 +128,14 @@ const MainSidebar = () => {
     return item.dropdown?.some(d => isActivePath(d.path)) || false
   }
 
+  const getActiveDropdownPath = (items: DropdownItem[] | undefined) => {
+    if (!items) return undefined
+    const matches = items
+      .filter(item => isActivePath(item.path))
+      .sort((a, b) => b.path.length - a.path.length)
+    return matches[0]?.path
+  }
+
   return (
     <aside
       className={`${
@@ -208,12 +216,16 @@ const MainSidebar = () => {
                   {/* Dropdown items */}
                   {!isCollapsed && expandedSections.includes(item.label) && item.dropdown && (
                     <ul className="mt-1 ml-4 pl-4 border-l-2 border-border-light dark:border-darkMode-border space-y-1">
-                      {item.dropdown.map((dropdownItem) => (
+                      {(() => {
+                        const activeDropdownPath = getActiveDropdownPath(item.dropdown)
+                        return item.dropdown.map((dropdownItem) => {
+                          const isActive = activeDropdownPath === dropdownItem.path
+                          return (
                         <li key={dropdownItem.path}>
                           <Link
                             to={dropdownItem.path}
                             className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                              isActivePath(dropdownItem.path)
+                              isActive
                                 ? 'bg-success/10 dark:bg-darkMode-success/20 text-success dark:text-darkMode-success font-medium border-l-2 border-success dark:border-darkMode-success -ml-[18px] pl-[26px]'
                                 : 'text-forest-sage dark:text-darkMode-textMuted hover:bg-primary/5 dark:hover:bg-darkMode-surfaceHover hover:text-primary dark:hover:text-darkMode-accent'
                             }`}
@@ -222,7 +234,9 @@ const MainSidebar = () => {
                             <span>{dropdownItem.label}</span>
                           </Link>
                         </li>
-                      ))}
+                          )
+                        })
+                      })()}
                     </ul>
                   )}
                 </div>
