@@ -236,8 +236,7 @@ class AuthService {
    */
   googleLogin(): void {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-    const redirectUri = `${apiUrl}/api/v1/auth/google/callback`;
+    const redirectUri = `${window.location.origin}/auth/google/callback`;
     const scope = 'email profile openid';
 
     const googleAuthUrl =
