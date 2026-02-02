@@ -29,13 +29,14 @@ const DailyGoalSettings: React.FC<DailyGoalSettingsProps> = ({
   compact = false,
   className = '',
 }) => {
-  const {
-    dailyLessonsGoal,
-    timeCommitment,
-    setDailyGoal,
-    setTimeCommitment,
-    goalHistory,
-  } = useGoalsStore()
+  // Select state values individually
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+  const timeCommitment = useGoalsStore((state) => state.timeCommitment)
+  const goalHistory = useGoalsStore((state) => state.goalHistory)
+
+  // Select actions individually
+  const setDailyGoal = useGoalsStore((state) => state.setDailyGoal)
+  const setTimeCommitment = useGoalsStore((state) => state.setTimeCommitment)
 
   const { profile } = useUserProfileStore()
 

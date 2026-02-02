@@ -5,9 +5,10 @@
  * Shows bonus XP earned, goal streak, and options to continue or finish.
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Target, Star, Trophy, Zap, ArrowRight, X, Sparkles } from 'lucide-react'
 import { useGoalsStore } from '../../stores/goalsStore'
+import type { DailyGoalProgress } from '../../stores/goalsStore'
 import { Link } from 'react-router-dom'
 
 interface GoalCompletedModalProps {
@@ -21,6 +22,27 @@ interface GoalCompletedModalProps {
  * Bonus XP for meeting daily goal
  */
 const GOAL_BONUS_XP = 25
+
+/**
+ * Get today's date string in ISO format
+ */
+function getTodayString(): string {
+  return new Date().toISOString().split('T')[0]
+}
+
+/**
+ * Create empty progress for a day
+ */
+function createEmptyProgress(date: string, goal: number): DailyGoalProgress {
+  return {
+    date,
+    goal,
+    completed: 0,
+    lessonsCompleted: [],
+    goalMet: false,
+    exceededBy: 0,
+  }
+}
 
 /**
  * Confetti particle component
@@ -42,13 +64,26 @@ const GoalCompletedModal: React.FC<GoalCompletedModalProps> = ({
   onClose,
   onContinue,
 }) => {
-  const { showGoalCompletedModal, dismissGoalCompletedModal, getTodayProgress, goalStreak } =
-    useGoalsStore()
+  // Select state values individually
+  const showGoalCompletedModal = useGoalsStore((state) => state.showGoalCompletedModal)
+  const todayProgress = useGoalsStore((state) => state.todayProgress)
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+  const goalStreak = useGoalsStore((state) => state.goalStreak)
+
+  // Select actions individually
+  const dismissGoalCompletedModal = useGoalsStore((state) => state.dismissGoalCompletedModal)
 
   const [xpAnimated, setXpAnimated] = useState(0)
   const [showConfetti, setShowConfetti] = useState(false)
 
-  const progress = getTodayProgress()
+  // Compute today's progress with fallback
+  const progress = useMemo(() => {
+    const today = getTodayString()
+    if (todayProgress && todayProgress.date === today) {
+      return todayProgress
+    }
+    return createEmptyProgress(today, dailyLessonsGoal)
+  }, [todayProgress, dailyLessonsGoal])
 
   // Animate XP counter
   useEffect(() => {

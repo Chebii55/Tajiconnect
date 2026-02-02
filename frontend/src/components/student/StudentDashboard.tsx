@@ -22,8 +22,8 @@ const StudentDashboard = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Initialize goals store
-  const { checkDailyProgress } = useGoalsStore()
+  // Initialize goals store - use individual selector to prevent infinite re-renders with persist middleware
+  const checkDailyProgress = useGoalsStore((state) => state.checkDailyProgress)
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser()

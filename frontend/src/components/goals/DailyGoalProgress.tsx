@@ -5,9 +5,10 @@
  * visual indicators (ring/bar) and motivational messaging.
  */
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Target, CheckCircle, Star, Trophy, ChevronRight } from 'lucide-react'
 import { useGoalsStore } from '../../stores/goalsStore'
+import type { DailyGoalProgress as DailyGoalProgressType } from '../../stores/goalsStore'
 import { Link } from 'react-router-dom'
 
 interface DailyGoalProgressProps {
@@ -34,6 +35,27 @@ function getRingState(completed: number, goal: number): RingState {
   if (completed > goal) return 'exceeded'
   if (completed >= goal) return 'complete'
   return 'progress'
+}
+
+/**
+ * Get today's date string in ISO format
+ */
+function getTodayString(): string {
+  return new Date().toISOString().split('T')[0]
+}
+
+/**
+ * Create empty progress for a day
+ */
+function createEmptyProgress(date: string, goal: number): DailyGoalProgressType {
+  return {
+    date,
+    goal,
+    completed: 0,
+    lessonsCompleted: [],
+    goalMet: false,
+    exceededBy: 0,
+  }
 }
 
 /**
@@ -109,8 +131,20 @@ const ProgressRing: React.FC<{
 export const DailyGoalProgressCompact: React.FC<{
   className?: string
 }> = ({ className = '' }) => {
-  const { getTodayProgress, goalStreak } = useGoalsStore()
-  const progress = getTodayProgress()
+  // Select state values individually
+  const todayProgress = useGoalsStore((state) => state.todayProgress)
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+  const goalStreak = useGoalsStore((state) => state.goalStreak)
+
+  // Compute today's progress with fallback
+  const progress = useMemo(() => {
+    const today = getTodayString()
+    if (todayProgress && todayProgress.date === today) {
+      return todayProgress
+    }
+    return createEmptyProgress(today, dailyLessonsGoal)
+  }, [todayProgress, dailyLessonsGoal])
+
   const percentage = Math.min(100, Math.round((progress.completed / progress.goal) * 100))
   const state = getRingState(progress.completed, progress.goal)
   const colors = ringColors[state]
@@ -154,8 +188,20 @@ const DailyGoalProgress: React.FC<DailyGoalProgressProps> = ({
   showAction = true,
   className = '',
 }) => {
-  const { getTodayProgress, goalStreak, dailyLessonsGoal } = useGoalsStore()
-  const progress = getTodayProgress()
+  // Select state values individually
+  const todayProgress = useGoalsStore((state) => state.todayProgress)
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+  const goalStreak = useGoalsStore((state) => state.goalStreak)
+
+  // Compute today's progress with fallback
+  const progress = useMemo(() => {
+    const today = getTodayString()
+    if (todayProgress && todayProgress.date === today) {
+      return todayProgress
+    }
+    return createEmptyProgress(today, dailyLessonsGoal)
+  }, [todayProgress, dailyLessonsGoal])
+
   const percentage = Math.min(100, Math.round((progress.completed / progress.goal) * 100))
   const state = getRingState(progress.completed, progress.goal)
   const colors = ringColors[state]

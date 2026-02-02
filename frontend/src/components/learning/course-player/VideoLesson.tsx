@@ -33,8 +33,9 @@ const VideoLesson: React.FC<VideoLessonProps> = ({
   // Track watch start time for time spent calculation
   const watchStartTime = useRef<number>(Date.now());
 
-  // Get video store state
-  const { currentVideo } = useVideoStore();
+  // Select video store state individually to prevent infinite loops with persist middleware
+  const currentTime = useVideoStore((state) => state.currentVideo.currentTime);
+  const updateProgress = useVideoStore((state) => state.updateProgress);
 
   // Handle video completion
   const handleComplete = useCallback(() => {
@@ -44,7 +45,7 @@ const VideoLesson: React.FC<VideoLessonProps> = ({
     // Emit video completed event for gamification
     eventBus.emit('video:completed', {
       videoId,
-      duration: currentVideo.currentTime || 0,
+      duration: currentTime || 0,
       watchedPercent: 100,
     });
 
@@ -58,14 +59,14 @@ const VideoLesson: React.FC<VideoLessonProps> = ({
 
     // Call parent onComplete callback
     onComplete?.();
-  }, [lessonId, courseId, videoId, currentVideo.currentTime, onComplete]);
+  }, [lessonId, courseId, videoId, currentTime, onComplete]);
 
   // Handle bookmark click to seek video
   const handleBookmarkClick = useCallback((timestamp: number) => {
     // The InteractiveVideoPlayer handles seeking internally via videoStore
     // We just need to trigger it - the player listens to currentVideo state
-    useVideoStore.getState().updateProgress(videoId, timestamp, currentVideo.currentTime || 0);
-  }, [videoId, currentVideo.currentTime]);
+    updateProgress(videoId, timestamp, currentTime || 0);
+  }, [videoId, currentTime, updateProgress]);
 
   // Map course content chapters to video player chapter format
   const chapters: VideoChapter[] = useMemo(() => {
@@ -108,7 +109,7 @@ const VideoLesson: React.FC<VideoLessonProps> = ({
         <VideoBookmarks
           videoId={videoId}
           onBookmarkClick={handleBookmarkClick}
-          currentTime={currentVideo.currentTime}
+          currentTime={currentTime}
           className="max-w-md"
         />
       </div>

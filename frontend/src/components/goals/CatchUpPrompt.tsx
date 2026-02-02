@@ -5,9 +5,10 @@
  * a quick lesson suggestion or option to skip the day.
  */
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Clock, PlayCircle, SkipForward, X, AlertCircle, Sparkles } from 'lucide-react'
 import { useGoalsStore } from '../../stores/goalsStore'
+import type { DailyGoalProgress } from '../../stores/goalsStore'
 import { Link } from 'react-router-dom'
 
 interface CatchUpPromptProps {
@@ -54,6 +55,27 @@ function getUrgencyLevel(): 'normal' | 'urgent' | 'critical' {
   return 'normal'
 }
 
+/**
+ * Get today's date string in ISO format
+ */
+function getTodayString(): string {
+  return new Date().toISOString().split('T')[0]
+}
+
+/**
+ * Create empty progress for a day
+ */
+function createEmptyProgress(date: string, goal: number): DailyGoalProgress {
+  return {
+    date,
+    goal,
+    completed: 0,
+    lessonsCompleted: [],
+    goalMet: false,
+    exceededBy: 0,
+  }
+}
+
 const CatchUpPrompt: React.FC<CatchUpPromptProps> = ({
   quickLesson,
   hasStreakFreeze = false,
@@ -61,11 +83,23 @@ const CatchUpPrompt: React.FC<CatchUpPromptProps> = ({
   onDismiss,
   className = '',
 }) => {
-  const { getTodayProgress, dailyLessonsGoal, goalStreak } = useGoalsStore()
+  // Select state values individually
+  const todayProgress = useGoalsStore((state) => state.todayProgress)
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+  const goalStreak = useGoalsStore((state) => state.goalStreak)
+
   const [dismissed, setDismissed] = useState(false)
   const [showPrompt, setShowPrompt] = useState(false)
 
-  const progress = getTodayProgress()
+  // Compute today's progress with fallback
+  const progress = useMemo(() => {
+    const today = getTodayString()
+    if (todayProgress && todayProgress.date === today) {
+      return todayProgress
+    }
+    return createEmptyProgress(today, dailyLessonsGoal)
+  }, [todayProgress, dailyLessonsGoal])
+
   const remaining = Math.max(0, progress.goal - progress.completed)
   const urgency = getUrgencyLevel()
 
@@ -231,10 +265,20 @@ const CatchUpPrompt: React.FC<CatchUpPromptProps> = ({
  * Floating Catch-Up Prompt (for bottom of screen)
  */
 export const CatchUpPromptFloating: React.FC<CatchUpPromptProps> = (props) => {
-  const { getTodayProgress } = useGoalsStore()
+  // Select state values individually
+  const todayProgress = useGoalsStore((state) => state.todayProgress)
+  const dailyLessonsGoal = useGoalsStore((state) => state.dailyLessonsGoal)
+
   const [visible, setVisible] = useState(false)
 
-  const progress = getTodayProgress()
+  // Compute today's progress with fallback
+  const progress = useMemo(() => {
+    const today = getTodayString()
+    if (todayProgress && todayProgress.date === today) {
+      return todayProgress
+    }
+    return createEmptyProgress(today, dailyLessonsGoal)
+  }, [todayProgress, dailyLessonsGoal])
 
   useEffect(() => {
     const hour = getCurrentHour()

@@ -22,7 +22,12 @@ export const LevelProgress = ({
   size = 'md',
   onClick,
 }: LevelProgressProps) => {
-  const { level, currentXP, xpToNextLevel, totalXP, progressPercent } = useGamificationStore()
+  // Use individual selectors to prevent infinite re-renders with persist middleware
+  const level = useGamificationStore((state) => state.level)
+  const currentXP = useGamificationStore((state) => state.currentXP)
+  const xpToNextLevel = useGamificationStore((state) => state.xpToNextLevel)
+  const totalXP = useGamificationStore((state) => state.totalXP)
+  const progressPercent = useGamificationStore((state) => state.progressPercent)
   const [isNearLevelUp, setIsNearLevelUp] = useState(false)
   const [isPulsing, setIsPulsing] = useState(false)
 

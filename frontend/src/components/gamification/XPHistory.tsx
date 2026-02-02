@@ -68,7 +68,9 @@ export const XPHistory = ({
   showSummary = true,
   compact = false,
 }: XPHistoryProps) => {
-  const { xpHistory, totalXP } = useGamificationStore()
+  // Use individual selectors to prevent infinite re-renders with persist middleware
+  const xpHistory = useGamificationStore((state) => state.xpHistory)
+  const totalXP = useGamificationStore((state) => state.totalXP)
   const [dateFilter, setDateFilter] = useState<DateFilter>('all')
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all')
   const [isExpanded, setIsExpanded] = useState(!compact)

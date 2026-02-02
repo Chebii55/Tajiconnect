@@ -5,7 +5,7 @@
  * Shows timestamp, label, and delete button for each bookmark.
  */
 
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Bookmark, Trash2 } from 'lucide-react'
 import { useVideoStore } from '../../stores/videoStore'
 import { formatTimestamp } from '../../types/video'
@@ -23,8 +23,15 @@ const VideoBookmarks: React.FC<VideoBookmarksProps> = ({
   currentTime = 0,
   className = '',
 }) => {
-  const bookmarks = useVideoStore((state) => state.getBookmarks(videoId))
+  // Select state and actions individually to prevent infinite loops with persist middleware
+  const bookmarksMap = useVideoStore((state) => state.bookmarks)
   const removeBookmark = useVideoStore((state) => state.removeBookmark)
+
+  // Derive bookmarks for this video from the bookmarks map
+  const bookmarks = useMemo(
+    () => bookmarksMap[videoId] || [],
+    [bookmarksMap, videoId]
+  )
 
   const handleDelete = useCallback(
     (e: React.MouseEvent, bookmarkId: string) => {
