@@ -41,6 +41,16 @@
               "content": "What is Social-Emotional Learning?"
             },
             {
+              "type": "video",
+              "videoUrl": "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+              "chapters": [
+                { "id": "ch1", "title": "Introduction", "startTime": 0 },
+                { "id": "ch2", "title": "Main Scene", "startTime": 30 },
+                { "id": "ch3", "title": "Adventure Begins", "startTime": 90 },
+                { "id": "ch4", "title": "Conclusion", "startTime": 180 }
+              ]
+            },
+            {
               "type": "text",
               "content": "Social-Emotional Learning (SEL) is the process through which we understand and manage our emotions, set and achieve positive goals, feel and show empathy for others, establish and maintain positive relationships, and make responsible decisions."
             },
