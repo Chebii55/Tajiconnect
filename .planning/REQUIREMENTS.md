@@ -145,16 +145,16 @@ Explicitly excluded. Documented to prevent scope creep.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| GAM-01 | Phase 1 | Pending |
-| GAM-02 | Phase 1 | Pending |
-| GAM-03 | Phase 1 | Pending |
-| GAM-04 | Phase 1 | Pending |
-| GAM-05 | Phase 1 | Pending |
-| GAM-06 | Phase 1 | Pending |
-| MIC-01 | Phase 1 | Pending |
-| MIC-02 | Phase 1 | Pending |
-| MIC-03 | Phase 1 | Pending |
-| INF-03 | Phase 1 | Pending |
+| GAM-01 | Phase 1 | Complete |
+| GAM-02 | Phase 1 | Complete |
+| GAM-03 | Phase 1 | Complete |
+| GAM-04 | Phase 1 | Complete |
+| GAM-05 | Phase 1 | Complete |
+| GAM-06 | Phase 1 | Complete |
+| MIC-01 | Phase 1 | Complete |
+| MIC-02 | Phase 1 | Complete |
+| MIC-03 | Phase 1 | Complete |
+| INF-03 | Phase 1 | Complete |
 | VID-01 | Phase 2 | Pending |
 | VID-02 | Phase 2 | Pending |
 | VID-03 | Phase 2 | Pending |
