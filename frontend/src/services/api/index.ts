@@ -117,6 +117,9 @@ export type {
   ActivityItem,
 } from './ai';
 
+// Gamification Service
+export { gamificationService } from './gamification';
+
 // Types
 export type {
   LearnerArchetype,

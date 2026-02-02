@@ -5,6 +5,7 @@ const jsonServer = require('json-server');
 const express = require('express');
 const CareerGenerationService = require('./services/careerGenerationService');
 const OnboardingIntegrationService = require('./services/onboardingIntegrationService');
+const { createGamificationRoutes } = require('./routes/gamification');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
@@ -659,6 +660,10 @@ server.use('/api/users/:userId/skills-gap/:careerPathId', (req, res, next) => {
   }
 });
 
+// Gamification routes
+const gamificationRouter = createGamificationRoutes(router);
+server.use('/api/v1/gamification', gamificationRouter);
+
 // Use the router with /api prefix
 server.use('/api', router);
 
@@ -687,4 +692,9 @@ server.listen(PORT, () => {
   console.log(`   - POST /api/onboarding/profile (Save Onboarding Profile)`);
   console.log(`   - GET /api/onboarding/profile/:userId (Get Onboarding Profile)`);
   console.log(`   - GET /api/users/:id/skills-gap/:careerPathId`);
+  console.log(`   - GET /api/v1/gamification/xp (Get XP & Level)`);
+  console.log(`   - POST /api/v1/gamification/xp (Record XP Gain)`);
+  console.log(`   - GET /api/v1/gamification/xp/history (XP History)`);
+  console.log(`   - POST /api/v1/gamification/level-check (Check Level Up)`);
+  console.log(`   - POST /api/v1/gamification/daily-login (Daily Login)`);
 });

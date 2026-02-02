@@ -12,9 +12,12 @@ import {
   X,
   LogOut,
   User,
-  ChevronDown
+  ChevronDown,
+  Star
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
+import { LevelProgress } from './gamification/LevelProgress'
+import { useGamificationStore } from '../stores/gamificationStore'
 
 // Public routes where user UI should not show
 const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password']
@@ -141,6 +144,15 @@ const Navbar = () => {
 
             {/* Right side actions */}
             <div className="flex items-center space-x-2">
+              {/* Level Progress - only show when logged in */}
+              {isLoggedIn && (
+                <LevelProgress
+                  size="sm"
+                  showDetails={false}
+                  onClick={() => navigate('/student/profile')}
+                />
+              )}
+
               {/* Notifications - only show when logged in */}
               {isLoggedIn && (
                 <button

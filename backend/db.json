@@ -692,5 +692,141 @@
       ],
       "createdAt": "2024-01-01T00:00:00Z"
     }
+  ],
+  "gamification": [
+    {
+      "id": "1",
+      "userId": "1",
+      "totalXP": 450,
+      "currentStreak": 5,
+      "longestStreak": 7,
+      "lastActivityDate": "2026-02-02",
+      "streakFreezes": 1,
+      "xpHistory": [
+        {
+          "amount": 15,
+          "source": "lesson",
+          "lessonId": "intro-js-1",
+          "courseId": "1",
+          "timestamp": "2026-02-02T10:30:00Z"
+        },
+        {
+          "amount": 50,
+          "source": "quiz",
+          "courseId": "1",
+          "timestamp": "2026-02-02T11:00:00Z"
+        },
+        {
+          "amount": 30,
+          "source": "daily_login",
+          "streakDay": 5,
+          "timestamp": "2026-02-02T09:00:00Z"
+        },
+        {
+          "amount": 12,
+          "source": "lesson",
+          "lessonId": "css-basics-2",
+          "courseId": "1",
+          "timestamp": "2026-02-01T14:15:00Z"
+        },
+        {
+          "amount": 10,
+          "source": "lesson",
+          "lessonId": "html-forms-3",
+          "courseId": "1",
+          "timestamp": "2026-02-01T10:00:00Z"
+        }
+      ],
+      "unlockedBadges": ["first-lesson", "streak-starter"]
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "totalXP": 1250,
+      "currentStreak": 12,
+      "longestStreak": 12,
+      "lastActivityDate": "2026-02-02",
+      "streakFreezes": 2,
+      "xpHistory": [
+        {
+          "amount": 100,
+          "source": "quiz",
+          "courseId": "2",
+          "timestamp": "2026-02-02T15:00:00Z"
+        },
+        {
+          "amount": 5,
+          "source": "daily_login",
+          "streakDay": 12,
+          "timestamp": "2026-02-02T08:00:00Z"
+        }
+      ],
+      "unlockedBadges": ["first-lesson", "streak-starter", "quiz-master", "week-warrior"]
+    }
+  ],
+  "badges": [
+    {
+      "id": "first-lesson",
+      "name": "First Steps",
+      "description": "Complete your first lesson",
+      "icon": "book-open",
+      "category": "achievement",
+      "rarity": "common",
+      "xpReward": 10
+    },
+    {
+      "id": "streak-starter",
+      "name": "Streak Starter",
+      "description": "Maintain a 3-day learning streak",
+      "icon": "flame",
+      "category": "streak",
+      "rarity": "common",
+      "xpReward": 15
+    },
+    {
+      "id": "week-warrior",
+      "name": "Week Warrior",
+      "description": "Maintain a 7-day learning streak",
+      "icon": "flame",
+      "category": "streak",
+      "rarity": "rare",
+      "xpReward": 50
+    },
+    {
+      "id": "quiz-master",
+      "name": "Quiz Master",
+      "description": "Score 100% on any quiz",
+      "icon": "check-circle",
+      "category": "mastery",
+      "rarity": "rare",
+      "xpReward": 25
+    },
+    {
+      "id": "course-completer",
+      "name": "Course Completer",
+      "description": "Complete your first course",
+      "icon": "graduation-cap",
+      "category": "achievement",
+      "rarity": "rare",
+      "xpReward": 100
+    },
+    {
+      "id": "month-master",
+      "name": "Month Master",
+      "description": "Maintain a 30-day learning streak",
+      "icon": "calendar",
+      "category": "streak",
+      "rarity": "epic",
+      "xpReward": 150
+    },
+    {
+      "id": "centurion",
+      "name": "Centurion",
+      "description": "Maintain a 100-day learning streak",
+      "icon": "trophy",
+      "category": "streak",
+      "rarity": "legendary",
+      "xpReward": 500
+    }
   ]
 }

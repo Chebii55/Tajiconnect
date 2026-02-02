@@ -7,6 +7,7 @@ import { TrainerProvider } from './contexts/TrainerContext'
 import { RecommendationsProvider } from './contexts/RecommendationsContext'
 import { LearningPathProvider } from './contexts/LearningPathContext'
 import { RealTimeProvider } from './contexts/RealTimeContext'
+import { GamificationProvider } from './components/gamification'
 import { useGamificationStore, initializeGamificationListeners } from './stores/gamificationStore'
 import { useUserProfileStore } from './stores/userProfileStore'
 import './App.css'
@@ -46,9 +47,11 @@ function App() {
           <RecommendationsProvider>
             <LearningPathProvider>
               <RealTimeProvider>
-                <StoreInitializer />
-                <RouterProvider router={router} />
-                {/* <PerformanceMonitor /> */}
+                <GamificationProvider>
+                  <StoreInitializer />
+                  <RouterProvider router={router} />
+                  {/* <PerformanceMonitor /> */}
+                </GamificationProvider>
               </RealTimeProvider>
             </LearningPathProvider>
           </RecommendationsProvider>
