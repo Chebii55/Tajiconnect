@@ -66,7 +66,8 @@ export const SCORE_THRESHOLDS = {
  * Calculate XP earned for completing a lesson
  */
 export function calculateLessonXP(score: number, streakDays: number = 0): number {
-  let baseXP = XP_VALUES.LESSON_COMPLETE
+  const baseValue = XP_VALUES.LESSON_COMPLETE
+  let baseXP = baseValue as number
 
   // Performance bonus based on score
   if (score >= SCORE_THRESHOLDS.PERFECT) {

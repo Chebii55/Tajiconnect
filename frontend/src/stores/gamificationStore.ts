@@ -17,8 +17,8 @@ import {
   isMilestoneDay,
   getMilestoneInfo,
   getStreakMultiplier,
-  isToday,
-  isYesterday,
+  isToday as isTodayCheck,
+  isYesterday as isYesterdayCheck,
   getTodayDateString,
   type MilestoneDay,
   type StreakUpdate,
@@ -158,39 +158,10 @@ const initialState = {
 }
 
 /**
- * Check if a date is today
- */
-function isToday(dateString: string | null): boolean {
-  if (!dateString) return false
-  const date = new Date(dateString)
-  const today = new Date()
-  return (
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate()
-  )
-}
-
-/**
- * Check if a date is yesterday
- */
-function isYesterday(dateString: string | null): boolean {
-  if (!dateString) return false
-  const date = new Date(dateString)
-  const yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1)
-  return (
-    date.getFullYear() === yesterday.getFullYear() &&
-    date.getMonth() === yesterday.getMonth() &&
-    date.getDate() === yesterday.getDate()
-  )
-}
-
-/**
- * Get today's date string in ISO format
+ * Get today's date string in ISO format (local alias)
  */
 function getTodayString(): string {
-  return new Date().toISOString().split('T')[0]
+  return getTodayDateString()
 }
 
 export const useGamificationStore = create<GamificationState>()(
@@ -259,17 +230,17 @@ export const useGamificationStore = create<GamificationState>()(
           const today = getTodayDateString()
 
           // Reset freeze used today flag if it's a new day
-          if (!isToday(state.freezeActiveDate)) {
+          if (!isTodayCheck(state.freezeActiveDate)) {
             set({ freezeUsedToday: false })
           }
 
-          if (isToday(state.lastActivityDate)) {
+          if (isTodayCheck(state.lastActivityDate)) {
             // Already active today, no change needed
             set({ isStreakAtRisk: false })
             return
           }
 
-          if (isYesterday(state.lastActivityDate)) {
+          if (isYesterdayCheck(state.lastActivityDate)) {
             // Check if after warning hour (8pm)
             const currentHour = new Date().getHours()
             const isAtRisk = currentHour >= 20 && state.currentStreak > 0
@@ -278,7 +249,7 @@ export const useGamificationStore = create<GamificationState>()(
           }
 
           // Check if freeze was used yesterday (streak protected)
-          if (isYesterday(state.freezeActiveDate)) {
+          if (isYesterdayCheck(state.freezeActiveDate)) {
             const currentHour = new Date().getHours()
             const isAtRisk = currentHour >= 20 && state.currentStreak > 0
             set({ isStreakAtRisk: isAtRisk })
@@ -286,7 +257,7 @@ export const useGamificationStore = create<GamificationState>()(
           }
 
           // Streak might be broken
-          if (state.lastActivityDate && !isToday(state.lastActivityDate) && !isYesterday(state.lastActivityDate)) {
+          if (state.lastActivityDate && !isTodayCheck(state.lastActivityDate) && !isYesterdayCheck(state.lastActivityDate)) {
             if (state.currentStreak > 0) {
               // Streak is broken
               const previousStreak = state.currentStreak
@@ -351,12 +322,12 @@ export const useGamificationStore = create<GamificationState>()(
           const today = getTodayString()
 
           // Already logged in today
-          if (isToday(state.lastActivityDate)) return
+          if (isTodayCheck(state.lastActivityDate)) return
 
           let newStreak = 1
           let isNewRecord = false
 
-          if (isYesterday(state.lastActivityDate)) {
+          if (isYesterdayCheck(state.lastActivityDate)) {
             // Continue streak
             newStreak = state.currentStreak + 1
           }
@@ -389,6 +360,96 @@ export const useGamificationStore = create<GamificationState>()(
             currentStreak: newStreak,
             isNewRecord,
             streakFreezes: state.streakFreezes,
+          })
+        },
+
+        /**
+         * Record activity and update streak
+         */
+        recordActivity: (): StreakUpdate | null => {
+          const state = get()
+          const today = getTodayString()
+
+          // Already active today
+          if (isTodayCheck(state.lastActivityDate)) {
+            return null
+          }
+
+          let newStreak = 1
+          let freezesAwarded = 0
+          let badgeAwarded: string | null = null
+
+          if (isYesterdayCheck(state.lastActivityDate)) {
+            // Continue streak
+            newStreak = state.currentStreak + 1
+          } else if (state.freezeActiveDate && isYesterdayCheck(state.freezeActiveDate)) {
+            // Freeze protected yesterday
+            newStreak = state.currentStreak + 1
+          }
+
+          const isNewRecord = newStreak > state.longestStreak
+          const longestStreak = Math.max(state.longestStreak, newStreak)
+
+          // Check for milestone
+          let milestone: MilestoneDay | null = null
+          if (isMilestoneDay(newStreak)) {
+            milestone = newStreak
+            const milestoneInfo = getMilestoneInfo(newStreak)
+            if (milestoneInfo) {
+              freezesAwarded = milestoneInfo.freezeReward
+              badgeAwarded = milestoneInfo.badgeId
+            }
+          }
+
+          set({
+            currentStreak: newStreak,
+            longestStreak,
+            lastActivityDate: today,
+            isStreakAtRisk: false,
+            pendingMilestone: milestone,
+            showMilestoneModal: milestone !== null,
+            streakFreezes: Math.min(state.streakFreezes + freezesAwarded, 5),
+          })
+
+          const update: StreakUpdate = {
+            previousStreak: state.currentStreak,
+            newStreak,
+            isNewRecord,
+            milestone,
+            xpMultiplier: getStreakMultiplier(newStreak),
+            freezesAwarded,
+            badgeAwarded,
+          }
+
+          return update
+        },
+
+        /**
+         * Award streak freezes to user
+         */
+        awardFreezes: (count, reason) => {
+          const state = get()
+          const newTotal = Math.min(
+            state.streakFreezes + count,
+            STREAK_CONFIG.MAX_FREEZES
+          )
+          const awarded = newTotal - state.streakFreezes
+
+          if (awarded > 0) {
+            set({ streakFreezes: newTotal })
+            console.log(`[Gamification] Awarded ${awarded} freeze(s): ${reason}`)
+          }
+
+          return awarded
+        },
+
+        /**
+         * Close milestone celebration modal
+         */
+        closeMilestoneModal: () => {
+          set({
+            showMilestoneModal: false,
+            pendingMilestone: null,
           })
         },
 
@@ -543,6 +604,14 @@ export const useGamificationStore = create<GamificationState>()(
             streakFreezes: state.streakFreezes,
             isAtRisk: state.isStreakAtRisk,
           }
+        },
+
+        /**
+         * Get current streak multiplier
+         */
+        getStreakMultiplier: () => {
+          const state = get()
+          return getStreakMultiplier(state.currentStreak)
         },
 
         /**
