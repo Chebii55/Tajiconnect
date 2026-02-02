@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Calendar, UserPlus, AlertCircle, CheckCircle, Loader, Shield, ChevronDown, ChevronUp } from 'lucide-react';
 import { authService } from '../../services/api/auth';
+import { useOnboardingDraft } from '../../hooks/useOnboardingDraft';
 
 // ============================================
 // TYPE DEFINITIONS
@@ -109,7 +110,8 @@ const useForm = (initialState: FormData) => {
     formData,
     errors,
     handleChange,
-    validate
+    validate,
+    setFormData
   };
 };
 
@@ -119,7 +121,8 @@ const Register: React.FC = () => {
     formData,
     errors,
     handleChange,
-    validate
+    validate,
+    setFormData
   } = useForm({
     firstName: '',
     lastName: '',
@@ -139,12 +142,10 @@ const Register: React.FC = () => {
     message: string;
   } | null>(null);
 
-  const persistOnboardingDraft = () => {
-    localStorage.setItem('userEmail', formData.email);
-    localStorage.setItem('userFirstName', formData.firstName);
-    localStorage.setItem('userLastName', formData.lastName);
-    localStorage.setItem('userDateOfBirth', formData.dateOfBirth);
-  };
+  useOnboardingDraft({
+    formData,
+    setFormData
+  });
 
   const handleGoogleRegister = () => {
     setIsGoogleLoading(true);
@@ -194,7 +195,6 @@ const Register: React.FC = () => {
 
     setIsLoading(true);
     setNotification(null);
-    persistOnboardingDraft();
 
     try {
       // Use the auth service for registration
