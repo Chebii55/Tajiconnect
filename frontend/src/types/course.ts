@@ -1,12 +1,39 @@
 // Course Learning System Type Definitions
 
+/**
+ * Video chapter for navigation within video content
+ */
+export interface VideoChapterBlock {
+  id: string;
+  title: string;
+  startTime: number; // in seconds
+  endTime?: number; // in seconds (optional, defaults to next chapter or end)
+}
+
+/**
+ * Quiz trigger point within video content
+ */
+export interface VideoQuizTriggerBlock {
+  id: string;
+  timestamp: number; // in seconds
+  quizId: string;
+  required: boolean; // must answer to continue
+}
+
+/**
+ * Base content block types for lessons
+ */
 export interface ContentBlock {
-  type: 'text' | 'heading' | 'list' | 'image' | 'quote' | 'highlight';
+  type: 'text' | 'heading' | 'list' | 'image' | 'quote' | 'highlight' | 'video';
   content?: string;
   items?: string[];
   src?: string;
   alt?: string;
   caption?: string;
+  // Video-specific fields
+  videoUrl?: string;
+  chapters?: VideoChapterBlock[];
+  quizTriggers?: VideoQuizTriggerBlock[];
 }
 
 export interface Lesson {
