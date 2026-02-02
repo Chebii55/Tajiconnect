@@ -6,6 +6,8 @@ const express = require('express');
 const CareerGenerationService = require('./services/careerGenerationService');
 const OnboardingIntegrationService = require('./services/onboardingIntegrationService');
 const { createGamificationRoutes } = require('./routes/gamification');
+const { createLeaderboardRoutes } = require('./routes/leaderboard');
+const { createBadgeRoutes } = require('./routes/badges');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
@@ -664,6 +666,14 @@ server.use('/api/users/:userId/skills-gap/:careerPathId', (req, res, next) => {
 const gamificationRouter = createGamificationRoutes(router);
 server.use('/api/v1/gamification', gamificationRouter);
 
+// Leaderboard routes
+const leaderboardRouter = createLeaderboardRoutes(router);
+server.use('/api/v1/leaderboard', leaderboardRouter);
+
+// Badge routes
+const badgeRouter = createBadgeRoutes(router);
+server.use('/api/v1/badges', badgeRouter);
+
 // Use the router with /api prefix
 server.use('/api', router);
 
@@ -697,4 +707,15 @@ server.listen(PORT, () => {
   console.log(`   - GET /api/v1/gamification/xp/history (XP History)`);
   console.log(`   - POST /api/v1/gamification/level-check (Check Level Up)`);
   console.log(`   - POST /api/v1/gamification/daily-login (Daily Login)`);
+  console.log(`   - GET /api/v1/leaderboard (Get User Leaderboard)`);
+  console.log(`   - GET /api/v1/leaderboard/:league (Get Specific League)`);
+  console.log(`   - GET /api/v1/leaderboard/user/status (Get User Status)`);
+  console.log(`   - POST /api/v1/leaderboard/opt-out (Toggle Opt-Out)`);
+  console.log(`   - GET /api/v1/leaderboard/user/history (Get History)`);
+  console.log(`   - POST /api/v1/leaderboard/xp (Add Weekly XP)`);
+  console.log(`   - GET /api/v1/badges (Get All Badges)`);
+  console.log(`   - GET /api/v1/badges/user (Get User Badges)`);
+  console.log(`   - POST /api/v1/badges/unlock (Unlock Badge)`);
+  console.log(`   - GET /api/v1/badges/:id/progress (Get Badge Progress)`);
+  console.log(`   - GET /api/v1/badges/stats (Get Badge Stats)`);
 });

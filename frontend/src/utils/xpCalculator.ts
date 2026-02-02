@@ -27,14 +27,30 @@ export const XP_VALUES = {
 
 /**
  * Streak bonus configuration
- * Bonus caps at 100% (10 streak days)
+ * New tiered bonus system:
+ * - 1-6 days: 0% bonus
+ * - 7-13 days: 10% bonus
+ * - 14-29 days: 25% bonus
+ * - 30-99 days: 50% bonus
+ * - 100+ days: 100% bonus
  */
 export const STREAK_CONFIG = {
-  BONUS_MULTIPLIER_PER_DAY: 0.1, // +10% per streak day
+  BONUS_MULTIPLIER_PER_DAY: 0.1, // Legacy - kept for backward compatibility
   MAX_BONUS_MULTIPLIER: 1.0, // Max 100% bonus
   FREEZE_COST: 50, // XP cost to purchase streak freeze
-  MAX_FREEZES: 3, // Maximum stored streak freezes
+  MAX_FREEZES: 5, // Maximum stored streak freezes (increased from 3)
 } as const
+
+/**
+ * New tiered streak bonus system
+ */
+export const STREAK_BONUS_TIERS = [
+  { minDays: 100, bonusPercent: 100 },
+  { minDays: 30, bonusPercent: 50 },
+  { minDays: 14, bonusPercent: 25 },
+  { minDays: 7, bonusPercent: 10 },
+  { minDays: 1, bonusPercent: 0 },
+] as const
 
 /**
  * Score thresholds for bonus XP
@@ -113,31 +129,40 @@ export function calculateDailyLoginXP(consecutiveDays: number): number {
 }
 
 /**
+ * Get tiered streak bonus percentage
+ * Uses new tiered system instead of linear scaling
+ */
+export function getTieredStreakBonusPercent(streakDays: number): number {
+  if (streakDays <= 0) return 0
+
+  for (const tier of STREAK_BONUS_TIERS) {
+    if (streakDays >= tier.minDays) {
+      return tier.bonusPercent
+    }
+  }
+
+  return 0
+}
+
+/**
  * Apply streak bonus to base XP
+ * Uses new tiered bonus system
  */
 export function applyStreakBonus(baseXP: number, streakDays: number): number {
   if (streakDays <= 0) return baseXP
 
-  const bonusMultiplier = Math.min(
-    streakDays * STREAK_CONFIG.BONUS_MULTIPLIER_PER_DAY,
-    STREAK_CONFIG.MAX_BONUS_MULTIPLIER
-  )
+  const bonusPercent = getTieredStreakBonusPercent(streakDays)
+  const bonusMultiplier = bonusPercent / 100
 
   return Math.floor(baseXP * (1 + bonusMultiplier))
 }
 
 /**
  * Get the bonus percentage for a given streak
+ * Alias for getTieredStreakBonusPercent for backward compatibility
  */
 export function getStreakBonusPercent(streakDays: number): number {
-  if (streakDays <= 0) return 0
-
-  const bonus = Math.min(
-    streakDays * STREAK_CONFIG.BONUS_MULTIPLIER_PER_DAY * 100,
-    STREAK_CONFIG.MAX_BONUS_MULTIPLIER * 100
-  )
-
-  return Math.floor(bonus)
+  return getTieredStreakBonusPercent(streakDays)
 }
 
 /**

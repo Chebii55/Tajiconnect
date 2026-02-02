@@ -60,6 +60,9 @@ import Achievements from './components/achievements/Achievements';
 import Badges from './components/achievements/Badges';
 import Certificates from './components/achievements/Certificates';
 
+// Gamification
+import Leaderboard from './components/gamification/Leaderboard';
+
 // Legal - All exist
 import PrivacyPolicy from './components/legal/PrivacyPolicy';
 import TermsOfService from './components/legal/TermsOfService';
@@ -200,13 +203,21 @@ export const router = createBrowserRouter([
           </ProtectedRoute>
         ) 
       },
-      { 
-        path: '/student/milestones', 
+      {
+        path: '/student/milestones',
         element: (
           <ProtectedRoute requiredRole="student">
             <MilestoneTracker />
           </ProtectedRoute>
-        ) 
+        )
+      },
+      {
+        path: '/student/leaderboard',
+        element: (
+          <ProtectedRoute requiredRole="student">
+            <Leaderboard userId="demo-user" />
+          </ProtectedRoute>
+        )
       },
 
       // Assessments (Protected)

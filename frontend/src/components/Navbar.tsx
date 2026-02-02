@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import MainSidebar from './MainSidebar'
 import { LevelProgress } from './gamification/LevelProgress'
+import { StreakDisplay } from './gamification/StreakDisplay'
 import { useGamificationStore } from '../stores/gamificationStore'
 
 // Public routes where user UI should not show
@@ -144,6 +145,14 @@ const Navbar = () => {
 
             {/* Right side actions */}
             <div className="flex items-center space-x-2">
+              {/* Streak Display - only show when logged in */}
+              {isLoggedIn && (
+                <StreakDisplay
+                  compact={true}
+                  onClick={() => navigate('/student/profile')}
+                />
+              )}
+
               {/* Level Progress - only show when logged in */}
               {isLoggedIn && (
                 <LevelProgress

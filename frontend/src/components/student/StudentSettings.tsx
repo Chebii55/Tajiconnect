@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import LeaderboardSettings from '../settings/LeaderboardSettings'
 
 interface NotificationSettings {
   emailNotifications: boolean
@@ -26,7 +27,7 @@ interface AccountSettings {
 }
 
 const StudentSettings = () => {
-  const [activeTab, setActiveTab] = useState<'account' | 'notifications' | 'privacy' | 'security'>('account')
+  const [activeTab, setActiveTab] = useState<'account' | 'notifications' | 'privacy' | 'security' | 'competition'>('account')
 
   const [notificationSettings, setNotificationSettings] = useState<NotificationSettings>({
     emailNotifications: true,
@@ -113,7 +114,8 @@ const StudentSettings = () => {
     { id: 'account', label: 'Account', icon: '⚙️' },
     { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'privacy', label: 'Privacy', icon: '🔒' },
-    { id: 'security', label: 'Security', icon: '🛡️' }
+    { id: 'security', label: 'Security', icon: '🛡️' },
+    { id: 'competition', label: 'Competition', icon: '🏆' }
   ] as const
 
   return (
@@ -455,8 +457,16 @@ const StudentSettings = () => {
                 </div>
               )}
 
+              {/* Competition Settings */}
+              {activeTab === 'competition' && (
+                <div className="p-6">
+                  <h2 className="text-2xl font-semibold text-neutral-dark dark:text-darkMode-text mb-6">Competition Settings</h2>
+                  <LeaderboardSettings userId={localStorage.getItem('userId') || 'demo-user'} />
+                </div>
+              )}
+
               {/* Save Button */}
-              {activeTab !== 'security' && (
+              {activeTab !== 'security' && activeTab !== 'competition' && (
                 <div className="border-t px-6 py-4">
                   <button
                     onClick={handleSave}
