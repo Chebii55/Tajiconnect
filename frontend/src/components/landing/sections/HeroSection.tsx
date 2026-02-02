@@ -164,11 +164,11 @@ const HeroSection = ({
         className="absolute inset-0 -z-20"
         style={prefersReducedMotion ? {} : { y: backgroundY }}
       >
-        {/* Base gradient from primary green to gold */}
+        {/* Base gradient from primary green to gold - darkened for better text contrast */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(135deg, #1E4F2A 0%, #2a6b3a 25%, #3A7D44 50%, #729B79 75%, #FDC500 100%)',
+            background: 'linear-gradient(135deg, #0d2814 0%, #1E4F2A 25%, #2a6b3a 50%, #3A7D44 75%, #4a8a54 100%)',
           }}
         />
 
@@ -268,13 +268,13 @@ const HeroSection = ({
       >
         {/* Live Badge with Learner Count */}
         <motion.div variants={itemVariants} className="mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-sm font-medium dark:bg-darkMode-surface/50 dark:border-darkMode-border shadow-lg">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-dark/90 backdrop-blur-md border border-white/25 text-white text-sm font-medium dark:bg-darkMode-surface/50 dark:border-darkMode-border shadow-lg">
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-gold opacity-75 dark:bg-darkMode-accent" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-gold dark:bg-darkMode-accent" />
             </span>
             <Sparkles className="w-4 h-4 text-accent-gold dark:text-darkMode-accent" />
-            <span className="dark:text-darkMode-text">
+            <span className="text-white dark:text-darkMode-text">
               Join <strong className="text-accent-gold dark:text-darkMode-accent">{formatNumber(displayCount)}+</strong> learners across Africa
             </span>
           </div>
@@ -284,7 +284,7 @@ const HeroSection = ({
         <motion.div variants={itemVariants}>
           <h1
             id="hero-heading"
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-white mb-6 leading-tight dark:text-darkMode-text"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-heading text-white mb-6 leading-tight dark:text-darkMode-text drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
           >
             <TypewriterText
               text={headline}
@@ -299,7 +299,7 @@ const HeroSection = ({
         {/* Subheadline */}
         <motion.p
           variants={itemVariants}
-          className="text-lg sm:text-xl md:text-2xl text-white/85 max-w-3xl mx-auto mb-10 leading-relaxed dark:text-darkMode-textSecondary"
+          className="text-lg sm:text-xl md:text-2xl text-white max-w-3xl mx-auto mb-10 leading-relaxed dark:text-darkMode-textSecondary drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
         >
           {subheadline}
         </motion.p>
@@ -332,41 +332,41 @@ const HeroSection = ({
         {/* Stats Row */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-white/80 dark:text-darkMode-textSecondary"
+          className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 text-white dark:text-darkMode-textSecondary drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
         >
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-full bg-white/10 dark:bg-darkMode-surface/50">
+            <div className="p-2 rounded-full bg-primary-dark/80 dark:bg-darkMode-surface/50">
               <Users className="w-5 h-5 text-accent-gold dark:text-darkMode-accent" />
             </div>
             <span className="text-sm sm:text-base">
               <strong className="text-white dark:text-darkMode-text text-lg">
                 {formatNumber(displayCount)}+
               </strong>
-              <span className="ml-1">Active Learners</span>
+              <span className="ml-1 text-white/90">Active Learners</span>
             </span>
           </div>
 
-          <div className="hidden sm:block w-px h-8 bg-white/20 dark:bg-darkMode-border" />
+          <div className="hidden sm:block w-px h-8 bg-white/30 dark:bg-darkMode-border" />
 
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-full bg-white/10 dark:bg-darkMode-surface/50">
+            <div className="p-2 rounded-full bg-primary-dark/80 dark:bg-darkMode-surface/50">
               <BookOpen className="w-5 h-5 text-accent-gold dark:text-darkMode-accent" />
             </div>
             <span className="text-sm sm:text-base">
               <strong className="text-white dark:text-darkMode-text text-lg">50+</strong>
-              <span className="ml-1">Free Courses</span>
+              <span className="ml-1 text-white/90">Free Courses</span>
             </span>
           </div>
 
-          <div className="hidden sm:block w-px h-8 bg-white/20 dark:bg-darkMode-border" />
+          <div className="hidden sm:block w-px h-8 bg-white/30 dark:bg-darkMode-border" />
 
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-full bg-white/10 dark:bg-darkMode-surface/50">
+            <div className="p-2 rounded-full bg-primary-dark/80 dark:bg-darkMode-surface/50">
               <Star className="w-5 h-5 text-accent-gold dark:text-darkMode-accent fill-accent-gold dark:fill-darkMode-accent" />
             </div>
             <span className="text-sm sm:text-base">
               <strong className="text-white dark:text-darkMode-text text-lg">4.9/5</strong>
-              <span className="ml-1">Rating</span>
+              <span className="ml-1 text-white/90">Rating</span>
             </span>
           </div>
         </motion.div>
