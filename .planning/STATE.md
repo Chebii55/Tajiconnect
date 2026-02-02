@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 ## Current Position
 
 Phase: 2 of 8 (Interactive Content)
-Plan: 1 of 4 complete (02-02 Bookmarks)
+Plan: 2 of 4 complete (Wave 1 complete)
 Status: In progress
-Last activity: 2026-02-02 — Completed 02-02-PLAN.md
+Last activity: 2026-02-02 — Completed 02-01-PLAN.md
 
-Progress: █░░░░░░░░░ 15% (8/11 plans complete across phases)
+Progress: ██░░░░░░░░ 18% (9/11 plans complete across phases)
 
 ## Phase 2 Plans
 
 | Plan | Name | Wave | Depends On | Autonomous | Status |
 |------|------|------|------------|------------|--------|
-| 02-01 | Video Player + Chapters | 1 | - | Yes | Pending |
+| 02-01 | Video Player + Chapters | 1 | - | Yes | Complete |
 | 02-02 | Bookmarks | 1 | - | Yes | Complete |
 | 02-03 | In-Video Quizzes | 2 | 02-01 | Yes | Pending |
 | 02-04 | Course Integration | 2 | 02-01, 02-02 | No (human verify) | Pending |
@@ -28,20 +28,20 @@ Progress: █░░░░░░░░░ 15% (8/11 plans complete across phases)
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: ~24 min
-- Total execution time: 3h 16m
+- Total plans completed: 9
+- Average duration: ~25 min
+- Total execution time: 3h 46m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 7 | 3h | 25m |
-| 2 | 1 | 16m | 16m |
+| 2 | 2 | 46m | 23m |
 
 **Recent Trend:**
-- Last 5 plans: 01-04, 01-05, 01-06, Gap Fix, 02-02
-- Trend: Parallel execution efficient
+- Last 5 plans: 01-05, 01-06, Gap Fix, 02-02, 02-01
+- Trend: Wave 1 parallel execution efficient
 
 ## Accumulated Context
 
@@ -60,6 +60,8 @@ Recent decisions affecting current work:
 - 4 leagues (Bronze/Silver/Gold/Diamond) with weekly reset
 - [02-02] mm:ss format for bookmark timestamp labels
 - [02-02] 2 second threshold for current bookmark highlighting
+- [02-01] react-player v3 API (src prop, native video events)
+- [02-01] any type for ReactPlayer ref due to typing limitations
 
 ### Pending Todos
 
@@ -71,8 +73,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-02 08:12 UTC
-Stopped at: Completed 02-02-PLAN.md (Bookmarks)
+Last session: 2026-02-02 09:30 UTC
+Stopped at: Completed 02-01-PLAN.md (Video Player + Chapters)
 Resume file: None
 
 ## Phase 1 Completion Summary
@@ -95,6 +97,9 @@ Resume file: None
 
 | Plan | Name | Status | Commits |
 |------|------|--------|---------|
-| 02-02 | Bookmarks | Complete | 92e43ac, 5faeb1c, 20aface, 2ed4fa6, 7c717f0 |
+| 02-01 | Video Player + Chapters | Complete | 7c717f0, 4fc39bc |
+| 02-02 | Bookmarks | Complete | 92e43ac, 5faeb1c, 20aface, 2ed4fa6 |
 
-**SUMMARY:** .planning/phases/02-interactive-content/02-02-SUMMARY.md
+**SUMMARYs:**
+- .planning/phases/02-interactive-content/02-01-SUMMARY.md
+- .planning/phases/02-interactive-content/02-02-SUMMARY.md
