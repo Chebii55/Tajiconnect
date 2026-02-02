@@ -36,13 +36,17 @@ const GoogleCallback: React.FC = () => {
         setMessage('Google sign-in successful! Redirecting...');
 
         let redirectPath = getLoginRedirectPath(result.user);
-        try {
-          const onboardingStatus = await onboardingService.getStatus();
-          if (!onboardingStatus.is_completed) {
-            redirectPath = '/onboarding';
+        if (result.is_new_user) {
+          redirectPath = '/onboarding';
+        } else {
+          try {
+            const onboardingStatus = await onboardingService.getStatus();
+            if (!onboardingStatus.is_completed) {
+              redirectPath = '/onboarding';
+            }
+          } catch {
+            // Ignore onboarding fetch errors and use default redirect
           }
-        } catch {
-          // Ignore onboarding fetch errors and use default redirect
         }
 
         setTimeout(() => {

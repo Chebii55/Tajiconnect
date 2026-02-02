@@ -148,7 +148,12 @@ class AuthService {
    * Register a new user
    */
   async register(data: RegisterRequest): Promise<RegisterResponse> {
-    return apiClient.post<RegisterResponse>(AUTH.REGISTER, data);
+    const payload: RegisterRequest = {
+      ...data,
+      terms_accepted: Boolean(data.terms_accepted),
+      marketing_opt_in: data.marketing_opt_in ?? false,
+    };
+    return apiClient.post<RegisterResponse>(AUTH.REGISTER, payload);
   }
 
   /**

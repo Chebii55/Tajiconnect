@@ -198,6 +198,7 @@ const Register: React.FC = () => {
 
     try {
       // Use the auth service for registration
+      const termsAccepted = formData.agreeToTerms === true;
       const response = await authService.register({
         email: formData.email,
         password: formData.password,
@@ -205,7 +206,8 @@ const Register: React.FC = () => {
         first_name: formData.firstName,
         last_name: formData.lastName,
         phone: undefined, // Optional field
-        terms_accepted: formData.agreeToTerms
+        terms_accepted: termsAccepted,
+        marketing_opt_in: false
       });
 
       // Store user info for onboarding
