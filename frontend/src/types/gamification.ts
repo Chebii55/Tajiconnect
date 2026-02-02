@@ -156,6 +156,11 @@ export interface EventMap {
   'daily:login': { date: string; consecutiveDays: number }
   'goal:achieved': { goalType: 'daily_xp' | 'daily_lessons' | 'weekly_hours'; value: number }
   'profile:updated': { userId: string; changes: string[] }
+  // Video events
+  'video:progress': { videoId: string; currentTime: number; duration: number; percentComplete: number }
+  'video:completed': { videoId: string; duration: number; watchedPercent: number }
+  'video:bookmark:added': { videoId: string; bookmarkId: string; timestamp: number; label: string }
+  'video:bookmark:removed': { videoId: string; bookmarkId: string }
 }
 
 /**
