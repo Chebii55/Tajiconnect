@@ -1,6 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
+// Landing Page (public)
+import LandingPage from './components/landing/LandingPage';
+
 // Onboarding - All exist
 import AgeVerification from './components/onboarding/AgeVerification'
 import ProfileSettings from './components/settings/ProfileSettings'
@@ -96,7 +99,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/login" replace /> },
+      { index: true, element: <LandingPage /> },
 
       // Authentication routes (public)
       { path: '/login', element: <Login /> },

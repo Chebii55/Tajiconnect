@@ -11,16 +11,23 @@ const PUBLIC_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-passwor
 // Routes where the main footer should be hidden (they have their own footer/links)
 const HIDE_FOOTER_ROUTES = ['/login', '/register', '/trainer/login', '/forgot-password', '/reset-password', '/privacy', '/terms', '/cookies', '/support', '/contact'];
 
+// Landing page route - has its own navbar/footer, so hide the Layout's navbar/footer
+const LANDING_PAGE_ROUTE = '/';
+
 const Layout: React.FC = () => {
   const location = useLocation();
   const isPublicRoute = PUBLIC_ROUTES.some(route => location.pathname.startsWith(route));
   const hideFooter = HIDE_FOOTER_ROUTES.some(route => location.pathname.startsWith(route));
+  const isLandingPage = location.pathname === LANDING_PAGE_ROUTE;
 
   // Don't show sidebar on public routes even if there's stale auth data
-  const authenticated = !isPublicRoute && isAuthenticated();
+  const authenticated = !isPublicRoute && !isLandingPage && isAuthenticated();
 
-  // Hide footer on auth routes and legal pages (they have their own footers)
-  const showFooter = !hideFooter;
+  // Hide footer on auth routes, legal pages, and landing page (they have their own footers)
+  const showFooter = !hideFooter && !isLandingPage;
+
+  // Hide navbar on landing page (it has its own fixed navbar)
+  const showNavbar = !isLandingPage;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-light via-white to-forest-mist dark:from-darkMode-bg dark:via-darkMode-surface dark:to-darkMode-bg">
@@ -34,8 +41,8 @@ const Layout: React.FC = () => {
 
         {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-h-screen">
-          {/* Navbar */}
-          <Navbar />
+          {/* Navbar - hidden on landing page (has its own) */}
+          {showNavbar && <Navbar />}
 
           {/* Main Content */}
           <main className="flex-1">
