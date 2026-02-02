@@ -10,11 +10,20 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 ## Current Position
 
 Phase: 2 of 8 (Interactive Content)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-02-02 — Phase 1 completed (7 plans + 1 gap fix)
+Plan: Planned (4 plans in 2 waves)
+Status: Ready to execute
+Last activity: 2026-02-02 — Phase 2 planned
 
 Progress: █░░░░░░░░░ 12.5% (1/8 phases)
+
+## Phase 2 Plans
+
+| Plan | Name | Wave | Depends On | Autonomous |
+|------|------|------|------------|------------|
+| 02-01 | Video Player + Chapters | 1 | - | Yes |
+| 02-02 | Bookmarks | 1 | - | Yes |
+| 02-03 | In-Video Quizzes | 2 | 02-01 | Yes |
+| 02-04 | Course Integration | 2 | 02-01, 02-02 | No (human verify) |
 
 ## Performance Metrics
 
@@ -43,7 +52,7 @@ Recent decisions affecting current work:
 - Zustand for feature state, keep Context for app-wide state
 - Event bus pattern for cross-feature communication
 - SM-2 algorithm for spaced repetition (not FSRS)
-- H5P integration for interactive video (research needed)
+- react-player for interactive video (simpler than H5P for React SPA)
 - XP formula: base * (1 + streak * 0.1), max 100% bonus
 - Level formula: 100 * level^1.5
 - 18 badges across 4 rarity tiers
