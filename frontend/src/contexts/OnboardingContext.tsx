@@ -1,6 +1,29 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState } from 'react';
-import type { ReactNode } from 'react';
+import React, { createContext, useContext, useState } from 'react'
+import type { ReactNode } from 'react'
+
+// ============================================
+// LEARNER PROFILE TYPES (Psychometric Assessment)
+// ============================================
+
+export type Motivation = 'school' | 'culture' | 'communication' | 'travel' | 'personal'
+export type Level = 'new' | 'few_words' | 'sentences'
+export type LearningStyleType = 'listening' | 'watching' | 'reading' | 'mixed'
+export type TimeCommitmentType = 'short' | 'medium' | 'flexible'
+export type Archetype = 'structured' | 'cultural_explorer' | 'casual' | 'conversational'
+
+export interface LearnerProfile {
+  motivation: Motivation
+  level: Level
+  learningStyle: LearningStyleType
+  timeCommitment: TimeCommitmentType
+  targetLanguage: string
+  archetype?: Archetype
+}
+
+// ============================================
+// ONBOARDING DATA INTERFACE
+// ============================================
 
 interface OnboardingData {
   // Registration data
@@ -43,9 +66,12 @@ interface OnboardingData {
   goals: string;
   timeCommitment: string;
 
-  // Psychometric data
-  personalityType?: string;
-  strengths?: string[];
+  // Psychometric data (legacy)
+  personalityType?: string
+  strengths?: string[]
+
+  // Learner Profile (new psychometric assessment)
+  learnerProfile?: LearnerProfile
 
   // Consents
   termsAccepted: boolean;

@@ -2,15 +2,18 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 
 // Onboarding - All exist
-import AgeVerification from './components/onboarding/AgeVerification';
-import ProfileSettings from './components/settings/ProfileSettings';
-import BriefOnboarding from './components/onboarding/BriefOnboarding';
-import ParentalConsent from './components/onboarding/ParentalConsent';
-import InitialAssessment from './components/onboarding/InitialAssessment';
-import PsychometricTest from './components/onboarding/PsychometricTest';
-import PathGeneration from './components/onboarding/PathGeneration';
-import RoadmapGeneration from './components/onboarding/RoadmapGeneration';
-import WelcomePage from './components/onboarding/WelcomePage';
+import AgeVerification from './components/onboarding/AgeVerification'
+import ProfileSettings from './components/settings/ProfileSettings'
+import BriefOnboarding from './components/onboarding/BriefOnboarding'
+import ParentalConsent from './components/onboarding/ParentalConsent'
+import InitialAssessment from './components/onboarding/InitialAssessment'
+import PsychometricTest from './components/onboarding/PsychometricTest'
+import PathGeneration from './components/onboarding/PathGeneration'
+import RoadmapGeneration from './components/onboarding/RoadmapGeneration'
+import WelcomePage from './components/onboarding/WelcomePage'
+
+// Psychometric Onboarding (New 90-second flow)
+import { PsychometricFlow } from './components/onboarding/psychometric'
 
 // Student Core - All exist
 import StudentDashboard from './components/student/StudentDashboard';
@@ -102,6 +105,7 @@ export const router = createBrowserRouter([
       // Onboarding - Streamlined single flow
       { path: '/onboarding', element: <BriefOnboarding /> },
       { path: '/onboarding/psychometric', element: <PsychometricTest /> },
+      { path: '/onboarding/psychometric-flow', element: <PsychometricFlow /> },
       { path: '/onboarding/path-generation', element: <PathGeneration /> },
       { path: '/onboarding/roadmap-generation', element: <RoadmapGeneration /> },
 

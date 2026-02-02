@@ -104,9 +104,29 @@ export interface SkipStepResponse {
 }
 
 export interface NextStepsResponse {
-  steps: OnboardingStep[];
-  total_remaining: number;
-  estimated_time_minutes: number;
+  steps: OnboardingStep[]
+  total_remaining: number
+  estimated_time_minutes: number
+}
+
+// ============================================
+// LEARNER PROFILE TYPES (Psychometric Assessment)
+// ============================================
+
+export type Motivation = 'school' | 'culture' | 'communication' | 'travel' | 'personal'
+export type Level = 'new' | 'few_words' | 'sentences'
+export type LearningStyleType = 'listening' | 'watching' | 'reading' | 'mixed'
+export type TimeCommitmentType = 'short' | 'medium' | 'flexible'
+export type Archetype = 'structured' | 'cultural_explorer' | 'casual' | 'conversational'
+
+export interface LearnerProfileData {
+  motivation: Motivation
+  level: Level
+  learning_style: LearningStyleType
+  time_commitment: TimeCommitmentType
+  target_language: string
+  archetype: Archetype
+  daily_xp_goal: number
 }
 
 // ============================================
@@ -185,7 +205,23 @@ class OnboardingService {
    * Submit user preferences
    */
   async submitPreferences(data: PreferencesData): Promise<CompleteStepResponse> {
-    return apiClient.post<CompleteStepResponse>(ONBOARDING.PREFERENCES, data);
+    return apiClient.post<CompleteStepResponse>(ONBOARDING.PREFERENCES, data)
+  }
+
+  /**
+   * Submit learner profile from psychometric assessment
+   */
+  async submitLearnerProfile(data: LearnerProfileData): Promise<CompleteStepResponse> {
+    return this.completeStep('psychometric_assessment', {
+      motivation: data.motivation,
+      level: data.level,
+      learning_style: data.learning_style,
+      time_commitment: data.time_commitment,
+      target_language: data.target_language,
+      archetype: data.archetype,
+      daily_xp_goal: data.daily_xp_goal,
+      completed_at: new Date().toISOString(),
+    })
   }
 
   // ============================================
