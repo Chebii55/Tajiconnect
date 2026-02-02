@@ -2,7 +2,9 @@
 
 **Phase**: 1 - Foundation & Gamification
 **Created**: 2026-02-02
-**Status**: Pending
+**Completed**: 2026-02-02
+**Status**: Complete
+**Commit**: 888faf1
 
 ## Objective
 
@@ -16,13 +18,13 @@ Enhance the existing onboarding flow to implement Template A (Ultra-Fast 90-seco
 
 ## Success Criteria
 
-- [ ] 6-screen onboarding flow completes in under 90 seconds
-- [ ] User profile captures: motivation, level, learning_style, time_commitment, target_language
-- [ ] Learner archetype auto-generated from responses
-- [ ] Progress indicator shows 5 dots (screens 1-5, welcome is screen 0)
-- [ ] Mobile-first with large tap targets
-- [ ] Skip option available but discouraged
-- [ ] Privacy reassurance displayed at end
+- [x] 6-screen onboarding flow completes in under 90 seconds
+- [x] User profile captures: motivation, level, learning_style, time_commitment, target_language
+- [x] Learner archetype auto-generated from responses
+- [x] Progress indicator shows 5 dots (screens 1-5, welcome is screen 0)
+- [x] Mobile-first with large tap targets
+- [x] Skip option available but discouraged
+- [x] Privacy reassurance displayed at end
 
 ## Technical Approach
 
