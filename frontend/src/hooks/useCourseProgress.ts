@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { CourseProgress, Course, Badge } from '../types/course';
+import { eventBus } from '../lib/eventBus';
 
 const STORAGE_KEY_PREFIX = 'course_progress_';
 
@@ -56,10 +57,18 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
   }, [progress, courseId]);
 
   // Mark a lesson as complete
-  const completeLesson = useCallback((lessonId: string) => {
+  const completeLesson = useCallback((lessonId: string, moduleId?: string) => {
     setProgress(prev => {
       if (!prev) return prev;
       if (prev.completedLessons.includes(lessonId)) return prev;
+
+      // Emit lesson completed event for gamification
+      eventBus.emit('lesson:completed', {
+        lessonId,
+        courseId,
+        score: 100, // Lesson completion is binary
+        timeSpent: 0, // Could be tracked with addTimeSpent
+      });
 
       return {
         ...prev,
@@ -67,7 +76,7 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
         lastAccessedAt: new Date().toISOString(),
       };
     });
-  }, []);
+  }, [courseId]);
 
   // Set current lesson
   const setCurrentLesson = useCallback((lessonId: string, moduleId: string) => {
@@ -83,7 +92,16 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
   }, []);
 
   // Record quiz score
-  const recordQuizScore = useCallback((quizId: string, score: number) => {
+  const recordQuizScore = useCallback((quizId: string, score: number, passingScore: number = 70) => {
+    // Emit quiz completed event for gamification
+    const passed = score >= passingScore;
+    eventBus.emit('quiz:completed', {
+      quizId,
+      courseId,
+      score,
+      passed,
+    });
+
     setProgress(prev => {
       if (!prev) return prev;
       const currentAttempts = prev.quizAttempts[quizId] || 0;
@@ -102,7 +120,7 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
         lastAccessedAt: new Date().toISOString(),
       };
     });
-  }, []);
+  }, [courseId]);
 
   // Record final assessment score
   const recordFinalScore = useCallback((score: number) => {
@@ -181,6 +199,13 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
       progress.finalScore >= course.certificate.requirement.finalAssessmentScore;
 
     if (allBadgesEarned && finalPassed) {
+      // Emit course completed event for gamification
+      eventBus.emit('course:completed', {
+        courseId,
+        completedLessons: progress.completedLessons.length,
+        allPerfect: progress.finalScore === 100,
+      });
+
       setProgress(prev => {
         if (!prev) return prev;
         return {
@@ -193,7 +218,7 @@ export const useCourseProgress = (courseId: string, course: Course | null) => {
       return true;
     }
     return false;
-  }, [progress, course]);
+  }, [progress, course, courseId]);
 
   // Clear badge notification
   const clearNewBadge = useCallback(() => {
