@@ -52,16 +52,14 @@ const InteractiveVideoPlayer: React.FC<InteractiveVideoPlayerProps> = ({
   const [showControls, setShowControls] = useState(true)
   const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(null)
 
-  // Video store
-  const {
-    setCurrentVideo,
-    updateProgress,
-    markCompleted,
-    getResumeTime,
-    setPlaying: setStorePlaying,
-    setVolume: setStoreVolume,
-    setPlaybackRate: setStorePlaybackRate,
-  } = useVideoStore()
+  // Video store - use selectors for better performance
+  const setCurrentVideo = useVideoStore((state) => state.setCurrentVideo)
+  const updateProgress = useVideoStore((state) => state.updateProgress)
+  const markCompleted = useVideoStore((state) => state.markCompleted)
+  const setStorePlaying = useVideoStore((state) => state.setPlaying)
+  const setStoreVolume = useVideoStore((state) => state.setVolume)
+  const setStorePlaybackRate = useVideoStore((state) => state.setPlaybackRate)
+  const progressMap = useVideoStore((state) => state.progressMap)
 
   // Quiz state management
   const {
@@ -139,11 +137,13 @@ const InteractiveVideoPlayer: React.FC<InteractiveVideoPlayerProps> = ({
     setReady(true)
 
     // Resume from last position
-    const resumeTime = getResumeTime(videoId)
-    if (resumeTime > 0 && playerRef.current) {
+    const progress = progressMap[videoId]
+    if (progress && !progress.completed && progress.currentTime > 0 && playerRef.current) {
+      // Resume from last position (minus a few seconds for context)
+      const resumeTime = Math.max(0, progress.currentTime - 3)
       playerRef.current.seekTo(resumeTime, 'seconds')
     }
-  }, [videoId, getResumeTime])
+  }, [videoId, progressMap])
 
   // Handle duration loaded
   const handleDuration = useCallback((dur: number) => {
