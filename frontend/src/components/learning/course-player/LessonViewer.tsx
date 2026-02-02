@@ -3,15 +3,17 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle,
-  Clock,
   Target,
   BookOpen,
 } from 'lucide-react';
 import type { Lesson, Module } from '../../../types/course';
+import LessonTimeBadge from '../../lessons/LessonTimeBadge';
+import { estimateLessonTime } from '../../../utils/lessonTime';
 
 interface LessonViewerProps {
   lesson: Lesson;
   module: Module;
+  courseId?: string;
   lessonIndex: number;
   moduleIndex: number;
   totalLessonsInModule: number;
@@ -36,6 +38,9 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
   hasPrevious,
   hasNext,
 }) => {
+  // Get time estimate for the lesson
+  const timeEstimate = estimateLessonTime(lesson);
+
   const renderContent = (content: typeof lesson.content) => {
     return content.map((block, index) => {
       switch (block.type) {
@@ -126,7 +131,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
           <span>
             Module {moduleIndex + 1}: {module.title}
           </span>
-          <span className="mx-2">•</span>
+          <span className="mx-2">-</span>
           <span>
             Lesson {lessonIndex + 1} of {totalLessonsInModule}
           </span>
@@ -141,10 +146,13 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
         </p>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-darkMode-textMuted">
-            <Clock className="w-4 h-4" />
-            <span>{lesson.duration} minutes</span>
-          </div>
+          {/* Time Badge with color coding */}
+          <LessonTimeBadge
+            minutes={timeEstimate.minutes}
+            size="md"
+            showIcon={true}
+            showLabel={true}
+          />
           {isCompleted && (
             <div className="flex items-center gap-1 text-sm text-green-600 dark:text-darkMode-success">
               <CheckCircle className="w-4 h-4" />
