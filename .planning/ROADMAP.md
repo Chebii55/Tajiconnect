@@ -33,9 +33,10 @@ Transform TajiConnect from a solid LMS foundation into a world-class AI-powered 
   5. User can view and compete on weekly leaderboards (with opt-out)
   6. Lessons are structured as 5-10 minute modules with daily goals
 **Research**: Unlikely (established patterns from Duolingo case study)
-**Plans**: TBD
+**Plans**: 7 plans (includes psychometric onboarding from design doc)
 
 Plans:
+- [ ] 01-00: Psychometric onboarding enhancement (Template A - 90 seconds)
 - [ ] 01-01: Event bus and state architecture (Zustand migration)
 - [ ] 01-02: XP points system and level progression
 - [ ] 01-03: Badge system with unlock conditions
@@ -188,7 +189,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Gamification | 0/6 | Not started | - |
+| 1. Foundation & Gamification | 0/7 | Planned | - |
 | 2. Interactive Content | 0/2 | Not started | - |
 | 3. AI Tutor | 0/4 | Not started | - |
 | 4. Spaced Repetition | 0/4 | Not started | - |
@@ -197,4 +198,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 7. Mobile Excellence | 0/6 | Not started | - |
 | 8. Technical Infrastructure | 0/2 | Not started | - |
 
-**Total:** 0/33 plans complete
+**Total:** 0/34 plans complete
