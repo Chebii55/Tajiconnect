@@ -6,9 +6,10 @@ import {
   Target,
   BookOpen,
 } from 'lucide-react';
-import type { Lesson, Module } from '../../../types/course';
+import type { Lesson, Module, ContentBlock } from '../../../types/course';
 import LessonTimeBadge from '../../lessons/LessonTimeBadge';
 import { estimateLessonTime } from '../../../utils/lessonTime';
+import VideoLesson from './VideoLesson';
 
 interface LessonViewerProps {
   lesson: Lesson;
@@ -28,6 +29,7 @@ interface LessonViewerProps {
 const LessonViewer: React.FC<LessonViewerProps> = ({
   lesson,
   module,
+  courseId,
   lessonIndex,
   moduleIndex,
   totalLessonsInModule,
@@ -41,7 +43,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
   // Get time estimate for the lesson
   const timeEstimate = estimateLessonTime(lesson);
 
-  const renderContent = (content: typeof lesson.content) => {
+  const renderContent = (content: ContentBlock[]) => {
     return content.map((block, index) => {
       switch (block.type) {
         case 'heading':
@@ -114,6 +116,17 @@ const LessonViewer: React.FC<LessonViewerProps> = ({
                 </figcaption>
               )}
             </figure>
+          );
+
+        case 'video':
+          return (
+            <VideoLesson
+              key={index}
+              content={block}
+              lessonId={lesson.id}
+              courseId={courseId}
+              onComplete={onComplete}
+            />
           );
 
         default:
