@@ -16,3 +16,9 @@ export { default as VideoControls } from './VideoControls'
 // Bookmark components
 export { default as BookmarkButton } from './BookmarkButton'
 export { default as VideoBookmarks } from './VideoBookmarks'
+
+// In-video quiz components
+export { default as VideoQuizOverlay } from './VideoQuizOverlay'
+
+// Video hooks
+export { useVideoQuiz } from '../../hooks/useVideoQuiz'

@@ -108,6 +108,12 @@ export interface InteractiveVideoPlayerProps {
   title: string
   videoId: string
   chapters?: VideoChapter[]
+  /** Quiz triggers for in-video quizzes */
+  quizTriggers?: VideoQuizTrigger[]
+  /** Quiz data indexed by quizId */
+  quizzes?: Record<string, import('./course').QuizQuestion>
+  /** Called when quiz is answered */
+  onQuizAnswer?: (quizId: string, correct: boolean) => void
   onComplete?: () => void
   className?: string
 }

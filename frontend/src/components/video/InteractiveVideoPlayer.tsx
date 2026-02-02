@@ -1,8 +1,9 @@
 /**
  * InteractiveVideoPlayer Component
  *
- * Full-featured video player with chapters, custom controls, and progress tracking.
- * Uses react-player for playback and integrates with videoStore for persistence.
+ * Full-featured video player with chapters, custom controls, progress tracking,
+ * and in-video quizzes. Uses react-player for playback and integrates with
+ * videoStore for persistence.
  */
 
 import { useRef, useState, useCallback, useEffect } from 'react'
@@ -12,6 +13,8 @@ import type { InteractiveVideoPlayerProps } from '../../types/video'
 import VideoControls from './VideoControls'
 import VideoChapters from './VideoChapters'
 import BookmarkButton from './BookmarkButton'
+import VideoQuizOverlay from './VideoQuizOverlay'
+import { useVideoQuiz } from '../../hooks/useVideoQuiz'
 
 // Progress callback props from react-player
 interface ProgressState {
@@ -26,6 +29,9 @@ const InteractiveVideoPlayer: React.FC<InteractiveVideoPlayerProps> = ({
   title,
   videoId,
   chapters = [],
+  quizTriggers = [],
+  quizzes = {},
+  onQuizAnswer,
   onComplete,
   className = '',
 }) => {
@@ -56,6 +62,72 @@ const InteractiveVideoPlayer: React.FC<InteractiveVideoPlayerProps> = ({
     setVolume: setStoreVolume,
     setPlaybackRate: setStorePlaybackRate,
   } = useVideoStore()
+
+  // Quiz state management
+  const {
+    activeQuiz,
+    shouldPause,
+    answeredQuizzes,
+    markAnswered,
+  } = useVideoQuiz({
+    currentTime,
+    quizTriggers,
+  })
+
+  // Track if quiz overlay is currently showing
+  const [showQuizOverlay, setShowQuizOverlay] = useState(false)
+
+  // Effect to handle quiz triggering
+  useEffect(() => {
+    if (activeQuiz && !showQuizOverlay) {
+      // A new quiz needs to be shown
+      setShowQuizOverlay(true)
+
+      // Pause video for required quizzes
+      if (shouldPause) {
+        setPlaying(false)
+        setStorePlaying(false)
+      }
+    }
+  }, [activeQuiz, showQuizOverlay, shouldPause, setStorePlaying])
+
+  // Handle quiz answer
+  const handleQuizAnswer = useCallback(
+    (answerId: string, correct: boolean) => {
+      if (!activeQuiz) return
+
+      // Mark quiz as answered
+      markAnswered(activeQuiz.quizId)
+
+      // Notify parent component
+      onQuizAnswer?.(activeQuiz.quizId, correct)
+    },
+    [activeQuiz, markAnswered, onQuizAnswer]
+  )
+
+  // Handle quiz close (resume video)
+  const handleQuizClose = useCallback(() => {
+    setShowQuizOverlay(false)
+
+    // Resume video and seek slightly forward to prevent re-triggering
+    setPlaying(true)
+    setStorePlaying(true)
+
+    // Seek forward slightly to move past the trigger point
+    if (playerRef.current) {
+      const newTime = currentTime + 0.5
+      playerRef.current.seekTo(newTime, 'seconds')
+      setCurrentTime(newTime)
+    }
+  }, [currentTime, setStorePlaying])
+
+  // Handle quiz skip (only for optional quizzes)
+  const handleQuizSkip = useCallback(() => {
+    if (!activeQuiz) return
+
+    // Mark as answered even when skipped (so it doesn't re-trigger)
+    markAnswered(activeQuiz.quizId)
+  }, [activeQuiz, markAnswered])
 
   // Initialize video in store on mount
   useEffect(() => {
@@ -340,6 +412,18 @@ const InteractiveVideoPlayer: React.FC<InteractiveVideoPlayerProps> = ({
             <div className="absolute inset-0 flex items-center justify-center bg-black/50">
               <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin" />
             </div>
+          )}
+
+          {/* Quiz overlay */}
+          {showQuizOverlay && activeQuiz && quizzes[activeQuiz.quizId] && (
+            <VideoQuizOverlay
+              quiz={quizzes[activeQuiz.quizId]}
+              quizId={activeQuiz.quizId}
+              required={activeQuiz.required}
+              onAnswer={handleQuizAnswer}
+              onSkip={handleQuizSkip}
+              onClose={handleQuizClose}
+            />
           )}
         </div>
       </div>
