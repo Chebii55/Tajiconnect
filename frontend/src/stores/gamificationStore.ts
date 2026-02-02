@@ -691,7 +691,7 @@ export function initializeGamificationListeners(): () => void {
 
   // Listen for course completion
   unsubscribers.push(
-    eventBus.on('course:completed' as keyof import('../types/gamification').EventMap, ({ courseId, allPerfect }: { courseId: string; allPerfect?: boolean }) => {
+    eventBus.on('course:completed', ({ courseId, allPerfect }) => {
       const state = useGamificationStore.getState()
       const currentMetrics = state.badgeMetrics
 

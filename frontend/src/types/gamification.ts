@@ -20,6 +20,10 @@ export type BadgeCategory =
   | 'mastery'
   | 'social'
   | 'special'
+  | 'learning'
+  | 'consistency'
+  | 'performance'
+  | 'engagement'
 
 export type BadgeRarity =
   | 'common'
@@ -148,6 +152,7 @@ export interface EventMap {
   'streak:broken': { previousStreak: number; longestStreak: number }
   'lesson:completed': { lessonId: string; courseId: string; score: number; timeSpent: number }
   'quiz:completed': { quizId: string; courseId: string; score: number; passed: boolean }
+  'course:completed': { courseId: string; allPerfect?: boolean; completedLessons: number }
   'daily:login': { date: string; consecutiveDays: number }
   'goal:achieved': { goalType: 'daily_xp' | 'daily_lessons' | 'weekly_hours'; value: number }
   'profile:updated': { userId: string; changes: string[] }
