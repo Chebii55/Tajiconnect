@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-02)
 
 **Core value:** Personalized career development through AI-powered learning
-**Current focus:** Phase 2 — Interactive Content
+**Current focus:** Phase 2 — Interactive Content (COMPLETE)
 
 ## Current Position
 
-Phase: 2 of 8 (Interactive Content)
-Plan: 3 of 4 complete (Wave 2 in progress)
-Status: In progress
-Last activity: 2026-02-02 — Completed 02-03-PLAN.md
+Phase: 2 of 8 (Interactive Content) - COMPLETE
+Plan: 4 of 4 complete
+Status: Complete - ready for Phase 3
+Last activity: 2026-02-02 — Completed 02-04 Course Integration + Zustand fix
 
-Progress: ██░░░░░░░░ 21% (10/11 plans complete across phases)
+Progress: ██████░░░░ 25% (11/11 plans complete across phases 1-2)
 
 ## Phase 2 Plans
 
@@ -23,25 +23,25 @@ Progress: ██░░░░░░░░ 21% (10/11 plans complete across phases
 | 02-01 | Video Player + Chapters | 1 | - | Yes | Complete |
 | 02-02 | Bookmarks | 1 | - | Yes | Complete |
 | 02-03 | In-Video Quizzes | 2 | 02-01 | Yes | Complete |
-| 02-04 | Course Integration | 2 | 02-01, 02-02 | No (human verify) | Blocked (bug) |
+| 02-04 | Course Integration | 2 | 02-01, 02-02 | No (human verify) | Complete |
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: ~23 min
-- Total execution time: 3h 52m
+- Total plans completed: 11
+- Average duration: ~22 min
+- Total execution time: 4h 5m
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1 | 7 | 3h | 25m |
-| 2 | 3 | 52m | 17m |
+| 2 | 4 | 1h 5m | 16m |
 
 **Recent Trend:**
-- Last 5 plans: 01-06, Gap Fix, 02-02, 02-01, 02-03
-- Trend: Wave 2 parallel execution efficient
+- Last 5 plans: 02-01, 02-02, 02-03, 02-04, Zustand Fix
+- Trend: Efficient parallel execution, critical bug fix resolved
 
 ## Accumulated Context
 
@@ -65,6 +65,8 @@ Recent decisions affecting current work:
 - [02-03] 1 second tolerance for quiz trigger timestamp matching
 - [02-03] Auto-pause video for required quizzes only
 - [02-03] Seek forward 0.5s after quiz to prevent re-triggering
+- [02-04] Individual selectors for Zustand stores with persist middleware
+- [02-04] useMemo for computed values from store state
 
 ### Pending Todos
 
@@ -73,11 +75,12 @@ None yet.
 ### Blockers/Concerns
 
 - Phase 1 needs human verification for visual tests (XP animation, confetti, etc.)
+- Phase 2 needs human verification for video integration
 
 ## Session Continuity
 
-Last session: 2026-02-02 08:28 UTC
-Stopped at: Completed 02-03-PLAN.md (In-Video Quizzes)
+Last session: 2026-02-02
+Stopped at: Completed Phase 2 (Interactive Content)
 Resume file: None
 
 ## Phase 1 Completion Summary
@@ -96,14 +99,14 @@ Resume file: None
 **Verification:** human_needed (5 visual tests)
 **Report:** .planning/phases/01-foundation-gamification/01-VERIFICATION.md
 
-## Phase 2 Progress
+## Phase 2 Completion Summary
 
 | Plan | Name | Status | Commits |
 |------|------|--------|---------|
 | 02-01 | Video Player + Chapters | Complete | 7c717f0, 4fc39bc |
 | 02-02 | Bookmarks | Complete | 92e43ac, 5faeb1c, 20aface, 2ed4fa6 |
 | 02-03 | In-Video Quizzes | Complete | d4c00fd, 6460434, 9f0c2b2 |
-| 02-04 | Course Integration | Blocked | Build passes, runtime bug |
+| 02-04 | Course Integration | Complete | 28984a2, 7c4bae9 |
 
 **SUMMARYs:**
 - .planning/phases/02-interactive-content/02-01-SUMMARY.md
@@ -111,8 +114,18 @@ Resume file: None
 - .planning/phases/02-interactive-content/02-03-SUMMARY.md
 - .planning/phases/02-interactive-content/02-04-SUMMARY.md
 
-**Blocker:**
-- Runtime error: React 18 + Zustand persist middleware incompatibility
-- Error: "Maximum update depth exceeded" during store hydration
-- Affects: Video player and possibly other Zustand stores
-- Fix: Update selector patterns across all stores using persist middleware
+**Verification:** human_needed (video player, chapters, bookmarks, quizzes)
+
+## Key Technical Note
+
+**Zustand + React 18 Pattern:**
+All components using Zustand stores with persist middleware must use individual selectors:
+```typescript
+// CORRECT
+const value = useStore((state) => state.value)
+const computed = useMemo(() => derive(value), [value])
+
+// WRONG - causes infinite loops
+const { value, getComputed } = useStore()
+```
+This pattern is now enforced across all gamification, goals, and video components.

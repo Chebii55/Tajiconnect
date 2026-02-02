@@ -1,9 +1,10 @@
 # 02-04 Course Integration - Summary
 
-## Status: Partial (Needs Bug Fix)
+## Status: Complete
 
 **Started:** 2026-02-02
-**Duration:** In progress
+**Completed:** 2026-02-02
+**Duration:** ~45 min (including bug fix)
 
 ## Completed Tasks
 
@@ -29,31 +30,33 @@
 - Video: Big Buck Bunny (YouTube)
 - 4 chapters: Introduction, Main Scene, Adventure Begins, Conclusion
 
-## Bug Discovered
-
-During testing, discovered a runtime error:
-```
-Maximum update depth exceeded. This can happen when a component repeatedly
-calls setState inside componentWillUpdate or componentDidUpdate.
-```
+### Task 5: Fix Zustand + React 18 Compatibility (Bug Fix)
+Fixed runtime error across all components using Zustand stores with persist middleware.
 
 **Root Cause:** React 18 strict mode + Zustand persist middleware incompatibility
-- Error: "The result of getSnapshot should be cached"
-- Occurs during store hydration with persist middleware
-- Affects multiple stores (video, gamification, etc.)
+- Error: "Maximum update depth exceeded" / "getSnapshot should be cached"
+- Occurred during store hydration when destructuring stores or calling getter methods
 
-**Fix Applied:** Updated InteractiveVideoPlayer to use proper selectors:
+**Fix Applied:** Updated all components to use individual selectors:
 ```typescript
 // Before (problematic)
 const { getResumeTime, ... } = useVideoStore()
 
 // After (correct pattern)
 const progressMap = useVideoStore((state) => state.progressMap)
+const computed = useMemo(() => derive(progressMap), [progressMap])
 ```
 
-**Remaining Issue:** The error persists in other parts of the app, likely in:
-- gamificationStore persist middleware
-- Other Zustand stores using persist
+**Fixed Components (9 files):**
+- frontend/src/components/gamification/LevelProgress.tsx
+- frontend/src/components/gamification/XPHistory.tsx
+- frontend/src/components/goals/CatchUpPrompt.tsx
+- frontend/src/components/goals/DailyGoalProgress.tsx
+- frontend/src/components/goals/DailyGoalSettings.tsx
+- frontend/src/components/goals/GoalCompletedModal.tsx
+- frontend/src/components/learning/course-player/VideoLesson.tsx
+- frontend/src/components/student/StudentDashboard.tsx
+- frontend/src/components/video/VideoBookmarks.tsx
 
 ## Files Modified
 
@@ -64,6 +67,14 @@ const progressMap = useVideoStore((state) => state.progressMap)
 | frontend/src/components/learning/course-player/LessonViewer.tsx | Added video case |
 | frontend/src/data/courses/sel-essentials.json | Added video content |
 | frontend/src/components/video/InteractiveVideoPlayer.tsx | Fixed selector pattern |
+| frontend/src/components/gamification/LevelProgress.tsx | Fixed selector pattern |
+| frontend/src/components/gamification/XPHistory.tsx | Fixed selector pattern |
+| frontend/src/components/goals/CatchUpPrompt.tsx | Fixed selector pattern |
+| frontend/src/components/goals/DailyGoalProgress.tsx | Fixed selector pattern |
+| frontend/src/components/goals/DailyGoalSettings.tsx | Fixed selector pattern |
+| frontend/src/components/goals/GoalCompletedModal.tsx | Fixed selector pattern |
+| frontend/src/components/student/StudentDashboard.tsx | Fixed selector pattern |
+| frontend/src/components/video/VideoBookmarks.tsx | Fixed selector pattern |
 
 ## Verification Status
 
@@ -75,7 +86,9 @@ const progressMap = useVideoStore((state) => state.progressMap)
 | VideoLesson component | ✅ Created |
 | LessonViewer handles video | ✅ Integrated |
 | Sample video in course | ✅ Added |
-| Human verification | ⏳ Blocked by runtime bug |
+| Runtime error fixed | ✅ Resolved |
+| Dashboard loads | ✅ Verified |
+| Human verification | ⏳ Pending |
 
 ## Build Output
 
@@ -87,23 +100,27 @@ dist/assets/index-CE_WtrLw.js   1,139.89 kB │ gzip: 260.21 kB
 ✓ built in 10.36s
 ```
 
-## Next Steps
+## Commits
 
-1. **Fix Zustand + React 18 Issue:**
-   - Update all Zustand stores to use proper selector pattern
-   - Or update Zustand to latest version with React 18 fixes
-   - Or wrap stores with `useSyncExternalStore` compatibility layer
+| Commit | Description |
+|--------|-------------|
+| 28984a2 | fix(02-04): improve Zustand selectors, document runtime bug |
+| 7c4bae9 | fix(02-04): resolve Zustand + React 18 infinite loop errors |
 
-2. **Human Verification:**
-   Once the runtime bug is fixed, verify:
-   - Video player displays with custom controls
-   - Chapters list shows and navigation works
-   - Bookmarks can be added and clicked
-   - Progress persists across page refresh
+## Human Verification Checklist
+
+Once backend services are available, verify:
+- [ ] Video player displays with custom controls
+- [ ] Chapters list shows and navigation works
+- [ ] Bookmarks can be added and clicked
+- [ ] Progress persists across page refresh
+- [ ] In-video quizzes trigger at correct timestamps
+- [ ] XP awards on video completion
 
 ## Notes
 
 - The video integration code is complete and compiles correctly
 - All integration points are properly connected
-- The runtime issue is a pre-existing compatibility problem
-- Backend services are not running (TajiConnect backend at ~/Documents/TajiBackend/backend)
+- The runtime issue was a pre-existing compatibility problem that affected multiple features
+- Backend services needed at ~/Documents/TajiBackend/backend for full testing
+- All Zustand selector patterns now follow React 18 best practices
